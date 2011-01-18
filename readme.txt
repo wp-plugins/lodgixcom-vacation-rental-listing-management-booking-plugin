@@ -37,7 +37,7 @@ Lodgix.com Vacation Rental Software Features
     Integrated payment gateways (Authorize.net, Beanstream, Quantum, Iridium and more!)
     Integrated with PayPal
        
-    For a complete listing of features see the [complete list of Lodgix.com features and take a product tour.](http://www.lodgix.com/features.html)
+For a complete listing of features see the [complete list of Lodgix.com features and take a product tour.](http://www.lodgix.com/features.html)
 
 Try It
 

@@ -10,7 +10,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
-v1.0: Initial release
+v1.0.0: Initial release
 
 */
 

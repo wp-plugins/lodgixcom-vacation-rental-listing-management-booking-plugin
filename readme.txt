@@ -3,7 +3,7 @@ Contributors: lodgix
 Tags: vacation rentals, vacation rental, listings, website, cms, availability, calendar, booking, system, software, wordpress plugin, vacation homes,cottages, cabins, condos, holiday rentals
 Requires at least: 3.0.0
 Tested up to: 3.1.0
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 
 Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
 
@@ -24,7 +24,7 @@ Lodgix.com Vacation Rental Software Features
     Supports vacation rental owners and managers
     Perfect for B&Bs, condotels and boutique hotels
     Support for [Thesis 1.8 for WordPress](http://www.shareasale.com/r.cfm?b=198392&u=88062&m=24570&urllink=&afftrack=)
-    Mutli-language support for German, French and Spanish
+    Multi-language support for German, French and Spanish
     Automatic emails to property owner / manager when new bookings arrive
     Automatic and configurable emails to your guests
     Automatic inventory management - when a property is booked, it is marked as unavailable
@@ -37,7 +37,7 @@ Lodgix.com Vacation Rental Software Features
     Integrated payment gateways (Authorize.net, Beanstream, Quantum, Iridium and more!)
     Integrated with PayPal
 
-     
+      
 For a complete listing of features see the [complete list of Lodgix.com features and take a product tour.](http://www.lodgix.com/features.html)
 
 Try It

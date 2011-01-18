@@ -2,8 +2,8 @@
 Contributors: lodgix 
 Tags: vacation rentals, vacation rental, listings, website, cms, availability, calendar, booking, system, software, wordpress plugin, vacation homes,cottages, cabins, condos, holiday rentals
 Requires at least: 3.0.0
-Tested up to: 3.0.4
-Stable tag: 1.0.0
+Tested up to: 3.1.0
+Stable tag: 1.0.1
 
 Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
 
@@ -36,6 +36,7 @@ Lodgix.com Vacation Rental Software Features
     Great looking multi-unit and single-unit booking calendars can be embedded into your website or blog
     Integrated payment gateways (Authorize.net, Beanstream, Quantum, Iridium and more!)
     Integrated with PayPal
+
        
 For a complete listing of features see the [complete list of Lodgix.com features and take a product tour.](http://www.lodgix.com/features.html)
 
@@ -76,7 +77,8 @@ No, the Thesis framework is not mandated to use the plugin.  An option is provid
 You will need to obtain a [Google Maps API Key](http://code.google.com/apis/maps/signup.html).   
 
 Additionally the plugin does require a Lodgix.com account. The object of the plugin
-is NOT to create a self sufficient vacation rental management and booking application within WordPress.  
+is NOT to create a self sufficient vacation rental management and booking application within WordPress.
+
 The object of the plug-in is to allow Lodgix.com customers to quickly and easily sync and display their property inventory on their 
 website.  It really is a sweet plugin, that will allow a property owner or desginer with wordpress knowledge to build a complete
 vacation rental website in a couple hours.

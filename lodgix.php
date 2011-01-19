@@ -17,8 +17,6 @@ v1.0.0: Initial release
 global $p_lodgix_db_version;
 $p_lodgix_db_version = "1.0";
 
-global $p_plugin_path;
-$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
 
 if (!class_exists('p_lodgix')) {
     class p_lodgix {
@@ -375,7 +373,7 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_template_redirect()
     {
       global $wp_query;
-      global $p_plugin_path;      
+      $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));       
       wp_enqueue_script('jquery');
       wp_enqueue_script('thickbox');
       wp_enqueue_style('thickbox');
@@ -393,7 +391,7 @@ if (!class_exists('p_lodgix')) {
 
     function p_lodgix_header_code() {            
             global $post;
-            global $p_plugin_path;
+            $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
             global $wpdb;
             
             $properties_table = $wpdb->prefix . "lodgix_properties";
@@ -1676,7 +1674,7 @@ if (!class_exists('p_lodgix')) {
       function build_individual_pages() {
         global $wpdb;
         global $sitepress;
-        global $p_plugin_path;
+        $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
         
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
@@ -1824,7 +1822,7 @@ if (!class_exists('p_lodgix')) {
       // This is the function that outputs our widget_lodgix_featured.
       function widget_lodgix_featured($args) {
         global $wpdb;
-        global $p_plugin_path;
+        $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $pages_table = $wpdb->prefix . "lodgix_pages";
         $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
@@ -2566,7 +2564,7 @@ if (!class_exists('p_lodgix')) {
                             <tr valign="top"> 
                             <td colspan="2">
                             	Please login to your Lodgix.com account and go to "Settings >> Important Settings" on the menu<br> to obtain "Customer ID" and "API Key".
-                            	In alternative click <a href="">here</a> to setup Demo Credentials.
+                            	In alternative click <a href="javascript:void(0);" onclick="p_lodgix_set_demo_credentials();">here</a> to setup Demo Credentials.
                             	</td> 
                         </tr>                                                   
                     </table>
@@ -2796,6 +2794,13 @@ if (isset($_GET['p_lodgix_javascript'])) {
   //embed javascript
   Header("content-type: application/x-javascript");
   echo<<<ENDJS
+  
+  function p_lodgix_set_demo_credentials()
+  {
+    jQuery('#p_lodgix_owner_id')[0].value = '13';
+  	jQuery('#p_lodgix_api_key')[0].value = 'f89bd3b1bd098af107d727063c2736a6';
+  }
+  
 /**
 * @desc Lodgix
 * @author Lodgix  - http://www.lodgix.com

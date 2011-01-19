@@ -17,6 +17,8 @@ v1.0.0: Initial release
 global $p_lodgix_db_version;
 $p_lodgix_db_version = "1.0";
 
+global $p_plugin_path;
+$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
 
 if (!class_exists('p_lodgix')) {
     class p_lodgix {
@@ -373,14 +375,17 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_template_redirect()
     {
       global $wp_query;
+      global $p_plugin_path;      
       wp_enqueue_script('jquery');
       wp_enqueue_script('thickbox');
       wp_enqueue_style('thickbox');
       if( $wp_query->post->post_type == 'page' ) {
         if ($this->options['p_lodgix_thesis_compatibility'])
-          include(WP_PLUGIN_DIR  . '/lodgix/thesis_no_sidebars.php');
+          include($p_plugin_path . 'thesis_no_sidebars.php');
         else
-          include(WP_PLUGIN_DIR  . '/lodgix/lodgix_page_template.php');
+        {
+          include($p_plugin_path . 'lodgix_page_template.php');
+        }
         die();
       }
     } 
@@ -388,6 +393,7 @@ if (!class_exists('p_lodgix')) {
 
     function p_lodgix_header_code() {            
             global $post;
+            global $p_plugin_path;
             global $wpdb;
             
             $properties_table = $wpdb->prefix . "lodgix_properties";
@@ -420,7 +426,8 @@ if (!class_exists('p_lodgix')) {
   					  	}
   					  }
 					  }
-            echo '<link type="text/css" rel="stylesheet" href="' . get_bloginfo('wpurl') . '/wp-content/plugins/lodgix/css/directory.css" />' . "\n";            
+					  
+            echo '<link type="text/css" rel="stylesheet" href="' . $p_plugin_path  . 'css/directory.php" />' . "\n";            
             ?><script type="text/javascript">
                  function p_lodgix_sort_vr(val)
                  {
@@ -1669,6 +1676,7 @@ if (!class_exists('p_lodgix')) {
       function build_individual_pages() {
         global $wpdb;
         global $sitepress;
+        global $p_plugin_path;
         
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
@@ -1816,6 +1824,7 @@ if (!class_exists('p_lodgix')) {
       // This is the function that outputs our widget_lodgix_featured.
       function widget_lodgix_featured($args) {
         global $wpdb;
+        global $p_plugin_path;
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $pages_table = $wpdb->prefix . "lodgix_pages";
         $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
@@ -1851,11 +1860,12 @@ if (!class_exists('p_lodgix')) {
             $page_id = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE property_id=" . $property->id);
             $permalink = get_permalink($page_id);
           }
+          
           echo '<div class="lodgix-featured-listing" style="-moz-border-radius: 5px 5px 5px 5px;">
                 <div class="imgset">
     	            <a href="' . $permalink . '">
     		            <img alt="View listing" src="' . $property->main_image_thumb . '">
-    		            <img class="featured-flag" alt="featured-listings" src="/wp-content/plugins/lodgix/images/featured-flag.png">
+    		            <img class="featured-flag" alt="featured-listings" src="' . $p_plugin_path . 'images/featured-flag.png">
     	            </a>
                 </div>
                 <a class="address-link" href="' . $permalink . '">' . $property->description . '</a>
@@ -2548,7 +2558,17 @@ if (!class_exists('p_lodgix')) {
                 <input name="p_lodgix_api_key" type="text" id="p_lodgix_api_key" size="45" value="<?php echo $this->options['p_lodgix_api_key'] ;?>"/>
                 <br /><span class="setting-description"><?php _e('Please enter your Lodgix API Key', $this->localizationDomain); ?>
                           </td> 
-                        </tr>                        
+                        </tr>   
+                        <tr valign="top"> 
+                            <th width="33%" scope="row"></th> 
+                            <td></td> 
+                        </tr>     
+                            <tr valign="top"> 
+                            <td colspan="2">
+                            	Please login to your Lodgix.com account and go to "Settings >> Important Settings" on the menu<br> to obtain "Customer ID" and "API Key".
+                            	In alternative click <a href="">here</a> to setup Demo Credentials.
+                            	</td> 
+                        </tr>                                                   
                     </table>
         <p>          
         <b><?php _e('General Display Options', $this->localizationDomain); ?></b>

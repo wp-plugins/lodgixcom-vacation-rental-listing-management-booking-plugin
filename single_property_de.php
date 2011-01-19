@@ -28,7 +28,7 @@ foreach($photos as $photo)
       }  
                 
       $single_property .= '<td valign="top" align="center" style="border-bottom: 0;">';
-      $single_property .= '<a href="' . $photo_url . '" class="thickbox" rel="gallery-images"><img src="' . $photo->thumb_url .'" height="150" width="200"  style="cursor:url(/wp-content/plugins/lodgix/images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
+      $single_property .= '<a href="' . $photo_url . '" class="thickbox"  rel="gallery-images"><img src="' . $photo->thumb_url .'" height="150" width="200"  style="cursor:url(' . $p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
             <div class="image_desc"></div> 
             </td>
                <div style="align:left"></div>

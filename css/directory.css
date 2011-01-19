@@ -74,7 +74,7 @@ div#lodgix_property_details h2 {
 }
 
 .lodgix_border_top {
-  background: url("/wp-content/plugins/lodgix/images/decor/bord-top.gif") repeat-x bottom;
+  background: url("__PLUGIN_FOLDER__images/decor/bord-top.gif") repeat-x bottom;
 }
 
 .lodgix_border_top div {
@@ -82,7 +82,7 @@ div#lodgix_property_details h2 {
 }
 
 .lodgix_border_top_left {
-  background: url("/wp-content/plugins/lodgix/images/decor/bord-top-left.gif") no-repeat bottom right;
+  background: url("__PLUGIN_FOLDER__images/decor/bord-top-left.gif") no-repeat bottom right;
 }
 
 .lodgix_border_top_left div {
@@ -91,7 +91,7 @@ div#lodgix_property_details h2 {
 }
 
 .lodgix_border_top_right {
-  background: url("/wp-content/plugins/lodgix/images/decor/bord-top-right.gif") no-repeat bottom left;
+  background: url("__PLUGIN_FOLDER__images/decor/bord-top-right.gif") no-repeat bottom left;
 }
 
 .lodgix_border_top_right div {
@@ -100,7 +100,7 @@ div#lodgix_property_details h2 {
 }
 
 .lodgix_border_bot {
-  background: url("/wp-content/plugins/lodgix/images/decor/bord-bot.gif") repeat-x top;
+  background: url("__PLUGIN_FOLDER__images/decor/bord-bot.gif") repeat-x top;
 }
 
 .lodgix_border_bot div {
@@ -108,7 +108,7 @@ div#lodgix_property_details h2 {
 }
 
 .lodgix_border_bot_left {
-  background: url("/wp-content/plugins/lodgix/images/decor/bord-bot-left.gif") no-repeat top right;
+  background: url("__PLUGIN_FOLDER__images/decor/bord-bot-left.gif") no-repeat top right;
 }
 
 .lodgix_border_bot_right div {
@@ -117,7 +117,7 @@ div#lodgix_property_details h2 {
 }
 
 .lodgix_border_bot_right {
-  background: url("/wp-content/plugins/lodgix/images/decor/bord-bot-right.gif") no-repeat top left;
+  background: url("__PLUGIN_FOLDER__images/decor/bord-bot-right.gif") no-repeat top left;
 }
 
 .lodgix_border_bot_right div {
@@ -126,11 +126,11 @@ div#lodgix_property_details h2 {
 }
 
 .lodgix_border_left {
-  background: url("/wp-content/plugins/lodgix/images/decor/bord-left.gif") repeat-y right;
+  background: url("__PLUGIN_FOLDER__images/decor/bord-left.gif") repeat-y right;
 }
 
 .lodgix_border_right {
-  background: url("/wp-content/plugins/lodgix/images/decor/bord-right.gif") repeat-y left;
+  background: url("__PLUGIN_FOLDER__images/decor/bord-right.gif") repeat-y left;
 }
 
 
@@ -222,37 +222,37 @@ min-width:90px;
 border: 0 none;
 }
 div.lodgix_bedroom1 {
-background:url("/wp-content/plugins/lodgix/images/bedroom1_list.gif") no-repeat scroll center center transparent;
+background:url("__PLUGIN_FOLDER__images/bedroom1_list.gif") no-repeat scroll center center transparent;
 height:27px;
 min-width:90px;
 }
 div.lodgix_bedroom2 {
-background:url("/wp-content/plugins/lodgix/images/bedroom2_list.gif") no-repeat scroll center center transparent;
+background:url("__PLUGIN_FOLDER__images/bedroom2_list.gif") no-repeat scroll center center transparent;
 height:27px;
 min-width:90px;
 }
 div.lodgix_bedroom3 {
-background:url("/wp-content/plugins/lodgix/images/bedroom3_list.gif") no-repeat scroll center center transparent;
+background:url("__PLUGIN_FOLDER__images/bedroom3_list.gif") no-repeat scroll center center transparent;
 height:27px;
 min-width:90px;
 }
 div.lodgix_bedroom4 {
-background:url("/wp-content/plugins/lodgix/images/bedroom4_list.gif") no-repeat scroll center center transparent;
+background:url("__PLUGIN_FOLDER__images/bedroom4_list.gif") no-repeat scroll center center transparent;
 height:27px;
 min-width:90px;
 }
 div.lodgix_bedroom5 {
-background:url("/wp-content/plugins/lodgix/images/bedroom5_list.gif") no-repeat scroll center center transparent;
+background:url("__PLUGIN_FOLDER__images/bedroom5_list.gif") no-repeat scroll center center transparent;
 height:30px;
 width:90px;
 }
 div.lodgix_pets_friendly_no {
-background:url("/wp-content/plugins/lodgix/images/pets_friendly_no.gif") no-repeat scroll center center transparent;
+background:url("__PLUGIN_FOLDER__images/pets_friendly_no.gif") no-repeat scroll center center transparent;
 height:25px;
 min-width:90px;
 }
 div.lodgix_pets_friendly_yes {
-background:url("/wp-content/plugins/lodgix/images/pets_friendly_yes.gif") no-repeat scroll center center transparent;
+background:url("__PLUGIN_FOLDER__images/pets_friendly_yes.gif") no-repeat scroll center center transparent;
 height:25px;
 }
 
@@ -264,7 +264,7 @@ padding:0;
 width:100%;
 }
 ul.amenities li {
-background:url("/wp-content/plugins/lodgix/images/tick.gif") no-repeat scroll left center transparent;
+background:url("__PLUGIN_FOLDER__images/tick.gif") no-repeat scroll left center transparent;
 float:left;
 font-size:11px;
 line-height:16px;
@@ -343,7 +343,7 @@ border:0 none;
 .lodgix-featured-properties .lodgix-featured-listing {
 	width: 210px;
 	background-color: #E8E8E8;
-	background-image: url("/wp-content/plugins/lodgix/images/feat-bg.png");
+	background-image: url("__PLUGIN_FOLDER__images/feat-bg.png");
 	background-repeat: repeat-x;
 	border: 1px solid #E0E0E0;
 	padding: 10px;

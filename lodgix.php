@@ -196,16 +196,18 @@ if (!class_exists('p_lodgix')) {
       
       $pictures_table = $wpdb->prefix . "lodgix_pictures";  
       $properties_table = $wpdb->prefix . "lodgix_properties";
-      $plugin_path = WP_PLUGIN_DIR.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)); 
+      $pictures_path = WP_CONTENT_DIR.'/lodgix_pictures'; 
+      $pictures_url = WP_CONTENT_URL.'/lodgix_pictures'; 
       $plugin_url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)); 
       $sql = "SELECT * FROM " . $pictures_table . " WHERE url LIKE 'http://www.lodgix.com/media/gallery/%'";
       $pictures = $wpdb->get_results($sql);
-
+      if (!file_exists($pictures_path ))
+         mkdir($folder, 0755,true);
       foreach($pictures as $pic)
       {
         $path = str_replace('http://www.lodgix.com/media/gallery/','',$pic->thumb_url);
         $file = basename($path);
-        $folder = $plugin_path . 'pictures/' . str_replace('/' . $file,'',$path);
+        $folder = $pictures_path . '/' . str_replace('/' . $file,'',$path);
         if (!file_exists($folder . '/' . $file))
         {
           if (!file_exists($folder))
@@ -215,7 +217,7 @@ if (!class_exists('p_lodgix')) {
         }
         if (file_exists($folder . '/' . $file))
         {
-          $new_url = $plugin_url . 'pictures/' . str_replace('/' . $file,'',$path) . '/' . $file;
+          $new_url = $pictures_url . '/' . str_replace('/' . $file,'',$path) . '/' . $file;
           $wpdb->query("UPDATE " . $pictures_table . " SET thumb_url='" . $new_url . "' WHERE id=" . $pic->id);
           if ($pic->position == 1)
               $wpdb->query("UPDATE " . $properties_table . " SET main_image_thumb='" . $new_url . "' WHERE main_image_thumb='" . $pic->thumb_url . "'");
@@ -223,7 +225,7 @@ if (!class_exists('p_lodgix')) {
         
         $path = str_replace('http://www.lodgix.com/media/gallery/','',$pic->url);
         $file = basename($path);
-        $folder = $plugin_path . 'pictures/' . str_replace('/' . $file,'',$path);
+        $folder = $pictures_path . 'pictures/' . str_replace('/' . $file,'',$path);
         if (!file_exists($folder . '/' . $file))
         {
           if (!file_exists($folder))
@@ -234,7 +236,7 @@ if (!class_exists('p_lodgix')) {
         }
         if (file_exists($folder . '/' . $file))
         {        
-          $new_url = $plugin_url . 'pictures/' . str_replace('/' . $file,'',$path) . '/' . $file;
+          $new_url = $pictures_url . '/' . str_replace('/' . $file,'',$path) . '/' . $file;
           $wpdb->query("UPDATE " . $pictures_table . " SET url='" . $new_url . "' WHERE id=" . $pic->id);
           if ($pic->position == 1)
             $wpdb->query("UPDATE " . $properties_table . " SET main_image='" . $new_url . "' WHERE main_image='" . $pic->url . "'");  

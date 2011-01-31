@@ -3,14 +3,15 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.8
+Version: 1.0.9
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
-v1.0.7: Fixed single property availability
+v1.0.9: Fixed multi-language update issue
+v1.0.7: Fix single property availability
 v1.0.4: Fixed directory
 v1.0.0: Initial release
 
@@ -1933,8 +1934,24 @@ if (!class_exists('p_lodgix')) {
          }                   
          wp_delete_post((int)$this->options['p_lodgix_vacation_rentals_page'],$force_delete = true);
          wp_delete_post((int)$this->options['p_lodgix_availability_page'],$force_delete = true);
+         wp_delete_post((int)$this->options['p_lodgix_vacation_rentals_page_de'],$force_delete = true);
+         wp_delete_post((int)$this->options['p_lodgix_availability_page_de'],$force_delete = true);         
          $this->clearAdminOptions();
          $this->clear_tables();            
+      }
+      
+      function clean_languages()
+      {
+         global $wpdb;
+         
+         $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages"; 
+         $posts_de = $wpdb->get_results('SELECT * FROM ' . $lang_pages_table);   
+         foreach($posts_de as $post)
+         {
+            wp_delete_post($post->page_id,$force_delete = true);
+         }                   
+         wp_delete_post((int)$this->options['p_lodgix_vacation_rentals_page_de'],$force_delete = true);
+         wp_delete_post((int)$this->options['p_lodgix_availability_page_de'],$force_delete = true);    
       }
       
       function p_lodgix_notify() {
@@ -2365,8 +2382,13 @@ if (!class_exists('p_lodgix')) {
                   
                   if ((!$this->options['p_lodgix_vr_title']) || ($this->options['p_lodgix_vr_title'] == ''))
                     $this->options['p_lodgix_vr_title'] = "Vacation Rentals";
-
-                  $this->saveAdminOptions();
+									$this->saveAdminOptions();
+									
+									if (!$this->options['p_lodgix_generate_german'])
+									{
+										$this->clean_languages();
+									}
+                  
                   $post = array();
                   $post['post_title'] = 'Vacation Rentals';
                   $post['menu_order'] = 1;
@@ -2381,7 +2403,13 @@ if (!class_exists('p_lodgix')) {
                       {
                           $this->options['p_lodgix_vacation_rentals_page'] = (int)$post_id;
                       }    
-                      if ($this->options['p_lodgix_generate_german'])
+             
+                  }
+                  
+                  $exists = get_post($this->options['p_lodgix_vacation_rentals_page_de']);              
+                  if (!$exists)                 
+                  {
+                 			if ($this->options['p_lodgix_generate_german'])
                       {                              
                         $post['post_title'] = 'Ferienvillen &Uuml;bersicht'; 
                         $post_de_id = wp_insert_post( $post );   
@@ -2392,9 +2420,10 @@ if (!class_exists('p_lodgix')) {
                             $wpdb->query($sql);         
                        
                         }         
-                      }             
-                  }
+                      }                       	
                             
+                  }
+                  
                   $this->saveAdminOptions();            
                   
                   if ($this->options['p_lodgix_thesis_compatibility'])
@@ -2438,7 +2467,12 @@ if (!class_exists('p_lodgix')) {
                       if ($post_id != 0)
                       {
                           $this->options['p_lodgix_availability_page'] = (int)$post_id;
-                      }     
+                      }                                
+                  }
+                  
+                  $exists = get_post($this->options['p_lodgix_availability_page_de']);
+                  if (!$exists)
+                  {
                       if ($this->options['p_lodgix_generate_german'])
                       {
                         $post['post_title'] = 'Verwendbarkeit';
@@ -2452,11 +2486,9 @@ if (!class_exists('p_lodgix')) {
                            
                         }           
                       }                                  
-                  }
-                  else
-                  {
-                      
-                  }                               
+                  } 
+                  
+                                           
                   $this->saveAdminOptions();       
                                        
                   $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];

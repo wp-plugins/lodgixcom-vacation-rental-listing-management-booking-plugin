@@ -10,27 +10,33 @@ $post_id_de = $wpdb->get_var("select page_id from " . $lang_pages_table . " WHER
 $permalink = get_permalink($post_id_de);
 $table_name = $wpdb->prefix . "lodgix_lang_properties";
 
-$icons = 'none';
-$style= '';
+
+$icon_margin_left = '';
+$icons = 'display:none;';
 if ($this->options['p_lodgix_display_icons'])
 {
-	$icons = 'block';
-	$style = '<style>.lodgix_comments div { height: 220px;}</style>';
+	$icons = '';
+}
+$icon_availability = 'display:none;';
+if ($this->options['p_lodgix_display_availability_icon'])
+{
+	$icon_availability = '';
+	$icon_margin_left = 'margin-left:25px;';
+}
+$global_icons = '';
+if ((!$this->options['p_lodgix_display_availability_icon']) &&(!$this->options['p_lodgix_display_icons']))
+{
+	$global_icons = 'display:none;';
 }
 
 $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
 
-$vacation_rentals = $style . '
+$vacation_rentals = '
 <table cellspacing="0" class="lodgix_listing">
 <tbody><tr><td class="lodgix_border_top_left"><div></div></td><td colspan="2" class="lodgix_border_top"><div></div></td><td class="lodgix_border_top_right"><div></div></td></tr>
 <tr>
   <td class="lodgix_border_left"><div></div></td>
-  <td class="lodgix_image_cell"><a href="'. $permalink .'"><img border="0" alt="" src="' . $property->main_image_thumb . '"></a>
-  <div style="display:' . $icons .';"><a href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></div>
-  <table class="lodgix_image_cell_icons" border="0" cellspacing="0" style="display:' . $icons . ';">
-  	<tr><td class="lodgix_google_map_icon"><a href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . '/images/map_50.png"></a></td><td style="width:25px;">&nbsp;</td>
-  			<td class="lodgix_contact_us_icon"><a href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a></td><td style="width:25px;">&nbsp;</td>
-  			<td class="lodgix_details_icon"><a href="' . $permalink . '"><img src="' . $p_plugin_path  . '/images/kappfinder_50.png"></a></td></tr></table></td><td class="lodgix_description_cell">
+  <td class="lodgix_image_cell"><a href="'. $permalink .'"><img border="0" alt="" src="' . $property->main_image_thumb . '"></a></td><td class="lodgix_description_cell">
   			<div class="lodgix_description">
   	<div class="lodgix_name">
   			<a href="'. $permalink .'">' . $german_details->description . '</a></div><div>' . $property->area . '</div><div class="lodgix_comments">
@@ -65,6 +71,15 @@ $vacation_rentals = $style . '
 			</tbody></table>    
   </td>
   <td class="lodgix_border_right"><div></div></td>
+</tr>
+<tr>
+  <td class="lodgix_border_left"><div></div></td>
+  <td colspan="2"><table class="lodgix_image_cell_icons" border="0" cellspacing="0" style="padding-top:10px;text-align:center;width:100%;' . $global_icons .'">
+  	<tr>
+  		<td><a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a><a title="Display Google Map" style="' . $icon_margin_left . $icons . '" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;' . $icons . '" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a><a title="Details" style="margin-left:4px;' . $icons . '" href="' . $permalink . '"><img src="' . $p_plugin_path  . '/images/kappfinder_50.png"></a></td>
+  		</tr>
+  	</table></td>
+  <td class="lodgix_border_right"><div></div></td> 			
 </tr>
 <tr><td class="lodgix_border_bot_left"><div></div></td><td colspan="2" class="lodgix_border_bot"><div></div></td><td class="lodgix_border_bot_right"><div></div></td></tr>
 </tbody></table>

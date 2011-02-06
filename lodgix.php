@@ -3,7 +3,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.10
+Version: 1.0.11
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
@@ -809,6 +809,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_allow_comments' => false,
                                   'p_lodgix_allow_pingback' => false,
                                   'p_lodgix_display_daily_rates' => true,
+                                  'p_lodgix_display_icons' => false,
                                   'p_lodgix_display_title' => 'name',
                                   'p_lodgix_display_featured' => 'city',
                                   'p_lodgix_display_multi_instructions' => 0,
@@ -867,6 +868,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_allow_comments' => false,
                               'p_lodgix_allow_pingback' => false,
                               'p_lodgix_display_daily_rates' => true,
+                              'p_lodgix_display_icons' => false,
                               'p_lodgix_display_title' => 'name',
                               'p_lodgix_display_featured' => 'city',
                               'p_lodgix_display_multi_instructions' => 0,
@@ -2763,6 +2765,14 @@ if (!class_exists('p_lodgix')) {
                       $this->options['p_lodgix_display_daily_rates'] = true;
                   else
                       $this->options['p_lodgix_display_daily_rates'] = false;                                  
+                  if ($_POST['p_lodgix_display_icons'] == "on")
+                      $this->options['p_lodgix_display_icons'] = true;
+                  else
+                      $this->options['p_lodgix_display_icons'] = false;                                  
+                  if ($_POST['p_lodgix_display_availability_icon'] == "on")
+                      $this->options['p_lodgix_display_availability_icon'] = true;
+                  else
+                      $this->options['p_lodgix_display_availability_icon'] = false;                                  
                   $this->options['p_lodgix_owner_id'] = (int)$_POST['p_lodgix_owner_id'];  
                   $this->options['p_lodgix_api_key'] = $_POST['p_lodgix_api_key'];           
                   $this->options['p_google_maps_api'] = $_POST['p_google_maps_api']; 
@@ -2775,6 +2785,7 @@ if (!class_exists('p_lodgix')) {
                   $this->options['p_lodgix_vr_title'] = $_POST['p_lodgix_vr_title']; 
                   $this->options['p_lodgix_vr_meta_description'] = $_POST['p_lodgix_vr_meta_description']; 
                   $this->options['p_lodgix_vr_meta_keywords'] = $_POST['p_lodgix_vr_meta_keywords'];   
+                  $this->options['p_lodgix_contact_url'] = $_POST['p_lodgix_vr_meta_keywords'];    
                   
                   if ((!$this->options['p_lodgix_vr_title']) || ($this->options['p_lodgix_vr_title'] == ''))
                     $this->options['p_lodgix_vr_title'] = "Vacation Rentals";
@@ -3003,14 +3014,29 @@ if (!class_exists('p_lodgix')) {
         </p>
                     <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
                         <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Display daily rates on individual property pages?:', $this->localizationDomain); ?></th> 
+                            <th style="width:400px;" scope="row"><?php _e('Display daily rates on individual property pages?:', $this->localizationDomain); ?></th> 
                             <td>
                              <input name="p_lodgix_display_daily_rates" type="checkbox" id="p_lodgix_display_daily_rates" <?php if ($this->options['p_lodgix_display_daily_rates']) echo "CHECKED"; ?>/>
                           
                           </td> 
                         </tr>
                         <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Property Name:', $this->localizationDomain); ?></th> 
+                            <th scope="row"><?php _e('Display Google Map, Contact Us & Details Icons on Search / Sort Page?:', $this->localizationDomain); ?></th> 
+                            <td>
+                             <input name="p_lodgix_display_icons" type="checkbox" id="p_lodgix_display_icons" <?php if ($this->options['p_lodgix_display_icons']) echo "CHECKED"; ?>/>
+                          
+                          </td> 
+                        </tr>         
+                        <tr valign="top"> 
+                            <th scope="row"><?php _e('Display Availability Icon on Search / Sort Page?:', $this->localizationDomain); ?></th> 
+                            <td>
+                             <input name="p_lodgix_display_availability_icon" type="checkbox" id="p_lodgix_display_availability_icon" <?php if ($this->options['p_lodgix_display_availability_icon']) echo "CHECKED"; ?>/>
+                          
+                          </td> 
+                        </tr>         
+                                       
+                        <tr valign="top"> 
+                            <th scope="row"><?php _e('Property Name:', $this->localizationDomain); ?></th> 
                             <td>
                              <select name="p_lodgix_display_title"  id="p_lodgix_display_title" style="width:120px;">                              
                               <option <?php if ($this->options['p_lodgix_display_title'] == 'title') echo "SELECTED"; ?> value='title'>Marketing Title</option>
@@ -3021,7 +3047,7 @@ if (!class_exists('p_lodgix')) {
                           </td> 
                         </tr>
                         <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Featured Rentals:', $this->localizationDomain); ?></th> 
+                            <th scope="row"><?php _e('Featured Rentals:', $this->localizationDomain); ?></th> 
                             <td>
                              <select name="p_lodgix_display_featured"  id="p_lodgix_display_featured" style="width:120px;">                              
                               <option <?php if ($this->options['p_lodgix_display_featured'] == 'city') echo "SELECTED"; ?> value='city'>Display City</option>
@@ -3032,7 +3058,7 @@ if (!class_exists('p_lodgix')) {
                           </td> 
                         </tr> 
                                   <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Display Instructions on Single Unit Calendar:', $this->localizationDomain); ?></th> 
+                            <th scope="row"><?php _e('Display Instructions on Single Unit Calendar:', $this->localizationDomain); ?></th> 
                             <td>
                              <select name="p_lodgix_display_single_instructions"  id="p_lodgix_display_single_instructions" style="width:120px;">                              
                               <option <?php if ($this->options['p_lodgix_display_single_instructions'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
@@ -3042,7 +3068,7 @@ if (!class_exists('p_lodgix')) {
                           
                           </td>  
                                  <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Display Instructions on Multi Unit Calendar:', $this->localizationDomain); ?></th> 
+                            <th scope="row"><?php _e('Display Instructions on Multi Unit Calendar:', $this->localizationDomain); ?></th> 
                             <td>
                              <select name="p_lodgix_display_multi_instructions"  id="p_lodgix_display_multi_instructions" style="width:120px;">                              
                               <option <?php if ($this->options['p_lodgix_display_multi_instructions'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
@@ -3117,7 +3143,19 @@ if (!class_exists('p_lodgix')) {
                           </td> 
                         </tr>     
                     </table><br>                    
-        <p>                  
+        <p>
+        <b><?php _e('Contact Options', $this->localizationDomain); ?></b>
+        </p>
+                    <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
+                        <tr valign="top"> 
+                            <th width="33%" scope="row"><?php _e('Contact URL:', $this->localizationDomain); ?></th> 
+                            <td>
+                             <input name="p_lodgix_contact_url" style="width:430px;" type="text" id="p_lodgix_contact_url" value="<?php echo $this->options['p_lodgix_contact_url']; ?>" maxlength="70" />                   
+                          </td> 
+                        </tr>
+                
+                    </table><br>                    
+        <p>                	  
         <b><?php _e('Vacation Rentals Page Options', $this->localizationDomain); ?></b>
         </p>
                     <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 

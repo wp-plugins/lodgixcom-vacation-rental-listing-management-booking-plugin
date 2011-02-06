@@ -44,8 +44,9 @@ div#content_lodgix a{
 	color:#bc4339;
 	text-decoration: underline;
 	}
+	
 div#content_lodgix a:hover{	
-	font-family:"Droid Serif",Calibri,"Times New Roman",serif;
+	font-family:Verdana, Tahoma, Arial;
 	color:#015571;
 	text-decoration: underline;
 	}
@@ -174,7 +175,9 @@ width: 100%;
 
 .lodgix_comments {
   color: #666;
-  font: 10px Verdana, sans-serif;
+  font: 12px Verdana, sans-serif;
+  text-align:justify;
+  margin-top:8px;
 }
 
 .lodgix_comments div {
@@ -394,6 +397,30 @@ border:0 none;
 	display: block;
 	padding-top:4px;
 }
+
+.lodgix_image_cell_icons {
+    width:200px;
+}
+.lodgix_google_map_icon {
+
+}
+.lodgix_contact_us_icon {
+
+}
+.lodgix_search_icon {
+
+}
+.lodgix_availability_icon {
+	background: url("__PLUGIN_FOLDER__images/Lodgix200x50.png");
+	width:200px;
+	height:50px;
+	margin-bottom:5px;
+}
+.lodgix_image_cell_icons td {
+    width:50px;
+    height:50px;
+}
+
 ';
 
 $content = str_replace('__PLUGIN_FOLDER__',$url,$content);

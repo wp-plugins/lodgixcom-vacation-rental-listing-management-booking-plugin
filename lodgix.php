@@ -383,8 +383,8 @@ if (!class_exists('p_lodgix')) {
       global $wp_query;
       $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
       wp_enqueue_script('jquery');
-      wp_enqueue_script('thickbox');
-      wp_enqueue_style('thickbox');
+      wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
+      wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
       if( $wp_query->post->post_type == 'page' ) {
         if ($this->options['p_lodgix_thesis_compatibility'])
           include('thesis_no_sidebars.php');
@@ -449,6 +449,19 @@ if (!class_exists('p_lodgix')) {
                    });
                  }
               </script>
+              <script language="javascript">
+									<!--
+										jQuery(document).ready(
+											function (){
+												var a = function(self){
+												self.anchor.fancybox();
+											};
+											jQuery("#pikame").PikaChoose({buildFinished:a,autoPlay:false,showTooltips:false});
+										});
+				
+							-->
+							</script>
+
             <?php
             echo '<!-- End Of Lodgix -->'."\n";
     }

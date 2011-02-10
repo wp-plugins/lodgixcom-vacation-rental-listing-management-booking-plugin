@@ -1,6 +1,7 @@
 <?php
 
 $permalink = get_permalink($property->post_id);
+$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
 
 $sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='en' AND property_id=" . $property->id . ' ORDER BY date DESC';
 $reviews = $wpdb->get_results($sql);   
@@ -9,35 +10,25 @@ $sql = "SELECT * FROM " . $pictures_table . " WHERE property_id=" . $property->i
 $photos = $wpdb->get_results($sql);
 
 
-/*$single_property .= '<div id="lodgix_photo"><a id="lodgix_aGallery" href="#Gallery"></a>     
-                        <div id="lodgix_photo_top"></div>      
-                        <div id="lodgix_photo_body">
-                        <div id="lodgix_photo_zoom"></div>       
-                        <table class="lodgix_gallery" cellpadding="0" cellspacing="12">';
-$counter = 0;         
-$num_pics = 4;
-$single_property .= '<h2>Property Images</h2>';
-if (get_current_theme() == "Thesis")              
-  $num_pics = 3;
-foreach($photos as $photo)
-{
-      $photo_url = str_replace('media/gallery','photo/800/gallery',$photo->url);
-      if (($counter % $num_pics == 0) && ($counter != 0))
-      {
-         $single_property .= "<tr>";
-      }  
-                
-      $single_property .= '<td valign="top" align="center" style="border-bottom: 0;">';
-      $single_property .= '<a href="' . $photo_url . '" class="thickbox"  rel="gallery-images"><img src="' . $photo->thumb_url .'" height="150" width="200"  style="cursor:url(' . $p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
-            <div class="image_desc"></div> 
-            </td>
-               <div style="align:left"></div>
-            </td>';
-                          
-        
-   $counter++;
-}
-$single_property .= '</tr></table></div><div id="lodgix_photo_bottom"></div></div>';*/
+$single_property .= '<center>';
+$single_property .= '<div id="lodgix_property_badge">';
+$single_property .= '<table width="100%">												
+													<tr>
+														<td class="lodgix_property_badge_title">Simple Sanibel at Test Area</td>
+														<td>&nbsp;</td>
+													</tr>
+													<tr>
+														<td rowspan="2"></td>
+													</tr>
+										</table>
+										<hr>
+										<table width="100%">												
+													<tr>
+														<td class="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a></td>
+													</tr>
+										</table>';
+$single_property .= '</div>';
+$single_property .= '</center>';
 
 $single_property .= '<center><ul id="pikame">';
 foreach($photos as $photo)

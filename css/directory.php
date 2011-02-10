@@ -445,7 +445,42 @@ border:0 none;
     height:50px;
 }
 
+#lodgix_property_badge {
+	background-color: #F0F7EE;
+	width: 700px;
+	height: auto;
+#	margin: 0 auto 15px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	
+	border: 1px solid #d7d7d7;
+	font-family:Verdana, Tahoma, Arial;
+	
+	-moz-border-radius: 11px;
+	-webkit-border-radius: 11px;
+	border-radius: 11px;
+	behavior: url("__PLUGIN_FOLDER__css/border-radius.htc");
+}
 
+#lodgix_property_badge hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width:100%;
+}
+
+.lodgix_property_badge_title {
+	color: #00FF00;
+	font-weight:bold;
+	font-size:14px;
+	padding:0px;
+}
+
+.lodgix_property_badge_icons_left {
+  height:50px;
+  padding:0px;
+}
 
 /*
  * FancyBox - jQuery Plugin

@@ -203,6 +203,8 @@ if (!class_exists('p_lodgix')) {
       $plugin_url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)); 
       $sql = "SELECT * FROM " . $pictures_table . " WHERE url LIKE 'http://www.lodgix.com/media/gallery/%'";
       $pictures = $wpdb->get_results($sql);
+			$context = stream_context_create(array('http' => array('timeout' => 120)));                                       
+                  
       if (!file_exists($pictures_path ))
          mkdir($folder, 0755,true);
       foreach($pictures as $pic)
@@ -215,7 +217,7 @@ if (!class_exists('p_lodgix')) {
           if (!file_exists($folder))
             mkdir($folder, 0755,true);
           
-          file_put_contents($folder . '/' . $file, file_get_contents($pic->thumb_url));
+          file_put_contents($folder . '/' . $file, @file_get_contents($pic->thumb_url,0,$context));
         }
         if (file_exists($folder . '/' . $file))
         {
@@ -233,7 +235,7 @@ if (!class_exists('p_lodgix')) {
           if (!file_exists($folder))
             mkdir($folder, 0755,true);
           
-          file_put_contents($folder . '/' . $file, file_get_contents($pic->url));
+          file_put_contents($folder . '/' . $file, @file_get_contents($pic->url,0,$context));
           
         }
         if (file_exists($folder . '/' . $file))
@@ -1193,6 +1195,7 @@ if (!class_exists('p_lodgix')) {
         $pos = 1;
         foreach ($photos as $photo)
         { 
+        	$photo['URL'] = str_replace('media/gallery','photo/640/gallery',$photo['URL']);
           if ($pos == 1)
           {
             $parray['main_image'] = $photo['URL'];
@@ -2294,8 +2297,9 @@ if (!class_exists('p_lodgix')) {
       
       function p_lodgix_notify() {
       		ini_set('max_execution_time', 0);
+      		$context = stream_context_create(array('http' => array('timeout' => 120)));      
           $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
-          $xml = file_get_contents($fetch_url);      
+          @$xml = file_get_contents($fetch_url,0,$context);      
           if ($xml)
           {  
             $root = new DOMDocument();  
@@ -2907,11 +2911,12 @@ if (!class_exists('p_lodgix')) {
                   
                                            
                   $this->saveAdminOptions();       
-                                       
+									
                   $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
                   $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
  
-                  $xml = file_get_contents($owner_fetch_url);
+ 									$context = stream_context_create(array('http' => array('timeout' => 120)));                                       
+                  @$xml = file_get_contents($owner_fetch_url,0,$context);
                 
                   $ROOT_HEIGHT = 84;
                   $root = new DOMDocument();  
@@ -2928,7 +2933,7 @@ if (!class_exists('p_lodgix')) {
                     $this->update_owner($owner);                  
                     $this->saveAdminOptions();  
                                      
-                    $xml = file_get_contents($fetch_url);
+                    @$xml = file_get_contents($fetch_url,0,$context);
                     if ($xml)
                     {
                       $root = new DOMDocument();  

@@ -91,6 +91,16 @@ div#lodgix_property_rates h2 {
   padding-bottom:5px;
 }
 
+div#lodgix_property_reviews {
+  margin-top:20px;
+}
+
+div#lodgix_property_reviews h2 {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;
+}
+
 #content_lodgix {
   padding-right: 0px !important;
   margin-right: 5px !important;
@@ -875,7 +885,7 @@ border:0 none;
 	/*position image holders */
 	.pika-image .animation, .pika-image .main-image {position: absolute; top: 10px; left: 10px;}
 	.pika-image .animation {display: none;z-index:2;}
-	.pika-image img {border:0;}
+	.pika-image img {border:0;width:640px;height:480px; }
 
 .pika-image .caption {position: absolute; background: url(__PLUGIN_FOLDER__gallery/75-black.png);  border: 1px solid #141414; font-size: 11px; color: #fafafa; padding: 10px; text-align: right; bottom: 30px; right: 10px;}
 	.pika-image .caption p {padding: 0; margin: 0; line-height: 14px;}

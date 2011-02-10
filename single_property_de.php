@@ -5,39 +5,68 @@ $german_details = $wpdb->get_results($sql);
 $german_details = $german_details[0];
 $post_id_de = $wpdb->get_var("select page_id from " . $lang_pages_table . " WHERE property_id=" . $property->id . ";"); 
 $permalink = get_permalink($post_id_de);
-$sql = "SELECT * FROM " . $pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';
-$photos = $wpdb->get_results($sql);
+
 $sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='de' AND property_id=" . $property->id . ' ORDER BY date DESC';
 $reviews = $wpdb->get_results($sql);
-$single_property .= '<div id="lodgix_photo"><a id="lodgix_aGallery" href="#Gallery"></a>     
-                        <div id="lodgix_photo_top"></div>      
-                        <div id="lodgix_photo_body">
-                        <div id="lodgix_photo_zoom"></div>       
-                        <table class="lodgix_gallery" cellpadding="0" cellspacing="12">';
-$counter = 0;         
-$num_pics = 4;
-$single_property .= '<h2>Bilder</h2>';
-if (get_current_theme() == "Thesis")              
-  $num_pics = 3;
+
+
+$sql = "SELECT * FROM " . $pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';
+$photos = $wpdb->get_results($sql);
+
+$property_area = "";
+if ($property->area != "")
+	$property_area = " at " . $property->area;
+
+$property_city = "";
+if ($property->city != "")
+	$property_city = " in " . $property->city;
+
+$min_weekly_rate = "";
+if ($property->min_weekly_rate > 0)
+	$min_weekly_rate = 'from '. $property->currency_symbol . $property->min_weekly_rate . ' per /wk<br>';
+
+$min_daily_rate = "";
+if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates'])
+	$min_daily_rate = 'from '. $property->currency_symbol . $property->min_daily_rate . ' per /nt<br>';
+	
+	
+$pets = "";
+if (!$property->pets)
+	$property->pets = "display:none;";
+
+$smoking = "";
+if (!$property->smoking)
+	$property->smoking = "display:none;";
+	
+$mail_icon = '';
+if ($this->options['p_lodgix_contact_url'] != "")
+	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a>';
+
+$single_property .= '<center>';
+$single_property .= '<div id="lodgix_property_badge">';
+$single_property .= '<table width="100%">												
+													<tr>
+														<td class="lodgix_property_badge_title">' .  $property->description . $property_area . '<div class="lodgix_property_badge_rooms">' . $property->bedrooms .' Bedroom | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '</div></td>
+														<td class="lodgix_property_badge_rates">' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a></td>
+													</tr>
+										</table>
+										<hr>
+										<table width="100%">												
+													<tr>
+														<td class="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . 'images/map_50.png"></a>' . $mail_icon . '</td>
+														<td class="lodgix_property_badge_icons_right"><img src="' . $p_plugin_path  . '/images/no_pets.png" syle="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" syle="' . $smoking . '"></td>
+													</tr>
+										</table>';
+$single_property .= '</div>';
+$single_property .= '</center>';
+
+$single_property .= '<center><ul id="pikame">';
 foreach($photos as $photo)
 {
       $photo_url = str_replace('media/gallery','photo/800/gallery',$photo->url);
-      if (($counter % $num_pics == 0) && ($counter != 0))
-      {
-         $single_property .= "<tr>";
-      }  
-                
-      $single_property .= '<td valign="top" align="center" style="border-bottom: 0;">';
-      $single_property .= '<a href="' . $photo_url . '" class="thickbox"  rel="gallery-images"><img src="' . $photo->thumb_url .'" height="150" width="200"  style="cursor:url(' . $p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
-            <div class="image_desc"></div> 
-            </td>
-               <div style="align:left"></div>
-            </td>';
-                          
-        
-   $counter++;
+      $single_property .= '<li><a href="' . $photo_url . '"><img width="640px" height="480px" src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
 }
-$single_property .= '</tr></table></div><div id="lodgix_photo_bottom"></div></div>';
+$single_property .= '</ul></center><br/><br/>';
 
 if ($german_details->description_long != "")
 {
@@ -58,7 +87,7 @@ if (count($amenities) >= 1)
 
 if (count($reviews) >= 1)
 { 
- $single_property .= '<br><br><h2>Bewertungen</h2>';
+ $single_property .= '<br><br><div id="lodgix_property_reviews"><h2>Bewertungen</h2>';
  $counter = 0;
  foreach($reviews as $review)
  {
@@ -69,9 +98,11 @@ if (count($reviews) >= 1)
   $single_property .= '<p>' . $review->description . '</p><p><b>' . $this->format_date($review->date) . ', ' . $review->name . '</b></p><hr>';
   $counter++;
  }
- $single_property .= '<br><br>';
+ $single_property .= '</div><br><br>';
 } 
 
+
+/*
 
 $sql = "SELECT from_date,to_date,default_rate,name FROM " . $rates_table . " WHERE property_id=" . $property->id . " AND (DATE(from_date) >= DATE(NOW()) OR from_date IS NULL) AND min_nights=1 ORDER BY is_default,from_date";
 $daily_rates = $wpdb->get_results($sql);
@@ -260,6 +291,24 @@ else
 {
   $single_property .= "<br/>";
 }
+
+*/
+
+$low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
+$high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
+$low_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
+$high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
+$low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
+$high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
+
+$single_property .= '<div id="lodgix_property_rates"><h2>Rates</h2>';
+if ($this->options['p_lodgix_display_daily_rates'])
+	$single_property .= 'Tageskurs:	' . $low_daily_rate  . ' -  ' . $high_daily_rate . ' per night<br/>';
+$single_property .= 'Wochenpreis:	' . $low_weekly_rate  . ' - ' . $high_weekly_rate . ' per week<br/>';
+$single_property .= 'Monatspreis:	' . $low_monthly_rate  . ' - ' . $high_monthly_rate  . ' per month<br/>';
+$single_property .= '- Die Preise unterscheiden sich saisonbedingt.<br/>';
+$single_property .= '- Bitte w&auml;hlen Sie die exakten Daten Ihrer Anreise und Abreise im online Buchungskalender um ein Preisangebot zu erhalten.<br/>';
+$single_property .= '</div>';
 
 $static = '';
 if ($property->allow_booking == 0)

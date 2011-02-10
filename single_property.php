@@ -33,6 +33,10 @@ if (!$property->pets)
 $smoking = "";
 if (!$property->smoking)
 	$property->smoking = "display:none;";
+	
+$mail_icon = '';
+if ($this->options['p_lodgix_contact_url'] != "")
+	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a>';
 
 $single_property .= '<center>';
 $single_property .= '<div id="lodgix_property_badge">';
@@ -45,7 +49,7 @@ $single_property .= '<table width="100%">
 										<hr>
 										<table width="100%">												
 													<tr>
-														<td class="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . 'images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a></td>
+														<td class="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . 'images/map_50.png"></a>' . $mail_icon . '</td>
 														<td class="lodgix_property_badge_icons_right"><img src="' . $p_plugin_path  . '/images/no_pets.png" syle="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" syle="' . $smoking . '"></td>
 													</tr>
 										</table>';
@@ -55,8 +59,8 @@ $single_property .= '</center>';
 $single_property .= '<center><ul id="pikame">';
 foreach($photos as $photo)
 {
-      $photo_url = str_replace('media/gallery','photo/800/gallery',$photo->url);
-      $single_property .= '<li><a href="' . $photo_url . '"><img width="640px" height="480px" src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
+ 
+  $single_property .= '<li><a href="' . $photo_url . '"><img src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
 }
 $single_property .= '</ul></center><br/><br/>';
 
@@ -75,7 +79,7 @@ if (count($amenities) >= 1)
 
 if (count($reviews) >= 1)
 { 
- $single_property .= '<br><br><h2>Guest Reviews</h2><br>';
+ $single_property .= '<br><br><div id="lodgix_property_reviews"><h2>Guest Reviews</h2><br>';
  $counter = 0;
  foreach($reviews as $review)
  {
@@ -86,7 +90,7 @@ if (count($reviews) >= 1)
   $single_property .= '<p>' . $review->description . '</p><p><b>' . $this->format_date($review->date) . ', ' . $review->name . '</b></p><hr>';
   $counter++;
  }
- $single_property .= '<br><br>';
+ $single_property .= '</div><br><br>';
 } 
 
 

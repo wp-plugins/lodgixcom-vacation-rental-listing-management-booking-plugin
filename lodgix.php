@@ -2012,6 +2012,8 @@ if (!class_exists('p_lodgix')) {
         $deposits_table = $wpdb->prefix . "lodgix_deposits";     
         $reviews_table = $wpdb->prefix . "lodgix_reviews";       
         
+       
+        
         $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table . ' ORDER BY `order`'); 
         if ($properties)
         {
@@ -2049,6 +2051,7 @@ if (!class_exists('p_lodgix')) {
                   
                   if ($this->options['p_lodgix_vacation_rentals_page_de'] != NULL)
                   {
+                  	 
                       if ($this->options['p_lodgix_generate_german'])
                       {
                         $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT post_id FROM " . $properties_table . " WHERE id=" . $property->id . ";"));
@@ -2095,6 +2098,7 @@ if (!class_exists('p_lodgix')) {
                 			  			
                 if ($this->options['p_lodgix_generate_german'])
                 {
+                	
                   $post_id_de = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE property_id=" . $property->id);
                   $post = array();
                   $post['ID'] = $post_id_de;
@@ -2103,13 +2107,14 @@ if (!class_exists('p_lodgix')) {
                     $post['post_title'] = $property->description;
                   $single_property = '';
                   include('single_property_de.php');
-                  $post['post_content'] = $single_property;
-                  $post['post_status'] = 'publish';         
-                  $post_id_de = wp_update_post($post);                                          
+                  $post['post_status'] = 'publish';       
+                  $post['post_content'] = $single_property;  
+                  $post_id_de = wp_update_post($post);                      
                   $sql = "UPDATE " . $translation_table . " SET trid=" . $trid . ", language_code='de' WHERE element_id=" . $post_id_de;
                   $wpdb->query($sql);           
-                  $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id_de;
+                  $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id_de;                  
                   $wpdb->query($sql);                                   
+        
                 }
               }
               

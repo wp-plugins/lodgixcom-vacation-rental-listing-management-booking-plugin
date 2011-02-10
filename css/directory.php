@@ -61,6 +61,17 @@ div#lodgix_property_description h2 {
   padding-bottom:5px;  
 }
 
+div#lodgix_photo {
+  margin-top:10px;
+}
+
+div#lodgix_photo h2 {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;  
+}
+
+
 div#lodgix_property_details {
   margin-top:10px;
 }
@@ -457,6 +468,14 @@ border:0 none;
     height:50px;
 }
 
+#lodgix_property_badge_border {
+ background-color: #d7d7d7;
+ padding:2px;
+ -moz-border-radius: 11px;
+ -webkit-border-radius: 11px;
+ border-radius: 11px; 
+}
+
 #lodgix_property_badge {
 	background-color: #F0F7EE;
 	height: auto;
@@ -466,14 +485,14 @@ border:0 none;
 	padding-top: 10px;
 	padding-bottom: 5px;
 	
-	border: 1px solid #d7d7d7;
+	border: 0px solid #d7d7d7;
 	font-family:Verdana, Tahoma, Arial;
 	font-weight:bold;
 	
 	-moz-border-radius: 11px;
 	-webkit-border-radius: 11px;
 	border-radius: 11px;
-	behavior: url("__PLUGIN_FOLDER__css/border-radius.htc");
+
 }
 
 #lodgix_property_badge hr {
@@ -483,32 +502,33 @@ border:0 none;
 	height:2px;
 }
 
-.lodgix_property_badge_title {
+#lodgix_property_badge_title {
   vertical-align:top;
 	color: #8DB339;
 	font-size:16px;
 	padding:0px;
+	
 }
 
-.lodgix_property_badge_rooms {
-	font-size:11px;
+#lodgix_property_badge_rooms {
+	font-size:12px;
 	color: #000000;
 	
 }
 
-.lodgix_property_badge_rates {
+#lodgix_property_badge_rates {
   width:10px;
   white-space:nowrap;
   vertical-align:top; 
 }
 
-.lodgix_property_badge_icons_left {
+#lodgix_property_badge_icons_left {
  	text-align:left;
   height:50px;
   padding:0px;
 }
 
-.lodgix_property_badge_icons_right {
+#lodgix_property_badge_icons_right {
   width:10px;
   white-space:nowrap;
   height:50px;

@@ -63,7 +63,7 @@ $single_property .= '</center>';
 $single_property .= '<center><ul id="pikame">';
 foreach($photos as $photo)
 {
-      $photo_url = str_replace('media/gallery','photo/800/gallery',$photo->url);
+      $photo_url = str_replace('media/gallery','photo/640/gallery',$photo->url);
       $single_property .= '<li><a href="' . $photo_url . '"><img width="640px" height="480px" src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
 }
 $single_property .= '</ul><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></center><br/>';
@@ -349,4 +349,34 @@ $single_property .= '<p>&nbsp;</p><div id="map_canvas" style="width: 100%; heigh
     </script>
   </head>
 ';
+
+$single_property .= '<div id="lodgix_photo"><a id="lodgix_aGallery" href="#Gallery"></a>     
+                        <div id="lodgix_photo_top"></div>      
+                        <div id="lodgix_photo_body">
+                        <div id="lodgix_photo_zoom"></div>       
+                        <table class="lodgix_gallery" cellpadding="0" cellspacing="12">';
+$counter = 0;         
+$num_pics = 2;
+$single_property .= '<h2>Bilder</h2>';
+//if (get_current_theme() == "Thesis")              
+//  $num_pics = 3;
+foreach($photos as $photo)
+{
+      $photo_url = str_replace('media/gallery','photo/640/gallery',$photo->url);
+      if (($counter % $num_pics == 0) && ($counter != 0))
+      {
+         $single_property .= "<tr>";
+      }  
+                
+      $single_property .= '<td valign="top" align="center" style="border-bottom: 0;">';
+      $single_property .= '<a href="' . $photo_url . '" class="thickbox"  rel="gallery-images"><img src="' . $photo->thumb_url .'" height="150" width="200"  style="cursor:url(' . $p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
+            <div class="image_desc"></div> 
+            </td>
+               <div style="align:left"></div>
+            </td>';
+                          
+        
+   $counter++;
+}
+$single_property .= '</tr></table></div><div id="lodgix_photo_bottom"></div></div>';
 ?>

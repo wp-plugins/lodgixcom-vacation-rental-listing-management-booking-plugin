@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.12
+Version: 1.0.14
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.14: Fixed area array
 v1.0.10: Implemented areas
 v1.0.9: Fixed multi-language update issue
 v1.0.7: Fix single property availability
@@ -385,8 +386,11 @@ if (!class_exists('p_lodgix')) {
       global $wp_query;
       $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
       wp_enqueue_script('jquery');
+      wp_enqueue_script('thickbox');
+      wp_enqueue_style('thickbox');      
       wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
       wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
+      wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');
       if( $wp_query->post->post_type == 'page' ) {
         if ($this->options['p_lodgix_thesis_compatibility'])
           include('thesis_no_sidebars.php');
@@ -459,6 +463,7 @@ if (!class_exists('p_lodgix')) {
 												self.anchor.fancybox();
 											};
 											jQuery("#pikame").PikaChoose({buildFinished:a,autoPlay:false,showTooltips:false});
+											jQuery('#lodgix_property_badge').corner("round 8px").parent().css('padding', '2px').corner("round 10px")
 										});
 				
 							-->
@@ -2827,6 +2832,14 @@ if (!class_exists('p_lodgix')) {
                     $cleaned = true;
                   }                   
                   
+								  $areas_pages = unserialize($this->options['p_lodgix_areas_pages']);
+									$areas_pages_de = unserialize($this->options['p_lodgix_areas_pages_de']);
+									if (!is_array($areas_pages))
+										$this->options['p_lodgix_areas_pages'] = serialize(array());
+									if (!is_array($areas_pages_de))
+										$this->options['p_lodgix_areas_pages_de'] = serialize(array());
+									$this->saveAdminOptions();		
+									                  
                   $this->clear_revisions();
                   
                   if ($_POST['p_lodgix_allow_comments'] == "on")

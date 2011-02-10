@@ -217,7 +217,7 @@ if (!class_exists('p_lodgix')) {
           if (!file_exists($folder))
             mkdir($folder, 0755,true);
           
-          file_put_contents($folder . '/' . $file, @file_get_contents($pic->thumb_url,0,$context));
+          file_put_contents($folder . '/' . $file, file_get_contents($pic->thumb_url,0,$context));
         }
         if (file_exists($folder . '/' . $file))
         {
@@ -235,7 +235,7 @@ if (!class_exists('p_lodgix')) {
           if (!file_exists($folder))
             mkdir($folder, 0755,true);
           
-          file_put_contents($folder . '/' . $file, @file_get_contents($pic->url,0,$context));
+          file_put_contents($folder . '/' . $file, file_get_contents($pic->url,0,$context));
           
         }
         if (file_exists($folder . '/' . $file))
@@ -2299,7 +2299,7 @@ if (!class_exists('p_lodgix')) {
       		ini_set('max_execution_time', 0);
       		$context = stream_context_create(array('http' => array('timeout' => 120)));      
           $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
-          @$xml = file_get_contents($fetch_url,0,$context);      
+          $xml = file_get_contents($fetch_url,0,$context);      
           if ($xml)
           {  
             $root = new DOMDocument();  
@@ -2916,7 +2916,7 @@ if (!class_exists('p_lodgix')) {
                   $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
  
  									$context = stream_context_create(array('http' => array('timeout' => 120)));                                       
-                  @$xml = file_get_contents($owner_fetch_url,0,$context);
+                  $xml = file_get_contents($owner_fetch_url,0,$context);
                 
                   $ROOT_HEIGHT = 84;
                   $root = new DOMDocument();  
@@ -2933,7 +2933,7 @@ if (!class_exists('p_lodgix')) {
                     $this->update_owner($owner);                  
                     $this->saveAdminOptions();  
                                      
-                    @$xml = file_get_contents($fetch_url,0,$context);
+                    $xml = file_get_contents($fetch_url,0,$context);
                     if ($xml)
                     {
                       $root = new DOMDocument();  

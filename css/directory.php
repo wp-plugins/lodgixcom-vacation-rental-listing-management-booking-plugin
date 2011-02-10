@@ -447,7 +447,6 @@ border:0 none;
 
 #lodgix_property_badge {
 	background-color: #F0F7EE;
-	width: 700px;
 	height: auto;
 #	margin: 0 auto 15px auto;
 	padding-left: 20px;
@@ -473,6 +472,7 @@ border:0 none;
 }
 
 .lodgix_property_badge_title {
+  vertical-align:top;
 	color: #8DB339;
 	font-size:16px;
 	padding:0px;
@@ -480,6 +480,7 @@ border:0 none;
 
 .lodgix_property_badge_rooms {
 	font-size:11px;
+	color: #000000;
 	
 }
 
@@ -490,11 +491,14 @@ border:0 none;
 }
 
 .lodgix_property_badge_icons_left {
+ 	text-align:left;
   height:50px;
   padding:0px;
 }
 
 .lodgix_property_badge_icons_right {
+  width:10px;
+  white-space:nowrap;
   height:50px;
   padding:0px;
 }

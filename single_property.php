@@ -24,6 +24,14 @@ if ($property->min_weekly_rate > 0)
 $min_daily_rate = "";
 if ($property->min_daily_rate > 0)
 	$min_daily_rate = 'from '. $property->currency_symbol . $property->min_daily_rate . ' per /nt<br>';
+	
+$pets = "";
+if (!$property->pets)
+	$property->pets = "display:none;";
+
+$smoking = "";
+if (!$property->smoking)
+	$property->smoking = "display:none;";
 
 $single_property .= '<center>';
 $single_property .= '<div id="lodgix_property_badge">';
@@ -36,8 +44,8 @@ $single_property .= '<table width="100%">
 										<hr>
 										<table width="100%">												
 													<tr>
-														<td class="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a></td>
-														<td class="lodgix_property_badge_icons_right"></td>
+														<td class="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . 'images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a></td>
+														<td class="lodgix_property_badge_icons_right"><img src="' . $p_plugin_path  . '/images/no_pets.png" syle="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" syle="' . $smoking . '"></td>
 													</tr>
 										</table>';
 $single_property .= '</div>';

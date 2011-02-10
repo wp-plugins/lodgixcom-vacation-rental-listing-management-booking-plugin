@@ -9,22 +9,35 @@ $reviews = $wpdb->get_results($sql);
 $sql = "SELECT * FROM " . $pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';
 $photos = $wpdb->get_results($sql);
 
+$property_area = "";
+if ($property->area != "")
+	$property_area = " at " . $property->area;
+
+$property_city = "";
+if ($property->city != "")
+	$property_city = " in " . $property->city;
+
+$min_weekly_rate = "";
+if ($property->min_weekly_rate > 0)
+	$min_weekly_rate = 'from '. $property->currency_symbol . $property->min_weekly_rate . ' per /wk<br>';
+
+$min_daily_rate = "";
+if ($property->min_daily_rate > 0)
+	$min_daily_rate = 'from '. $property->currency_symbol . $property->min_daily_rate . ' per /nt<br>';
 
 $single_property .= '<center>';
 $single_property .= '<div id="lodgix_property_badge">';
 $single_property .= '<table width="100%">												
 													<tr>
-														<td class="lodgix_property_badge_title">Simple Sanibel at Test Area</td>
-														<td>&nbsp;</td>
-													</tr>
-													<tr>
-														<td rowspan="2"></td>
+														<td class="lodgix_property_badge_title">' .  $property->description . $property_area . '<div class="lodgix_property_badge_rooms">' . $property->bedrooms .' Bedroom | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '</div></td>
+														<td class="lodgix_property_badge_rates">' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a></td>
 													</tr>
 										</table>
 										<hr>
 										<table width="100%">												
 													<tr>
 														<td class="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a></td>
+														<td class="lodgix_property_badge_icons_right"></td>
 													</tr>
 										</table>';
 $single_property .= '</div>';

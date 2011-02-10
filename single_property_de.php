@@ -66,7 +66,7 @@ foreach($photos as $photo)
       $photo_url = str_replace('media/gallery','photo/800/gallery',$photo->url);
       $single_property .= '<li><a href="' . $photo_url . '"><img width="640px" height="480px" src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
 }
-$single_property .= '</ul></center><br/><br/>';
+$single_property .= '</ul><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></center><br/>';
 
 if ($german_details->description_long != "")
 {
@@ -80,9 +80,10 @@ if (count($amenities) >= 1)
  foreach($amenities as $amenity)
  {
   $amenity_name = $wpdb->get_var("select description_de from " . $lang_amenities_table . " WHERE description='" . $amenity->description . "';"); 
-  $single_property .= '<li>' . $amenity_name . '</li>';
+  if ($amenity_name != "")
+  	$single_property .= '<li>' . $amenity_name . '</li>';
  }
- $single_property .= '</ul></div><br><br>';
+ $single_property .= '</ul></div><p></p>';
 } 
 
 if (count($reviews) >= 1)
@@ -316,7 +317,7 @@ if ($property->allow_booking == 0)
    $static = '_static';
 }   
 
-$single_property .= "</div>&nbsp;";
+
 $single_property .= '<br><br><div align="center" style="margin-top:10px;"><h2 id="booking" style="margin-bottom:10px;">Verf&uuml;gbarkeit und Buchungskalender</h2><br><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $property->owner_id . '&amp;propertyID=' . $property->id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $static .'.swf" flashvars="propertyOwnerID=' . $property->owner_id  . '&amp;propertyID=' . $property->id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
 if (($single_unit_helptext != '') && ($property->allow_booking == 1) && ($this->options['p_lodgix_display_single_instructions'] == 1))
 {

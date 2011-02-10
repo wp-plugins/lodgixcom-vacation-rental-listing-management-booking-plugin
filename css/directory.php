@@ -73,6 +73,8 @@ div#lodgix_property_details h2 {
 
 div#lodgix_property_amenities {
   margin-top:10px;
+  margin-bottom:20px;
+  padding-bottom:20px;
 }
 
 div#lodgix_property_amenities h2 {
@@ -82,7 +84,7 @@ div#lodgix_property_amenities h2 {
 }
 
 div#lodgix_property_rates {
-  margin-top:20px;
+  margin-top:10px;
 }
 
 div#lodgix_property_rates h2 {
@@ -304,7 +306,7 @@ height:25px;
 ul.amenities {
 float:left;
 margin-left:0;
-margin-bottom: 10px;
+margin-bottom: 20px;
 padding:0;
 width:100%;
 }

@@ -62,7 +62,7 @@ foreach($photos as $photo)
  
   $single_property .= '<li><a href="' . $photo_url . '"><img src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
 }
-$single_property .= '</ul></center><br/><br/>';
+$single_property .= '</ul><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></center><br/>';
 
 $single_property .= '<div id="lodgix_property_description"><p><h2>Property Description</h2></p>' . $property->description_long . '</div>';
 $single_property .= '<div id="lodgix_property_details"><p><h2>Property Details</h2></p>' . $property->details . '</div>';
@@ -283,14 +283,14 @@ if ($policies || $taxes || $fees || $deposits)
 else
 {
   $single_property .= "<br/>";
-}
+}*/
 
 $static = '';
 if ($property->allow_booking == 0)
 {
    $static = '_static';
 }   
-$single_property .= "</div>&nbsp;";*/
+
 
 
 $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));

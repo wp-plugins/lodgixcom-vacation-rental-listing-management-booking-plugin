@@ -201,7 +201,7 @@ if (!class_exists('p_lodgix')) {
       $pictures_path = WP_CONTENT_DIR.'/lodgix_pictures'; 
       $pictures_url = WP_CONTENT_URL.'/lodgix_pictures'; 
       $plugin_url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)); 
-      $sql = "SELECT * FROM " . $pictures_table . " WHERE url LIKE 'http://www.lodgix.com/media/gallery/%'";
+      $sql = "SELECT * FROM " . $pictures_table . " WHERE url LIKE 'http://www.lodgix.com/photo/640/gallery/%'";
       $pictures = $wpdb->get_results($sql);
 			$context = stream_context_create(array('http' => array('timeout' => 120)));                                       
                   
@@ -227,7 +227,7 @@ if (!class_exists('p_lodgix')) {
               $wpdb->query("UPDATE " . $properties_table . " SET main_image_thumb='" . $new_url . "' WHERE main_image_thumb='" . $pic->thumb_url . "'");
         }
         
-        $path = str_replace('http://www.lodgix.com/media/gallery/','',$pic->url);
+        $path = str_replace('http://www.lodgix.com/photo/640/gallery/','',$pic->url);
         $file = basename($path);
         $folder = $pictures_path . '/' . str_replace('/' . $file,'',$path);
         if (!file_exists($folder . '/' . $file))
@@ -1407,6 +1407,7 @@ if (!class_exists('p_lodgix')) {
             $wpdb->query($sql);        
           }     
         }             
+        //$this->p_lodgix_download_images();
         wp_schedule_single_event(time()+5, 'p_lodgix_download_images');
       }
 

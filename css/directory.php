@@ -82,7 +82,7 @@ div#lodgix_property_amenities h2 {
 }
 
 div#lodgix_property_rates {
-  margin-top:10px;
+  margin-top:20px;
 }
 
 div#lodgix_property_rates h2 {
@@ -503,6 +503,8 @@ border:0 none;
   padding:0px;
 }
 
+
+
 /*
  * FancyBox - jQuery Plugin
  * Simple and fancy lightbox alternative
@@ -898,7 +900,7 @@ border:0 none;
 .clip span{background-color:black;position:absolute;top:0px;left:5px;display:block;}
 .pika-tooltip{font-size:12px;position:absolute;color:white;padding:3px; background-color: rgba(0,0,0,0.7);border:3px solid black;}
 
-ul#pikame{width:660px;margin-bottom:10px;}
+ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin-right:10px;}
 
 
 

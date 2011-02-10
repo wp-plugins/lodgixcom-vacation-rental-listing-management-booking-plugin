@@ -22,8 +22,9 @@ if ($property->min_weekly_rate > 0)
 	$min_weekly_rate = 'from '. $property->currency_symbol . $property->min_weekly_rate . ' per /wk<br>';
 
 $min_daily_rate = "";
-if ($property->min_daily_rate > 0)
+if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates'])
 	$min_daily_rate = 'from '. $property->currency_symbol . $property->min_daily_rate . ' per /nt<br>';
+	
 	
 $pets = "";
 if (!$property->pets)
@@ -88,7 +89,7 @@ if (count($reviews) >= 1)
  $single_property .= '<br><br>';
 } 
 
-$single_property .= '<script language="javascript"><!--$(document).ready(function (){var a = function(self){self.anchor.fancybox();};$("#pikame").PikaChoose({buildFinished:a});});--></script>';
+
 
 /*
 
@@ -288,8 +289,24 @@ if ($property->allow_booking == 0)
 $single_property .= "</div>&nbsp;";*/
 
 
+$low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
+$high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
+$low_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
+$high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
+$low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
+$high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
 
-/*
+$single_property .= '<div id="lodgix_property_rates"><h2>Rates</h2>';
+if ($this->options['p_lodgix_display_daily_rates'])
+	$single_property .= 'Daily Rate:	' . $low_daily_rate  . ' -  ' . $high_daily_rate . ' per night<br/>';
+$single_property .= 'Weekly Rate:	' . $low_weekly_rate  . ' - ' . $high_weekly_rate . ' per week<br/>';
+$single_property .= 'Monthly Rate:	' . $low_monthly_rate  . ' - ' . $high_monthly_rate  . ' per month<br/>';
+$single_property .= '- Rate varies due to seasonality and holidays.<br/>';
+$single_property .= '- Please select your dates on our online booking calendar for an exact quote.<br/>';
+$single_property .= '</div>';
+
+
+
 $single_property .= '<br/><br/><div align="center" style="margin-top:10px;"><h2 id="booking" style="margin-bottom:10px;">Availability & Booking Calendar</h2><br><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $property->owner_id . '&amp;propertyID=' . $property->id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $static .'.swf" flashvars="propertyOwnerID=' . $property->owner_id  . '&amp;propertyID=' . $property->id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
 if (($single_unit_helptext != '') && ($property->allow_booking == 1) && ($this->options['p_lodgix_display_single_instructions'] == 1))
 {
@@ -299,7 +316,7 @@ else
 {
   $single_property .= '</div>';
 }
-*/
+
 
 $single_property .= '<p>&nbsp;</p><div id="map_canvas" style="width: 100%; height: 300px"></div>
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $this->options['p_google_maps_api'] . '"type="text/javascript"></script>

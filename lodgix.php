@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.12
+Version: 1.0.14
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.14: Fixed area array
 v1.0.10: Implemented areas
 v1.0.9: Fixed multi-language update issue
 v1.0.7: Fix single property availability
@@ -2737,7 +2738,15 @@ if (!class_exists('p_lodgix')) {
                     $this->clean_all();
                     $cleaned = true;
                   }                   
-                  
+								  
+								  $areas_pages = unserialize($this->options['p_lodgix_areas_pages']);
+									$areas_pages_de = unserialize($this->options['p_lodgix_areas_pages_de']);
+									if (!is_array($areas_pages))
+										$this->options['p_lodgix_areas_pages'] = serialize(array());
+									if (!is_array($areas_pages_de))
+										$this->options['p_lodgix_areas_pages_de'] = serialize(array());
+									$this->saveAdminOptions();				
+									                  
                   $this->clear_revisions();
                   
                   if ($_POST['p_lodgix_allow_comments'] == "on")
@@ -2790,7 +2799,7 @@ if (!class_exists('p_lodgix')) {
                   if ((!$this->options['p_lodgix_vr_title']) || ($this->options['p_lodgix_vr_title'] == ''))
                     $this->options['p_lodgix_vr_title'] = "Vacation Rentals";
 									$this->saveAdminOptions();
-									
+
 								
 					
                   $post = array();

@@ -57,7 +57,50 @@ div#lodgix_property_description {
 
 div#lodgix_property_description h2 {
   margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;  
 }
+
+div#property_policies {
+  margin-top:10px;
+}
+
+div#property_policies h2 {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;  
+}
+
+div#lodgix_property_booking {
+  margin-top:10px;
+}
+
+div#lodgix_property_booking h2#booking {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;  
+}
+
+div#lodgix_property_location {
+  margin-top:10px;
+}
+
+div#lodgix_property_location h2 {
+  margin-bottom:20px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;  
+}
+
+div#lodgix_photo {
+  margin-top:10px;
+}
+
+div#lodgix_photo h2 {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;  
+}
+
 
 div#lodgix_property_details {
   margin-top:10px;
@@ -65,6 +108,40 @@ div#lodgix_property_details {
 
 div#lodgix_property_details h2 {
   margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;
+}
+
+div#lodgix_property_amenities {
+  margin-top:10px;
+  margin-bottom:20px;
+  padding-bottom:20px;
+}
+
+div#lodgix_property_amenities h2 {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;
+}
+
+div#lodgix_property_rates {
+  margin-top:10px;
+}
+
+div#lodgix_property_rates h2 {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;
+}
+
+div#lodgix_property_reviews {
+  margin-top:20px;
+}
+
+div#lodgix_property_reviews h2 {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;
 }
 
 #content_lodgix {
@@ -270,7 +347,7 @@ height:25px;
 ul.amenities {
 float:left;
 margin-left:0;
-margin-bottom: 10px;
+margin-bottom: 20px;
 padding:0;
 width:100%;
 }
@@ -398,28 +475,499 @@ border:0 none;
 	padding-top:4px;
 }
 
-.lodgix_image_cell_icons {
-    width:200px;
-}
-.lodgix_google_map_icon {
 
+.lodgix_image_cell_icons {
+   width:200px;
+   margin-top:5px;
+   text-align:center;
+}
+
+.lodgix_google_map_icon {
+	float:left;
 }
 .lodgix_contact_us_icon {
-
+	float:left;
 }
-.lodgix_search_icon {
-
+.lodgix_details_icon {
+	float:left;
 }
+
 .lodgix_availability_icon {
-	background: url("__PLUGIN_FOLDER__images/Lodgix200x50.png");
-	width:200px;
-	height:50px;
-	margin-bottom:5px;
+	float:left;
 }
-.lodgix_image_cell_icons td {
-    width:50px;
-    height:50px;
+
+
+#lodgix_property_badge_border {
+ background-color: #d7d7d7;
+ padding:4px;
+ -moz-border-radius: 10px;
+ -webkit-border-radius: 10px;
+ border-radius: 10px; 
 }
+
+.lodgix_nowrap {
+	white-space: nowrap;
+}
+
+#lodgix_property_badge {
+	background-color: #F0F7EE;
+	height: auto;
+#	margin: 0 auto 15px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	
+	border: 1px solid #d7d7d7;
+	font-family:Verdana, Tahoma, Arial;
+	font-weight:bold;
+	
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+
+}
+
+#lodgix_property_badge hr {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width:100%;
+	height:1px;
+}
+
+#lodgix_property_badge_title {
+  vertical-align:top;
+	color: #8DB339;
+	font-size:16px;
+	padding:0px;
+	
+}
+
+#lodgix_property_badge_rooms {
+	font-size:12px;
+	color: #000000;
+	
+}
+
+#lodgix_property_badge_rates {
+  width:10px;
+  white-space:nowrap;
+  vertical-align:top; 
+}
+
+#lodgix_property_badge_icons_left {
+ 	text-align:left;
+  height:50px;
+  padding:0px;
+}
+
+#lodgix_property_badge_icons_right {
+  width:10px;
+  white-space:nowrap;
+  height:50px;
+  padding:0px;
+}
+
+
+
+/*
+ * FancyBox - jQuery Plugin
+ * Simple and fancy lightbox alternative
+ *
+ * Examples and documentation at: http:/fancybox.net
+ * 
+ * Copyright (c) 2008 - 2010 Janis Skarnelis
+ * That said, it is hardly a one-person project. Many people have submitted bugs, code, and offered their advice freely. Their support is greatly appreciated.
+ * 
+ * Version: 1.3.4 (11/11/2010)
+ * Requires: jQuery v1.3+
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ *   http:/www.opensource.org/licenses/mit-license.php
+ *   http:/www.gnu.org/licenses/gpl.html
+*/
+
+
+#fancybox-loading {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 40px;
+	height: 40px;
+	margin-top: -20px;
+	margin-left: -20px;
+	cursor: pointer;
+	overflow: hidden;
+	z-index: 1104;
+	display: none;
+}
+
+#fancybox-loading div {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 40px;
+	height: 480px;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox.png");
+}
+
+#fancybox-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1100;
+	display: none;
+}
+
+#fancybox-tmp {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	overflow: auto;
+	display: none;
+}
+
+#fancybox-wrap {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 20px;
+	z-index: 1101;
+	outline: none;
+	display: none;
+}
+
+#fancybox-outer {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+}
+
+#fancybox-content {
+	width: 0;
+	height: 0;
+	padding: 0;
+	outline: none;
+	position: relative;
+	overflow: hidden;
+	z-index: 1102;
+	border: 0px solid #fff;
+}
+
+#fancybox-hide-sel-frame {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: transparent;
+	z-index: 1101;
+}
+
+#fancybox-close {
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	width: 30px;
+	height: 30px;
+	background: transparent url("__PLUGIN_FOLDER__gallery/fancybox.png") -40px 0px;
+	cursor: pointer;
+	z-index: 1103;
+	display: none;
+}
+
+#fancybox-error {
+	color: #444;
+	font: normal 12px/20px Arial;
+	padding: 14px;
+	margin: 0;
+}
+
+#fancybox-img {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	border: none;
+	outline: none;
+	line-height: 0;
+	vertical-align: top;
+}
+
+#fancybox-frame {
+	width: 100%;
+	height: 100%;
+	border: none;
+	display: block;
+}
+
+#fancybox-left, #fancybox-right {
+	position: absolute;
+	bottom: 0px;
+	height: 100%;
+	width: 35%;
+	cursor: pointer;
+	outline: none;
+	background: transparent url("blank.gif");
+	z-index: 1102;
+	display: none;
+}
+
+#fancybox-left {
+	left: 0px;
+}
+
+#fancybox-right {
+	right: 0px;
+}
+
+#fancybox-left-ico, #fancybox-right-ico {
+	position: absolute;
+	top: 50%;
+	left: -9999px;
+	width: 30px;
+	height: 30px;
+	margin-top: -15px;
+	cursor: pointer;
+	z-index: 1102;
+	display: block;
+}
+
+#fancybox-left-ico {
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox.png");
+	background-position: -40px -30px;
+}
+
+#fancybox-right-ico {
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox.png");
+	background-position: -40px -60px;
+}
+
+#fancybox-left:hover, #fancybox-right:hover {
+	visibility: visible; /* IE6 */
+}
+
+#fancybox-left:hover span {
+	left: 20px;
+}
+
+#fancybox-right:hover span {
+	left: auto;
+	right: 20px;
+}
+
+.fancybox-bg {
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	width: 20px;
+	height: 20px;
+	z-index: 1001;
+}
+
+#fancybox-bg-n {
+	top: -20px;
+	left: 0;
+	width: 100%;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox-x.png");
+}
+
+#fancybox-bg-ne {
+	top: -20px;
+	right: -20px;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox.png");
+	background-position: -40px -162px;
+}
+
+#fancybox-bg-e {
+	top: 0;
+	right: -20px;
+	height: 100%;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox-y.png");
+	background-position: -20px 0px;
+}
+
+#fancybox-bg-se {
+	bottom: -20px;
+	right: -20px;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox.png");
+	background-position: -40px -182px; 
+}
+
+#fancybox-bg-s {
+	bottom: -20px;
+	left: 0;
+	width: 100%;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox-x.png");
+	background-position: 0px -20px;
+}
+
+#fancybox-bg-sw {
+	bottom: -20px;
+	left: -20px;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox.png");
+	background-position: -40px -142px;
+}
+
+#fancybox-bg-w {
+	top: 0;
+	left: -20px;
+	height: 100%;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox-y.png");
+}
+
+#fancybox-bg-nw {
+	top: -20px;
+	left: -20px;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancybox.png");
+	background-position: -40px -122px;
+}
+
+#fancybox-title {
+	font-family: Helvetica;
+	font-size: 12px;
+	z-index: 1102;
+}
+
+.fancybox-title-inside {
+	padding-bottom: 10px;
+	text-align: center;
+	color: #333;
+	background: #fff;
+	position: relative;
+}
+
+.fancybox-title-outside {
+	padding-top: 10px;
+	color: #fff;
+}
+
+.fancybox-title-over {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	color: #FFF;
+	text-align: left;
+}
+
+#fancybox-title-over {
+	padding: 10px;
+	background-image: url("__PLUGIN_FOLDER__gallery/fancy_title_over.png");
+	display: block;
+}
+
+.fancybox-title-float {
+	position: absolute;
+	left: 0;
+	bottom: -20px;
+	height: 32px;
+}
+
+#fancybox-title-float-wrap {
+	border: none;
+	border-collapse: collapse;
+	width: auto;
+}
+
+#fancybox-title-float-wrap td {
+	border: none;
+	white-space: nowrap;
+}
+
+#fancybox-title-float-left {
+	padding: 0 0 0 15px;
+	background: url("__PLUGIN_FOLDER__gallery/fancybox.png") -40px -90px no-repeat;
+}
+
+#fancybox-title-float-main {
+	color: #FFF;
+	line-height: 29px;
+	font-weight: bold;
+	padding: 0 0 3px 0;
+	background: url("__PLUGIN_FOLDER__gallery/fancybox-x.png") 0px -40px;
+}
+
+#fancybox-title-float-right {
+	padding: 0 0 0 15px;
+	background: url("__PLUGIN_FOLDER__gallery/fancybox.png") -55px -90px no-repeat;
+}
+
+/* IE6 */
+
+.fancybox-ie6 #fancybox-close { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_close.png", sizingMethod="scale"); }
+
+.fancybox-ie6 #fancybox-left-ico { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_nav_left.png", sizingMethod="scale"); }
+.fancybox-ie6 #fancybox-right-ico { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_nav_right.png", sizingMethod="scale"); }
+
+.fancybox-ie6 #fancybox-title-over { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_title_over.png", sizingMethod="scale"); zoom: 1; }
+.fancybox-ie6 #fancybox-title-float-left { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_title_left.png", sizingMethod="scale"); }
+.fancybox-ie6 #fancybox-title-float-main { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_title_main.png", sizingMethod="scale"); }
+.fancybox-ie6 #fancybox-title-float-right { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_title_right.png", sizingMethod="scale"); }
+
+.fancybox-ie6 #fancybox-bg-w, .fancybox-ie6 #fancybox-bg-e, .fancybox-ie6 #fancybox-left, .fancybox-ie6 #fancybox-right, #fancybox-hide-sel-frame {
+	height: expression(this.parentNode.clientHeight + "px");
+}
+
+#fancybox-loading.fancybox-ie6 {
+	position: absolute; margin-top: 0;
+	top: expression( (-20 + (document.documentElement.clientHeight ? document.documentElement.clientHeight/2 : document.body.clientHeight/2 ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop )) + "px");
+}
+
+#fancybox-loading.fancybox-ie6 div	{ background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_loading.png", sizingMethod="scale"); }
+
+/* IE6, IE7, IE8 */
+
+.fancybox-ie .fancybox-bg { background: transparent !important; }
+
+.fancybox-ie #fancybox-bg-n { filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_shadow_n.png", sizingMethod="scale"); }
+.fancybox-ie #fancybox-bg-ne { filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_shadow_ne.png", sizingMethod="scale"); }
+.fancybox-ie #fancybox-bg-e { filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_shadow_e.png", sizingMethod="scale"); }
+.fancybox-ie #fancybox-bg-se { filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_shadow_se.png", sizingMethod="scale"); }
+.fancybox-ie #fancybox-bg-s { filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_shadow_s.png", sizingMethod="scale"); }
+.fancybox-ie #fancybox-bg-sw { filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_shadow_sw.png", sizingMethod="scale"); }
+.fancybox-ie #fancybox-bg-w { filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_shadow_w.png", sizingMethod="scale"); }
+.fancybox-ie #fancybox-bg-nw { filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="__PLUGIN_FOLDER__gallery/fancy_shadow_nw.png", sizingMethod="scale"); }
+
+
+
+
+.pikachoose{width: 660px; margin: 0 auto;}
+
+.pika-image {position: relative; height: 480px; width: 640px; background: #fafafa; border: 1px solid #e5e5e5; padding: 10px;}
+	/*position image holders */
+	.pika-image .animation, .pika-image .main-image {position: absolute; top: 10px; left: 10px;}
+	.pika-image .animation {display: none;z-index:2;}
+	.pika-image img {border:0;width:640px;height:480px; }
+
+.pika-image .caption {position: absolute; background: url(__PLUGIN_FOLDER__gallery/75-black.png);  border: 1px solid #141414; font-size: 11px; color: #fafafa; padding: 10px; text-align: right; bottom: 30px; right: 10px;}
+	.pika-image .caption p {padding: 0; margin: 0; line-height: 14px;}
+
+.pika-imgnav a {position: absolute; text-indent: -5000px; display: none;z-index:3;}
+	.pika-imgnav a.previous {background: url(__PLUGIN_FOLDER__gallery/prev.png) no-repeat left 50%; height: 480px; width: 50px; top: 10px; left: 10px;cursor:pointer;}
+	.pika-imgnav a.next {background: url(__PLUGIN_FOLDER__gallery/next.png) no-repeat right 50%; height: 480px; width: 50px; top: 10px; right: 10px;cursor:pointer;}
+	.pika-imgnav a.play {background: url(__PLUGIN_FOLDER__gallery/play.png) no-repeat 50% 50%; height: 100px; width: 40px;top:0;left:50%;display: none;cursor:pointer;}
+	.pika-imgnav a.pause {background: url(__PLUGIN_FOLDER__gallery/pause.png) no-repeat 50% 50%; height: 100px; width: 40px;top:0;left:50%;display:none;cursor:pointer;}
+
+.pika-textnav {overflow: hidden; margin: 10px 0 0 0; display:none;}
+.pika-textnav a {font-size: 12px; text-decoration: none; font-family:  helvetica, arial, sans-serif; color: #333; padding: 4px;}
+		.pika-textnav a:hover {background: #e5e5e5; color: #0065B2;}
+	.pika-textnav a.previous {float: left; width: auto; display: block;}
+	.pika-textnav a.next {float: right; width: auto; display: block;}
+	
+.pika-thumbs {margin: 10px 0 0 0; padding: 0; overflow: hidden; }
+	.pika-thumbs li {float: left; list-style-type: none; width: 82px; padding: 3px; margin: 0 2px; background: #fafafa; border: 1px solid #e5e5e5; cursor: pointer;}
+		.pika-thumbs li:last {margin: 0;}
+		.pika-thumbs li .clip {position:relative;width: 74px; height: 74px; text-align: center; vertical-align: center; overflow: hidden;}
+
+.clip span{background-color:black;position:absolute;top:0px;left:5px;display:block;}
+.pika-tooltip{font-size:12px;position:absolute;color:white;padding:3px; background-color: rgba(0,0,0,0.7);border:3px solid black;}
+
+ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin-right:10px;}
+
+
 
 ';
 

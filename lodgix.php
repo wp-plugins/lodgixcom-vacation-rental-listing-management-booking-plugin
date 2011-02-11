@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.14
+Version: 1.0.15
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.15: New property page design
 v1.0.14: Fixed area array
 v1.0.10: Implemented areas
 v1.0.9: Fixed multi-language update issue
@@ -20,7 +21,7 @@ v1.0.0: Initial release
 */
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "1.0";
+$p_lodgix_db_version = "1.2";
 
 
 if (!class_exists('p_lodgix')) {
@@ -202,8 +203,10 @@ if (!class_exists('p_lodgix')) {
       $pictures_path = WP_CONTENT_DIR.'/lodgix_pictures'; 
       $pictures_url = WP_CONTENT_URL.'/lodgix_pictures'; 
       $plugin_url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)); 
-      $sql = "SELECT * FROM " . $pictures_table . " WHERE url LIKE 'http://www.lodgix.com/media/gallery/%'";
+      $sql = "SELECT * FROM " . $pictures_table . " WHERE url LIKE 'http://www.lodgix.com/photo/0/gallery/%'";
       $pictures = $wpdb->get_results($sql);
+			$context = stream_context_create(array('http' => array('timeout' => 120)));                                       
+                  
       if (!file_exists($pictures_path ))
          mkdir($folder, 0755,true);
       foreach($pictures as $pic)
@@ -216,7 +219,7 @@ if (!class_exists('p_lodgix')) {
           if (!file_exists($folder))
             mkdir($folder, 0755,true);
           
-          file_put_contents($folder . '/' . $file, file_get_contents($pic->thumb_url));
+          file_put_contents($folder . '/' . $file, file_get_contents($pic->thumb_url,0,$context));
         }
         if (file_exists($folder . '/' . $file))
         {
@@ -226,7 +229,7 @@ if (!class_exists('p_lodgix')) {
               $wpdb->query("UPDATE " . $properties_table . " SET main_image_thumb='" . $new_url . "' WHERE main_image_thumb='" . $pic->thumb_url . "'");
         }
         
-        $path = str_replace('http://www.lodgix.com/media/gallery/','',$pic->url);
+        $path = str_replace('http://www.lodgix.com/photo/0/gallery/','',$pic->url);
         $file = basename($path);
         $folder = $pictures_path . '/' . str_replace('/' . $file,'',$path);
         if (!file_exists($folder . '/' . $file))
@@ -234,7 +237,7 @@ if (!class_exists('p_lodgix')) {
           if (!file_exists($folder))
             mkdir($folder, 0755,true);
           
-          file_put_contents($folder . '/' . $file, file_get_contents($pic->url));
+          file_put_contents($folder . '/' . $file, file_get_contents($pic->url,0,$context));
           
         }
         if (file_exists($folder . '/' . $file))
@@ -385,7 +388,10 @@ if (!class_exists('p_lodgix')) {
       $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
       wp_enqueue_script('jquery');
       wp_enqueue_script('thickbox');
-      wp_enqueue_style('thickbox');
+      wp_enqueue_style('thickbox');      
+      wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
+      wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
+      wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');
       if( $wp_query->post->post_type == 'page' ) {
         if ($this->options['p_lodgix_thesis_compatibility'])
           include('thesis_no_sidebars.php');
@@ -450,6 +456,20 @@ if (!class_exists('p_lodgix')) {
                    });
                  }
               </script>
+              <script language="javascript">
+									<!--
+										jQuery(document).ready(
+											function (){
+												var a = function(self){
+												self.anchor.fancybox();
+											};
+											jQuery("#pikame").PikaChoose({buildFinished:a,autoPlay:false,showTooltips:false,speed:5000});
+											jQuery('#lodgix_property_badge').corner("round 8px");
+										});
+				
+							-->
+							</script>
+
             <?php
             echo '<!-- End Of Lodgix -->'."\n";
     }
@@ -626,6 +646,72 @@ if (!class_exists('p_lodgix')) {
        );";      
        $wpdb->query($sql);             
       }        
+      
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Access to beach', 'Zugang zum Strand')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Balcony', 'Balkon')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Beachfront', 'Direkt am Strand')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Bed Linens', 'Bettwäsche')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Bike Rentals', 'Fahrrad Verleih')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Biking', 'Radfahren')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Cable Television', 'Kabelfernsehen')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Catering', 'Versorgung mit Lebensmitteln')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Central A/C', 'Zentrale Klimaanlage')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Central Heat', 'Zentralheizung')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Charcoal Grill', 'Holzkohlengrill')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Chef', 'Koch')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Coffee Maker', 'Kaffeemaschine')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Cookware', 'Kochutensilien')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Dishwasher', 'Geschirrspülmaschine')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Dock', 'Bootsanlegestelle')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Downhill Skiing', 'Abfahrts-Skilaufen')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('DVD', 'DVD-Spieler')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Fax', 'Faxgerät')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Fire Pit', 'offene Feuerstelle')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Fireplace', 'offener Kamin')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Fishing', 'Fischen und Angeln')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Gas Grill', 'Gasgrill')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Golfing', 'Golfspielen')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Hair Dryer', 'Haarfön')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Handicap Accessible', 'Behindertengerecht')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('HDTV/Blu-ray', 'HDTV/Blu-ray')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Hi Speed Internet', 'Hi Speed Internet')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Hiking', 'Wandern')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Iron', 'Bügeleisen')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Jacuzzi', 'Whirlpool')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Kayak', 'Kayak')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Kitchen', 'Küche')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Lakefront', 'See Lage')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Microwave', 'Mikrowelle')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Mountain Views', 'Bergpanorama')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Oceanfront', 'Blick aufs Meer')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Oven', 'Ofen')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Parking', 'Parkmöglichkeit')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Pedal Boat', 'Tretboot')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Phone', 'Telefon')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Picnic Table', 'Picknick Tisch')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Playground', 'Spielplatz')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Pontoon Boat', 'Pontoon Boot')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Pool', 'Swimming Pool')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Premium Cable Channels', 'Premium Kabel Kanäle')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Restaurant', 'Restaurant')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Riverfront', 'Lage am Fluss')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Row Boat', 'Ruderboot')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Safe', 'Tresor')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Satellite Television', 'Satelliten Fernsehen')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Scrapbooking Tables', 'Basteltisch')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Shopping', 'Einkaufsmöglichkeiten')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Shower', 'Dusche')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Snowmobile Rentals', 'Schneemobil Vermietung')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Spa', 'Spa')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Swimming', 'Schwimmen')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Tennis', 'Tennis')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Towels', 'Bade- und Handtücher')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('VCR', 'Videorekorder')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Volleyball', 'Volleyball')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Washer and Dryer', 'Waschmaschine und Trockner')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Window A/C', 'Fenster Klimaanlage')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Wireless Internet', 'Wireless Internet')");
+      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Workout Facilities', 'Sportstudio')");
       
       $table_name = $wpdb->prefix . "lodgix_policies";
       if($wpdb->get_var("show tables like '$table_name'") != $table_name) {          
@@ -1181,6 +1267,7 @@ if (!class_exists('p_lodgix')) {
         $pos = 1;
         foreach ($photos as $photo)
         { 
+        	$photo['URL'] = str_replace('media/gallery','photo/0/gallery',$photo['URL']);
           if ($pos == 1)
           {
             $parray['main_image'] = $photo['URL'];
@@ -1392,6 +1479,7 @@ if (!class_exists('p_lodgix')) {
             $wpdb->query($sql);        
           }     
         }             
+        //$this->p_lodgix_download_images();
         wp_schedule_single_event(time()+5, 'p_lodgix_download_images');
       }
 
@@ -1996,6 +2084,8 @@ if (!class_exists('p_lodgix')) {
         $deposits_table = $wpdb->prefix . "lodgix_deposits";     
         $reviews_table = $wpdb->prefix . "lodgix_reviews";       
         
+       
+        
         $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table . ' ORDER BY `order`'); 
         if ($properties)
         {
@@ -2033,6 +2123,7 @@ if (!class_exists('p_lodgix')) {
                   
                   if ($this->options['p_lodgix_vacation_rentals_page_de'] != NULL)
                   {
+                  	 
                       if ($this->options['p_lodgix_generate_german'])
                       {
                         $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT post_id FROM " . $properties_table . " WHERE id=" . $property->id . ";"));
@@ -2079,6 +2170,7 @@ if (!class_exists('p_lodgix')) {
                 			  			
                 if ($this->options['p_lodgix_generate_german'])
                 {
+                	
                   $post_id_de = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE property_id=" . $property->id);
                   $post = array();
                   $post['ID'] = $post_id_de;
@@ -2087,13 +2179,14 @@ if (!class_exists('p_lodgix')) {
                     $post['post_title'] = $property->description;
                   $single_property = '';
                   include('single_property_de.php');
-                  $post['post_content'] = $single_property;
-                  $post['post_status'] = 'publish';         
-                  $post_id_de = wp_update_post($post);                                          
+                  $post['post_status'] = 'publish';       
+                  $post['post_content'] = htmlspecialchars($single_property);  
+                  $post_id_de = wp_update_post($post);                      
                   $sql = "UPDATE " . $translation_table . " SET trid=" . $trid . ", language_code='de' WHERE element_id=" . $post_id_de;
                   $wpdb->query($sql);           
-                  $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id_de;
+                  $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id_de;                  
                   $wpdb->query($sql);                                   
+        
                 }
               }
               
@@ -2282,8 +2375,9 @@ if (!class_exists('p_lodgix')) {
       
       function p_lodgix_notify() {
       		ini_set('max_execution_time', 0);
+      		$context = stream_context_create(array('http' => array('timeout' => 120)));      
           $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
-          $xml = file_get_contents($fetch_url);      
+          $xml = file_get_contents($fetch_url,0,$context);      
           if ($xml)
           {  
             $root = new DOMDocument();  
@@ -2625,6 +2719,21 @@ if (!class_exists('p_lodgix')) {
       	return $text . '.';
       }
       
+      /**
+      * Delete Folder
+      **/      
+      function rrmdir($dir) {
+         if (is_dir($dir)) {
+           $objects = scandir($dir);
+           foreach ($objects as $object) {
+             if ($object != "." && $object != "..") {
+               if (filetype($dir."/".$object) == "dir") $this->rrmdir($dir."/".$object); else unlink($dir."/".$object);
+             }
+           }
+           reset($objects);
+           rmdir($dir);
+         }
+       }       
       
       /**
       * Updates Database
@@ -2639,9 +2748,10 @@ if (!class_exists('p_lodgix')) {
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures"; 
         
-        if ($old_db_version < 1.1)
+        if ($old_db_version < 1.2)
         {
-             
+        	$pictures_path = WP_CONTENT_DIR.'/lodgix_pictures'; 
+        	$this->rrmdir($pictures_path);        	          
         }
       }
       
@@ -2728,6 +2838,7 @@ if (!class_exists('p_lodgix')) {
               $this->update_db($old_db_version);
             }
           }
+          update_option('p_lodgix_db_version',$p_lodgix_db_version);
           
           if($_POST['p_lodgix_save']){
           	  ini_set('max_execution_time', 0);
@@ -2746,6 +2857,14 @@ if (!class_exists('p_lodgix')) {
 									if (!is_array($areas_pages_de))
 										$this->options['p_lodgix_areas_pages_de'] = serialize(array());
 									$this->saveAdminOptions();				
+									                  
+								  $areas_pages = unserialize($this->options['p_lodgix_areas_pages']);
+									$areas_pages_de = unserialize($this->options['p_lodgix_areas_pages_de']);
+									if (!is_array($areas_pages))
+										$this->options['p_lodgix_areas_pages'] = serialize(array());
+									if (!is_array($areas_pages_de))
+										$this->options['p_lodgix_areas_pages_de'] = serialize(array());
+									$this->saveAdminOptions();		
 									                  
                   $this->clear_revisions();
                   
@@ -2903,11 +3022,12 @@ if (!class_exists('p_lodgix')) {
                   
                                            
                   $this->saveAdminOptions();       
-                                       
+									
                   $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
                   $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
  
-                  $xml = file_get_contents($owner_fetch_url);
+ 									$context = stream_context_create(array('http' => array('timeout' => 120)));                                       
+                  $xml = file_get_contents($owner_fetch_url,0,$context);
                 
                   $ROOT_HEIGHT = 84;
                   $root = new DOMDocument();  
@@ -2924,7 +3044,7 @@ if (!class_exists('p_lodgix')) {
                     $this->update_owner($owner);                  
                     $this->saveAdminOptions();  
                                      
-                    $xml = file_get_contents($fetch_url);
+                    $xml = file_get_contents($fetch_url,0,$context);
                     if ($xml)
                     {
                       $root = new DOMDocument();  

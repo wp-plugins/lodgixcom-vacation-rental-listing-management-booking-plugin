@@ -39,14 +39,14 @@ if (!$property->smoking)
 	$property->smoking = "display:none;";
 	
 $mail_icon = '';
-if ($this->options['p_lodgix_contact_url'] != "")
-	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a>';
+if ($this->options['p_lodgix_contact_url_de'] != "")
+	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url_de'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a>';
 
 $single_property .= '';
 $single_property .= '<div id="lodgix_property_badge">';
 $single_property .= '<table width="100%">												
 													<tr>
-														<td id="lodgix_property_badge_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $property->bedrooms .' Bedroom | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '</div></td>
+														<td id="lodgix_property_badge_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $property->bedrooms .' Schlafzimmer | ' . $property->bathrooms .' Badezimmer | ' . $property->proptype . $property_city . '</div></td>
 														<td id="lodgix_property_badge_rates"><span class="lodgix_nowrap">' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a></span></td>
 													</tr>
 										</table>

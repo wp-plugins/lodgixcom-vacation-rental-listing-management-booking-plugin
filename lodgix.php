@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.15
+Version: 1.0.16
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.16: Added German Contact URL
 v1.0.15: New property page design
 v1.0.14: Fixed area array
 v1.0.10: Implemented areas
@@ -2906,6 +2907,7 @@ if (!class_exists('p_lodgix')) {
                   $this->options['p_lodgix_vr_meta_description'] = $_POST['p_lodgix_vr_meta_description']; 
                   $this->options['p_lodgix_vr_meta_keywords'] = $_POST['p_lodgix_vr_meta_keywords'];   
                   $this->options['p_lodgix_contact_url'] = $_POST['p_lodgix_contact_url'];    
+                  $this->options['p_lodgix_contact_url_de'] = $_POST['p_lodgix_contact_url_de'];    
                   
                   if ((!$this->options['p_lodgix_vr_title']) || ($this->options['p_lodgix_vr_title'] == ''))
                     $this->options['p_lodgix_vr_title'] = "Vacation Rentals";
@@ -3272,6 +3274,12 @@ if (!class_exists('p_lodgix')) {
                             <th width="33%" scope="row"><?php _e('Contact URL:', $this->localizationDomain); ?></th> 
                             <td>
                              <input name="p_lodgix_contact_url" style="width:430px;" type="text" id="p_lodgix_contact_url" value="<?php echo $this->options['p_lodgix_contact_url']; ?>" maxlength="70" />                   
+                          </td> 
+                        </tr>
+                        <tr valign="top"> 
+                            <th width="33%" scope="row"><?php _e('German Contact URL:', $this->localizationDomain); ?></th> 
+                            <td>
+                             <input name="p_lodgix_contact_url_de" style="width:430px;" type="text" id="p_lodgix_contact_url_de" value="<?php echo $this->options['p_lodgix_contact_url_de']; ?>" maxlength="70" />                   
                           </td> 
                         </tr>
                 

@@ -61,6 +61,26 @@ div#lodgix_property_description h2 {
   padding-bottom:5px;  
 }
 
+div#lodgix_property_booking {
+  margin-top:10px;
+}
+
+div#lodgix_property_booking h2#booking {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;  
+}
+
+div#lodgix_property_location {
+  margin-top:10px;
+}
+
+div#lodgix_property_location h2 {
+  margin-bottom:10px;
+  border-bottom:3px dotted #FF0000; 
+  padding-bottom:5px;  
+}
+
 div#lodgix_photo {
   margin-top:10px;
 }

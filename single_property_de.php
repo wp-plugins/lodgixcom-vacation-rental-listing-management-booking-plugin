@@ -42,23 +42,23 @@ $mail_icon = '';
 if ($this->options['p_lodgix_contact_url'] != "")
 	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a>';
 
-$single_property .= '<center>';
-$single_property .= '<div id="lodgix_property_badge">';
+$single_property .= '';
+$single_property .= '<div id="lodgix_property_badge_border"><div id="lodgix_property_badge">';
 $single_property .= '<table width="100%">												
 													<tr>
-														<td class="lodgix_property_badge_title">' .  $property->description . $property_area . '<div class="lodgix_property_badge_rooms">' . $property->bedrooms .' Bedroom | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '</div></td>
-														<td class="lodgix_property_badge_rates">' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a></td>
+														<td id="lodgix_property_badge_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $property->bedrooms .' Bedroom | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '</div></td>
+														<td id="lodgix_property_badge_rates">' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a></td>
 													</tr>
 										</table>
 										<hr>
 										<table width="100%">												
 													<tr>
-														<td class="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . 'images/map_50.png"></a>' . $mail_icon . '</td>
-														<td class="lodgix_property_badge_icons_right"><img src="' . $p_plugin_path  . '/images/no_pets.png" syle="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" syle="' . $smoking . '"></td>
+														<td id="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . 'images/map_50.png"></a>' . $mail_icon . '</td>
+														<td id="lodgix_property_badge_icons_right"><img src="' . $p_plugin_path  . '/images/no_pets.png" syle="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" syle="' . $smoking . '"></td>
 													</tr>
 										</table>';
-$single_property .= '</div>';
-$single_property .= '</center>';
+$single_property .= '</div></div>';
+$single_property .= '';
 
 $single_property .= '<center><ul id="pikame">';
 foreach($photos as $photo)
@@ -66,7 +66,7 @@ foreach($photos as $photo)
       $photo_url = str_replace('media/gallery','photo/640/gallery',$photo->url);
       $single_property .= '<li><a href="' . $photo_url . '"><img width="640px" height="480px" src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
 }
-$single_property .= '</ul><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></center><br/>';
+$single_property .= '</ul><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></center>';
 
 if ($german_details->description_long != "")
 {
@@ -302,7 +302,7 @@ $high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prep
 $low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
 $high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
 
-$single_property .= '<div id="lodgix_property_rates"><h2>Rates</h2>';
+$single_property .= '<div id="lodgix_property_rates"><h2>Kurs</h2>';
 if ($this->options['p_lodgix_display_daily_rates'])
 	$single_property .= 'Tageskurs:	' . $low_daily_rate  . ' -  ' . $high_daily_rate . ' per night<br/>';
 $single_property .= 'Wochenpreis:	' . $low_weekly_rate  . ' - ' . $high_weekly_rate . ' per week<br/>';
@@ -317,11 +317,10 @@ if ($property->allow_booking == 0)
    $static = '_static';
 }   
 
-
 $single_property .= '<div id="lodgix_property_booking"><h2 id="booking">Verf&uuml;gbarkeit und Buchungskalender</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $property->owner_id . '&amp;propertyID=' . $property->id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $static .'.swf" flashvars="propertyOwnerID=' . $property->owner_id  . '&amp;propertyID=' . $property->id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
 if (($single_unit_helptext != '') && ($property->allow_booking == 1) && ($this->options['p_lodgix_display_single_instructions'] == 1))
 {
-  $single_property .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Buchungs Instruktionen</h2><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . $single_unit_helptext . '</p></div></div></div></div>';
+  $single_property .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . $single_unit_helptext . '</p></div></div></div></div>';
 }
 else
 {
@@ -329,26 +328,7 @@ else
 }
 $single_property .= '<script type="text/javascript">tb_pathToImage = "/wp-includes/js/thickbox/loadingAnimation.gif";tb_closeImage = "/wp-includes/js/thickbox/tb-close.png";</script>';
 
-$single_property .= '<div id="lodgix_property_location"><h2>Property Location</h2><div id="map_canvas" style="width: 100%; height: 300px"></div></div>
-    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $this->options['p_google_maps_api'] . '"type="text/javascript"></script>
-    <script type="text/javascript">    
-    function lodgix_gmap_initialize() {
-    //<![CDATA[
-      if (GBrowserIsCompatible()) {
-        var map = new GMap(document.getElementById("map_canvas"));
-    		map.addControl(new GSmallMapControl()); 
-		    map.addControl(new GMapTypeControl());
-        var point = new GPoint(' . $property->longitude . ', ' . $property->latitude . ');
-		    map.centerAndZoom(point, 4);        
-		    var marker = new GMarker(point);
-		    map.addOverlay(marker)      
-		   }
-    }
-    lodgix_gmap_initialize();
-    //]]>
-    </script>
-  </head>
-';
+$single_property .= '<div id="lodgix_property_location"><h2>Lage </h2><div id="map_canvas" style="width: 100%; height: 300px"></div></div>';
 
 $single_property .= '<div id="lodgix_photo"><a id="lodgix_aGallery" href="#Gallery"></a>     
                         <div id="lodgix_photo_top"></div>      
@@ -362,7 +342,7 @@ $single_property .= '<h2>Bilder</h2>';
 //  $num_pics = 3;
 foreach($photos as $photo)
 {
-      $photo_url = str_replace('media/gallery','photo/640/gallery',$photo->url);
+      $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);
       if (($counter % $num_pics == 0) && ($counter != 0))
       {
          $single_property .= "<tr>";
@@ -379,4 +359,24 @@ foreach($photos as $photo)
    $counter++;
 }
 $single_property .= '</tr></table></div><div id="lodgix_photo_bottom"></div></div>';
+
+$single_property .= '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $this->options['p_google_maps_api'] . '"type="text/javascript"></script>';
+$single_property .= '<script type="text/javascript">    
+    function lodgix_gmap_initialize() {
+    //<![CDATA[
+      if (GBrowserIsCompatible()) {
+        var map = new GMap(document.getElementById("map_canvas"));
+    		map.addControl(new GSmallMapControl()); 
+		    map.addControl(new GMapTypeControl());
+        var point = new GPoint(' . $property->longitude . ', ' . $property->latitude . ');
+		    map.centerAndZoom(point, 4);        
+		    var marker = new GMarker(point);
+		    map.addOverlay(marker)      
+		   }
+    }
+    lodgix_gmap_initialize();
+    //]]>
+    </script>
+  </head>';
+
 ?>

@@ -76,7 +76,7 @@ div#lodgix_property_location {
 }
 
 div#lodgix_property_location h2 {
-  margin-bottom:10px;
+  margin-bottom:20px;
   border-bottom:3px dotted #FF0000; 
   padding-bottom:5px;  
 }
@@ -932,7 +932,7 @@ border:0 none;
 .pika-image .caption {position: absolute; background: url(__PLUGIN_FOLDER__gallery/75-black.png);  border: 1px solid #141414; font-size: 11px; color: #fafafa; padding: 10px; text-align: right; bottom: 30px; right: 10px;}
 	.pika-image .caption p {padding: 0; margin: 0; line-height: 14px;}
 
-.pika-imgnav a {position: absolute; text-indent: -5000px; display: block;z-index:3;}
+.pika-imgnav a {position: absolute; text-indent: -5000px; display: none;z-index:3;}
 	.pika-imgnav a.previous {background: url(__PLUGIN_FOLDER__gallery/prev.png) no-repeat left 50%; height: 480px; width: 50px; top: 10px; left: 10px;cursor:pointer;}
 	.pika-imgnav a.next {background: url(__PLUGIN_FOLDER__gallery/next.png) no-repeat right 50%; height: 480px; width: 50px; top: 10px; right: 10px;cursor:pointer;}
 	.pika-imgnav a.play {background: url(__PLUGIN_FOLDER__gallery/play.png) no-repeat 50% 50%; height: 100px; width: 40px;top:0;left:50%;display: none;cursor:pointer;}

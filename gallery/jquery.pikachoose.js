@@ -202,6 +202,9 @@
             this.thumbs.bind('mouseover', {
                 self: this
             }, this.imgClick);
+            this.thumbs.bind('click', {
+                self: this
+            }, this.imgClick);            
             this.imgNext.bind('click', {
                 self: this
             }, this.nextClick);
@@ -217,7 +220,7 @@
             this.imgPlay.bind('click', {
                 self: this
             }, this.playClick);
-            this.wrap.bind('mouseenter', {
+            /*this.wrap.bind('mouseenter', {
                 self: this
             }, function (e) {
                 e.data.self.imgPlay.stop(true, true).fadeIn('fast');
@@ -226,7 +229,7 @@
                 self: this
             }, function (e) {
                 e.data.self.imgPlay.stop(true, true).fadeOut('fast');
-            });
+            });*/
             this.tooltip.bind('mouseenter', {
                 self: this
             }, function (e) {
@@ -246,9 +249,16 @@
         imgClick: function (e, x) {
             var self = e.data.self;
             var data = $.data(this);
-
+            if (e.type == 'mouseover')
+            {
+            	self.active.fadeTo(0, 0.4).removeClass('active');
+            	self.active = $(this);
+            	self.active.addClass('active').fadeTo(0, 1);
+            	self.image.attr('src', data.source)            	
+            	return;                        	
+            }
             if (self.animating) {
-               // return;
+                return;
             }
             self.caption.fadeOut('slow');
             if (typeof(x) == 'undefined' || x.how != "auto") {
@@ -256,13 +266,10 @@
                     self.imgPlay.trigger('click');
                 }
             }
-            //self.animating = true;
-            self.active.fadeTo(0, 0.4).removeClass('active');
+            self.animating = true;
+            self.active.fadeTo(300, 0.4).removeClass('active');
             self.active = $(this);
-            self.active.addClass('active').fadeTo(0, 1);
-            self.image.attr('src', data.source)
-            //self.image.attr('src', data.source);
-            return;            
+            self.active.addClass('active').fadeTo(200, 1);
             $('<img />').bind('load', {
                 self: self,
                 data: data
@@ -287,7 +294,7 @@
                     }
                 }
                 if (self.options.IESafe && $.browser.msie) {
-                   
+                    n = 1;
                 }
                 self.doAnimation(n, data);
             }).attr('src', $.data(this).source);

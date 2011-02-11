@@ -465,28 +465,27 @@ border:0 none;
 	padding-top:4px;
 }
 
-.lodgix_image_cell_icons {
-    width:200px;
-}
-.lodgix_google_map_icon {
 
+.lodgix_image_cell_icons {
+   width:200px;
+   margin-top:5px;
+   text-align:center;
+}
+
+.lodgix_google_map_icon {
+	float:left;
 }
 .lodgix_contact_us_icon {
-
+	float:left;
 }
-.lodgix_search_icon {
-
+.lodgix_details_icon {
+	float:left;
 }
+
 .lodgix_availability_icon {
-	background: url("__PLUGIN_FOLDER__images/Lodgix200x50.png");
-	width:200px;
-	height:50px;
-	margin-bottom:5px;
+	float:left;
 }
-.lodgix_image_cell_icons td {
-    width:50px;
-    height:50px;
-}
+
 
 #lodgix_property_badge_border {
  background-color: #d7d7d7;

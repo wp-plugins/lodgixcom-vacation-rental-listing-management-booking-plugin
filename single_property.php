@@ -39,21 +39,21 @@ if ($this->options['p_lodgix_contact_url'] != "")
 	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a>';
 
 $single_property .= '';
-$single_property .= '<div id="lodgix_property_badge_border"><div id="lodgix_property_badge">';
+$single_property .= '<div id="lodgix_property_badge">';
 $single_property .= '<table width="100%">												
 													<tr>
 														<td id="lodgix_property_badge_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $property->bedrooms .' Bedroom | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '</div></td>
-														<td id="lodgix_property_badge_rates">' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a></td>
+														<td id="lodgix_property_badge_rates"><span class="lodgix_nowrap">' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a></span></td>
 													</tr>
 										</table>
 										<hr>
 										<table width="100%">												
 													<tr>
 														<td id="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . 'images/map_50.png"></a>' . $mail_icon . '</td>
-														<td id="lodgix_property_badge_icons_right"><img src="' . $p_plugin_path  . '/images/no_pets.png" syle="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" syle="' . $smoking . '"></td>
+														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' . $p_plugin_path  . '/images/no_pets.png" syle="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" syle="' . $smoking . '"></span></td>
 													</tr>
 										</table>';
-$single_property .= '</div></div>';
+$single_property .= '</div>';
 $single_property .= '';
 
 $single_property .= '<center><ul id="pikame">';
@@ -87,8 +87,10 @@ if (count($reviews) >= 1)
   {
     $single_property .= '<br   />';
   }
-  $single_property .= '<p>' . $review->description . '</p><p><b>' . $this->format_date($review->date) . ', ' . $review->name . '</b></p><hr>';
+  $single_property .= '<p>' . $review->description . '</p><p><b>' . $this->format_date($review->date) . ', ' . $review->name . '</b></p>';
   $counter++;
+  if ($counter != count($reviews))
+  	$single_property .= '<center><img src="' . $p_plugin_path  . 'images/post_separator.jpg"></center>';
  }
  $single_property .= '</div><br><br>';
 } 
@@ -177,6 +179,8 @@ if (count($rules) != 0)
  }
  $single_property .= "</table><br><br><br><br>";
 }
+*/
+
 
 $policies_table = $wpdb->prefix . "lodgix_policies"; 
 $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='en'"); 
@@ -186,9 +190,7 @@ $deposits = $wpdb->get_results("SELECT * FROM " . $deposits_table . " WHERE prop
  
 if ($policies || $taxes || $fees || $deposits)
 {
- $single_property .= "<table width='98%'>";
- $single_property .= "<thead><tr><th align=left>Policies</th></tr></thead>";
- 
+ $single_property .= "<div id='property_policies'><h2>Policies</h2><table width='98%'>";
 
  if ($taxes)
  {
@@ -277,13 +279,10 @@ if ($policies || $taxes || $fees || $deposits)
     
    }
  }
-  $single_property .= "<tr><td class='lodgix_policies_bottom'>&nbsp;</td></td></tr>";  
- $single_property .= "</table>";  
+
+ $single_property .= "</table></div>";  
 }
-else
-{
-  $single_property .= "<br/>";
-}*/
+
 
 $static = '';
 if ($property->allow_booking == 0)

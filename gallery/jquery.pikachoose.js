@@ -250,11 +250,22 @@
             var self = e.data.self;
             var data = $.data(this);
             if (e.type == 'mouseover')
-            {
+            {            	
             	self.active.fadeTo(0, 0.4).removeClass('active');
             	self.active = $(this);
             	self.active.addClass('active').fadeTo(0, 1);
-            	self.image.attr('src', data.source)            	
+            	self.image.attr('src', data.source)      
+            	self.anchor.attr('href', data.clickThrough);
+            	if (data.caption != "")      	
+            	{
+ 								if (self.options.showCaption) {
+                	self.caption.html(data.caption).fadeIn('slow');
+            		}            	
+            	}
+            	else
+            	{
+            		self.caption.hide();
+            	}
             	return;                        	
             }
             if (self.animating) {
@@ -430,9 +441,18 @@
             this.image.attr('src', data.source);
             this.aniDiv.hide();
             this.anchor.attr('href', data.clickThrough);
-            if (this.options.showCaption) {
-                this.caption.html(data.caption).fadeIn('slow');
+            
+   				  if (data.caption != "")      	
+            {
+ 							if (this.options.showCaption) 
+ 							{
+               	this.caption.html(data.caption).fadeIn('slow');
+            	}            	            	
             }
+            else
+            {
+            		this.caption.hide();
+            }            
             if (this.options.autoPlay == true) {
                 var self = this;
                 this.image.delay(this.options.speed).fadeIn(0, function () {

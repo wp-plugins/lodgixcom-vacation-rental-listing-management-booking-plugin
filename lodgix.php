@@ -463,7 +463,7 @@ if (!class_exists('p_lodgix')) {
 												self.anchor.fancybox();
 											};
 											jQuery("#pikame").PikaChoose({buildFinished:a,autoPlay:false,showTooltips:false,speed:5000});
-											jQuery('#lodgix_property_badge').corner("round 8px").parent().css('padding', '2px').corner("round 10px")
+											jQuery('#lodgix_property_badge').corner("round 8px");
 										});
 				
 							-->

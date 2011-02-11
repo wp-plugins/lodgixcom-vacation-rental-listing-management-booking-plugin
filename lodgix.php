@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.14
+Version: 1.0.15
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.15: New property page design
 v1.0.14: Fixed area array
 v1.0.10: Implemented areas
 v1.0.9: Fixed multi-language update issue
@@ -20,7 +21,7 @@ v1.0.0: Initial release
 */
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "1.0";
+$p_lodgix_db_version = "1.2";
 
 
 if (!class_exists('p_lodgix')) {
@@ -2718,6 +2719,21 @@ if (!class_exists('p_lodgix')) {
       	return $text . '.';
       }
       
+      /**
+      * Delete Folder
+      **/      
+      function rrmdir($dir) {
+         if (is_dir($dir)) {
+           $objects = scandir($dir);
+           foreach ($objects as $object) {
+             if ($object != "." && $object != "..") {
+               if (filetype($dir."/".$object) == "dir") $this->rrmdir($dir."/".$object); else unlink($dir."/".$object);
+             }
+           }
+           reset($objects);
+           rmdir($dir);
+         }
+       }       
       
       /**
       * Updates Database
@@ -2732,9 +2748,10 @@ if (!class_exists('p_lodgix')) {
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures"; 
         
-        if ($old_db_version < 1.1)
+        if ($old_db_version < 1.2)
         {
-             
+        	$pictures_path = WP_CONTENT_DIR.'/lodgix_pictures'; 
+        	$this->rrmdir($pictures_path);        	          
         }
       }
       
@@ -2821,6 +2838,7 @@ if (!class_exists('p_lodgix')) {
               $this->update_db($old_db_version);
             }
           }
+          update_option('p_lodgix_db_version',$p_lodgix_db_version);
           
           if($_POST['p_lodgix_save']){
           	  ini_set('max_execution_time', 0);

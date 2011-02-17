@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.16
+Version: 1.0.17
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.17: Fixed number of bathrooms
 v1.0.16: Added German Contact URL
 v1.0.15: New property page design
 v1.0.14: Fixed area array
@@ -22,7 +23,7 @@ v1.0.0: Initial release
 */
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "1.2";
+$p_lodgix_db_version = "1.3";
 
 
 if (!class_exists('p_lodgix')) {
@@ -498,7 +499,7 @@ if (!class_exists('p_lodgix')) {
             `state_code` varchar(2) default NULL,
             `country_code` varchar(2) default NULL,
             `bedrooms` smallint(6) default '0',
-            `bathrooms` smallint(6) default '0',
+            `bathrooms` float default '0',
             `minrate` float default '0',
             `maxrate` float default '0',
             `min_daily_rate` float default '0',
@@ -1287,7 +1288,7 @@ if (!class_exists('p_lodgix')) {
         $sql = $this->get_insert_sql_from_array($properties_table,$parray);
         $exists = (int)$wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM " . $properties_table . " WHERE id=" . $parray['id'] . ";"));        
         if ($exists > 0)        
-          $sql = $this->get_update_sql_from_array($properties_table,$parray,$parray['id']);        
+          $sql = $this->get_update_sql_from_array($properties_table,$parray,$parray['id']);      
         $wpdb->query($sql);   
         
         $amenities = $property['Amenities'];
@@ -2754,6 +2755,14 @@ if (!class_exists('p_lodgix')) {
         	$pictures_path = WP_CONTENT_DIR.'/lodgix_pictures'; 
         	$this->rrmdir($pictures_path);        	          
         }
+
+        if ($old_db_version < 1.3)
+        {
+        	$sql = "ALTER TABLE " . $properties_table  . " MODIFY COLUMN `bathrooms` float default '0';";
+        	$wpdb->query($sql);        	
+        }
+        
+        
       }
       
       /**

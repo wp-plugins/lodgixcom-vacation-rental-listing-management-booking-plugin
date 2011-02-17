@@ -292,20 +292,20 @@ if ($policies || $taxes || $fees || $deposits)
 }
 
 
-
-
-$low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
-$high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
-$low_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
-$high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
-$low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
-$high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
+$low_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
+$high_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
+$low_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
+$high_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
+$low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
+$high_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
 
 $single_property .= '<div id="lodgix_property_rates"><h2>Kurs</h2>';
-if ($this->options['p_lodgix_display_daily_rates'])
-	$single_property .= 'Tageskurs:	' . $low_daily_rate  . ' -  ' . $high_daily_rate . ' per night<br/>';
-$single_property .= 'Wochenpreis:	' . $low_weekly_rate  . ' - ' . $high_weekly_rate . ' per week<br/>';
-$single_property .= 'Monatspreis:	' . $low_monthly_rate  . ' - ' . $high_monthly_rate  . ' per month<br/>';
+if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0)
+	$single_property .= 'Tageskurs:	' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' per night<br/>';
+if ($low_weekly_rate > 0)	
+	$single_property .= 'Wochenpreis:	' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' per week<br/>';
+if ($low_monthly_rate > 0)		
+	$single_property .= 'Monatspreis:	' . $property->currency_symbol . $low_monthly_rate  . $property->currency_symbol . ' - ' . $high_monthly_rate  . ' per month<br/>';
 $single_property .= '- Die Preise unterscheiden sich saisonbedingt.<br/>';
 $single_property .= '- Bitte w&auml;hlen Sie die exakten Daten Ihrer Anreise und Abreise im online Buchungskalender um ein Preisangebot zu erhalten.<br/>';
 $single_property .= '</div>';

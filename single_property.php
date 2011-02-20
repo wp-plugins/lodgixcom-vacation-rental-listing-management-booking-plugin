@@ -27,12 +27,12 @@ if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_ra
 	
 	
 $pets = "";
-if (!$property->pets)
-	$property->pets = "display:none;";
+if ($property->pets)
+	$pets = "display:none;";
 
 $smoking = "";
-if (!$property->smoking)
-	$property->smoking = "display:none;";
+if ($property->smoking)
+	$smoking = "display:none;";
 	
 $mail_icon = '';
 if ($this->options['p_lodgix_contact_url'] != "")
@@ -50,7 +50,7 @@ $single_property .= '<table width="100%">
 										<table width="100%">												
 													<tr>
 														<td id="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . 'images/map_50.png"></a>' . $mail_icon . '</td>
-														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' . $p_plugin_path  . '/images/no_pets.png" syle="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" syle="' . $smoking . '"></span></td>
+														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' . $p_plugin_path  . '/images/no_pets.png" style="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '"></span></td>
 													</tr>
 										</table>';
 $single_property .= '</div>';

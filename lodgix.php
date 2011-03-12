@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.19
+Version: 1.0.20
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.20: Fixed captions length
 v1.0.19: Implemented new upgrade
 v1.0.18: Fixed no pets allowed
 v1.0.17: Fixed number of bathrooms
@@ -25,7 +26,7 @@ v1.0.0: Initial release
 */
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "1.3";
+$p_lodgix_db_version = "1.4";
 
 
 if (!class_exists('p_lodgix')) {
@@ -603,7 +604,7 @@ if (!class_exists('p_lodgix')) {
         `id` int(11) NOT NULL auto_increment,
         `property_id` int(11) NOT NULL,
         `position` smallint(6) default NULL,
-        `caption` varchar(100) default NULL,
+        `caption` varchar(255) default NULL,
         `url` varchar(255) default NULL,
         `thumb_url` varchar(255) default NULL,      
          PRIMARY KEY  (`id`)
@@ -2782,7 +2783,11 @@ if (!class_exists('p_lodgix')) {
         	$wpdb->query($sql);        	
         }
         
-        
+        if ($old_db_version < 1.4)
+        {
+        	$sql = "ALTER TABLE " . $pictures_table  . " MODIFY COLUMN `caption` varchar(255) default NULL;";
+        	$wpdb->query($sql);        	
+        }        
       }
       
       /**

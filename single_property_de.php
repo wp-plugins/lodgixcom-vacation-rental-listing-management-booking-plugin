@@ -96,11 +96,11 @@ if (count($reviews) >= 1)
   {
     $single_property .= '<br   />';
   }
-  $single_property .= '<p>' . $review->description . '</p><p><b>' . $this->format_date($review->date) . ', ' . $review->name . '</b></p>';
+  $single_property .= '<p><i>' . $review->description . '</i></p><p>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
   
   $counter++;
   if ($counter != count($reviews))
-  	$single_property .= '<center><img src="' . $p_plugin_path  . 'images/post_separator.jpg"></center>';
+  	$single_property .= '<center><img src="' . $p_plugin_path  . 'images/post_separator.png"></center>';
   
  }
  $single_property .= '</div><br><br>';

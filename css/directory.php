@@ -352,7 +352,7 @@ padding:0;
 width:100%;
 }
 ul.amenities li {
-background:url("__PLUGIN_FOLDER__images/tick.gif") no-repeat scroll left center transparent;
+background:url("__PLUGIN_FOLDER__images/tick.png") no-repeat scroll left center transparent;
 float:left;
 font-size:11px;
 line-height:16px;

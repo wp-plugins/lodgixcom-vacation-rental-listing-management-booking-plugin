@@ -6,7 +6,7 @@ $content_position = ( $purevision_options['pages_sidebar'] == 'left' ) ? 'grid_1
 ?>
 
 <div id="content-container" class="container_24">
-    <div id="main-content" class="<?php echo $content_position; ?> grid_24">
+    <div id="main-content" class="<?php echo $content_position; ?>">
 	<div class="main-content-padding">
 
 <?php	    if (have_posts()) : while (have_posts()) : the_post(); ?>
@@ -23,7 +23,7 @@ $content_position = ( $purevision_options['pages_sidebar'] == 'left' ) ? 'grid_1
 	</div><!-- end main-content-padding -->
     </div><!-- end main-content -->
 
-
+<?php get_sidebar(); ?>
 </div><!-- end content-container -->
 
 <div class="clear"></div>
@@ -31,3 +31,6 @@ $content_position = ( $purevision_options['pages_sidebar'] == 'left' ) ? 'grid_1
 <?php
 
 get_footer();
+
+
+

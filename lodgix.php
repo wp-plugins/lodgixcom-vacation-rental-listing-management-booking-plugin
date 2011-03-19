@@ -455,28 +455,39 @@ if (!class_exists('p_lodgix')) {
         	wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
         	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');      
         	
-        	$current_theme = get_current_theme();
-          if ($this->options['p_lodgix_thesis_compatibility'])
-          {
-            include('thesis_no_sidebars.php');
-            die();
-          }
-          else if ($current_theme  == "FlexSqueeze")
-          {
-          	
-          }        
-          else if ($current_theme  == "pureVISION")
-          {        
-            include('purevision_page_template.php');
-            die();        	
-          }        
-          else
-          {
-            include('lodgix_page_template.php');
-            die();
+        	
+        	if ($this->options['p_lodgix_custom_page_template'] && $this->options['p_lodgix_custom_page_template'] != '')
+        	{
+        		 $template = WP_CONTENT_DIR . '/' . $this->options['p_lodgix_custom_page_template'];
+        		 if (file_exists($template))
+        		 {        		 	
+ 							include($template);              
+             }       		
+        	}
+        	else
+        	{
+          	$current_theme = get_current_theme();
+            if ($this->options['p_lodgix_thesis_compatibility'])
+            {
+              include('thesis_no_sidebars.php');
+              die();
+            }
+            else if ($current_theme  == "FlexSqueeze")
+            {
+            	
+            }        
+            else if ($current_theme  == "pureVISION")
+            {        
+              include('purevision_page_template.php');
+              die();        	
+            }        
+            else
+            {
+              include('lodgix_page_template.php');
+              die();
+            }
           }
         }
-      
     } 
 
 
@@ -1013,6 +1024,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_vr_meta_description_de' => NULL,
                                   'p_lodgix_vr_meta_keywords' => NULL,
                                   'p_lodgix_vr_meta_keywords_de' => NULL,
+                                  'p_lodgix_custom_page_template' => '',
                               		'p_lodgix_areas_pages' => serialize(array()),
                               		'p_lodgix_areas_pages_de' => serialize(array())                                                                     
                                   );
@@ -1072,6 +1084,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_vr_meta_description_de' => NULL,
                               'p_lodgix_vr_meta_keywords' => NULL,
                               'p_lodgix_vr_meta_keywords_de' => NULL,
+                              'p_lodgix_custom_page_template' => '',
                               'p_lodgix_areas_pages' => serialize(array()),
                               'p_lodgix_areas_pages_de' => serialize(array())                                                              
                               );
@@ -3015,6 +3028,8 @@ if (!class_exists('p_lodgix')) {
                   $this->options['p_lodgix_vr_title'] = $_POST['p_lodgix_vr_title']; 
                   $this->options['p_lodgix_vr_meta_description'] = $_POST['p_lodgix_vr_meta_description']; 
                   $this->options['p_lodgix_vr_meta_keywords'] = $_POST['p_lodgix_vr_meta_keywords'];   
+                  $this->options['p_lodgix_custom_page_template'] = $_POST['p_lodgix_custom_page_template'];   
+                  
                   $this->options['p_lodgix_contact_url'] = $_POST['p_lodgix_contact_url'];    
                   $this->options['p_lodgix_contact_url_de'] = $_POST['p_lodgix_contact_url_de'];    
                   
@@ -3432,6 +3447,12 @@ if (!class_exists('p_lodgix')) {
                           
                           </td> 
                         </tr>
+                       <tr valign="top"> 
+                            <th width="33%" scope="row"><?php _e('Custom Page Template:', $this->localizationDomain); ?></th> 
+                            <td>
+                             <input name="p_lodgix_custom_page_template" id="p_lodgix_custom_page_template" style="width:430px;" type="text" value="<?php echo $this->options['p_lodgix_custom_page_template']; ?>">
+                          </td> 
+                        </tr>                            
                     </table><br>
         <b><?php _e('Language Options', $this->localizationDomain); ?></b>
         </p>

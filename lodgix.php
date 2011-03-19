@@ -410,7 +410,7 @@ if (!class_exists('p_lodgix')) {
     																														 		
     	}
     	
-        
+         
       $pages_table = $wpdb->prefix . "lodgix_pages";    	
     	$lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
     	

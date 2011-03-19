@@ -66,7 +66,7 @@ foreach($photos as $photo)
       $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);
       $single_property .= '<li><a href="' . $photo_url . '"><img width="640px" height="480px" src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
 }
-$single_property .= '</ul><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></center>';
+$single_property .= '</ul><p style="text-align:center;"><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></p></center>';
 
 if ($german_details->description_long != "")
 {

@@ -390,40 +390,93 @@ if (!class_exists('p_lodgix')) {
 
     }
         
+    function p_is_lodgix_page($id)
+    {
+    	global $wpdb;
+    	
+    	switch ($id)
+    	{
+    		case $this->options['p_lodgix_vacation_rentals_page'] 		: return true;
+    																														 		break;	
+
+    		case $this->options['p_lodgix_vacation_rentals_page_de']  : return true;
+    																														 		break;	
+
+   		  case $this->options['p_lodgix_availability_page'] 				: return true;
+    																														 		break;	
+
+    		case $this->options['p_lodgix_availability_page_de'] 		  : return true;
+    																														 		break;	    																														 		
+    																														 		
+    	}
+    	
+        
+      $pages_table = $wpdb->prefix . "lodgix_pages";    	
+    	$lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
+    	
+    	$post_id = $wpdb->get_var("SELECT page_id FROM " . $pages_table . " WHERE page_id=" . $id);
+    	if ($post_id == $id)
+    	  return true;
+
+    	$post_id = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE page_id=" . $id);    	    	
+    	if ($post_id == $id)
+    	  return true;
+
+			$areas_pages = unserialize($this->options['p_lodgix_areas_pages']);
+			$areas_pages_de = unserialize($this->options['p_lodgix_areas_pages_de']);
+			
+			foreach($areas_pages as $key => $page)
+			{
+				if ($page->page_id == $id)
+				  return true;
+			}
+
+			foreach($areas_pages_de as $key => $page)
+			{
+				if ($page->page_id == $id)
+				  return true;
+			}
+    	
+    	return false;
+    }
       
     function p_lodgix_template_redirect()
     {
-      global $wp_query;
-      $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
-      wp_enqueue_script('jquery');
-      wp_enqueue_script('thickbox');
-      wp_enqueue_style('thickbox');      
-      wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
-      wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
-      wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');
-      if( $wp_query->post->post_type == 'page' ) {
-      	$current_theme = get_current_theme();
-        if ($this->options['p_lodgix_thesis_compatibility'])
-        {
-          include('thesis_no_sidebars.php');
-          die();
-        }
-        else if ($current_theme  == "FlexSqueeze")
-        {
+    	  global $wp_query;
+    	  
+    		if ($this->p_is_lodgix_page($wp_query->post->ID))
+      	{	
         	
-        }        
-        else if ($current_theme  == "pureVISION")
-        {        
-          include('purevision_page_template.php');
-          die();        	
-        }        
-        else
-        {
-          include('lodgix_page_template.php');
-          die();
+        	$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
+        	wp_enqueue_script('jquery');
+        	wp_enqueue_script('thickbox');
+        	wp_enqueue_style('thickbox');      
+        	wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
+        	wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
+        	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');      
+        	
+        	$current_theme = get_current_theme();
+          if ($this->options['p_lodgix_thesis_compatibility'])
+          {
+            include('thesis_no_sidebars.php');
+            die();
+          }
+          else if ($current_theme  == "FlexSqueeze")
+          {
+          	
+          }        
+          else if ($current_theme  == "pureVISION")
+          {        
+            include('purevision_page_template.php');
+            die();        	
+          }        
+          else
+          {
+            include('lodgix_page_template.php');
+            die();
+          }
         }
-        
-      }
+      
     } 
 
 

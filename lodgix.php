@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.25
+Version: 1.0.26
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.26: Fixed Gravity Forms compatibility
 v1.0.25: Added option for Custom Page Templates
 v1.0.24: Added Purevision theme compatibility
 v1.0.23: Replace check icon
@@ -444,17 +445,18 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_template_redirect()
     {
     	  global $wp_query;
-    	  
-    		if ($this->p_is_lodgix_page($wp_query->post->ID))
-      	{	
-        	
         	$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
         	wp_enqueue_script('jquery');
         	wp_enqueue_script('thickbox');
         	wp_enqueue_style('thickbox');      
         	wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
         	wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
-        	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');      
+        	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
+    	  
+    		if ($this->p_is_lodgix_page($wp_query->post->ID))
+      	{	
+        	
+
         	
         	
         	if ($this->options['p_lodgix_custom_page_template'] && $this->options['p_lodgix_custom_page_template'] != '')

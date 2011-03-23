@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.26
+Version: 1.0.27
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.26: Fixed availability link
 v1.0.26: Fixed Gravity Forms compatibility
 v1.0.25: Added option for Custom Page Templates
 v1.0.24: Added Purevision theme compatibility
@@ -555,6 +556,8 @@ if (!class_exists('p_lodgix')) {
 											};
 											jQuery("#pikame").PikaChoose({buildFinished:a,autoPlay:false,showTooltips:false,speed:5000});
 											jQuery('#lodgix_property_badge').corner("round 8px");
+											if (location.hash != '')
+												location.hash = location.hash;
 										});
 				
 							-->
@@ -3233,8 +3236,11 @@ if (!class_exists('p_lodgix')) {
 ?>                                   
                 <div class="wrap">
                 <h2>Lodgix Settings</h2>
+                <p style="width:900px;">Please read through our <a target="_blank" href="http://docs.lodgix.com/spaces/vacation-rental/manuals/wordpress-vacation-rental">comprehensive manual</a> if you encounter issues with the plugin.
+                   The manual is comprehensive and includes tutorials on proper setup techniques (including screenshot) as well as documentation on getting the plugin to work with various WordPress themes.  
+                 Please visit our <a target="_blank" href="http://support.lodgix.com">support site</a> to submit a support ticket if the manual does not help to resolve your issues.</p><br>
         <p>
-        <b><?php _e('Property Owner Settings', $this->localizationDomain); ?></b>
+        <b><?php _e('Lodgix Subscriber Settings', $this->localizationDomain); ?></b>
         </p>
                 <form method="post" id="p_lodgix_options">
                 <?php wp_nonce_field('p_lodgix-update-options'); ?>

@@ -59,9 +59,9 @@ $vacation_rentals = '
 					
 					 <td class="lodgix_gray_box">' . $pets . '</div></td> 
 					
-					<th class="lodgix_gray_lower">' . $low_daily_rate . ' - ' . $high_daily_rate . '</th>
-					<th class="lodgix_gray_medium">' . $low_weekly_rate . ' - ' . $high_weekly_rate . '</th>
-					<th class="lodgix_gray_highest">' . $low_monthly_rate . ' - ' . $high_monthly_rate . '</th>
+					<td class="lodgix_gray_lower">' . $low_daily_rate . ' - ' . $high_daily_rate . '</td>
+					<td class="lodgix_gray_medium">' . $low_weekly_rate . ' - ' . $high_weekly_rate . '</td>
+					<td class="lodgix_gray_highest">' . $low_monthly_rate . ' - ' . $high_monthly_rate . '</td>
 				</tr>
 			</tbody></table>    
   </td>
@@ -71,7 +71,7 @@ $vacation_rentals = '
   <td class="lodgix_border_left"><div></div></td>
   <td colspan="2"><table class="lodgix_image_cell_icons" border="0" cellspacing="0" style="text-align:center;width:100%;' . $global_icons .'">
   	<tr>
-  		<td><a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a><a title="Display Google Map" style="' . $icon_margin_left . $icons . '" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;' . $icons . '" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a><a title="Details" style="margin-left:4px;' . $icons . '" href="' . $permalink . '"><img src="' . $p_plugin_path  . '/images/kappfinder_50.png"></a></td>
+  		<td><a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . home_url() . $p_plugin_path  . '/images/Lodgix200x50.png"></a><a title="Display Google Map" style="' . $icon_margin_left . $icons . '" href="' . $permalink . '#map_canvas"><img src="' . home_url() . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;' . $icons . '" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . home_url() . $p_plugin_path  . '/images/mail_50.png"></a><a title="Details" style="margin-left:4px;' . $icons . '" href="' . $permalink . '"><img src="' . home_url() . $p_plugin_path  . '/images/kappfinder_50.png"></a></td>
   		</tr>
   	</table></td>
   <td class="lodgix_border_right"><div></div></td> 			

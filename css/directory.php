@@ -65,6 +65,24 @@ div#property_policies {
   margin-top:10px;
 }
 
+
+
+div#property_policies table {
+  border:0px;
+}
+
+div#property_policies table tr td {
+  border:0px;
+}
+
+div#lodgix_photo table {
+  border:0px;
+}
+
+div#lodgix_photo table tr td {
+  border:0px;
+}
+
 div#property_policies h2 {
   margin-bottom:10px;
   border-bottom:3px dotted #FF0000; 
@@ -153,10 +171,18 @@ div#lodgix_property_reviews h2 {
 #content_lodgix table {
   background-color:#FFFFFF;
   border-collapse: separate;
+  border:0px;
 }
 
 #lodgix_listing table {
   width:100%;
+  border:0px;
+  padding: 0px;
+}
+
+#content_lodgix table tr td {
+  border:0px;
+  padding: 0;
 }
 
 .lodgix_border_top {
@@ -236,6 +262,11 @@ div#lodgix_property_reviews h2 {
 
 .lodgix_description, .lodgix_name, .lodgix_comments {
 width: 100%;
+}
+
+.lodgix_description {
+	padding-left: 6px;
+	width:99%;
 }
 
 .lodgix_name, .lodgix_address {
@@ -533,6 +564,15 @@ border:0 none;
 	margin-bottom: 5px;
 	width:100%;
 	height:1px;
+}
+
+#lodgix_property_badge table {
+	border:0px;
+	width:100%;
+}
+
+#lodgix_property_badge tr td {
+	border:0px;
 }
 
 #lodgix_property_badge_title {

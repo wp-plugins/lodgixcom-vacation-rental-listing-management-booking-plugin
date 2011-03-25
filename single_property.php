@@ -36,7 +36,7 @@ if ($property->smoking)
 	
 $mail_icon = '';
 if ($this->options['p_lodgix_contact_url'] != "")
-	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a>';
+	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $this->options['p_lodgix_contact_url'] . '"><img src="' . home_url() . $p_plugin_path  . '/images/mail_50.png"></a>';
 
 $single_property .= '';
 $single_property .= '<div id="lodgix_property_badge">';
@@ -49,8 +49,8 @@ $single_property .= '<table width="100%">
 										<hr>
 										<table width="100%">												
 													<tr>
-														<td id="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . 'images/map_50.png"></a>' . $mail_icon . '</td>
-														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' . $p_plugin_path  . '/images/no_pets.png" style="' . $pets . '"><img src="' . $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '"></span></td>
+														<td id="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . home_url() . $p_plugin_path  . 'images/map_50.png"></a>' . $mail_icon . '</td>
+														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' . home_url() . $p_plugin_path  . '/images/no_pets.png" style="' . $pets . '"><img src="' . home_url() . $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '"></span></td>
 													</tr>
 										</table>';
 $single_property .= '</div>';
@@ -62,7 +62,7 @@ foreach($photos as $photo)
       $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);
       $single_property .= '<li><a href="' . $photo_url . '"><img width="640px" height="480px" src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
 }
-$single_property .= '</ul><p style="text-align:center;"><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></p></center>';
+$single_property .= '</ul><p style="text-align:center;"><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . home_url() . $p_plugin_path  . '/images/Lodgix200x50.png"></a></p></center>';
 
 $single_property .= '<div id="lodgix_property_description"><p><h2>Property Description</h2></p>' . $property->description_long . '</div>';
 $single_property .= '<div id="lodgix_property_details"><p><h2>Property Details</h2></p>' . $property->details . '</div>';
@@ -90,7 +90,7 @@ if (count($reviews) >= 1)
   $single_property .= '<p><i>' . $review->description . '</i></p><p>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
   $counter++;
   if ($counter != count($reviews))
-  	$single_property .= '<center><img src="' . $p_plugin_path  . 'images/post_separator.png"></center>';
+  	$single_property .= '<center><img src="' . home_url() . $p_plugin_path  . 'images/post_separator.png"></center>';
  }
  $single_property .= '</div><br><br>';
 } 
@@ -344,7 +344,7 @@ foreach($photos as $photo)
       }  
                 
       $single_property .= '<td valign="top" align="center" style="border-bottom: 0;">';
-      $single_property .= '<a href="' . $photo_url . '" class="thickbox"  rel="gallery-images"><img src="' . $photo->thumb_url .'" height="150" width="200"  style="cursor:url(' . $p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
+      $single_property .= '<a href="' . $photo_url . '" class="thickbox"  rel="gallery-images"><img src="' . $photo->thumb_url .'" height="150" width="200"  style="cursor:url(' . home_url() . $p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
             <div class="image_desc"></div> 
             </td>
                <div style="align:left"></div>

@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.28
+Version: 1.0.29
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.29: Fixed extra draft post
 v1.0.28: Fixed small CSS issues
 v1.0.27: Fixed availability link
 v1.0.26: Fixed Gravity Forms compatibility
@@ -1869,57 +1870,63 @@ if (!class_exists('p_lodgix')) {
 				$areas_pages = unserialize($this->options['p_lodgix_areas_pages']);
 				foreach($areas_pages as $page)	
   			{
-				   $wpost = array();
-           $wpost['ID'] = $page->page_id;
-           $content = '<div id="content_lodgix_wrapper">
-                      <div id="lodgix_sort_div">
-                       <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'en\',\'' . $page->area .  '\');">
-                          <OPTION VALUE="">None</OPTION>
-                          <OPTION VALUE="bedrooms">Bedrooms</OPTION>
-                          <OPTION VALUE="bathrooms">Bathrooms</OPTION>
-                          <OPTION VALUE="proptype">Rental Type</OPTION>
-                          <OPTION VALUE="pets">Pets Allowed</OPTION>
-                          <OPTION VALUE="min_daily_rate">Daily Rate</OPTION>
-                          <OPTION VALUE="min_weekly_rate">Weekly Rate</OPTION>
-                          <OPTION VALUE="min_monthly_rate">Monthly Rate</OPTION>
-                       </SELECT><BR>
-                       </div>
-                       <div id="content_lodgix">';
-           $content .= $this->get_vacation_rentals_html('',$page->area);
-           $content .= '</div></div>';
-           $wpost['post_content'] = $content;
-           $post_id = wp_update_post($wpost);        
-           $posts_table = $wpdb->prefix . "posts";
-           $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
-           $wpdb->query($sql);    
+  				 if ($page->page_id)  		  				
+  				 { 			  				
+  				   $wpost = array();
+             $wpost['ID'] = $page->page_id;
+             $content = '<div id="content_lodgix_wrapper">
+                        <div id="lodgix_sort_div">
+                         <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'en\',\'' . $page->area .  '\');">
+                            <OPTION VALUE="">None</OPTION>
+                            <OPTION VALUE="bedrooms">Bedrooms</OPTION>
+                            <OPTION VALUE="bathrooms">Bathrooms</OPTION>
+                            <OPTION VALUE="proptype">Rental Type</OPTION>
+                            <OPTION VALUE="pets">Pets Allowed</OPTION>
+                            <OPTION VALUE="min_daily_rate">Daily Rate</OPTION>
+                            <OPTION VALUE="min_weekly_rate">Weekly Rate</OPTION>
+                            <OPTION VALUE="min_monthly_rate">Monthly Rate</OPTION>
+                         </SELECT><BR>
+                         </div>
+                         <div id="content_lodgix">';
+             $content .= $this->get_vacation_rentals_html('',$page->area);
+             $content .= '</div></div>';
+             $wpost['post_content'] = $content;
+             $post_id = wp_update_post($wpost);        
+             $posts_table = $wpdb->prefix . "posts";
+             $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
+             $wpdb->query($sql);    
+            }
         }
         
         $areas_pages_de = unserialize($this->options['p_lodgix_areas_pages_de']);
         foreach($areas_pages_de as $page)	
   			{
-           $wpost = array();
-           $wpost['ID'] = $page->page_id;
-           $content = '<div id="content_lodgix_wrapper">
-                      <div id="lodgix_sort_div">
-                       <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'de\',\'' . $page->area .  '\');">
-                          <OPTION VALUE="">Keine</OPTION>
-                          <OPTION VALUE="bedrooms">Schlafzimmer</OPTION>
-                          <OPTION VALUE="bathrooms">Badezimmer</OPTION>
-                          <OPTION VALUE="proptype">Mietart</OPTION>
-                          <OPTION VALUE="pets">Haustiere erlaubt</OPTION>
-                          <OPTION VALUE="min_daily_rate">Tageskurs</OPTION>
-                          <OPTION VALUE="min_weekly_rate">Wochenpreis</OPTION>
-                          <OPTION VALUE="min_monthly_rate">Monatspreis</OPTION>
-                       </SELECT><BR>
-                       </div>
-                       <div id="content_lodgix">';
-           $content .= $this->get_vacation_rentals_html_de('',$page->area);
-           $content .= '</div></div>';
-           $wpost['post_content'] = $content;
-           $post_id = wp_update_post($wpost);    
-           $posts_table = $wpdb->prefix . "posts";           
-           $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
-           $wpdb->query($sql);   
+  				 if ($page->page_id)  		  				
+  				 { 				
+             $wpost = array();
+             $wpost['ID'] = $page->page_id;
+             $content = '<div id="content_lodgix_wrapper">
+                        <div id="lodgix_sort_div">
+                         <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'de\',\'' . $page->area .  '\');">
+                            <OPTION VALUE="">Keine</OPTION>
+                            <OPTION VALUE="bedrooms">Schlafzimmer</OPTION>
+                            <OPTION VALUE="bathrooms">Badezimmer</OPTION>
+                            <OPTION VALUE="proptype">Mietart</OPTION>
+                            <OPTION VALUE="pets">Haustiere erlaubt</OPTION>
+                            <OPTION VALUE="min_daily_rate">Tageskurs</OPTION>
+                            <OPTION VALUE="min_weekly_rate">Wochenpreis</OPTION>
+                            <OPTION VALUE="min_monthly_rate">Monatspreis</OPTION>
+                         </SELECT><BR>
+                         </div>
+                         <div id="content_lodgix">';
+             $content .= $this->get_vacation_rentals_html_de('',$page->area);
+             $content .= '</div></div>';
+             $wpost['post_content'] = $content;
+             $post_id = wp_update_post($wpost);    
+             $posts_table = $wpdb->prefix . "posts";           
+             $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
+             $wpdb->query($sql);   
+            }
 				}
 				
 				

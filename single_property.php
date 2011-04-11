@@ -305,7 +305,7 @@ if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0)
 if ($low_weekly_rate > 0)	
 	$single_property .= 'Weekly Rate:	' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' per week<br/>';
 if ($low_monthly_rate > 0)		
-	$single_property .= 'Monthly Rate:	' . $property->currency_symbol . $low_monthly_rate  . $property->currency_symbol . ' - ' . $high_monthly_rate  . ' per month<br/>';
+	$single_property .= 'Monthly Rate:	' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate  . ' per month<br/>';
 $single_property .= '- Rate varies due to seasonality and holidays.<br/>';
 $single_property .= '- Please select your dates on our online booking calendar for an exact quote.<br/>';
 $single_property .= '</div>';

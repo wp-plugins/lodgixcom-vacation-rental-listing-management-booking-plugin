@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.30
+Version: 1.0.31
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.31: Fixed Featured Widget
 v1.0.30: Fixed rate CSS
 v1.0.29: Fixed extra draft post
 v1.0.28: Fixed small CSS issues
@@ -2379,6 +2380,11 @@ if (!class_exists('p_lodgix')) {
             $permalink = get_permalink($page_id);
           }
           
+          
+          $proptype = ', ' . $property->proptype;
+          if ($proptype == ', Room type')
+          	$proptype = '';
+          
           echo '<div class="lodgix-featured-listing" style="-moz-border-radius: 5px 5px 5px 5px;">
                 <div class="imgset">
     	            <a href="' . $permalink . '">
@@ -2387,7 +2393,7 @@ if (!class_exists('p_lodgix')) {
     	            </a>
                 </div>
                 <a class="address-link" href="' . $permalink . '">' . $property->description . '</a>
-                <div class="featured-details">' . $property->bedrooms . ' Bed, ' . $property->bathrooms . ' Bath, ' . $property->proptype . ''
+                <div class="featured-details">' . $property->bedrooms . ' Bedrm, ' . $property->bathrooms . ' Bath' . $proptype . ''
                   . $location . '
                 </div>    
               </div>'; 

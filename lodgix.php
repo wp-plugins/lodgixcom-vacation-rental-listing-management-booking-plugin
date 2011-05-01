@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.31
+Version: 1.0.32
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.32: Added option to display widget horizontally
 v1.0.31: Fixed Featured Widget
 v1.0.30: Fixed rate CSS
 v1.0.29: Fixed extra draft post
@@ -2385,7 +2386,11 @@ if (!class_exists('p_lodgix')) {
           if ($proptype == ', Room type')
           	$proptype = '';
           
-          echo '<div class="lodgix-featured-listing" style="-moz-border-radius: 5px 5px 5px 5px;">
+          $position = '';
+          if ($loptions['p_lodgix_display_featured_horizontally'] == true)
+          	$position = "float:left; margin-left:5px;";
+          
+          echo '<div class="lodgix-featured-listing" style="-moz-border-radius: 5px 5px 5px 5px;' . $position . '">
                 <div class="imgset">
     	            <a href="' . $permalink . '">
     		            <img alt="View listing" src="' . $property->main_image_thumb . '">
@@ -3047,7 +3052,12 @@ if (!class_exists('p_lodgix')) {
                   if ($_POST['p_lodgix_display_availability_icon'] == "on")
                       $this->options['p_lodgix_display_availability_icon'] = true;
                   else
-                      $this->options['p_lodgix_display_availability_icon'] = false;                                  
+                      $this->options['p_lodgix_display_availability_icon'] = false;                 
+                  if ($_POST['p_lodgix_display_featured_horizontally'] == "on")
+                      $this->options['p_lodgix_display_featured_horizontally'] = true;
+                  else
+                      $this->options['p_lodgix_display_featured_horizontally'] = false;                 
+                                       
                   $this->options['p_lodgix_owner_id'] = (int)$_POST['p_lodgix_owner_id'];  
                   $this->options['p_lodgix_api_key'] = $_POST['p_lodgix_api_key'];           
                   $this->options['p_google_maps_api'] = $_POST['p_google_maps_api']; 
@@ -3321,7 +3331,13 @@ if (!class_exists('p_lodgix')) {
                           
                           </td> 
                         </tr>         
-                                       
+                     		<tr valign="top"> 
+                            <th scope="row"><?php _e('Display Featured Widget horizontally ?:', $this->localizationDomain); ?></th> 
+                            <td>
+                             <input name="p_lodgix_display_featured_horizontally" type="checkbox" id="p_lodgix_display_featured_horizontally" <?php if ($this->options['p_lodgix_display_featured_horizontally']) echo "CHECKED"; ?>/>
+                          
+                          </td> 
+                        </tr>                                              
                         <tr valign="top"> 
                             <th scope="row"><?php _e('Property Name:', $this->localizationDomain); ?></th> 
                             <td>

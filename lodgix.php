@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.32
+Version: 1.0.33
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.33: Added float right option to widget
 v1.0.32: Added option to display widget horizontally
 v1.0.31: Fixed Featured Widget
 v1.0.30: Fixed rate CSS
@@ -1008,6 +1009,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_allow_comments' => false,
                                   'p_lodgix_allow_pingback' => false,
                                   'p_lodgix_display_daily_rates' => true,
+                                  'p_lodgix_display_featured_horizontally' => 0,
                                   'p_lodgix_display_icons' => false,
                                   'p_lodgix_display_title' => 'name',
                                   'p_lodgix_display_featured' => 'city',
@@ -1068,6 +1070,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_allow_comments' => false,
                               'p_lodgix_allow_pingback' => false,
                               'p_lodgix_display_daily_rates' => true,
+                              'p_lodgix_display_featured_horizontally' => 0,
                               'p_lodgix_display_icons' => false,
                               'p_lodgix_display_title' => 'name',
                               'p_lodgix_display_featured' => 'city',
@@ -2387,8 +2390,10 @@ if (!class_exists('p_lodgix')) {
           	$proptype = '';
           
           $position = '';
-          if ($loptions['p_lodgix_display_featured_horizontally'] == true)
+          if ($loptions['p_lodgix_display_featured_horizontally'] == 1)
           	$position = "float:left; margin-left:5px;";
+          else if ($loptions['p_lodgix_display_featured_horizontally'] == 2)
+          	$position = "float:right; margin-right:5px;";
           
           echo '<div class="lodgix-featured-listing" style="-moz-border-radius: 5px 5px 5px 5px;' . $position . '">
                 <div class="imgset">
@@ -3045,11 +3050,8 @@ if (!class_exists('p_lodgix')) {
                       $this->options['p_lodgix_display_availability_icon'] = true;
                   else
                       $this->options['p_lodgix_display_availability_icon'] = false;                 
-                  if ($_POST['p_lodgix_display_featured_horizontally'] == "on")
-                      $this->options['p_lodgix_display_featured_horizontally'] = true;
-                  else
-                      $this->options['p_lodgix_display_featured_horizontally'] = false;                 
-                                       
+                                   
+									$this->options['p_lodgix_display_featured_horizontally'] = (int)$_POST['p_lodgix_display_featured_horizontally'];                                         
                   $this->options['p_lodgix_owner_id'] = (int)$_POST['p_lodgix_owner_id'];  
                   $this->options['p_lodgix_api_key'] = $_POST['p_lodgix_api_key'];           
                   $this->options['p_google_maps_api'] = $_POST['p_google_maps_api']; 
@@ -3325,9 +3327,12 @@ if (!class_exists('p_lodgix')) {
                         </tr>         
                      		<tr valign="top"> 
                             <th scope="row"><?php _e('Display Featured Widget horizontally ?:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_display_featured_horizontally" type="checkbox" id="p_lodgix_display_featured_horizontally" <?php if ($this->options['p_lodgix_display_featured_horizontally']) echo "CHECKED"; ?>/>
-                          
+                            <td>                             
+                            <select name="p_lodgix_display_featured_horizontally"  id="p_lodgix_display_featured_horizontally" style="width:120px;">                              
+                              <option <?php if (($this->options['p_lodgix_display_featured_horizontally'] == 0) || (($this->options['p_lodgix_display_featured_horizontally'] != 1) && ($this->options['p_lodgix_display_featured_horizontally'] != 2))) echo "SELECTED"; ?> value='0'>No</option>
+                              <option  <?php if ($this->options['p_lodgix_display_featured_horizontally'] == 1) echo "SELECTED"; ?> value='1'>Yes - Float Left</option>
+                              <option  <?php if ($this->options['p_lodgix_display_featured_horizontally'] == 2) echo "SELECTED"; ?> value='2'>Yes - Float Right</option>
+                            </select>
                           </td> 
                         </tr>                                              
                         <tr valign="top"> 

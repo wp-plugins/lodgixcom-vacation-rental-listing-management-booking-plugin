@@ -373,5 +373,7 @@ $single_property .= '<script type="text/javascript">
     //]]>
     </script>
   </head>';
+  
+$single_property .= '<br><a href="http://www.lodgix.com">Vacation Rental Software</a> by Lodgix.com';  
 
 ?>

@@ -3,13 +3,14 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.34
+Version: 1.0.35
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 */
 /*
 
 Changelog:
+v1.0.35: Added Lodgix.com links
 v1.0.34: Fixed Wordpress 3.2.0 incompatibility
 v1.0.33: Added float right option to widget
 v1.0.32: Added option to display widget horizontally
@@ -1991,9 +1992,10 @@ if (!class_exists('p_lodgix')) {
           $low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
           $high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
           include('vacation_rentals.php');
-          $content .= $vacation_rentals;
+          $content .= $vacation_rentals;          
          }
         }        
+        $content .= '<br><a href="http://www.lodgix.com">Vacation Rental Software</a> by Lodgix.com';
         return $content;
       }      
 
@@ -2049,6 +2051,7 @@ if (!class_exists('p_lodgix')) {
           $content .= $vacation_rentals;
          }
         }        
+				$content .= '<br><a href="http://www.lodgix.com">Vacation Rental Software</a> by Lodgix.com';        
         return $content;
       }      
 

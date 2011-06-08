@@ -455,7 +455,7 @@ border:0 none;
 /********** FEATURED LISTINGS **************/
 
 .lodgix-featured-properties {
-	width: 210px;
+	width: auto;
   margin-left: 21px;
 }
 

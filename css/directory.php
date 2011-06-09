@@ -438,7 +438,7 @@ margin-bottom:0px;
 }
 
 table.lodgix_gallery {
-
+width:100%;
 }
 table.lodgix_gallery tr td {
 padding-top:7px;

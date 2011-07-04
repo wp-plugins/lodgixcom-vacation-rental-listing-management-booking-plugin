@@ -31,6 +31,17 @@ if ((!$this->options['p_lodgix_display_availability_icon']) &&(!$this->options['
 
 $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
 
+$mail_url = '';
+if ($this->options['p_lodgix_contact_url_de'] != "")
+{
+	$mail_url = $this->options['p_lodgix_contact_url_de'];
+	
+	if (strpos($mail_url,'__PROPERTY__') != false)
+	{
+		$mail_url = str_replace('__PROPERTY__',$german_details->description,$mail_url);
+	}
+}
+
 $vacation_rentals = '
 <table cellspacing="0" class="lodgix_listing">
 <tbody><tr><td class="lodgix_border_top_left"><div></div></td><td colspan="2" class="lodgix_border_top"><div></div></td><td class="lodgix_border_top_right"><div></div></td></tr>
@@ -76,7 +87,7 @@ $vacation_rentals = '
   <td class="lodgix_border_left"><div></div></td>
   <td colspan="2"><table class="lodgix_image_cell_icons" border="0" cellspacing="0" style="text-align:center;width:100%;' . $global_icons .'">
   	<tr>
-  		<td><a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . home_url() . $p_plugin_path  . '/images/Lodgix200x50.png"></a><a title="Display Google Map" style="' . $icon_margin_left . $icons . '" href="' . $permalink . '#map_canvas"><img src="' . home_url() . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;' . $icons . '" href="' . $this->options['p_lodgix_contact_url_de'] . '"><img src="' . home_url() . $p_plugin_path  . '/images/mail_50.png"></a><a title="Details" style="margin-left:4px;' . $icons . '" href="' . $permalink . '"><img src="' . home_url() . $p_plugin_path  . '/images/kappfinder_50.png"></a></td>
+  		<td><a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . home_url() . $p_plugin_path  . '/images/Lodgix200x50.png"></a><a title="Display Google Map" style="' . $icon_margin_left . $icons . '" href="' . $permalink . '#map_canvas"><img src="' . home_url() . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;' . $icons . '" href="' . $mail_url . '"><img src="' . home_url() . $p_plugin_path  . '/images/mail_50.png"></a><a title="Details" style="margin-left:4px;' . $icons . '" href="' . $permalink . '"><img src="' . home_url() . $p_plugin_path  . '/images/kappfinder_50.png"></a></td>
   		</tr>
   	</table></td>
   <td class="lodgix_border_right"><div></div></td> 			

@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.40
+Version: 1.0.41
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.41: Changed options text. Allow_url_fopen no longer required.
 v1.0.40: Fixed version issue
 v1.0.39: Increased Contact URL size
 v1.0.38: Added property name to contact url querystring
@@ -50,6 +51,119 @@ v1.0.0: Initial release
 global $p_lodgix_db_version;
 $p_lodgix_db_version = "1.4";
 
+
+if (!class_exists('LogidxHTTPRequest')) {
+  class LogidxHTTPRequest
+  {
+      var $_fp;        // HTTP socket
+      var $_url;        // full URL
+      var $_host;        // HTTP host
+      var $_protocol;    // protocol (HTTP/HTTPS)
+      var $_uri;        // request URI
+      var $_port;        // port
+     
+      // scan url
+      function _scan_url()
+      {
+          $req = $this->_url;
+         
+          $pos = strpos($req, '://');
+          $this->_protocol = strtolower(substr($req, 0, $pos));
+         
+          $req = substr($req, $pos+3);
+          $pos = strpos($req, '/');
+          if($pos === false)
+              $pos = strlen($req);
+          $host = substr($req, 0, $pos);
+         
+          if(strpos($host, ':') !== false)
+          {
+              list($this->_host, $this->_port) = explode(':', $host);
+          }
+          else
+          {
+              $this->_host = $host;
+              $this->_port = ($this->_protocol == 'https') ? 443 : 80;
+          }
+         
+          $this->_uri = substr($req, $pos);
+          if($this->_uri == '')
+              $this->_uri = '/';
+      }
+     
+      // constructor
+      function LogidxHTTPRequest($url)
+      {
+          $this->_url = $url;
+          $this->_scan_url();
+      }
+     
+      function RawResponse()
+      {
+          $crlf = "\r\n";
+         
+          // generate request
+          $req = 'GET ' . $this->_uri . ' HTTP/1.0' . $crlf
+              .    'Host: ' . $this->_host . $crlf
+              .    $crlf;
+              
+          $response = NULL;
+         
+          // fetch
+          $this->_fp = fsockopen(($this->_protocol == 'https' ? 'ssl://' : '') . $this->_host, $this->_port);
+          fwrite($this->_fp, $req);
+          while(is_resource($this->_fp) && $this->_fp && !feof($this->_fp))
+              $response .= fread($this->_fp, 1024);
+          fclose($this->_fp);
+          
+          return $response;
+      }
+      
+      // download URL to string
+      function DownloadToString()
+      {
+          $crlf = "\r\n";
+         
+          // generate request
+          $req = 'GET ' . $this->_uri . ' HTTP/1.0' . $crlf
+              .    'Host: ' . $this->_host . $crlf
+              .    $crlf;
+         
+          // fetch
+          $this->_fp = fsockopen(($this->_protocol == 'https' ? 'ssl://' : '') . $this->_host, $this->_port);
+          stream_set_timeout($this->_fp, 360);
+          fwrite($this->_fp, $req);          
+          while(is_resource($this->_fp) && $this->_fp && !feof($this->_fp))
+              $response .= fread($this->_fp, 1024);
+          fclose($this->_fp);
+         
+          // split header and body
+          $pos = strpos($response, $crlf . $crlf);
+          if($pos === false)
+              return($response);
+          $header = substr($response, 0, $pos);
+          $body = substr($response, $pos + 2 * strlen($crlf));
+         
+          // parse headers
+          $headers = array();
+          $lines = explode($crlf, $header);
+          foreach($lines as $line)
+              if(($pos = strpos($line, ':')) !== false)
+                  $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1));
+         
+          // redirection?
+          if(isset($headers['location']))
+          {
+              $http = new LogidxHTTPRequest($headers['location']);
+              return($http->DownloadToString($http));
+          }
+          else
+          {
+              return($body);
+          }
+      }
+  } 
+}
 
 if (!class_exists('p_lodgix')) {
     class p_lodgix {
@@ -246,7 +360,9 @@ if (!class_exists('p_lodgix')) {
           if (!file_exists($folder))
             mkdir($folder, 0755,true);
           
-          file_put_contents($folder . '/' . $file, file_get_contents($pic->thumb_url,0,$context));
+        	$r = new LogidxHTTPRequest($pic->thumb_url);
+					$contents = $r->DownloadToString();           
+          file_put_contents($folder . '/' . $file, $contents);
         }
         if (file_exists($folder . '/' . $file))
         {
@@ -263,8 +379,9 @@ if (!class_exists('p_lodgix')) {
         {
           if (!file_exists($folder))
             mkdir($folder, 0755,true);
-          
-          file_put_contents($folder . '/' . $file, file_get_contents($pic->url,0,$context));
+        	$r = new LogidxHTTPRequest($pic->url);
+					$contents = $r->DownloadToString();           
+          file_put_contents($folder . '/' . $file, $contents); 
           
         }
         if (file_exists($folder . '/' . $file))
@@ -2221,8 +2338,7 @@ if (!class_exists('p_lodgix')) {
         $fees_table = $wpdb->prefix . "lodgix_fees";   
         $deposits_table = $wpdb->prefix . "lodgix_deposits";     
         $reviews_table = $wpdb->prefix . "lodgix_reviews";       
-        
-       
+                
         
         $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table . ' ORDER BY `order`'); 
         if ($properties)
@@ -2230,6 +2346,7 @@ if (!class_exists('p_lodgix')) {
             foreach($properties as $property)
             {
               $exists = get_post($property->post_id);
+              
               if (!$exists)
               {         
                   $post = array();
@@ -2527,9 +2644,9 @@ if (!class_exists('p_lodgix')) {
       
       function p_lodgix_notify() {
       		ini_set('max_execution_time', 0);
-      		$context = stream_context_create(array('http' => array('timeout' => 120)));      
           $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
-          $xml = file_get_contents($fetch_url,0,$context);      
+          $r = new LogidxHTTPRequest($fetch_url);
+					$xml = $r->DownloadToString(); 
           if ($xml)
           {  
             $root = new DOMDocument();  
@@ -3092,16 +3209,17 @@ if (!class_exists('p_lodgix')) {
                   $post['post_status'] = 'publish';
                   $post['post_author'] = 1;
                   $post['post_type'] = "page";
-                  $exists = get_post($this->options['p_lodgix_vacation_rentals_page']);              
+                  $exists = get_post($this->options['p_lodgix_vacation_rentals_page']); 
                   if (!$exists)                 
                   {
-                      $post_id = wp_insert_post( $post );               
+                      $post_id = wp_insert_post( $post, true );               
                       if ($post_id != 0)
                       {
                           $this->options['p_lodgix_vacation_rentals_page'] = (int)$post_id;
                       }    
              
                   }
+
                   
                   $exists = get_post($this->options['p_lodgix_vacation_rentals_page_de']);              
                   if (!$exists)                 
@@ -3191,8 +3309,9 @@ if (!class_exists('p_lodgix')) {
                   $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
                   $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
  
- 									$context = stream_context_create(array('http' => array('timeout' => 120)));                                       
-                  $xml = file_get_contents($owner_fetch_url,0,$context);
+          				$r = new LogidxHTTPRequest($owner_fetch_url);
+									$xml = $r->DownloadToString(); 
+                  
                 
                   $ROOT_HEIGHT = 84;
                   $root = new DOMDocument();  
@@ -3209,7 +3328,8 @@ if (!class_exists('p_lodgix')) {
                     $this->update_owner($owner);                  
                     $this->saveAdminOptions();  
                                      
-                    $xml = file_get_contents($fetch_url,0,$context);
+          					$r = new LogidxHTTPRequest($fetch_url);
+										$xml = $r->DownloadToString();                     
                     if ($xml)
                     {
                       $root = new DOMDocument();  
@@ -3306,10 +3426,20 @@ if (!class_exists('p_lodgix')) {
                         </tr>     
                             <tr valign="top"> 
                             <td colspan="2">
-                            	Please login to your Lodgix.com account and go to "Settings >> Important Settings" on the menu<br> to obtain "Customer ID" and "API Key".
-                            	In alternative click <a href="javascript:void(0)" onclick="p_lodgix_set_demo_credentials(); return false;">here</a> to setup Demo Credentials.
+                            	To setup your properties for use with the plug-in, a Lodgix.com subscription is required. <a target="_blank" href="http://www.lodgix.com/register/0">Sign-up for a free 30 day trial subscription at Lodgix.com</a>. 
+                            	No credit card is required.<br>We do offer a a free starter subscription for plug-in users which is good for up to five properties, however it is restricted to payments via PayPal only and does not include use <br>of automated trigger emails or any of the premium modules. This subscription is free and will not expire.
+													
+															Additionally, if you just wish to test the plug-in within your website using<br> demo property images and data,  and do not wish to sign up for a Lodgix.com subscription at this time, click here to populate the Customer ID and API Key with demo credentials.
+															<br><br>If you are a current Lodgix.com subscriber, please login to your Lodgix.com account and go to "Settings >> Important Settings" to obtain your "Customer ID" and "API Key". 
+															<br>
                             	</td> 
-                        </tr>                                                   
+                        </tr>                   
+                          </tr>     
+                            <tr valign="top"> 
+                            <td colspan="2">
+       
+                            	</td> 
+                        </tr>                                   
                     </table>
         <p>          
         <b><?php _e('General Display Options', $this->localizationDomain); ?></b>

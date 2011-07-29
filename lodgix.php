@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.41
+Version: 1.0.42
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.42: Changed options text.
 v1.0.41: Changed options text. Allow_url_fopen no longer required.
 v1.0.40: Fixed version issue
 v1.0.39: Increased Contact URL size
@@ -3431,7 +3432,7 @@ if (!class_exists('p_lodgix')) {
 													
 															Additionally, if you just wish to test the plug-in within your website using<br> demo property images and data,  and do not wish to sign up for a Lodgix.com subscription at this time, click here to populate the Customer ID and API Key with demo credentials.
 															<br><br>If you are a current Lodgix.com subscriber, please login to your Lodgix.com account and go to "Settings >> Important Settings" to obtain your "Customer ID" and "API Key". 
-															<br>
+															<br>In alternative click <a href="javascript:void(0)" onclick="p_lodgix_set_demo_credentials(); return false;">here</a> to setup Demo Credentials.
                             	</td> 
                         </tr>                   
                           </tr>     

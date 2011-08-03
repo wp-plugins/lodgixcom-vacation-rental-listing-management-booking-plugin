@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.42
+Version: 1.0.43
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.43: Added plugin installation check.
 v1.0.42: Changed options text.
 v1.0.41: Changed options text. Allow_url_fopen no longer required.
 v1.0.40: Fixed version issue
@@ -315,6 +316,8 @@ if (!class_exists('p_lodgix')) {
       add_action('wp_head', array(&$this,"p_lodgix_header_code"));
       add_action('wp_ajax_p_lodgix_notify', array(&$this,"p_lodgix_notify"));
       add_action('wp_ajax_nopriv_p_lodgix_notify', array(&$this,"p_lodgix_notify"));
+      add_action('wp_ajax_p_lodgix_check', array(&$this,"p_lodgix_check"));
+      add_action('wp_ajax_nopriv_p_lodgix_check', array(&$this,"p_lodgix_check"));      
       add_action('wp_ajax_p_lodgix_sort_vr', array(&$this,"p_lodgix_sort_vr"));
       add_action('wp_ajax_nopriv_p_lodgix_sort_vr', array(&$this,"p_lodgix_sort_vr"));
       add_action('p_lodgix_download_images', array(&$this,"p_lodgix_download_images"));
@@ -2686,6 +2689,12 @@ if (!class_exists('p_lodgix')) {
           }
       }
       
+      
+ 			function p_lodgix_check() {
+      		ini_set('max_execution_time', 0);         
+          die("PLUGIN_INSTALLED");
+        
+      }      
       
       function set_page_options()
       {

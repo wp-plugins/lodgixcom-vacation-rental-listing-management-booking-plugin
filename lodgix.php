@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.44
+Version: 1.0.45
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.45: Added video/virtual tour to property page
 v1.0.44: Added new registration link.
 v1.0.43: Added plugin installation check.
 v1.0.42: Changed options text.
@@ -52,7 +53,7 @@ v1.0.0: Initial release
 */
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "1.4";
+$p_lodgix_db_version = "1.5";
 
 
 if (!class_exists('LogidxHTTPRequest')) {
@@ -590,12 +591,11 @@ if (!class_exists('p_lodgix')) {
         	wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
         	wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
         	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
+        	wp_enqueue_script('p_lodgix_jquery_swf_object',$p_plugin_path . 'js/jquery.swfobject.js');            	    
+        	wp_enqueue_script('p_lodgix_jquery_ceebox',$p_plugin_path . 'js/jquery.ceebox.js');          	  
     	  
     		if ($this->p_is_lodgix_page($wp_query->post->ID))
       	{	
-        	
-
-        	
         	
         	if ($this->options['p_lodgix_custom_page_template'] && $this->options['p_lodgix_custom_page_template'] != '')
         	{
@@ -698,6 +698,8 @@ if (!class_exists('p_lodgix')) {
 											jQuery('#lodgix_property_badge').corner("round 8px");
 											if (location.hash != '')
 												location.hash = location.hash;
+												
+											jQuery(".ceebox").ceebox({videoGallery:'false'});
 										});
 				
 							-->
@@ -775,6 +777,8 @@ if (!class_exists('p_lodgix')) {
             `post_id` bigint,
             `area` varchar(255) default NULL,
              `order` int(10) unsigned NULL,
+             `video_url` text default NULL,
+             `virtual_tour_url` default NULL,
              PRIMARY KEY  (`id`)
        );";
        $wpdb->query($sql);
@@ -1507,6 +1511,8 @@ if (!class_exists('p_lodgix')) {
         
         $parray['check_in'] = $property['CheckIn'];
         $parray['check_out'] = $property['CheckOut'];
+        $parray['video_url'] = $property['VideoURL'];
+        $parray['virtual_tour_url'] = $property['VirtualToursURL'];
              
         $photos = $property['Photos'];
         if ($property['Photos']['Photo'][0])
@@ -3045,6 +3051,14 @@ if (!class_exists('p_lodgix')) {
         	$sql = "ALTER TABLE " . $pictures_table  . " MODIFY COLUMN `caption` varchar(255) default NULL;";
         	$wpdb->query($sql);        	
         }        
+
+        if ($old_db_version < 1.5)
+        {
+        	$sql = "ALTER TABLE " . $properties_table  . " ADD COLUMN `video_url` text default NULL;";
+        	$wpdb->query($sql);        	
+        	$sql = "ALTER TABLE " . $properties_table  . " ADD COLUMN `virtual_tour_url` text default NULL;";
+        	$wpdb->query($sql);        	
+        }        
       }
       
       /**
@@ -3326,7 +3340,9 @@ if (!class_exists('p_lodgix')) {
                   $this->saveAdminOptions();       
 									
                   $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
+                  
                   $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
+
  
           				$r = new LogidxHTTPRequest($owner_fetch_url);
 									$xml = $r->DownloadToString(); 

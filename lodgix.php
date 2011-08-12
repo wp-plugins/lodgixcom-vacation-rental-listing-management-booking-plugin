@@ -3334,7 +3334,7 @@ if (!class_exists('p_lodgix')) {
                   $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
                   
                   $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
-                  $fetch_url = 'http://127.0.0.1:8000/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
+                  #$fetch_url = 'http://127.0.0.1:8000/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
  
           				$r = new LogidxHTTPRequest($owner_fetch_url);
 									$xml = $r->DownloadToString(); 

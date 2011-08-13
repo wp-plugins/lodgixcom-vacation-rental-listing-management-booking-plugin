@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.45
+Version: 1.0.46
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.46: Added beds setup to property description
 v1.0.45: Added video/virtual tour to property page
 v1.0.44: Added new registration link.
 v1.0.43: Added plugin installation check.
@@ -53,7 +54,7 @@ v1.0.0: Initial release
 */
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "1.5";
+$p_lodgix_db_version = "1.6";
 
 
 if (!class_exists('LogidxHTTPRequest')) {
@@ -778,7 +779,8 @@ if (!class_exists('p_lodgix')) {
             `area` varchar(255) default NULL,
              `order` int(10) unsigned NULL,
              `video_url` text default NULL,
-             `virtual_tour_url` default NULL,
+             `virtual_tour_url` text default NULL,
+             `beds_text` text default NULL,
              PRIMARY KEY  (`id`)
        );";
        $wpdb->query($sql);
@@ -1513,6 +1515,23 @@ if (!class_exists('p_lodgix')) {
         $parray['check_out'] = $property['CheckOut'];
         $parray['video_url'] = $property['VideoURL'];
         $parray['virtual_tour_url'] = $property['VirtualToursURL'];
+        
+        $beds = $property['Beds'];
+        if ($property['Beds']['Bed'][0])
+            $beds = $property['Beds']['Bed'];    
+        $beds_text = '';      
+        if ($beds)
+        {
+          foreach ($beds as $bed)
+          { 
+        		$beds_text .= $bed['Quantity'] . ' ' . $bed['Type'] . '(s), ';             	
+          }     
+          if (strlen($beds_text) > 0)
+          {
+          	$beds_text = substr($beds_text,0,strlen($beds_text)-2); 
+          }
+        }      
+        $parray['beds_text'] = $beds_text;        
              
         $photos = $property['Photos'];
         if ($property['Photos']['Photo'][0])
@@ -3059,6 +3078,13 @@ if (!class_exists('p_lodgix')) {
         	$sql = "ALTER TABLE " . $properties_table  . " ADD COLUMN `virtual_tour_url` text default NULL;";
         	$wpdb->query($sql);        	
         }        
+
+        if ($old_db_version < 1.6)
+        {
+        	$sql = "ALTER TABLE " . $properties_table  . " ADD COLUMN `beds_text` text default NULL;";
+        	$wpdb->query($sql);        	 	
+        }        
+        
       }
       
       /**

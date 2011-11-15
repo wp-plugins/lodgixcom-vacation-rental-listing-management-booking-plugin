@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.48
+Version: 1.0.49
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.49: Added Search Rentals Widget
 v1.0.48: Changed policies position
 v1.0.47: Fixed featured rentals image path
 v1.0.46: Added beds setup to property description
@@ -325,6 +326,9 @@ if (!class_exists('p_lodgix')) {
       add_action('wp_ajax_nopriv_p_lodgix_check', array(&$this,"p_lodgix_check"));      
       add_action('wp_ajax_p_lodgix_sort_vr', array(&$this,"p_lodgix_sort_vr"));
       add_action('wp_ajax_nopriv_p_lodgix_sort_vr', array(&$this,"p_lodgix_sort_vr"));
+      add_action('wp_ajax_p_lodgix_custom_search', array(&$this,"p_lodgix_custom_search"));
+      add_action('wp_ajax_nopriv_p_lodgix_custom_search', array(&$this,"p_lodgix_custom_search"));
+      
       add_action('p_lodgix_download_images', array(&$this,"p_lodgix_download_images"));
       add_action("template_redirect", array(&$this,"p_lodgix_template_redirect"));
    
@@ -335,6 +339,7 @@ if (!class_exists('p_lodgix')) {
  
       // Featured widget
       add_action('widgets_init',  array(&$this,'widget_lodgix_featured_init'));
+      add_action('widgets_init',  array(&$this,'widget_lodgix_custom_search_init'));
       
       // Menus
       add_filter('wp_get_nav_menu_items',array(&$this,'p_lodgix_nav_menus'),10,3);
@@ -412,6 +417,10 @@ if (!class_exists('p_lodgix')) {
         $content = str_replace('[lodgix availability]',$this->get_availability_page_content('en'),$content);
       if (strrpos($content,'[lodgix availability de]') > 0)
         $content = str_replace('[lodgix availability de]',$this->get_availability_page_content('de'),$content);        
+      if (strrpos($content,'[lodgix search_rentals]') > 0)
+        $content = str_replace('[lodgix search_rentals]',$this->get_search_rentals_page_content('en'),$content);        
+      if (strrpos($content,'[lodgix search_rentals de]') > 0)
+        $content = str_replace('[lodgix search_rentals de]',$this->get_search_rentals_page_content('de'),$content);        
       return $content;
     }
     
@@ -550,7 +559,14 @@ if (!class_exists('p_lodgix')) {
     																														 		break;	
 
     		case $this->options['p_lodgix_availability_page_de'] 		  : return true;
-    																														 		break;	    																														 		
+    																														 		break;	    			
+
+   		  case $this->options['p_lodgix_search_rentals_page'] 	 	  : return true;
+    																														 		break;	
+
+    		case $this->options['p_lodgix_search_rentals_page_de']	  : return true;
+    																														 		break;	    			
+    	  																											 		
     																														 		
     	}
     	
@@ -1145,6 +1161,8 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_vacation_rentals_page_de' => NULL,
                                   'p_lodgix_availability_page' => NULL,
                                   'p_lodgix_availability_page_de' => NULL,
+                                  'p_lodgix_search_rentals_page' => NULL,
+                                  'p_lodgix_search_rentals_page_de' => NULL,
                                   'p_lodgix_allow_comments' => false,
                                   'p_lodgix_allow_pingback' => false,
                                   'p_lodgix_display_daily_rates' => true,
@@ -1206,6 +1224,8 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_vacation_rentals_page_de' => NULL,
                               'p_lodgix_availability_page' => NULL,
                               'p_lodgix_availability_page_de' => NULL,
+                              'p_lodgix_search_rentals_page' => NULL,
+                              'p_lodgix_search_rentals_page_de' => NULL,                            
                               'p_lodgix_allow_comments' => false,
                               'p_lodgix_allow_pingback' => false,
                               'p_lodgix_display_daily_rates' => true,
@@ -1830,6 +1850,77 @@ if (!class_exists('p_lodgix')) {
         }            
       }
       
+      function build_search_vacation_rentals_page()
+      {
+        global $wpdb;
+
+        $post_id = (int)$this->options['p_lodgix_vacation_rentals_page'];
+
+       
+        if ($post_id > 0)
+        {
+           $wpost = array();
+           $wpost['ID'] = $post_id;
+           $content = '<div id="content_lodgix_wrapper">
+                      <div id="lodgix_sort_div">
+                       <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'en\');">
+                          <OPTION VALUE="">None</OPTION>
+                          <OPTION VALUE="bedrooms">Bedrooms</OPTION>
+                          <OPTION VALUE="bathrooms">Bathrooms</OPTION>
+                          <OPTION VALUE="proptype">Rental Type</OPTION>
+                          <OPTION VALUE="pets">Pets Allowed</OPTION>
+                          <OPTION VALUE="min_daily_rate">Daily Rate</OPTION>
+                          <OPTION VALUE="min_weekly_rate">Weekly Rate</OPTION>
+                          <OPTION VALUE="min_monthly_rate">Monthly Rate</OPTION>
+                          <OPTION VALUE="area">Area</OPTION>
+                       </SELECT><BR>
+                       </div>
+                       <div id="content_lodgix">';
+           $content .= '</div></div>';
+           $wpost['post_content'] = $content;
+           $post_id = wp_update_post($wpost);        
+           $posts_table = $wpdb->prefix . "posts";
+           $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
+           $wpdb->query($sql);    
+           
+       
+        }
+        $post_id = (int)$this->options['p_lodgix_vacation_rentals_page_de'];
+        if ($post_id > 0)
+        {
+           $wpost = array();
+           $wpost['ID'] = $post_id;
+           $content = '<div id="content_lodgix_wrapper">
+                      <div id="lodgix_sort_div">
+                       <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'de\');">
+                          <OPTION VALUE="">Keine</OPTION>
+                          <OPTION VALUE="bedrooms">Schlafzimmer</OPTION>
+                          <OPTION VALUE="bathrooms">Badezimmer</OPTION>
+                          <OPTION VALUE="proptype">Mietart</OPTION>
+                          <OPTION VALUE="pets">Haustiere erlaubt</OPTION>
+                          <OPTION VALUE="min_daily_rate">Tageskurs</OPTION>
+                          <OPTION VALUE="min_weekly_rate">Wochenpreis</OPTION>
+                          <OPTION VALUE="min_monthly_rate">Monatspreis</OPTION>
+                          <OPTION VALUE="area">Bereich</OPTION>
+                       </SELECT><BR>
+                       </div>
+                       <div id="content_lodgix">';
+           $content .= $this->get_vacation_rentals_html_de();
+           $content .= '</div></div>';
+           $wpost['post_content'] = $content;
+           $post_id = wp_update_post($wpost);    
+           $posts_table = $wpdb->prefix . "posts";           
+           $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
+           $wpdb->query($sql);     
+     
+       
+        }        
+        if ($this->options['p_lodgix_generate_german'])
+        {
+            $this->link_translated_pages();
+        }            
+      }
+      
       
 			/*
         Builds areas page
@@ -2105,7 +2196,7 @@ if (!class_exists('p_lodgix')) {
       /*
         Returns table for vacation rentals (regular/ajax)
       */
-      function get_vacation_rentals_html($sort = '',$filter = '')
+      function get_vacation_rentals_html($sort = '',$area = '',$bedrooms=NULL,$id='')
       {
         global $wpdb;
         
@@ -2124,11 +2215,24 @@ if (!class_exists('p_lodgix')) {
         {
           $sort_sql =  '`order`';
         }
-        if ($filter != '')        
-        	$sql = $wpdb->prepare('SELECT * FROM ' . $properties_table . '  WHERE area=\'%s\' ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction ,$filter);
+        $filter = '';
+        if (is_numeric($id))
+        {
+        	$filter .= " id='" . $id . "' AND ";
+        }
         else
-        	$sql = $wpdb->prepare('SELECT * FROM ' . $properties_table . '  ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction);
+        {
+        	if ($area != '' && $area != 'ALL_AREAS')
+        		$filter .= " area='" . $area . "' AND ";
+        	if ($id != '')
+        		$filter .= " UPPER(description) like '%" . strtoupper($id) . "%' AND ";
+        	if ($bedrooms != NULL)
+        		$filter .= " bedrooms = " . $bedrooms . " AND ";
+        }
+        
+       	$sql = $wpdb->prepare('SELECT * FROM ' . $properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction );
         $properties = $wpdb->get_results($sql);      
+
         if ($properties)
         {
          foreach($properties as $property)
@@ -2158,10 +2262,10 @@ if (!class_exists('p_lodgix')) {
       /*
         Returns table for vacation rentals (regular/ajax)
       */
-      function get_vacation_rentals_html_de($sort = '',$filter = '')
+      function get_vacation_rentals_html_de($sort = '',$area = '',$bedrooms=NULL,$id='')
       {
         global $wpdb;
-        
+                
         $content = '';
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
@@ -2179,10 +2283,23 @@ if (!class_exists('p_lodgix')) {
         {
           $sort_sql =  '`order`';
         }
-        if ($filter != '')        
-        	$sql = $wpdb->prepare('SELECT * FROM ' . $properties_table . '  WHERE area=\'%s\' ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction ,$filter);
+  			
+  			$filter = '';
+        if (is_numeric($id))
+        {
+        	$filter .= " id='" . $id . "' AND ";
+        }
         else
-        	$sql = $wpdb->prepare('SELECT * FROM ' . $properties_table . '  ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction);
+        {
+        	if ($area != '' && $area != 'ALL_AREAS')
+        		$filter .= " area='" . $area . "' AND ";
+        	if ($id != '')
+        		$filter .= " UPPER(description) like '%" . strtoupper($id) . "%' AND ";
+        	if ($bedrooms != NULL)
+        		$filter .= " bedrooms = " . $bedrooms . " AND ";
+        }
+        
+       	$sql = $wpdb->prepare('SELECT * FROM ' . $properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction );
         	
         $properties = $wpdb->get_results($sql);      
          
@@ -2271,6 +2388,35 @@ if (!class_exists('p_lodgix')) {
       }
       
       /*
+        Get search rentals page content
+      */
+      function get_search_rentals_page_content($lang_code)
+      {
+        global $wpdb;
+        $properties_table = $wpdb->prefix . "lodgix_properties";
+        $policies_table = $wpdb->prefix . "lodgix_policies";
+        $content = '
+           <div id="content_lodgix">
+        ';
+      	
+      	$sort = $_POST['sort'];
+      	$language = $_POST['lang'];
+      	$area = $_POST['lodgix-custom-search-area'];
+      	$bedrooms = $_POST['lodgix-custom-search-bedrooms'];
+      	$id = $_POST['lodgix-custom-search-id'];
+      	             	      	
+      	if ($lang_code == "de")
+        	$content .= $this->get_vacation_rentals_html_de($sort,$area,$bedrooms,$id);      
+      	else
+        	$content .= $this->get_vacation_rentals_html($sort,$area,$bedrooms,$id);  
+        
+        
+        $content .= '</div>';
+  
+        return $content;
+      }      
+      
+      /*
         Get availability page content
       */
       function get_availability_page_content($lang_code)
@@ -2302,6 +2448,8 @@ if (!class_exists('p_lodgix')) {
         return $content;
       }      
       
+      
+      
       function link_translated_pages()
       {
         global $sitepress,$wpdb;
@@ -2322,7 +2470,11 @@ if (!class_exists('p_lodgix')) {
             else if ($post->property_id == -2)
             {
               $post_id = $this->options['p_lodgix_availability_page'];    
-            }            
+            }       
+            else if ($post->property_id == -3)
+            {
+              $post_id = $this->options['p_lodgix_search_rentals_page'];    
+            }                                    
             else
             {              
              $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT page_id FROM " . $pages_table . " WHERE property_id=" . $post->property_id . ";"));
@@ -2497,6 +2649,176 @@ if (!class_exists('p_lodgix')) {
         }
       }
       
+     function p_lodgix_custom_search()
+     {
+       global $wpdb;
+       $properties_table = $wpdb->prefix . "lodgix_properties";
+       $area = @mysql_real_escape_string($_POST['area']);
+       $bedrooms = @mysql_real_escape_string($_POST['bedrooms']);
+       $id = @mysql_real_escape_string($_POST['id']);
+       $sql = "SELECT COUNT(*) as num_results FROM " . $properties_table . " WHERE 1=1 AND ";
+       if (is_numeric($id))
+       {
+       	 	$sql .= "id=" . $id;
+       }	      
+       else
+       {
+       	if ($area != 'ALL_AREAS')
+       	{
+       	 	$sql .= "area = '" . $area. "' AND ";
+       	}
+       	
+       	if ($id != '')
+       	{       	
+       		$sql .= "UPPER(description) like '%" . strtoupper($id) . "%' AND ";
+       	}
+       	
+       	$sql .= "bedrooms >= " . $bedrooms;
+       } 
+       $count = $wpdb->get_results($sql);
+       if ($language == "de")
+         $content = $count[0]->num_results . ' Properties Found.';
+       else
+         $content = $count[0]->num_results . ' Properties Found.';
+       die($content);
+      }      
+      
+      function widget_lodgix_custom_search_init() {
+    
+      // Check for the required plugin functions. This will prevent fatal
+      // errors occurring when you deactivate the dynamic-sidebar plugin.
+      if ( !function_exists('register_sidebar_widget') )
+        return;
+    
+      // This is the function that outputs our widget_lodgix_custom_search.
+      function widget_lodgix_custom_search($args) {
+        global $wpdb;
+        $p_plugin_path = plugin_dir_url(plugin_basename(__FILE__));
+        $properties_table = $wpdb->prefix . "lodgix_properties";
+        $pages_table = $wpdb->prefix . "lodgix_pages";
+        $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
+
+
+        extract($args);
+    
+        // Each widget can store its own options. We keep strings here.
+        $options = get_option('widget_lodgix_custom_search');
+        $loptions = get_option('p_lodgix_options');
+        $title = apply_filters('widget_title', empty($options['title']) ? __('Rentals Search') : $options['title']);
+ 
+      	$area_post = $_POST['lodgix-custom-search-area'];
+      	$bedrooms_post = $_POST['lodgix-custom-search-bedrooms'];
+      	$id_post = $_POST['lodgix-custom-search-id'];
+      	$lang_code = $_GET['lang'];
+
+
+        echo $before_widget . $before_title . $title . $after_title;
+        echo '<div class="lodgix-search-properties" align="left">';
+
+        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');   
+        
+        echo '<script type="text/javascript">
+        				 var P_LODGIX_SEARCH_RESULTS = 0;
+                 function p_lodgix_search_properties() {
+                    jQuery(\'#search_results\').html(\'\');
+                 		jQuery("#lodgix_search_spinner").show();
+										jQuery.ajax({
+                      type: "POST",
+                      url: "' .  get_bloginfo('wpurl') . '/wp-admin/admin-ajax.php",
+                      data: "action=p_lodgix_custom_search&area=" + jQuery(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQuery(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQuery(\'#lodgix-custom-search-id\').val(),
+                      success: function(response){
+                        //response_array = response.split(" ");
+                        //P_LODGIX_SEARCH_RESULTS = parseInt(response_array[0]);
+                        jQuery(\'#search_results\').html(response);
+                        jQuery("#lodgix_search_spinner").hide();
+                      },
+                      failure: function(response){
+                        jQuery("#lodgix_search_spinner").hide();
+                      }
+                   });                 	
+                 	
+                 }
+                 function p_lodgix_submit_search()
+                 {
+                 		document.lodgix_search_form.submit();
+                 		
+                 }
+              </script>';
+        
+        if ($lang_code == 'de')
+        	$post_id = (int)$loptions['p_lodgix_search_rentals_page_de'];
+        else
+        	$post_id = (int)$loptions['p_lodgix_search_rentals_page'];
+        	
+        $post_url = get_permalink($post_id);
+        echo '<form name="lodgix_search_form" method="POST" action="' . $post_url .'"><div class="lodgix-custom-search-listing" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">       			
+       				<div>Location:</div> 
+       				<div><select id="lodgix-custom-search-area" name="lodgix-custom-search-area" onchange="javascript:p_lodgix_search_properties();">
+       				<option value="ALL_AREAS">All Areas</option>';       	
+
+				foreach($areas as $area)       				
+				{
+					if ($area->area == $area_post)
+						echo '<option selected value="'.$area->area.'">'.$area->area.'</option>';
+					else
+						echo '<option value="'.$area->area.'">'.$area->area.'</option>';
+	
+				}
+  			
+       	echo	'</select></div>
+       				<div>Bedrooms:</div> 
+       				<div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="javascript:p_lodgix_search_properties();">';
+        for($i = 1 ; $i < 21 ; $i++)
+        {
+        	if ($i == $bedrooms_post)
+        		echo '<option selected value="'.$i.'">'.$i.'</option>';
+        	else
+        		echo '<option value="'.$i.'">'.$i.'</option>';
+        }
+       	echo '</select></div>
+       				<div>Search by Property Name or ID:</div> 
+       				<div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:90%" onkeyup="javascript:p_lodgix_search_properties();" value="' . $id_post .  '"></div>
+       				<br>       				
+       				<div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
+       				<div id="search_results">
+       				</div>
+       				<input type="button" value="Display Results" onclick="p_lodgix_submit_search();" id="lodgix-custom-search-button">
+              </div>';               
+        echo '</div></form>';
+        echo $after_widget;
+      }
+    
+      // This is the function that outputs the form to let the users edit
+      // the widget's title. It's an optional feature that users cry for.
+      function widget_lodgix_custom_search_control() {
+    
+        // Get our options and see if we're handling a form submission.
+        $options = get_option('widget_lodgix_custom_search');
+    
+        //Set the default options for the widget here
+        if ( !is_array($options) )
+          $options = array('title'=>'Rentals Search');
+    
+        if ( $_POST['widget_lodgix_custom_search-submit'] ) {
+          // Remember to sanitize and format use input appropriately.
+          $options['title'] = strip_tags(stripslashes($_POST['widget_lodgix_custom_search-title']));
+          update_option('widget_lodgix_custom_search', $options);
+        }
+    
+        // Be sure you format your options to be valid HTML attributes.
+        $title = htmlspecialchars($options['title'], ENT_QUOTES);
+        $limit = $options['limit'];
+        // Here is our little form segment. Notice that we don't need a
+        // complete form. This will be embedded into the existing form.
+        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-title">' . __('Title:') . ' <input style="width: 200px;" id="widget_lodgix_custom_search-title" name="widget_lodgix_custom_search-title" type="text" value="'.$title.'" /></label></p>';
+        echo '<input type="hidden" id="widget_lodgix_custom_search-submit" name="widget_lodgix_custom_search-submit" value="1" />';
+      } 
+
+      register_sidebar_widget(array('Rentals Search', 'widgets'), 'widget_lodgix_custom_search');
+
+      register_widget_control(array('Rentals Search', 'widgets'), 'widget_lodgix_custom_search_control');
+      }      
+      
       function widget_lodgix_featured_init() {
     
       // Check for the required plugin functions. This will prevent fatal
@@ -2624,10 +2946,14 @@ if (!class_exists('p_lodgix')) {
             wp_delete_post($post->page_id,$force_delete = true);
          }                   
          wp_delete_post((int)$this->options['p_lodgix_vacation_rentals_page'],$force_delete = true);
-         wp_delete_post((int)$this->options['p_lodgix_availability_page'],$force_delete = true);
          wp_delete_post((int)$this->options['p_lodgix_vacation_rentals_page_de'],$force_delete = true);
+         wp_delete_post((int)$this->options['p_lodgix_availability_page'],$force_delete = true);                           
          wp_delete_post((int)$this->options['p_lodgix_availability_page_de'],$force_delete = true);         
+         wp_delete_post((int)$this->options['p_lodgix_search_rentals_page'],$force_delete = true);                           
+         wp_delete_post((int)$this->options['p_lodgix_search_rentals_page_de'],$force_delete = true);         
 	 			 $areas_pages = unserialize($this->options['p_lodgix_areas_pages']);
+	 			 
+	 			 
 	 			 
 				 foreach((array)$areas_pages as $key => $page)
 				 {
@@ -2661,6 +2987,8 @@ if (!class_exists('p_lodgix')) {
          }                   
          wp_delete_post((int)$this->options['p_lodgix_vacation_rentals_page_de'],$force_delete = true);
          wp_delete_post((int)$this->options['p_lodgix_availability_page_de'],$force_delete = true);    
+         wp_delete_post((int)$this->options['p_lodgix_search_rentals_page_de'],$force_delete = true);    
+         
 				 $areas_pages_de = unserialize($this->options['p_lodgix_areas_pages_de']);
 				 if (count($areas_pages_de) > 0)
 				 {
@@ -2690,7 +3018,7 @@ if (!class_exists('p_lodgix')) {
               $properties = $properties_array["Results"]["Properties"];
               if ($properties_array['Results']['Properties']['Property'][0])
                   $properties = $properties_array['Results']['Properties']['Property'];    
-              $active_properties = array(-1,-2);
+              $active_properties = array(-1,-2,-3);
               $counter = 0;                  
               foreach ($properties as $property)
               {
@@ -2743,8 +3071,26 @@ if (!class_exists('p_lodgix')) {
               $post['ping_status'] = 'closed';          
           wp_update_post($post);  
         }
+        
+        
 
         $post_id = (int)$this->options['p_lodgix_availability_page'];
+        $post = array();
+        $post['ID'] = $post_id;
+        if ($post_id)
+        {
+          if ($this->options['p_lodgix_allow_comments'])
+              $post['comment_status'] = 'open';
+          else
+              $post['comment_status'] = 'closed';
+          if ($this->options['p_lodgix_allow_pingback'])
+              $post['ping_status'] = 'open';
+          else
+              $post['ping_status'] = 'closed';          
+          wp_update_post($post);             
+        }
+
+        $post_id = (int)$this->options['p_lodgix_search_rentals_page'];
         $post = array();
         $post['ID'] = $post_id;
         if ($post_id)
@@ -2775,6 +3121,8 @@ if (!class_exists('p_lodgix')) {
               $post['ping_status'] = 'closed';          
           wp_update_post($post);  
         }        
+        
+        
    
   		  if ($this->options['p_lodgix_generate_german'])
         {
@@ -2795,7 +3143,29 @@ if (!class_exists('p_lodgix')) {
                   
           wp_update_post($post);             
          } 
-		    }       
+		    }  
+		    
+  		  if ($this->options['p_lodgix_generate_german'])
+        {
+          $post_id = (int)$this->options['p_lodgix_search_rentals_page_de'];
+         $post = array();
+         $post['ID'] = $post_id;
+         if ($post_id)
+         {
+          if ($this->options['p_lodgix_allow_comments'])
+              $post['comment_status'] = 'open';
+          else
+              $post['comment_status'] = 'closed';
+          if ($this->options['p_lodgix_allow_pingback'])
+              $post['ping_status'] = 'open';
+          else
+              $post['ping_status'] = 'closed';  
+          $sql = "";
+                  
+          wp_update_post($post);             
+         } 
+		    }      		         
+		    
 
         $pages_table = $wpdb->prefix . "lodgix_pages";       
         $pages = $wpdb->get_results('SELECT * FROM ' . $pages_table);    
@@ -3106,6 +3476,13 @@ if (!class_exists('p_lodgix')) {
 						$sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_availability_page'];
 						$wpdb->query($sql);
 					 }          
+					 if ($this->options['p_lodgix_search_rentals_page'])
+					 {						
+						$sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_search_rentals_page'];
+						$wpdb->query($sql);
+					 }          
+					 
+					 
           $pages_table = $wpdb->prefix . "lodgix_pages";  
           $posts = $wpdb->get_results('SELECT * FROM ' . $pages_table);   
           foreach($posts as $post)
@@ -3126,6 +3503,13 @@ if (!class_exists('p_lodgix')) {
 						$sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_availability_page_de'];
 						$wpdb->query($sql);
 					 }          
+					 if ($this->options['p_lodgix_search_rentals_page_de'])
+					 {						
+						$sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_search_rentals_page_de'];
+						$wpdb->query($sql);
+					 }          
+					 
+					 
            $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";					
            $posts = $wpdb->get_results('SELECT * FROM ' . $lang_pages_table);   
            foreach($posts as $post)
@@ -3356,6 +3740,44 @@ if (!class_exists('p_lodgix')) {
                       }                                  
                   } 
                   
+                  $post = array();
+                  $post['post_title'] = 'Search Rentals';
+                  $post['post_content'] = '[lodgix search_rentals]';  
+                  $post['post_status'] = 'publish';
+                  $post['post_type'] = "page";                                  
+                  $exists = get_post($this->options['p_lodgix_search_rentals_page']);
+                  if (!$exists)
+                  {
+                      $post_id = wp_insert_post($post,true);                       
+                      if ($post_id != 0)
+                      {
+                          $this->options['p_lodgix_search_rentals_page'] = (int)$post_id;
+                      }                                
+                  }
+           
+                  
+                  $exists = get_post($this->options['p_lodgix_search_rentals_page_de']);
+                  if (!$exists)
+                  {
+                      if ($this->options['p_lodgix_generate_german'])
+                      {
+                                        	
+                        $post['post_title'] = 'Vermietungen';
+                        $post['post_content'] = '[lodgix search_rentals de]';  
+                        $post_de_id = wp_insert_post( $post,true );               
+            
+                        if ($post_de_id != 0)
+                        {
+                            $this->options['p_lodgix_search_rentals_page_de'] = (int)$post_de_id;
+                            $sql = "INSERT INTO " . $lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_de_id . ",-3,NULL,'de')";
+                            $wpdb->query($sql);
+                           
+                        }           
+                      }                                  
+                  }                   
+                  
+									
+                  
                                            
                   $this->saveAdminOptions();       
 									
@@ -3393,7 +3815,7 @@ if (!class_exists('p_lodgix')) {
                       $properties = $properties_array["Results"]["Properties"];
                       if ($properties_array['Results']['Properties']['Property'][0])
                           $properties = $properties_array['Results']['Properties']['Property'];   
-                      $active_properties = array(-1,-2); 
+                      $active_properties = array(-1,-2,-3); 
                       $counter = 0;                  
                       foreach ($properties as $property)
                       { 

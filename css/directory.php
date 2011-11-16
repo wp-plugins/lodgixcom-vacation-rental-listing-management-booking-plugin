@@ -507,6 +507,39 @@ border:0 none;
 }
 
 
+/********** SEARCH LISTINGS **************/
+
+.lodgix-search-properties {
+	width: auto;
+}
+
+.lodgix-search-properties .lodgix-custom-search-listing {
+	width: 210px;
+	background-color: #E8E8E8;
+	background-image: url("__PLUGIN_FOLDER__images/feat-bg.png");
+	background-repeat: repeat-x;
+	border: 1px solid #E0E0E0;
+	padding: 10px;
+	margin-bottom:15px;
+	-moz-box-shadow: 3px 3px 5px #999;
+	-webkit-box-shadow: 3px 3px 5px #999;
+	box-shadow: 3px 3px 5px #999;
+	line-height:normal;
+	FILTER: progid:DXImageTransform.Microsoft.Shadow(color="#969696", Direction=135, Strength=3); BACKGROUND-COLOR: #fff; ZOOM: 1
+}
+
+.lodgix-search-properties .lodgix-custom-search-listing input {
+	background-color: #FFFFFF;
+}
+
+.lodgix-search-properties .lodgix-custom-search-listing #lodgix-custom-search-results {
+  margin-top:5px;
+  padding-top:5px;
+	border-top: 1px dotted #666666;
+	width:98%;
+}
+
+
 .lodgix_image_cell_icons {
    width:200px;
    margin-top:5px;

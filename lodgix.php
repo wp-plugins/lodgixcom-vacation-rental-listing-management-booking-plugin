@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.49
+Version: 1.0.50
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.50: Fixed Search Rentals Widget
 v1.0.49: Added Search Rentals Widget
 v1.0.48: Changed policies position
 v1.0.47: Fixed featured rentals image path
@@ -2673,7 +2674,7 @@ if (!class_exists('p_lodgix')) {
        		$sql .= "UPPER(description) like '%" . strtoupper($id) . "%' AND ";
        	}
        	
-       	$sql .= "bedrooms >= " . $bedrooms;
+       	$sql .= "bedrooms = " . $bedrooms;
        } 
        $count = $wpdb->get_results($sql);
        if ($language == "de")
@@ -2738,11 +2739,6 @@ if (!class_exists('p_lodgix')) {
                    });                 	
                  	
                  }
-                 function p_lodgix_submit_search()
-                 {
-                 		document.lodgix_search_form.submit();
-                 		
-                 }
               </script>';
         
         if ($lang_code == 'de')
@@ -2753,7 +2749,7 @@ if (!class_exists('p_lodgix')) {
         $post_url = get_permalink($post_id);
         echo '<form name="lodgix_search_form" method="POST" action="' . $post_url .'"><div class="lodgix-custom-search-listing" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">       			
        				<div>Location:</div> 
-       				<div><select id="lodgix-custom-search-area" name="lodgix-custom-search-area" onchange="javascript:p_lodgix_search_properties();">
+       				<div><select id="lodgix-custom-search-area" style="width:90%" name="lodgix-custom-search-area" onchange="javascript:p_lodgix_search_properties();">
        				<option value="ALL_AREAS">All Areas</option>';       	
 
 				foreach($areas as $area)       				
@@ -2782,7 +2778,7 @@ if (!class_exists('p_lodgix')) {
        				<div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
        				<div id="search_results">
        				</div>
-       				<input type="button" value="Display Results" onclick="p_lodgix_submit_search();" id="lodgix-custom-search-button">
+       				<input type="submit" value="Display Results" id="lodgix-custom-search-button">
               </div>';               
         echo '</div></form>';
         echo $after_widget;

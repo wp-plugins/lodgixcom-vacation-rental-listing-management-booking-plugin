@@ -1,5 +1,7 @@
 <?php
 
+$lodgixoptions = get_option('p_lodgix_options');
+
 $pets = '<div class="lodgix_pets_friendly_no">';
 if ($property->pets == 1)
   $pets = '<div class="lodgix_pets_friendly_yes">';
@@ -7,19 +9,19 @@ if ($property->pets == 1)
 $permalink = get_permalink($property->post_id);
 $icon_margin_left = '';
 $icons = 'display:none;';
-if ($this->options['p_lodgix_display_icons'])
+if ($lodgixoptions['p_lodgix_display_icons'])
 {
 	$icons = '';
 }
 $icon_availability = 'display:none;';
-if ($this->options['p_lodgix_display_availability_icon'])
+if ($lodgixoptions['p_lodgix_display_availability_icon'])
 {
 	$icon_availability = '';
 	$icon_margin_left = 'margin-left:25px;';
 }
 
 $global_icons = '';
-if ((!$this->options['p_lodgix_display_availability_icon']) &&(!$this->options['p_lodgix_display_icons']))
+if ((!$lodgixoptions['p_lodgix_display_availability_icon']) &&(!$lodgixoptions['p_lodgix_display_icons']))
 {
 	$global_icons = 'display:none;';
 }
@@ -27,9 +29,9 @@ if ((!$this->options['p_lodgix_display_availability_icon']) &&(!$this->options['
 $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
 
 $mail_url = '';
-if ($this->options['p_lodgix_contact_url'] != "")
+if ($lodgixoptions['p_lodgix_contact_url'] != "")
 {
-	$mail_url = $this->options['p_lodgix_contact_url'];
+	$mail_url = $lodgixoptions['p_lodgix_contact_url'];
 	
 	if (strpos($mail_url,'__PROPERTY__') != false)
 	{

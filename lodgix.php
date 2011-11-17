@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.52
+Version: 1.0.53
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.53: Altered Search Rentals Widget CSS
 v1.0.52: Dynamic Rental Pages
 v1.0.51: Altered Search Rentals Widget CSS
 v1.0.50: Fixed Search Rentals Widget
@@ -2701,7 +2702,7 @@ if (!class_exists('p_lodgix')) {
 
 
         echo $before_widget . $before_title . $title . $after_title;
-        echo '<div class="lodgix-search-properties" align="left">';
+        echo '<div class="lodgix-search-properties" align="center">';
 
         $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');   
         
@@ -2735,7 +2736,7 @@ if (!class_exists('p_lodgix')) {
         	
         $post_url = get_permalink($post_id);
         echo '<form name="lodgix_search_form" method="POST" action="' . $post_url .'">
-        			<div class="lodgix-custom-search-listing" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">       			
+        			<div class="lodgix-custom-search-listing" align="left" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">       			
        				<div>Location:</div> 
        				<div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="javascript:p_lodgix_search_properties();">
        				<option value="ALL_AREAS">All Areas</option>';       	

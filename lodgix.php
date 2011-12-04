@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.53
+Version: 1.0.54
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.54: Added user german amenities
 v1.0.53: Altered Search Rentals Widget CSS
 v1.0.52: Dynamic Rental Pages
 v1.0.51: Altered Search Rentals Widget CSS
@@ -1409,6 +1410,7 @@ if (!class_exists('p_lodgix')) {
         $fees_table = $wpdb->prefix . "lodgix_fees";   
         $deposits_table = $wpdb->prefix . "lodgix_deposits";   
         $reviews_table = $wpdb->prefix . "lodgix_reviews";   
+				$lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";        
         
         $sql = "DELETE FROM " . $properties_table;
         $wpdb->query($sql);
@@ -1435,7 +1437,9 @@ if (!class_exists('p_lodgix')) {
         $sql = "DELETE FROM " . $deposits_table;
         $wpdb->query($sql);    
         $sql = "DELETE FROM " . $reviews_table;
-        $wpdb->query($sql);                    
+        $wpdb->query($sql);   
+        $sql = "DELETE FROM " . $lang_amenities_table;
+        $wpdb->query($sql);                             
       }
 
       function update_tables($property,$pos) {
@@ -1450,7 +1454,9 @@ if (!class_exists('p_lodgix')) {
         $taxes_table = $wpdb->prefix . "lodgix_taxes";   
         $fees_table = $wpdb->prefix . "lodgix_fees";   
         $deposits_table = $wpdb->prefix . "lodgix_deposits";
-        $reviews_table = $wpdb->prefix . "lodgix_reviews";                   
+        $reviews_table = $wpdb->prefix . "lodgix_reviews";           
+        $lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";  
+                
         $sql = "DELETE FROM " . $amenities_table . " WHERE property_id=" . $property['ID'];
         $wpdb->query($sql);
         $sql = "DELETE FROM " . $rates_table . " WHERE property_id=" . $property['ID'];
@@ -1613,6 +1619,14 @@ if (!class_exists('p_lodgix')) {
               $amarray['description'] = $amenity['Name'];
               $sql = $this->get_insert_sql_from_array($amenities_table,$amarray);
               $wpdb->query($sql);        
+              if ($amenity['AmenityDE'])
+              {
+              	$alrarray = array();
+              	$alrarray['description'] = $amenity['Name'];
+              	$alrarray['description_de'] = $amenity['AmenityDE'];
+              	$sql = $this->get_insert_sql_from_array($lang_amenities_table,$alrarray);
+              	$wpdb->query($sql);                    	
+              }
             }
           }     
         }               
@@ -2989,8 +3003,10 @@ if (!class_exists('p_lodgix')) {
 				 $this->saveAdminOptions(); 
       }
       
-      function p_lodgix_notify() {
+      function p_lodgix_notify() {      		
+      		global $wpdb;
       		ini_set('max_execution_time', 0);
+      		$lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";  
           $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
           $r = new LogidxHTTPRequest($fetch_url);
 					$xml = $r->DownloadToString(); 
@@ -3001,7 +3017,8 @@ if (!class_exists('p_lodgix')) {
             $properties_array = $this->domToArray($root);
             if (!$owner['Errors'])
             {
-               
+        			$sql = "DELETE FROM " . $lang_amenities_table;
+        			$wpdb->query($sql);                     
               $properties = $properties_array["Results"]["Properties"];
               if ($properties_array['Results']['Properties']['Property'][0])
                   $properties = $properties_array['Results']['Properties']['Property'];    
@@ -3538,6 +3555,8 @@ if (!class_exists('p_lodgix')) {
           $properties_table = $wpdb->prefix . "lodgix_properties";
           $pages_table = $wpdb->prefix . "lodgix_pages";  
           $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
+          $lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";    
+          
           if (get_option('p_lodgix_db_version'))
           {
             $old_db_version = ((float)get_option('p_lodgix_db_version'));
@@ -3804,7 +3823,6 @@ if (!class_exists('p_lodgix')) {
                   $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
                   
                   $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
-
  
           				$r = new LogidxHTTPRequest($owner_fetch_url);
 									$xml = $r->DownloadToString(); 
@@ -3837,6 +3855,8 @@ if (!class_exists('p_lodgix')) {
                           $properties = $properties_array['Results']['Properties']['Property'];   
                       $active_properties = array(-1,-2,-3); 
                       $counter = 0;                  
+        							$sql = "DELETE FROM " . $lang_amenities_table;
+        							$wpdb->query($sql);      
                       foreach ($properties as $property)
                       { 
                         if ($property['ServingStatus'] == "ACTIVE")

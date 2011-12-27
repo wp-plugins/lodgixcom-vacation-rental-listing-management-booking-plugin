@@ -237,17 +237,7 @@ if ($property->allow_booking == 0)
    $static = '_static';
 }   
 
-$single_property .= "[lodgix calendar " . $property->id . " " . $property->owner_id . " " . $static . "]";
-
-if (($single_unit_helptext != '') && ($property->allow_booking == 1) && ($this->options['p_lodgix_display_single_instructions'] == 1))
-{
-  $single_property .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . $single_unit_helptext . '</p></div></div></div></div>';
-}
-else
-{
-  $single_property .= '</center></div>';
-}
-
+$single_property .= "[lodgix calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " de]";
 
 $policies_table = $wpdb->prefix . "lodgix_policies"; 
 $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='de'"); 

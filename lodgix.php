@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.55
+Version: 1.0.56
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.56: Addional calendar fix
 v1.0.55: Added non flash single calendar
 v1.0.54: Added user german amenities
 v1.0.53: Altered Search Rentals Widget CSS
@@ -355,10 +356,23 @@ if (!class_exists('p_lodgix')) {
       add_shortcode('lodgix calendar', array(&$this,'p_get_lodgix_calendar'));
     }
     
-    function p_get_lodgix_calendar($atts) {		  		  		  
+    function p_get_lodgix_calendar($atts) {		  	
+    	global $wpdb;	  		  
 		  $p_lodgix_property_id = $atts[0];
 		  $p_lodgix_owner_id = $atts[1];
-		  $p_lodgix_static = $atts[2];
+		  $p_lodgix_static = str_replace("'","",$atts[2]);
+		  $p_allow_booking = $atts[3];
+		  $p_lodgix_display_single_instructions = $atts[4];
+		  $p_lodgix_language = $atts[5];
+		  
+		  $policies_table = $wpdb->prefix . "lodgix_policies"; 
+			$policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $p_lodgix_language . "'"); 
+		  $policy = $policies[0];
+   		$single_unit_helptext = '';
+      if ($policy->single_unit_helptext)
+      {
+        $single_unit_helptext = $policy->single_unit_helptext;
+      }  			  
 		  
 		  include('mobile_detect.php');
 		  $detect = new Mobile_Detect();
@@ -371,6 +385,15 @@ if (!class_exists('p_lodgix')) {
 		  {
 				$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><iframe style="border:0;" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
 			}
+
+			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1) && !$detect->isMobile())
+			{
+  				$content .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . $single_unit_helptext . '</p></div></div></div></div>';
+		  }
+			else
+			{
+  			$content .= '</center></div>';
+			}			
 
     	return $content;
 		}	

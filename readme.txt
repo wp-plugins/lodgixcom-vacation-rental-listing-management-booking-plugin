@@ -91,6 +91,8 @@ website.  It really is a sweet plugin that will allow a property owner or design
 vacation rental website in a couple hours.
 
 == Changelog ==
+= 1.0.58 = 
+* Fixed IE Calendar borders
 = 1.0.57 = 
 * Addional calendar fix
 = 1.0.56 = 

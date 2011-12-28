@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.59: Fixed Area Page
 v1.0.58: Fixed IE Calendar borders
 v1.0.57: Addional calendar fix
 v1.0.56: Addional calendar fix
@@ -2066,8 +2067,8 @@ if (!class_exists('p_lodgix')) {
              $wpost['post_content'] = '[lodgix area ' . $page->page_id . ']';
              $post_id = wp_update_post($wpost);    
              $posts_table = $wpdb->prefix . "posts";           
-             $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
-             $wpdb->query($sql);   
+             //$sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
+             //$wpdb->query($sql);   
 
             }
         }
@@ -2082,8 +2083,8 @@ if (!class_exists('p_lodgix')) {
              $wpost['post_content'] = '[lodgix area de ' . $page->page_id . ']';
              $post_id = wp_update_post($wpost);    
              $posts_table = $wpdb->prefix . "posts";           
-             $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
-             $wpdb->query($sql);   
+             //$sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($content) . "' WHERE id=" . $post_id;
+             //$wpdb->query($sql);   
             }
 				}
 				

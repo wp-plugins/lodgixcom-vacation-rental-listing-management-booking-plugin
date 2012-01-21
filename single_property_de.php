@@ -62,7 +62,7 @@ if ($property->virtual_tour_url != '')
 	$virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url  . '"><img title="Display Virtual Tour" src="' . home_url() . $p_plugin_path  . '/images/virtual_tour.png"></a>';
 }
 
-$single_property .= '';
+$single_property .= '<div id="content_lodgix_wrapper">';
 $single_property .= '<div id="lodgix_property_badge">';
 $single_property .= '<table width="100%">												
 													<tr>
@@ -374,7 +374,7 @@ foreach($photos as $photo)
    $counter++;
 }
 $single_property .= '</tr></table></div></div><div id="lodgix_photo_bottom"></div></div>';
-$single_property .= '<div align="center" style="width:100%;font-size:10px;"><a href="http://www.lodgix.com">Vacation Rental Software</a> by Lodgix.com</div><br>';
+$single_property .= '<div align="center" style="width:100%;font-size:10px;"><a href="http://www.lodgix.com">Vacation Rental Software</a> by Lodgix.com</div><br></div>';
 
 $single_property .= '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $this->options['p_google_maps_api'] . '"type="text/javascript"></script>';
 $single_property .= '<script type="text/javascript">    

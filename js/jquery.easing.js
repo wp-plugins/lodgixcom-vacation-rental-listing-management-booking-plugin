@@ -1,10 +1,10 @@
 /*
- * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
+ * jQueryLodgix Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
- * Uses the built in easing capabilities added In jQuery 1.1
+ * Uses the built in easing capabilities added In jQueryLodgix 1.1
  * to offer multiple easing options
  *
- * TERMS OF USE - jQuery Easing
+ * TERMS OF USE - jQueryLodgix Easing
  * 
  * Open source under the BSD License. 
  * 
@@ -36,14 +36,14 @@
 */
 
 // t: current time, b: begInnIng value, c: change In value, d: duration
-jQuery.easing['jswing'] = jQuery.easing['swing'];
+jQueryLodgix.easing['jswing'] = jQueryLodgix.easing['swing'];
 
-jQuery.extend( jQuery.easing,
+jQueryLodgix.extend( jQueryLodgix.easing,
 {
 	def: 'easeOutQuad',
 	swing: function (x, t, b, c, d) {
-		//alert(jQuery.easing.default);
-		return jQuery.easing[jQuery.easing.def](x, t, b, c, d);
+		//alert(jQueryLodgix.easing.default);
+		return jQueryLodgix.easing[jQueryLodgix.easing.def](x, t, b, c, d);
 	},
 	easeInQuad: function (x, t, b, c, d) {
 		return c*(t/=d)*t + b;
@@ -152,7 +152,7 @@ jQuery.extend( jQuery.easing,
 		return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
 	},
 	easeInBounce: function (x, t, b, c, d) {
-		return c - jQuery.easing.easeOutBounce (x, d-t, 0, c, d) + b;
+		return c - jQueryLodgix.easing.easeOutBounce (x, d-t, 0, c, d) + b;
 	},
 	easeOutBounce: function (x, t, b, c, d) {
 		if ((t/=d) < (1/2.75)) {
@@ -166,8 +166,8 @@ jQuery.extend( jQuery.easing,
 		}
 	},
 	easeInOutBounce: function (x, t, b, c, d) {
-		if (t < d/2) return jQuery.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
-		return jQuery.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
+		if (t < d/2) return jQueryLodgix.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
+		return jQueryLodgix.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
 	}
 });
 

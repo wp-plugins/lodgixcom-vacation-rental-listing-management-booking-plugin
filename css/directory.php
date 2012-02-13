@@ -172,6 +172,7 @@ div#lodgix_property_reviews h2 {
   background-color:#FFFFFF;
   border-collapse: separate;
   border:0px;
+  max-width:1024px;
 }
 
 #lodgix_listing table {
@@ -644,7 +645,7 @@ border:0 none;
 
 
 /*
- * FancyBox - jQuery Plugin
+ * FancyBox - jQueryLodgix Plugin
  * Simple and fancy lightbox alternative
  *
  * Examples and documentation at: http:/fancybox.net
@@ -653,7 +654,7 @@ border:0 none;
  * That said, it is hardly a one-person project. Many people have submitted bugs, code, and offered their advice freely. Their support is greatly appreciated.
  * 
  * Version: 1.3.4 (11/11/2010)
- * Requires: jQuery v1.3+
+ * Requires: jQueryLodgix v1.3+
  *
  * Dual licensed under the MIT and GPL licenses:
  *   http:/www.opensource.org/licenses/mit-license.php

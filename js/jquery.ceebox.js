@@ -1,7 +1,7 @@
 //ceebox
 /*
- * CeeBox 2.1.5 jQuery Plugin
- * Requires jQuery 1.3.2 and swfobject.jquery.js plugin to work
+ * CeeBox 2.1.5 jQueryLodgix Plugin
+ * Requires jQueryLodgix 1.3.2 and swfobject.jquery.js plugin to work
  * Code hosted on GitHub (http://github.com/catcubed/ceebox) Please visit there for version history information
  * By Colin Fahrion (http://www.catcubed.com)
  * Inspiration for ceebox comes from Thickbox (http://jquery.com/demo/thickbox/) and Videobox (http://videobox-lb.sourceforge.net/)
@@ -570,7 +570,7 @@ var Build = {
 			this.content = this.titlebox + "<div id='cee_ajax' style='width:"+(this.width-30)+"px;height:"+(this.height-20)+"px'></div>";
 		} else {
 			$("#cee_iframe").remove();
-			this.content = this.titlebox + "<iframe frameborder='0' hspace='0' src='"+h+"' id='cee_iframeContent' name='cee_iframeContent"+Math.round(Math.random()*1000)+"' onload='jQuery.fn.ceebox.onload()' style='width:"+(this.width)+"px;height:"+(this.height)+"px;' > </iframe>";
+			this.content = this.titlebox + "<iframe frameborder='0' hspace='0' src='"+h+"' id='cee_iframeContent' name='cee_iframeContent"+Math.round(Math.random()*1000)+"' onload='jQueryLodgix.fn.ceebox.onload()' style='width:"+(this.width)+"px;height:"+(this.height)+"px;' > </iframe>";
 			
 		}
 	}
@@ -711,4 +711,4 @@ function debug(a,tag,opts) {
 }
 
 
-})(jQuery);
+})(jQueryLodgix);

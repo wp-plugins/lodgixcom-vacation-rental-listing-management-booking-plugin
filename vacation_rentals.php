@@ -37,6 +37,10 @@ if ($lodgixoptions['p_lodgix_contact_url'] != "")
 	{
 		$mail_url = str_replace('__PROPERTY__',$property->description,$mail_url);
 	}
+  if (strpos($mail_url,'__PROPERTYID__') != false)
+	{
+		$mail_url = str_replace('__PROPERTYID__',$property->id,$mail_url);
+	}		
 }
 
 

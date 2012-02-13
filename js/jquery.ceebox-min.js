@@ -1,7 +1,7 @@
 //ceebox
 /*
- * CeeBox 2.1.4 jQuery Plugin (minimized version)
- * Requires jQuery 1.3.2 and swfobject.jquery.js plugin to work
+ * CeeBox 2.1.4 jQueryLodgix Plugin (minimized version)
+ * Requires jQueryLodgix 1.3.2 and swfobject.jquery.js plugin to work
  * Code hosted on GitHub (http://github.com/catcubed/ceebox) Please visit there for version history information
  * By Colin Fahrion (http://www.catcubed.com)
  * Inspiration for ceebox comes from Thickbox (http://jquery.com/demo/thickbox/) and Videobox (http://videobox-lb.sourceforge.net/)
@@ -35,4 +35,4 @@ g;this.iPhoneRedirect=a.iPhoneRedirect},A={image:function(){this.content="<img i
 i.src?i.src.replace("[id]",g):e.src;i.flashvars&&b.each(i.flashvars,function(m,j){if(typeof j=="string")e.flashvars[m]=j.replace("[id]",g)});i.param&&b.each(i.param,function(m,j){if(typeof j=="string")e.param[m]=j.replace("[id]",g)});e.width=i.width||e.width;e.height=i.height||e.height;e.site=h}});return e}();if(b.flash.hasVersion(8)){this.width=d.width;this.height=d.height;this.action=function(){b("#cee_vid").flash({swf:d.src,params:b.extend(b.fn.ceebox.videos.base.param,d.param),flashvars:b.extend(b.fn.ceebox.videos.base.flashvars,
 d.flashvars),width:d.width,height:d.height})}}else{this.width=400;this.height=200;if(l.userAgent.match(/iPhone/i)&&this.iPhoneRedirect||l.userAgent.match(/iPod/i)&&this.iPhoneRedirect){var f=this.href;this.action=function(){b.fn.ceebox.closebox(400,function(){window.location=f})}}else{d.site=d.site||"SWF file";c="<p style='margin:20px'>Adobe Flash 8 or higher is required to view this movie. You can either:</p><ul><li>Follow link to <a href='"+this.href+"'>"+d.site+" </a></li><li>or <a href='http://www.adobe.com/products/flashplayer/'>Install Flash</a></li><li> or <a href='#' class='cee_close'>Close This Popup</a></li></ul>"}}this.content=
 "<div id='cee_vid' style='width:"+this.width+"px;height:"+this.height+"px;'>"+c+"</div>"+this.titlebox},html:function(){var c=this.href,a=this.rel;a=[c.match(/[a-zA-Z0-9_\.]+\.[a-zA-Z]{2,4}/i),c.match(/^http:+/),a?a.match(/^iframe/):false];if(document.domain==a[0]&&a[1]&&!a[2]||!a[1]&&!a[2]){var d,f=(d=c.match(/#[a-zA-Z0-9_\-]+/))?String(c.split("#")[0]+" "+d):c;this.action=function(){b("#cee_ajax").load(f)};this.content=this.titlebox+"<div id='cee_ajax' style='width:"+(this.width-30)+"px;height:"+
-(this.height-20)+"px'></div>"}else{b("#cee_iframe").remove();this.content=this.titlebox+"<iframe frameborder='0' hspace='0' src='"+c+"' id='cee_iframeContent' name='cee_iframeContent"+Math.round(Math.random()*1E3)+"' onload='jQuery.fn.ceebox.onload()' style='width:"+this.width+"px;height:"+this.height+"px;' > </iframe>"}}}})(jQuery);
+(this.height-20)+"px'></div>"}else{b("#cee_iframe").remove();this.content=this.titlebox+"<iframe frameborder='0' hspace='0' src='"+c+"' id='cee_iframeContent' name='cee_iframeContent"+Math.round(Math.random()*1E3)+"' onload='jQueryLodgix.fn.ceebox.onload()' style='width:"+this.width+"px;height:"+this.height+"px;' > </iframe>"}}}})(jQueryLodgix);

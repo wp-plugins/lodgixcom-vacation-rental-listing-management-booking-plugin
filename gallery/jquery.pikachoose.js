@@ -511,4 +511,4 @@
             }
         }
     });
-})(jQuery);
+})(jQueryLodgix);

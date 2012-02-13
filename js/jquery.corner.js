@@ -1,8 +1,8 @@
 /*!
- * jQuery corner plugin: simple corner rounding
+ * jQueryLodgix corner plugin: simple corner rounding
  * Examples and documentation at: http://jquery.malsup.com/corner/
  * version 2.11 (15-JUN-2010)
- * Requires jQuery v1.3.2 or later
+ * Requires jQueryLodgix v1.3.2 or later
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
@@ -244,4 +244,4 @@ $.fn.corner.defaults = {
     metaAttr:  'data-corner' // name of meta attribute to use for options
 };
     
-})(jQuery);
+})(jQueryLodgix);

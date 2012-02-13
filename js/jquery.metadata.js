@@ -1,5 +1,5 @@
 /*
- * Metadata - jQuery plugin for parsing metadata from elements
+ * Metadata - jQueryLodgix plugin for parsing metadata from elements
  *
  * Copyright (c) 2006 John Resig, Yehuda Katz, J�örn Zaefferer, Paul McLanahan
  *
@@ -25,7 +25,7 @@
  *          name parameter indicates *which* element.
  *   html5: Values are stored in data-* attributes.
  *          
- * The metadata for an element is loaded the first time the element is accessed via jQuery.
+ * The metadata for an element is loaded the first time the element is accessed via jQueryLodgix.
  *
  * As a result, you can define the metadata type, use $(expr) to load the metadata into the elements
  * matched by expr, then redefine the metadata type and run another $(expr) for other elements.
@@ -133,16 +133,16 @@ $.extend({
 });
 
 /**
- * Returns the metadata object for the first member of the jQuery object.
+ * Returns the metadata object for the first member of the jQueryLodgix object.
  *
  * @name metadata
  * @descr Returns element's metadata object
  * @param Object opts An object contianing settings to override the defaults
- * @type jQuery
+ * @type jQueryLodgix
  * @cat Plugins/Metadata
  */
 $.fn.metadata = function( opts ){
   return $.metadata.get( this[0], opts );
 };
 
-})(jQuery);
+})(jQueryLodgix);

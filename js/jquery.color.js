@@ -1,14 +1,14 @@
 /*
- * jQuery Color Animations
+ * jQueryLodgix Color Animations
  * Copyright 2007 John Resig
  * Released under the MIT and GPL licenses.
  */
 
-(function(jQuery){
+(function(jQueryLodgix){
 
 	// We override the animation for all of these color styles
-	jQuery.each(['backgroundColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor', 'borderTopColor', 'color', 'outlineColor'], function(i,attr){
-		jQuery.fx.step[attr] = function(fx){
+	jQueryLodgix.each(['backgroundColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor', 'borderTopColor', 'color', 'outlineColor'], function(i,attr){
+		jQueryLodgix.fx.step[attr] = function(fx){
 			if ( fx.state == 0 ) {
 				fx.start = getColor( fx.elem, attr );
 				fx.end = getRGB( fx.end );
@@ -51,17 +51,17 @@
 			return [parseInt(result[1]+result[1],16), parseInt(result[2]+result[2],16), parseInt(result[3]+result[3],16)];
 
 		// Otherwise, we're most likely dealing with a named color
-		return colors[jQuery.trim(color).toLowerCase()];
+		return colors[jQueryLodgix.trim(color).toLowerCase()];
 	}
 	
 	function getColor(elem, attr) {
 		var color;
 
 		do {
-			color = jQuery.curCSS(elem, attr);
+			color = jQueryLodgix.curCSS(elem, attr);
 
 			// Keep going until we find an element that has color, or we hit the body
-			if ( color != '' && color != 'transparent' || jQuery.nodeName(elem, "body") )
+			if ( color != '' && color != 'transparent' || jQueryLodgix.nodeName(elem, "body") )
 				break; 
 
 			attr = "backgroundColor";
@@ -120,4 +120,4 @@
 		yellow:[255,255,0]
 	};
 	
-})(jQuery);
+})(jQueryLodgix);

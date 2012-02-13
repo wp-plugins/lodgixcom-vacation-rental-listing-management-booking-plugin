@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.60
+Version: 1.0.61
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.61: Added gravity forms properties
 v1.0.60: Add single page content wrapper
 v1.0.59: Fixed Area Page
 v1.0.58: Fixed IE Calendar borders
@@ -358,7 +359,76 @@ if (!class_exists('p_lodgix')) {
       // Content
       add_filter('the_content', array(&$this,'p_lodgix_filter_content'));
       add_shortcode('lodgix calendar', array(&$this,'p_get_lodgix_calendar'));
+      add_shortcode('lodgix calendar', array(&$this,'p_get_lodgix_calendar'));
+      add_shortcode('lodgix vacation_rentals', array(&$this,'p_lodgix_pcode_vacation_rentals'));
+      add_shortcode('lodgix vacation_rentals de', array(&$this,'p_lodgix_pcode_vacation_rentals_de'));
+      add_shortcode('lodgix availability', array(&$this,'p_lodgix_pcode_availability'));
+      add_shortcode('lodgix availability de', array(&$this,'p_lodgix_pcode_availability_de'));
+      add_shortcode('lodgix search_rentals', array(&$this,'p_lodgix_pcode_search_rentals'));
+      add_shortcode('lodgix search_rentals de', array(&$this,'p_lodgix_pcode_search_rentals_de'));      
+      add_filter("gform_pre_render", array(&$this,'p_lodgix_pre_render_function'));
+      add_filter("gform_admin_pre_render", array(&$this,'p_lodgix_pre_render_function'));
     }
+    
+    
+    function p_lodgix_pre_render_function($form) {
+			global $wpdb;	  		  
+			$properties_table = $wpdb->prefix . "lodgix_properties";
+			
+			//TODO: SELECT FORM ID
+	    //if($form["id"] != 5)
+	    //   return $form;
+
+    	//Creating drop down item array.
+    	$items = array();
+
+    	//Adding initial blank value.
+    	//$items[] = array("text" => "Not Selected", "value" => "0");
+
+    	//Adding post titles to the items array
+   		$properties = $wpdb->get_results('SELECT * FROM ' . $properties_table . ' ORDER BY `order`'); 
+      if ($properties)
+      {
+        foreach($properties as $property)    	
+        {
+      	  $items[] = array("value" => $property->id, "text" => $property->description);
+      	}
+			}
+			
+    	//Adding items to field id 8. Replace 8 with your actual field id. You can get the field id by looking at the input name in the markup.
+    	foreach($form["fields"] as &$field)    		
+        if(trim($field["inputName"]) == $field['inputName']){          
+            $field["choices"] = $items;
+        }
+
+    	return $form;    	
+    }
+    
+    
+    function p_lodgix_pcode_vacation_rentals($atts) {
+    	return $this->get_vacation_rentals_content('en');
+    }
+    
+    function p_lodgix_pcode_vacation_rentals_de($atts) {
+    	return $this->get_vacation_rentals_content('de');
+    }
+    
+    function p_lodgix_pcode_availability($atts) {
+    	return $this->get_availability_page_content('en');
+    }
+    
+    function p_lodgix_pcode_availability_de($atts) {
+    	return $this->get_availability_page_content('de');
+    }    
+    
+    function p_lodgix_pcode_search_rentals($atts) {
+    	return $this->get_search_rentals_page_content('en');
+    }
+    
+    function p_lodgix_pcode_search_rentals_de($atts) {
+    	return $this->get_search_rentals_page_content('de');
+    }    
+     
     
     function p_get_lodgix_calendar($atts) {		  	
     	global $wpdb;	  		  
@@ -669,7 +739,8 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_template_redirect()
     {
     	  global $wp_query;
-        	$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
+        	$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));         	
+        	wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');
         	wp_enqueue_script('jquery');
         	wp_enqueue_script('thickbox');
         	wp_enqueue_style('thickbox');      
@@ -763,29 +834,29 @@ if (!class_exists('p_lodgix')) {
                  {
                  	if (!filter)
                  		filter = '';
-                   jQuery.ajax({
+                   jQueryLodgix.ajax({
                       type: "POST",
                       url: "<?php bloginfo( 'wpurl' ); ?>/wp-admin/admin-ajax.php",
-                      data: "action=p_lodgix_sort_vr&sort=" + jQuery('#lodgix_sort').val() + "&lang=" + val + "&area=" + filter,
+                      data: "action=p_lodgix_sort_vr&sort=" + jQueryLodgix('#lodgix_sort').val() + "&lang=" + val + "&area=" + filter,
                       success: function(response){
-                        jQuery('#content_lodgix').html(response);
+                        jQueryLodgix('#content_lodgix').html(response);
                       }
                    });
                  }
               </script>
               <script language="javascript">
 									<!--
-										jQuery(document).ready(
+										jQueryLodgix(document).ready(
 											function (){
 												var a = function(self){
 												self.anchor.fancybox();
 											};
-											jQuery("#pikame").PikaChoose({buildFinished:a,autoPlay:false,showTooltips:false,speed:5000});
-											jQuery('#lodgix_property_badge').corner("round 8px");
+											jQueryLodgix("#pikame").PikaChoose({buildFinished:a,autoPlay:false,showTooltips:false,speed:5000});
+											jQueryLodgix('#lodgix_property_badge').corner("round 8px");
 											if (location.hash != '')
 												location.hash = location.hash;
 												
-											jQuery(".ceebox").ceebox({videoGallery:'false'});
+											jQueryLodgix(".ceebox").ceebox({videoGallery:'false'});
 										});
 				
 							-->
@@ -1204,7 +1275,10 @@ if (!class_exists('p_lodgix')) {
 
     function p_lodgix_script() {
       if (is_admin()){ 
+        $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));         	
+        wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');      	
         wp_enqueue_script('jquery'); 
+        wp_enqueue_script('jquerylodgix', 'http://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js', array('jquery'));
         wp_enqueue_script('jquery-validate', 'http://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js', array('jquery'));
         wp_enqueue_script('p_lodgix_script', $this->url.'?p_lodgix_javascript'); 
         wp_localize_script( 'p_lodgix_script', 'p_lodgix_lang', array(
@@ -2774,20 +2848,20 @@ if (!class_exists('p_lodgix')) {
         echo '<script type="text/javascript">
         				 var P_LODGIX_SEARCH_RESULTS = 0;
                  function p_lodgix_search_properties() {
-                    jQuery(\'#search_results\').html(\'\');
-                 		jQuery("#lodgix_search_spinner").show();
-										jQuery.ajax({
+                    jQueryLodgix(\'#search_results\').html(\'\');
+                 		jQueryLodgix("#lodgix_search_spinner").show();
+										jQueryLodgix.ajax({
                       type: "POST",
                       url: "' .  get_bloginfo('wpurl') . '/wp-admin/admin-ajax.php",
-                      data: "action=p_lodgix_custom_search&area=" + jQuery(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQuery(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQuery(\'#lodgix-custom-search-id\').val(),
+                      data: "action=p_lodgix_custom_search&area=" + jQueryLodgix(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQueryLodgix(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQueryLodgix(\'#lodgix-custom-search-id\').val(),
                       success: function(response){
                         //response_array = response.split(" ");
                         //P_LODGIX_SEARCH_RESULTS = parseInt(response_array[0]);
-                        jQuery(\'#search_results\').html(response);
-                        jQuery("#lodgix_search_spinner").hide();
+                        jQueryLodgix(\'#search_results\').html(response);
+                        jQueryLodgix("#lodgix_search_spinner").hide();
                       },
                       failure: function(response){
-                        jQuery("#lodgix_search_spinner").hide();
+                        jQueryLodgix("#lodgix_search_spinner").hide();
                       }
                    });                 	
                  	
@@ -3628,15 +3702,7 @@ if (!class_exists('p_lodgix')) {
                     $this->clean_all();
                     $cleaned = true;
                   }                   
-								  
-								  $areas_pages = unserialize($this->options['p_lodgix_areas_pages']);
-									$areas_pages_de = unserialize($this->options['p_lodgix_areas_pages_de']);
-									if (!is_array($areas_pages))
-										$this->options['p_lodgix_areas_pages'] = serialize(array());
-									if (!is_array($areas_pages_de))
-										$this->options['p_lodgix_areas_pages_de'] = serialize(array());
-									$this->saveAdminOptions();				
-									                  
+                  
 								  $areas_pages = unserialize($this->options['p_lodgix_areas_pages']);
 									$areas_pages_de = unserialize($this->options['p_lodgix_areas_pages_de']);
 									if (!is_array($areas_pages))
@@ -3702,7 +3768,7 @@ if (!class_exists('p_lodgix')) {
                   if ((!$this->options['p_lodgix_vr_title']) || ($this->options['p_lodgix_vr_title'] == ''))
                     $this->options['p_lodgix_vr_title'] = "Vacation Rentals";
 									$this->saveAdminOptions();
-
+									
 								
 					
                   $post = array();
@@ -4298,11 +4364,11 @@ if (isset($_GET['p_lodgix_javascript'])) {
 
  function p_lodgix_set_demo_credentials()
   {
-    jQuery('#p_lodgix_owner_id')[0].value = '13';
-  	jQuery('#p_lodgix_api_key')[0].value = 'f89bd3b1bd098af107d727063c2736a6';
+    jQueryLodgix('#p_lodgix_owner_id')[0].value = '13';
+  	jQueryLodgix('#p_lodgix_api_key')[0].value = 'f89bd3b1bd098af107d727063c2736a6';
   }
 
-jQuery(document).ready(function(){
+jQueryLodgix(document).ready(function(){
   // add your jquery code here
 
 

@@ -286,7 +286,7 @@ width: 100%;
   color: #666;
   font: 12px Verdana, sans-serif;
   text-align:justify;
-  margin-top:8px;
+  margin-top:8px;  
 }
 
 .lodgix_comments div {
@@ -296,6 +296,7 @@ width: 100%;
   overflow: auto;
   margin: 2px;
   text-align: left;
+  white-space: pre-wrap;
 }
 
 div#lodgix_sort_div { 

@@ -241,7 +241,7 @@ if ($property->allow_booking == 0)
    $static = '_static';
 }   
 
-$single_property .= "[lodgix calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " de]";
+$single_property .= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " de]";
 
 $policies_table = $wpdb->prefix . "lodgix_policies"; 
 $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='de'"); 

@@ -243,7 +243,7 @@ $single_property .= '</div>';
 
 
 
-$single_property .= "[lodgix calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";
+$single_property .= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";
 
 
 $policies_table = $wpdb->prefix . "lodgix_policies"; 

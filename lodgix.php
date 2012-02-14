@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.64
+Version: 1.0.65
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.65: Fixed shortcode issue
 v1.0.64: Added property id feature
 v1.0.62: Fixed gravity forms bug
 v1.0.61: Added gravity forms properties
@@ -361,13 +362,13 @@ if (!class_exists('p_lodgix')) {
       // Content
       add_filter('the_content', array(&$this,'p_lodgix_filter_content'));
       add_shortcode('lodgix calendar', array(&$this,'p_get_lodgix_calendar'));
-      add_shortcode('lodgix calendar', array(&$this,'p_get_lodgix_calendar'));
-      add_shortcode('lodgix vacation_rentals', array(&$this,'p_lodgix_pcode_vacation_rentals'));
-      add_shortcode('lodgix vacation_rentals de', array(&$this,'p_lodgix_pcode_vacation_rentals_de'));
-      add_shortcode('lodgix availability', array(&$this,'p_lodgix_pcode_availability'));
-      add_shortcode('lodgix availability de', array(&$this,'p_lodgix_pcode_availability_de'));
-      add_shortcode('lodgix search_rentals', array(&$this,'p_lodgix_pcode_search_rentals'));
-      add_shortcode('lodgix search_rentals de', array(&$this,'p_lodgix_pcode_search_rentals_de'));      
+      add_shortcode('lodgix_calendar', array(&$this,'p_get_lodgix_calendar'));
+      add_shortcode('lodgix_vacation_rentals', array(&$this,'p_lodgix_pcode_vacation_rentals'));
+      add_shortcode('lodgix_vacation_rentals_de', array(&$this,'p_lodgix_pcode_vacation_rentals_de'));
+      add_shortcode('lodgix_availability', array(&$this,'p_lodgix_pcode_availability'));
+      add_shortcode('lodgix_availability_de', array(&$this,'p_lodgix_pcode_availability_de'));
+      add_shortcode('lodgix_search_rentals', array(&$this,'p_lodgix_pcode_search_rentals'));
+      add_shortcode('lodgix_search_rentals_de', array(&$this,'p_lodgix_pcode_search_rentals_de'));      
       add_filter("gform_pre_render", array(&$this,'p_lodgix_pre_render_function'));
       add_filter("gform_admin_pre_render", array(&$this,'p_lodgix_pre_render_function'));
     }
@@ -3777,7 +3778,7 @@ if (!class_exists('p_lodgix')) {
                   $post['post_title'] = 'Vacation Rentals';
                   $post['menu_order'] = 1;
                   $post['post_status'] = 'publish';
-                  $post['post_content'] = '[lodgix vacation_rentals]'; 
+                  $post['post_content'] = '[lodgix_vacation_rentals]'; 
                   $post['post_author'] = 1;
                   $post['post_type'] = "page";
                   $exists = get_post($this->options['p_lodgix_vacation_rentals_page']); 
@@ -3793,11 +3794,11 @@ if (!class_exists('p_lodgix')) {
           				else 
                   {
                 		$post = array();                  	
-                  	$post['post_content'] = '[lodgix vacation_rentals]'; 
+                  	$post['post_content'] = '[lodgix_vacation_rentals]'; 
                   	$post['ID'] = $this->options['p_lodgix_vacation_rentals_page'];
                   	$post_id = wp_update_post($post);        
            					$posts_table = $wpdb->prefix . "posts";
-           					$sql = "UPDATE " . $posts_table . " SET post_content='[lodgix vacation_rentals]' WHERE id=" . $post_id;
+           					$sql = "UPDATE " . $posts_table . " SET post_content='[lodgix_vacation_rentals]' WHERE id=" . $post_id;
            					$wpdb->query($sql);  
                   }                  
 
@@ -3806,7 +3807,7 @@ if (!class_exists('p_lodgix')) {
                   $post['post_title'] = 'Ferienvillen &Uuml;bersicht'; 
                   $post['menu_order'] = 1;
                   $post['post_status'] = 'publish';                        
-                  $post['post_content'] = '[lodgix vacation_rentals de]';  
+                  $post['post_content'] = '[lodgix_vacation_rentals_de]';  
                   $post['post_author'] = 1;
                   $post['post_type'] = "page";                  
                   $exists = get_post($this->options['p_lodgix_vacation_rentals_page_de']);              
@@ -3831,11 +3832,11 @@ if (!class_exists('p_lodgix')) {
                   	if ($this->options['p_lodgix_generate_german'])
                     {         
                   		$post = array();                  	
-                  		$post['post_content'] = '[lodgix vacation_rentals de]'; 
+                  		$post['post_content'] = '[lodgix_vacation_rentals_de]'; 
                   		$post['ID'] = $this->options['p_lodgix_vacation_rentals_page_de'];
                   		$post_id = wp_update_post($post);        
            						$posts_table = $wpdb->prefix . "posts";
-           						$sql = "UPDATE " . $posts_table . " SET post_content='[lodgix vacation_rentals de]' WHERE id=" . $post_id;
+           						$sql = "UPDATE " . $posts_table . " SET post_content='[lodgix_vacation_rentals_de]' WHERE id=" . $post_id;
            						$wpdb->query($sql);  
            					}
                   }                  
@@ -3875,7 +3876,7 @@ if (!class_exists('p_lodgix')) {
                   $post = array();
                   $post['post_title'] = 'Availability';
                   $post['menu_order'] = 2;
-                  $post['post_content'] = '[lodgix availability]';  
+                  $post['post_content'] = '[lodgix_availability]';  
                   $post['post_status'] = 'publish';
                   $post['post_type'] = "page";                                  
                   $exists = get_post($this->options['p_lodgix_availability_page']);
@@ -3893,8 +3894,8 @@ if (!class_exists('p_lodgix')) {
                   {
                       if ($this->options['p_lodgix_generate_german'])
                       {
-                        $post['post_title'] = 'Verwendbarkeit';
-                        $post['post_content'] = '[lodgix availability de]';  
+                        $post['post_title'] = 'Verf&uuml;gbarkeit';
+                        $post['post_content'] = '[lodgix_availability_de]';  
                         $post_de_id = wp_insert_post( $post );               
                         if ($post_de_id != 0)
                         {
@@ -3908,7 +3909,7 @@ if (!class_exists('p_lodgix')) {
                   
                   $post = array();
                   $post['post_title'] = 'Search Rentals';
-                  $post['post_content'] = '[lodgix search_rentals]';  
+                  $post['post_content'] = '[lodgix_search_rentals]';  
                   $post['post_status'] = 'publish';
                   $post['post_type'] = "page";                                  
                   $exists = get_post($this->options['p_lodgix_search_rentals_page']);
@@ -3929,7 +3930,7 @@ if (!class_exists('p_lodgix')) {
                       {
                                         	
                         $post['post_title'] = 'Vermietungen';
-                        $post['post_content'] = '[lodgix search_rentals de]';  
+                        $post['post_content'] = '[lodgix_search_rentals_de]';  
                         $post_de_id = wp_insert_post( $post,true );               
             
                         if ($post_de_id != 0)

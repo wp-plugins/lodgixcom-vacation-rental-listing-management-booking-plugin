@@ -361,6 +361,7 @@ if (!class_exists('p_lodgix')) {
       
       // Content
       add_filter('the_content', array(&$this,'p_lodgix_filter_content'));
+      add_shortcode('lodgix calendar', array(&$this,'p_get_lodgix_calendar'));
       add_shortcode('lodgix_calendar', array(&$this,'p_get_lodgix_calendar'));
       add_shortcode('lodgix_vacation_rentals', array(&$this,'p_lodgix_pcode_vacation_rentals'));
       add_shortcode('lodgix_vacation_rentals_de', array(&$this,'p_lodgix_pcode_vacation_rentals_de'));

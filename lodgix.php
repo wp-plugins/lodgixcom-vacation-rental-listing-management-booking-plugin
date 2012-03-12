@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.66
+Version: 1.0.67
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.67: Added Studio support
 v1.0.66: CSS Adjusted
 v1.0.65: Fixed shortcode issue
 v1.0.64: Added property id feature
@@ -2896,9 +2897,11 @@ if (!class_exists('p_lodgix')) {
        	echo	'</select></div>
        				<div>Bedrooms:</div> 
        				<div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="javascript:p_lodgix_search_properties();">
-       				<option value="ANY">Any</option> ';
+       				<option value="ANY">Any</option> 
+       				<option value="0">Studio</option>';
         for($i = 1 ; $i < 21 ; $i++)
         {
+        	
         	if ($i == $bedrooms_post)
         		echo '<option selected value="'.$i.'">'.$i.'</option>';
         	else
@@ -3006,6 +3009,13 @@ if (!class_exists('p_lodgix')) {
           	$position = "float:left; margin-left:5px;";
           else if ($loptions['p_lodgix_display_featured_horizontally'] == 2)
           	$position = "float:right; margin-right:5px;";
+          	
+          $bedrooms = $property->bedrooms . ' Bedrm, ';
+          if ($property->bedrooms == 0)
+          {
+          	 $bedrooms = 'Studio, ';
+          }
+          
           
           echo '<div class="lodgix-featured-listing" style="-moz-border-radius: 5px 5px 5px 5px;' . $position . '">
                 <div class="imgset">
@@ -3015,7 +3025,7 @@ if (!class_exists('p_lodgix')) {
     	            </a>
                 </div>
                 <a class="address-link" href="' . $permalink . '">' . $property->description . '</a>
-                <div class="featured-details">' . $property->bedrooms . ' Bedrm, ' . $property->bathrooms . ' Bath' . $proptype . ''
+                <div class="featured-details">' . $bedrooms . $property->bathrooms . ' Bath' . $proptype . ''
                   . $location . '
                 </div>    
               </div>'; 

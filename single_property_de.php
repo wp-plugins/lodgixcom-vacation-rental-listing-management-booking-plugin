@@ -66,11 +66,17 @@ if ($property->virtual_tour_url != '')
 	$virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url  . '"><img title="Display Virtual Tour" src="' . home_url() . $p_plugin_path  . '/images/virtual_tour.png"></a>';
 }
 
+$bedrooms = $property->bedrooms .' Bedroom';
+if ($property->bedrooms == 0)
+{
+   $bedrooms = 'Studio';
+}
+
 $single_property .= '<div id="content_lodgix_wrapper">';
 $single_property .= '<div id="lodgix_property_badge">';
 $single_property .= '<table width="100%">												
 													<tr>
-														<td id="lodgix_property_badge_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $property->bedrooms .' Schlafzimmer | ' . $property->bathrooms .' Badezimmer | ' . $property->proptype . $property_city . '</div></td>
+														<td id="lodgix_property_badge_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $bedrooms .  ' | ' . $property->bathrooms .' Badezimmer | ' . $property->proptype . $property_city . '</div></td>
 														<td id="lodgix_property_badge_rates"><span class="lodgix_nowrap">' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a></span></td>
 													</tr>
 										</table>

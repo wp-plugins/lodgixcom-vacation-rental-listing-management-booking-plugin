@@ -43,6 +43,11 @@ if ($lodgixoptions['p_lodgix_contact_url'] != "")
 	}		
 }
 
+$bedrooms = $property->bedrooms;
+if ($property->bedrooms == 0)
+{
+   $bedrooms = 'Studio';
+}
 
 $vacation_rentals = '
 <table cellspacing="0" class="lodgix_listing">
@@ -71,7 +76,7 @@ $vacation_rentals = '
 					<td class="lodgix_gray_highest">Monthly Rate</td>
 				</tr>
 				<tr>
-					<td class="lodgix_gray_box">' . $property->bedrooms . '</td>
+					<td class="lodgix_gray_box">' . $bedrooms . '</td>
 					<td class="lodgix_gray_box">' . $property->bathrooms . '</td>
 					<td class="lodgix_gray_box">' . $property->proptype . '</td>
 					

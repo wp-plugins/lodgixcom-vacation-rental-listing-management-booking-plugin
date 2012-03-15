@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.67
+Version: 1.0.68
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.68: Added GetURLs AJAX
 v1.0.67: Added Studio support
 v1.0.66: CSS Adjusted
 v1.0.65: Fixed shortcode issue
@@ -339,6 +340,8 @@ if (!class_exists('p_lodgix')) {
       add_action('wp_head', array(&$this,"p_lodgix_header_code"));
       add_action('wp_ajax_p_lodgix_notify', array(&$this,"p_lodgix_notify"));
       add_action('wp_ajax_nopriv_p_lodgix_notify', array(&$this,"p_lodgix_notify"));
+      add_action('wp_ajax_p_lodgix_geturls', array(&$this,"p_lodgix_geturls"));
+      add_action('wp_ajax_nopriv_p_lodgix_geturls', array(&$this,"p_lodgix_geturls"));      
       add_action('wp_ajax_p_lodgix_check', array(&$this,"p_lodgix_check"));
       add_action('wp_ajax_nopriv_p_lodgix_check', array(&$this,"p_lodgix_check"));      
       add_action('wp_ajax_p_lodgix_sort_vr', array(&$this,"p_lodgix_sort_vr"));
@@ -3187,6 +3190,34 @@ if (!class_exists('p_lodgix')) {
             die("ERROR");
           }
       }
+      
+      
+      function p_lodgix_geturls() {      		
+      	  header("Content-type: text/xml");
+      		global $wpdb;
+      		ini_set('max_execution_time', 0);
+    		  $pages_table = $wpdb->prefix . "lodgix_pages";    
+    		  $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";					
+      		$posts = $wpdb->get_results('SELECT * FROM ' . $pages_table);   
+      		print "<Properties>";
+      		foreach($posts as $post)        
+      		{
+      			print "<Property>";
+      			print "<ID>" . $post->property_id . "</ID>";
+	          print '<URL>' .  htmlentities(urlencode(get_permalink($post->page_id))) . '</URL>';
+     
+            $lposts = $wpdb->get_results('SELECT * FROM ' . $lang_pages_table . ' WHERE property_id=' . $post->property_id);   
+            foreach($lposts as $lpost)
+            {
+		          print '<URL' . strtoupper($lpost->language_code) . '>' . htmlentities(urlencode(get_permalink($lpost->page_id))) . '</URL' . strtoupper($lpost->language_code) . '>';
+            }	          
+	          print "</Property>";
+  				}
+  				print "</Properties>";
+  					      		
+          die("");
+        
+      }      
       
       
  			function p_lodgix_check() {

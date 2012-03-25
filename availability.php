@@ -7,7 +7,6 @@ if ($allow_booking == 0)
 }   
 
 
-
 if ($number_properties == 1)
 {
 	 $this->options['p_lodgix_root_width_single'] = 615;

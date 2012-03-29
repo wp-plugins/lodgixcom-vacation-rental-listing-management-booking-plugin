@@ -2664,6 +2664,7 @@ if (!class_exists('p_lodgix')) {
       
       function get_single_page_html($id,$language)
       {
+      	
         global $wpdb;
         global $sitepress;
         $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
@@ -2683,24 +2684,41 @@ if (!class_exists('p_lodgix')) {
         $deposits_table = $wpdb->prefix . "lodgix_deposits";     
         $reviews_table = $wpdb->prefix . "lodgix_reviews";    
         
-        $properties = $wpdb->get_results('SELECT description,description_long,city,area FROM ' . $properties_table . ' WHERE id=' . $id);  
+        
+        
+        $single_property = '';
+        $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table . ' WHERE id=' . $id);  
   			if ($properties)
   			{
   				$property = $properties[0];
+  				
   			
-      	
-      	
         	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id); 
         	if ($this->options['p_lodgix_single_page_design'] == 1)
         	{	
-         		include('single_property_tabbed.php');
+        		if ($language == 'en')
+        		{
+         			include('single_property.php');
+         		}
+         		else
+         		{
+         			include('single_property_tabbed_de.php');
+         		}
         	}
         	else
         	{
-        		include('single_property.php');
+   					if ($language == 'en')
+        		{
+         			include('single_property.php');
+         		}
+         		else
+         		{
+         			include('single_property_de.php');
+         		}
         	}
       	}
       	
+      	return do_shortcode($single_property);
       }
       
       

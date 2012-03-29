@@ -749,6 +749,8 @@ if (!class_exists('p_lodgix')) {
     	  global $wp_query;
         	$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));         	
         	wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');
+        	wp_enqueue_script('p_lodgix_jqueryui',$p_plugin_path . 'js/jquery-ui-lodgix.min.js');        	
+        	wp_enqueue_script('p_lodgix_jqueryqtip',$p_plugin_path . 'js/jquerylodgix.qtip.min.js');        	        	
         	wp_enqueue_script('jquery');
         	wp_enqueue_script('thickbox');
         	wp_enqueue_style('thickbox');      
@@ -1320,7 +1322,8 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_display_title' => 'name',
                                   'p_lodgix_display_featured' => 'city',
                                   'p_lodgix_display_multi_instructions' => 0,
-                                  'p_lodgix_display_single_instructions' => 0,                                  
+                                  'p_lodgix_display_single_instructions' => 0,          
+                                  'p_lodgix_single_page_design' => 0,                                                                    
                                   'p_lodgix_vacation_rentals_page_pos' => '3',
                                   'p_lodgix_availability_page_pos' => '4',                                  
                                   'p_lodgix_thesis_compatibility' => false,
@@ -1384,6 +1387,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_display_featured' => 'city',
                               'p_lodgix_display_multi_instructions' => 0,
                               'p_lodgix_display_single_instructions' => 0,                                 
+                              'p_lodgix_single_page_design' => 0,
                               'p_lodgix_vacation_rentals_page_pos' => '3',                                                             
                               'p_lodgix_availability_page_pos' => '4',
                               'p_lodgix_thesis_compatibility' => false,
@@ -2726,7 +2730,15 @@ if (!class_exists('p_lodgix')) {
                 $post['ID'] = $property->post_id;
                 $post['post_title'] = $property->description;
                 $single_property = '';
-                include('single_property.php');
+                if ($this->options['p_lodgix_single_page_design'] == 1)
+                {
+                	include('single_property_tabbed.php');
+                }
+                else
+                {
+                	include('single_property.php');
+                }
+                
                 $post['post_status'] = 'publish';
                 $post_id = wp_update_post($post); 
                 $posts_table = $wpdb->prefix . "posts";
@@ -2750,7 +2762,14 @@ if (!class_exists('p_lodgix')) {
                   if ($post['post_title'] == '')
                     $post['post_title'] = $property->description;
                   $single_property = '';
-                  include('single_property_de.php');
+	                if ($this->options['p_lodgix_single_page_design'] == 1)
+	                {
+	                	include('single_property_tabbed_de.php');
+	                }
+	                else
+	                {
+	                	include('single_property_de.php');
+	                }
                   $post['post_status'] = 'publish';       
                   $post['post_content'] = htmlspecialchars($single_property);  
                   $post_id_de = wp_update_post($post);                      
@@ -3798,6 +3817,7 @@ if (!class_exists('p_lodgix')) {
                   $this->options['p_google_maps_api'] = $_POST['p_google_maps_api']; 
                   $this->options['p_lodgix_display_title'] = $_POST['p_lodgix_display_title'];
                   $this->options['p_lodgix_display_multi_instructions'] = ((int)$_POST['p_lodgix_display_multi_instructions']);
+                  $this->options['p_lodgix_single_page_design'] = ((int)$_POST['p_lodgix_single_page_design']);                  
                   $this->options['p_lodgix_display_single_instructions'] = ((int)$_POST['p_lodgix_display_single_instructions']);
                   $this->options['p_lodgix_display_featured'] = $_POST['p_lodgix_display_featured'];                                    
                   $this->options['p_lodgix_vacation_rentals_page_pos'] = $_POST['p_lodgix_vacation_rentals_page_pos'];
@@ -4195,7 +4215,7 @@ if (!class_exists('p_lodgix')) {
                               
                           
                           </td>  
-                                 <tr valign="top"> 
+                           <tr valign="top"> 
                             <th scope="row"><?php _e('Display Instructions on Multi Unit Calendar:', $this->localizationDomain); ?></th> 
                             <td>
                              <select name="p_lodgix_display_multi_instructions"  id="p_lodgix_display_multi_instructions" style="width:120px;">                              
@@ -4203,8 +4223,16 @@ if (!class_exists('p_lodgix')) {
                               <option  <?php if ($this->options['p_lodgix_display_multi_instructions'] == 0) echo "SELECTED"; ?> value='0'>No</option>
                             </select>
                               
-                          
-                          </td>                                                                                                       
+                          </td>             
+            							<tr valign="top"> 
+                            <th scope="row"><?php _e('Single Page Design:', $this->localizationDomain); ?></th> 
+                            <td>
+                             <select name="p_lodgix_single_page_design"  id="p_lodgix_single_page_design" style="width:120px;">                              
+                              <option <?php if ($this->options['p_lodgix_single_page_design'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
+                              <option  <?php if ($this->options['p_lodgix_single_page_design'] == 1) echo "SELECTED"; ?> value='1'>Tabbed</option>
+                            </select>
+                              
+                          </td>                                                                                                                           
 
                     </table><br>
         <p>                  

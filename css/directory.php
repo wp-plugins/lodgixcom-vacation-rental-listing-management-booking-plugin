@@ -1009,38 +1009,7 @@ border:0 none;
 
 
 
-.pikachoose{width: 660px; margin: 0 auto;}
 
-.pika-image {position: relative; height: 480px; width: 640px; background: #fafafa; border: 1px solid #e5e5e5; padding: 10px;}
-	/*position image holders */
-	.pika-image .animation, .pika-image .main-image {position: absolute; top: 10px; left: 10px;}
-	.pika-image .animation {display: none;z-index:2;}
-	.pika-image img {border:0;width:640px;height:480px; }
-
-.pika-image .caption {position: absolute; background: url(__PLUGIN_FOLDER__gallery/75-black.png);  border: 1px solid #141414; font-size: 11px; color: #fafafa; padding: 10px; text-align: right; bottom: 30px; right: 10px;}
-	.pika-image .caption p {padding: 0; margin: 0; line-height: 14px;}
-
-.pika-imgnav a {position: absolute; text-indent: -5000px; display: none;z-index:3;}
-	.pika-imgnav a.previous {background: url(__PLUGIN_FOLDER__gallery/prev.png) no-repeat left 50%; height: 480px; width: 50px; top: 10px; left: 10px;cursor:pointer;}
-	.pika-imgnav a.next {background: url(__PLUGIN_FOLDER__gallery/next.png) no-repeat right 50%; height: 480px; width: 50px; top: 10px; right: 10px;cursor:pointer;}
-	.pika-imgnav a.play {background: url(__PLUGIN_FOLDER__gallery/play.png) no-repeat 50% 50%; height: 100px; width: 40px;top:0;left:50%;display: none;cursor:pointer;}
-	.pika-imgnav a.pause {background: url(__PLUGIN_FOLDER__gallery/pause.png) no-repeat 50% 50%; height: 100px; width: 40px;top:0;left:50%;display:none;cursor:pointer;}
-
-.pika-textnav {overflow: hidden; margin: 10px 0 0 0; display:none;}
-.pika-textnav a {font-size: 12px; text-decoration: none; font-family:  helvetica, arial, sans-serif; color: #333; padding: 4px;}
-		.pika-textnav a:hover {background: #e5e5e5; color: #0065B2;}
-	.pika-textnav a.previous {float: left; width: auto; display: block;}
-	.pika-textnav a.next {float: right; width: auto; display: block;}
-	
-.pika-thumbs {margin: 10px 0 0 0; padding: 0; overflow: hidden; }
-	.pika-thumbs li {float: left; list-style-type: none; width: 82px; padding: 3px; margin: 0 2px; background: #fafafa; border: 1px solid #e5e5e5; cursor: pointer;}
-		.pika-thumbs li:last {margin: 0;}
-		.pika-thumbs li .clip {position:relative;width: 74px; height: 74px; text-align: center; vertical-align: center; overflow: hidden;}
-
-.clip span{background-color:black;position:absolute;top:0px;left:5px;display:block;}
-.pika-tooltip{font-size:12px;position:absolute;color:white;padding:3px; background-color: rgba(0,0,0,0.7);border:3px solid black;}
-
-ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin-right:10px;}
 
 
 

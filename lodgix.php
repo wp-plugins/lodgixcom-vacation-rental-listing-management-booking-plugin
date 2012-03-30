@@ -771,7 +771,10 @@ if (!class_exists('p_lodgix')) {
         	wp_enqueue_script('jquery');
         	wp_enqueue_script('thickbox');
         	wp_enqueue_style('thickbox');      
+        	
+        	wp_enqueue_style('p_lodgix_pikachoose_css',$p_plugin_path . 'gallery/pikachoose-whiteout-theme.css');      
         	wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
+        	
         	wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
         	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
         	wp_enqueue_script('p_lodgix_jquery_swf_object',$p_plugin_path . 'js/jquery.swfobject.js');            	    
@@ -878,7 +881,7 @@ if (!class_exists('p_lodgix')) {
 												var a = function(self){
 												self.anchor.fancybox();
 											};
-											jQueryLodgix("#pikame").PikaChoose({buildFinished:a,autoPlay:false,showTooltips:false,speed:5000});
+											jQueryLodgix("#pikame").PikaChoose({carousel:true});
 											jQueryLodgix('#lodgix_property_badge').corner("round 8px");
 											if (location.hash != '')
 												location.hash = location.hash;
@@ -2703,7 +2706,7 @@ if (!class_exists('p_lodgix')) {
         	{	
         		if ($language == 'en')
         		{
-         			include('single_property_tabbed.php');
+         			include('single_property.php');
          		}
          		else
          		{

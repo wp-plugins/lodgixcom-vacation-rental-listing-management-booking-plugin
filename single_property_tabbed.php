@@ -117,6 +117,9 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
                 <a href="#lodgix_tabbed_content-5">Availability</a>
             </li>
             <li>
+                <a href="' . $this->options['p_lodgix_contact_url'] . '">Contact Us</a>
+            </li>            
+            <li>
                 <a href="#lodgix_tabbed_content-6">Reviews</a>
             </li>
         </ul>

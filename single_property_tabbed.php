@@ -118,13 +118,7 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
                     <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/no_smoking.png" title="No Smoking" />&nbsp;&nbsp;
                     <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/no_pets.png" title="No Pets" />
                 </div>
-                <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur
-                    nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper
-                    ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus.
-                    Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing.
-                    Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam
-                    molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor
-                    nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+                ' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '
             </div>
             <div class="lodgix_tabbed_clearFix"></div>
         </div>

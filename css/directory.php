@@ -1198,13 +1198,14 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 
 .lodgix_tabbed_amenities {
   list-style: circle outside none;
-  height: auto;
+  height: 350px;
   width:100%;
 }
 .lodgix_tabbed_amenities li {
   list-style: circle outside none;
   white-space: nowrap;
   width: 160px;  
+  float:left;
 }
 
 #lodgix_tabbed_content h2 {
@@ -1222,65 +1223,6 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 .lodgix_tabbed_headline_area {
     margin: 5px 5px;
 }
-
-.lodgix_tabbed_headline_areaRight {
-    /*float: right;
-    text-align: right;
-    width: 300px;*/
-}
-
-
-
-
-
-
-.lodgix_tabbed_headline_area h1 {
-    font-size: 14pt;
-    color: #d73c38;
-    margin: 0;
-}
-.lodgix_tabbed_detailHeader {
-    overflow: auto;
-}
-.lodgix_tabbed_detailHeaderLeft {
-    width: 400px;
-    float: left;
-}
-.lodgix_tabbed_lodgix-sleep-icons {
-    margin: 0 0 5px 0;
-    position: relative;
-}
-.lodgix_tabbed_detailHeaderRight {
-    width: 300px;
-    float: right;
-    text-align: right;
-}
-
-.lodgix_tabbed_detailPhotos {
-    float: right;
-    width: 400px;
-    border: 10px solid #fff;
-    -webkit-box-shadow: 0px 1px 5px 0px #4a4a4a;
-    -moz-box-shadow: 0px 1px 5px 0px #4a4a4a;
-    box-shadow: 0px 1px 5px 0px #4a4a4a;
-    margin: 10px 0 15px 30px;
-}
-.lodgix_tabbed_clearFix {
-    clear: both;
-}
-
-#lodgix_tabbed_map_canvas { 
-    margin: 0 auto;
-}
-.lodgix_tabbed_locationText {
-    margin: 25px;
-}
-
-
-
-
-
-
 
 ';
 

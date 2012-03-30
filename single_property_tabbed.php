@@ -131,7 +131,7 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
         <div id="lodgix_tabbed_content-2">
             <div id="lodgix_tabbed_lodgix_property_location">
                 <h2>Property Location</h2>
-                <div id="map_canvas" style="width: 100%; height: 500px"></div>                          
+                <div id="lodgix_tabbed_map_canvas" style="width: 100%; height: 500px"></div>                          
             </div>
         </div>
         <div id="lodgix_tabbed_content-3">
@@ -184,7 +184,7 @@ $single_property .= '<script type="text/javascript">
     function lodgix_gmap_initialize() {
     //<![CDATA[
       if (GBrowserIsCompatible()) {
-        var map = new GMap(document.getElementById("map_canvas"));
+        var map = new GMap(document.getElementById("lodgix_tabbed_map_canvas"));
     		map.addControl(new GSmallMapControl()); 
 		    map.addControl(new GMapTypeControl());
         var point = new GPoint(' . $property->longitude . ', ' . $property->latitude . ');

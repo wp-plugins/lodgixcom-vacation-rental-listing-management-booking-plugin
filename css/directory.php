@@ -1210,10 +1210,18 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 #lodgix_tabbed_content h2 {
   color: #004185;
 	font-size: 13pt;
+	font-family: arial,sans-serif;
+	margin: 1em 0 0.588em;
 }
 
 .lodgix_tabbed_headline_area {
     margin: 5px 5px;
+}
+
+.lodgix_tabbed_headline_areaRight {
+    /*float: right;
+    text-align: right;
+    width: 300px;*/
 }
 
 

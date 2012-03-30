@@ -76,7 +76,11 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
     <div id="lodgix_tabbed_content">
         <div class="lodgix_tabbed_headline_area">
             <div class="lodgix_tabbed_headline_areaRight">
-                <div class="lodgix_tabbed_lodgix-sleep-icons"><img border="0" alt="" src="http://subustudios.com/mtip/Person-4.png"/>&nbsp;&nbsp;<img border="0" alt="" src="http://subustudios.com/mtip/Bed-Double.png"/>&nbsp;&nbsp;<img border="0" alt="" src="http://subustudios.com/mtip/Bed-Single.png"/>&nbsp;&nbsp;<img border="0" alt="" src="http://subustudios.com/mtip/Sofa-Single.png"/></div>
+                <div class="lodgix_tabbed_lodgix-sleep-icons">
+                	<img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/Person-4.png"/>&nbsp;&nbsp;
+                	<img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/Bed-Double.png"/>&nbsp;&nbsp;
+                	<img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/Bed-Single.png"/>&nbsp;&nbsp;
+                	<img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/Sofa-Single.png"/></div>
             </div>
             <div class="lodgix_tabbed_clearfix"></div>
         </div>

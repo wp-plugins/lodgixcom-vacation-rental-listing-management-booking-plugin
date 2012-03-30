@@ -1186,9 +1186,9 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 /* TABBED */
 
 
-#lodgix_tabbed_ {
+#lodgix_tabbed_content {
     clear: both;
-    width: 770px;
+    width: 100%;
     font-family: arial, sans-serif;
     color: #575757;
     font-size: 10pt;
@@ -1197,52 +1197,53 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 }
 
 .lodgix_tabbed_amenities {
-  float:left;
   list-style: circle outside none;
+  height: auto;
+  width:100%;
+}
+.lodgix_tabbed_amenities li {
+  list-style: circle outside none;
+  white-space: nowrap;
+  width: 160px;  
 }
 
-#lodgix_tabbed_ h2 {
-    color: #004185;
+#lodgix_tabbed_content h2 {
+  color: #004185;
 	font-size: 13pt;
 }
-.lodgix_tabbed__headline_area {
-    margin: 10px 20px;
-}
-.lodgix_tabbed__headline_areaLeft {
-    width: 400px;
-    float: left;
-}
-.lodgix_tabbed__headline_areaRight {
-    width: 300px;
-    float: right;
-    text-align: right;
-}
-lodgix_tabbed__lodgix-listing-prices {
 
+.lodgix_tabbed_headline_area {
+    margin: 5px 5px;
 }
-.lodgix_tabbed__headline_area h1 {
+
+
+
+
+
+
+.lodgix_tabbed_headline_area h1 {
     font-size: 14pt;
     color: #d73c38;
     margin: 0;
 }
-.lodgix_tabbed__detailHeader {
+.lodgix_tabbed_detailHeader {
     overflow: auto;
 }
-.lodgix_tabbed__detailHeaderLeft {
+.lodgix_tabbed_detailHeaderLeft {
     width: 400px;
     float: left;
 }
-.lodgix_tabbed__lodgix-sleep-icons {
+.lodgix_tabbed_lodgix-sleep-icons {
     margin: 0 0 5px 0;
     position: relative;
 }
-.lodgix_tabbed__detailHeaderRight {
+.lodgix_tabbed_detailHeaderRight {
     width: 300px;
     float: right;
     text-align: right;
 }
 
-.lodgix_tabbed__detailPhotos {
+.lodgix_tabbed_detailPhotos {
     float: right;
     width: 400px;
     border: 10px solid #fff;
@@ -1251,20 +1252,19 @@ lodgix_tabbed__lodgix-listing-prices {
     box-shadow: 0px 1px 5px 0px #4a4a4a;
     margin: 10px 0 15px 30px;
 }
-.lodgix_tabbed__clearFix {
+.lodgix_tabbed_clearFix {
     clear: both;
 }
 
-#lodgix_tabbed__map_canvas { 
+#lodgix_tabbed_map_canvas { 
     margin: 0 auto;
 }
-.lodgix_tabbed__locationText {
+.lodgix_tabbed_locationText {
     margin: 25px;
 }
 
-#lodgix_tabbed__map_canvas { height: 500px; }
 
-#lodgix_tabbed__map_canvas { height: 500px; }
+
 
 
 

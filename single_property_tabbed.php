@@ -139,8 +139,7 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
 									$counter = 0;
  									foreach($amenities as $amenity)
 									{
-										if  (($counter % 14) == 0)
-											$single_property .= '</ul><ul class="lodgix_tabbed_amenities">';
+	
   									$single_property .= '<li>' . $amenity->description . '</li>';
   									$counter++;
  									}

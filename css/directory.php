@@ -1210,7 +1210,7 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 }
 
 #lodgix_tabbed_content h2 {
-  color: #004185;
+  color: #575757;
 	font-size: 13pt;
 	font-family: arial,sans-serif;
 	margin: 1em 0 0.588em;
@@ -1227,7 +1227,7 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 }
 
 .lodgix_tabbed_headline_area {
-    margin: 10px 20px;
+  
 }
 .lodgix_tabbed_headline_areaLeft {
     width: 400px;
@@ -1243,6 +1243,12 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
     font-size: 14pt;
     color: #d73c38;
     margin: 0;
+}
+
+.lodgix_tabbed_headline_text h1
+{
+ color: #575757;
+ font-family: arial,sans-serif;
 }
 
 ';

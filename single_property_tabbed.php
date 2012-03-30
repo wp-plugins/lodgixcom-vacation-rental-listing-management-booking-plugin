@@ -75,6 +75,9 @@ $single_property .= '<script>jQueryLodgix(document).ready(function(){jQueryLodgi
 $single_property .= '<div id="lodgix_tabbed_content_box">
     <div id="lodgix_tabbed_content">
         <div class="lodgix_tabbed_headline_area">
+						<div class="lodgix_tabbed_headline_areaLeft">
+							<h1>' . $property->description . '</h1>
+						</div>        
             <div class="lodgix_tabbed_headline_areaRight">
                 <div class="lodgix_tabbed_lodgix-sleep-icons">
                 	<img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/Person-4.png"/>&nbsp;&nbsp;
@@ -118,7 +121,7 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
                     <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/no_smoking.png" title="No Smoking" />&nbsp;&nbsp;
                     <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/no_pets.png" title="No Pets" />
                 </div>
-                ' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '
+                <br><p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '</p>
             </div>
             <div class="lodgix_tabbed_clearFix"></div>
         </div>

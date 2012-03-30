@@ -1196,6 +1196,7 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
     margin-bottom: 15px;
 }
 
+
 .lodgix_tabbed_amenities {
   list-style: circle outside none;
   height: 350px;
@@ -1222,6 +1223,26 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 
 .lodgix_tabbed_headline_area {
     margin: 5px 5px;
+    height:30px;
+}
+
+.lodgix_tabbed_headline_area {
+    margin: 10px 20px;
+}
+.lodgix_tabbed_headline_areaLeft {
+    width: 400px;
+    float: left;
+}
+.lodgix_tabbed_headline_areaRight {
+    float: right;
+    text-align: right;
+}
+
+.lodgix_tabbed_headline_area h1 {
+		font-family: arial,sans-serif;
+    font-size: 14pt;
+    color: #d73c38;
+    margin: 0;
 }
 
 ';

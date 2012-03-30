@@ -1212,6 +1212,11 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 	font-size: 13pt;
 	font-family: arial,sans-serif;
 	margin: 1em 0 0.588em;
+	border-bottom: 0 none;
+}
+
+#lodgix_tabbed_content h2#booking{
+	border-bottom: 0 none;	
 }
 
 .lodgix_tabbed_headline_area {

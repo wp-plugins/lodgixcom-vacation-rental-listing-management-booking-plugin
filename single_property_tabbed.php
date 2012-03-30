@@ -157,26 +157,26 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
         </div>
         <div id="lodgix_tabbed_content-5">';
 
-//$single_property .= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";        
+$single_property .= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";        
 
 $single_property .= '</div>
         <div id="lodgix_tabbed_content-6">
             <div id="lodgix_tabbed_lodgix_property_reviews">
-                <h2>Guest Reviews</h2>
-                <p>
-                    <i>This is a great property. Absolutely loved it! We cannot wait to come
-                        again!!!!</i>
-                    <br />12/30/2010, Joe Schmoe</p>
-                <p>
-                    <i>Great vacation rental I have even stayed at!! The pool was amazing.</i>
-                    <br
-                    />06/10/2010, Jack Black</p>
-            </div>
-        </div>
-    </div>
-</div>
+                <h2>Guest Reviews</h2>';
 
-';
+if (count($reviews) >= 1)
+{ 
+ foreach($reviews as $review)
+ {
+  $single_property .= '<p><i>' . $review->description . '</i><br>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
+ }
+}                 
+                
+$single_property .= '
+            </div>
+        </div>';
+        
+$single_property .= '</div></div>';
 
   
 $single_property .= '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $this->options['p_google_maps_api'] . '"type="text/javascript"></script>';

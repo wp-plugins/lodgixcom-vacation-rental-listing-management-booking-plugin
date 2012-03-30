@@ -90,7 +90,7 @@ $single_property .= '<table width="100%">
 $single_property .= '</div>';
 $single_property .= '';
 
-$single_property .= '<center><ul id="pikame">';
+$single_property .= '<br><center><ul id="pikame">';
 foreach($photos as $photo)
 {
       $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);

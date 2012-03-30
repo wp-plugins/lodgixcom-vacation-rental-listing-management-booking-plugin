@@ -90,7 +90,7 @@ if ($property->beds_text != "")
 	$beds_text = ' This property has ' . $property->beds_text . '.';
 }
 
-$single_property .= '<center><ul id="pikame">';
+$single_property .= '<br><center><ul id="pikame">';
 foreach($photos as $photo)
 {
       $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);

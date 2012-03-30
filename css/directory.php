@@ -1195,6 +1195,12 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
     padding-bottom: 15px;
     margin-bottom: 15px;
 }
+
+.lodgix_tabbed_amenities {
+  float:left;
+  list-style: circle outside none;
+}
+
 #lodgix_tabbed_ h2 {
     color: #004185;
 	font-size: 13pt;

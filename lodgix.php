@@ -2698,7 +2698,7 @@ if (!class_exists('p_lodgix')) {
         	{	
         		if ($language == 'en')
         		{
-         			include('single_property.php');
+         			include('single_property_tabbed.php');
          		}
          		else
          		{

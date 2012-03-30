@@ -67,14 +67,14 @@ if ($property->bedrooms == 0)
    $bedrooms = 'Studio';
 }
 
+$single_property .= '<link rel="stylesheet" href="' . $p_plugin_path . '/css/jquery-ui-1.8.17.custom.css" type="text/css" />';
 $single_property .= '<script>jQueryLodgix(document).ready(function(){jQueryLodgix("#lodgix_tabbed_content" ).tabs();});</script>';
+
+
 
 $single_property .= '<div id="lodgix_tabbed_content_box">
     <div id="lodgix_tabbed_content">
         <div class="lodgix_tabbed_headline_area">
-            <div class="lodgix_tabbed_headline_areaLeft">
-                <h1>Demo Condo #1</h1>
-            </div>
             <div class="lodgix_tabbed_headline_areaRight">
                 <div class="lodgix_tabbed_lodgix-sleep-icons"><img border="0" alt="" src="http://subustudios.com/mtip/Person-4.png"/>&nbsp;&nbsp;<img border="0" alt="" src="http://subustudios.com/mtip/Bed-Double.png"/>&nbsp;&nbsp;<img border="0" alt="" src="http://subustudios.com/mtip/Bed-Single.png"/>&nbsp;&nbsp;<img border="0" alt="" src="http://subustudios.com/mtip/Sofa-Single.png"/></div>
             </div>
@@ -107,12 +107,12 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
                 </div>
                 <h2>Property Details</h2>
                 <div class="lodgix_tabbed_lodgix-listing-amenities">
-                    <img border="0" alt="" src="http://subustudios.com/mtip/parking.png" title="Parking Available"/>&nbsp;&nbsp;
-                    <img border="0" alt="" src="http://subustudios.com/mtip/computer.png" title="Computer" />&nbsp;&nbsp;
-                    <img border="0" alt="" src="http://subustudios.com/mtip/internet.png" title="Internet" />&nbsp;&nbsp;
-                    <img border="0" alt="" src="http://subustudios.com/mtip/tv.png" title="TV" />&nbsp;&nbsp;
-                    <img border="0" alt="" src="http://subustudios.com/mtip/no_smoking.png" title="No Smoking" />&nbsp;&nbsp;
-                    <img border="0" alt="" src="http://subustudios.com/mtip/no_pets.png" title="No Pets" />
+                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/parking.png" title="Parking Available"/>&nbsp;&nbsp;
+                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/computer.png" title="Computer" />&nbsp;&nbsp;
+                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/internet.png" title="Internet" />&nbsp;&nbsp;
+                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/tv.png" title="TV" />&nbsp;&nbsp;
+                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/no_smoking.png" title="No Smoking" />&nbsp;&nbsp;
+                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/no_pets.png" title="No Pets" />
                 </div>
                 <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur
                     nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper
@@ -127,66 +127,30 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
         <div id="lodgix_tabbed_content-2">
             <div id="lodgix_tabbed_lodgix_property_location">
                 <h2>Property Location</h2>
-                <div id="map_canvas" style="width: 100%; height: 500px"></div></div>
-                
-                
+                <div id="map_canvas" style="width: 100%; height: 500px"></div>                          
             </div>
         </div>
         <div id="lodgix_tabbed_content-3">
             <div id="lodgix_tabbed_lodgix_property_amenities">
                 <h2>Amenities</h2>
-                <ul class="lodgix_tabbed_amenities">
-                    <li>Parking</li>
-                    <li>Lakefront</li>
-                    <li>Kitchen</li>
-                    <li>Hi Speed Internet</li>
-                    <li>Gas Grill</li>
-                    <li>Fire Pit</li>
-                    <li>Dock</li>
-                    <li>Charcoal Grill</li>
-                    <li>Cable Television</li>
-                    <li>Beachfront</li>
-                    <li>Access to beach</li>
-                    <li>Picnic Table</li>
-                    <li>Window A/C</li>
-                    <li>Wireless Internet</li>
-                </ul>
+                <ul class="lodgix_tabbed_amenities">';  
+								if (count($amenities) >= 1)
+								{ 
+									$counter = 0;
+ 									foreach($amenities as $amenity)
+									{
+										if  (($counter % 14) == 0)
+											$single_property .= '</ul><ul class="lodgix_tabbed_amenities">';
+  									$single_property .= '<li>' . $amenity->description . '</li>';
+  									$counter++;
+ 									}
+
+								} 
+								$single_property .= '</ul>
             </div>
         </div>
         <div id="lodgix_tabbed_content-4">
-            <div id="lodgix_tabbed_lodgix_property_rates">
-                <h2>Rates</h2>
-                <p>Daily Rate: $10 &#8211; $20 per night
-                    <br/>Weekly Rate: $4 &#8211; $5 per week
-                    <br/>- Rate varies due to seasonality and holidays.
-                    <br/>- Please select your dates on our online booking calendar for an exact
-                    quote.</p>
-                <h2>Policies</h2>
-                <p>
-                    <strong>Taxes</strong>
-                    <br/>Visitors Bureau tax &#8211; 2.00%
-                    <br />Michigan Use Tax &#8211; 6.00%</p>
-                <p>
-                    <strong>Fees</strong>
-                    <br/ Accidental Rental Damage Insurance $1500 Coverage &#8211;
-                    USD45.00 &#8211; Tax Exempt<br />Cleaning Fee &#8211; 10.00%
-                    <br />
-                    </span>
-                </p>
-                <p>
-                    <strong>Cancellation Policy</strong>
-                    <br/>All cancellations >90 days from your arrival date will result in a full
-                    refund less a 3% credit card processing fee if your deposit was paid via
-                    credit card. All cancellations with
-                    <90 days to your arrival date will only
-                    result in a refund (less 3% cc fee) if the unit can be rented again.</p>
-                        <p>
-                            <strong>Deposit Policy</strong>
-                            <br/>All reservations made >30 days from your arrival date require a 50% deposit.
-                            Reservations with an arrival data
-                            <30 days require 100% payment to confirm
-                            your reservation.</p>
-            </div>
+          
         </div>
         <div id="lodgix_tabbed_content-5">';
 

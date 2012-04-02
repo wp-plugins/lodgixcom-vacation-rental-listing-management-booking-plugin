@@ -72,6 +72,7 @@ if ($property->bedrooms == 0)
    $bedrooms = 'Studio';
 }
 
+
 $single_property .= '<div id="content_lodgix_wrapper">';
 $single_property .= '<div id="lodgix_property_badge">';
 $single_property .= '<table width="100%">												
@@ -90,19 +91,24 @@ $single_property .= '<table width="100%">
 $single_property .= '</div>';
 $single_property .= '';
 
-$single_property .= '<br><center><ul id="pikame">';
+$single_property .= '<br><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
 foreach($photos as $photo)
 {
       $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);
-      $single_property .= '<li><a href="' . $photo_url . '"><img width="74px" height="74px" src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
+      $single_property .= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
+      if ($photo->caption != '')
+      {
+      	$single_property .= '<div class="royalCaption"><div class="royalCaptionItem royalMidText">' . $photo->caption . '</div></div>';
+      }
+      $single_property .= '</li>';
 }
 $single_property .= '</ul><p style="text-align:center;"><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . home_url() . $p_plugin_path  . '/images/Lodgix200x50.png"></a></p></center>';
 
 if ($german_details->description_long != "")
 {
-  $single_property .= '<div id="lodgix_property_description"><p><h2>Kurzbeschreibung</h2></p>' . str_replace('\n', '<br>', $german_details->description_long) . '</div>';
+  $single_property .= '<div id="lodgix_property_description"><p><h2>Kurzbeschreibung</h2></p>' . str_replace(array("\r", "\r\n", "\n"), '<br>', $german_details->description_long) . '</div>';
 }
-$single_property .= '<div id="lodgix_property_details"><p><h2>Ausf&uuml;hrliche Beschreibung</h2></p>' . str_replace('\n', '<br>', $german_details->details) . '</div>';
+$single_property .= '<div id="lodgix_property_details"><p><h2>Ausf&uuml;hrliche Beschreibung</h2></p>' . str_replace(array("\r", "\r\n", "\n"), '<br>', $german_details->details) . '</div>';
 
 if (count($amenities) >= 1)
 { 

@@ -1239,17 +1239,7 @@ border:0 none;
     width: 100%;
 }
 #lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb {
-    height: 60px;
-    width: 140px;
-}
-#lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb.current {
-    border: 3px solid #75AF00 !important;
-    height: 54px;
-    width: 134px;
-}
-#lodgix-lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb:hover {
-    height: 54px;
-    width: 134px;
+  background-size: 100px 75px;
 }
 #lodgix-lodgix-image-gallery .royalCaption {
     position: static;

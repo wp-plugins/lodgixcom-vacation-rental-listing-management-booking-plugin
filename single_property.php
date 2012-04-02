@@ -90,7 +90,7 @@ if ($property->beds_text != "")
 	$beds_text = ' This property has ' . $property->beds_text . '.';
 }
 
-$single_property .= '<br><center><div id="lodgix-image-gallery" class="royalSlider iskin"><ul class="royalSlidesContainer dragme">';
+$single_property .= '<br><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
 foreach($photos as $photo)
 {
       $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);

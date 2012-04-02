@@ -891,7 +891,9 @@ if (!class_exists('p_lodgix')) {
 														imageAlignCenter:true,												
 														directionNavEnabled: true,
 														welcomeScreenEnabled:false,
-														hideArrowOnLastSlide:true
+														hideArrowOnLastSlide:true,
+														//imageScaleMode:"fill",                  // Scale mode of all images. Can be "fill", "fit" or "none"
+    												imageAlignCenter:true,	
 										    });	 
 											
 											jQueryLodgix('#lodgix_property_badge').corner("round 8px");

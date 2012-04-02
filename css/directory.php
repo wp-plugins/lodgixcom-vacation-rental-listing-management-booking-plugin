@@ -1220,6 +1220,61 @@ border:0 none;
  font-family: arial,sans-serif;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+#lodgix-image-gallery {
+    background: none repeat scroll 0 0 #F5F5F5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    height: 480px;
+    width: 100%;
+}
+#lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb {
+    height: 60px;
+    width: 140px;
+}
+#lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb.current {
+    border: 3px solid #75AF00 !important;
+    height: 54px;
+    width: 134px;
+}
+#lodgix-lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb:hover {
+    height: 54px;
+    width: 134px;
+}
+#lodgix-lodgix-image-gallery .royalCaption {
+    position: static;
+}
+#lodgix-image-gallery .royalCaptionItem, #image-gallery .staticTextBlock {
+    color: #D2D2D2;
+    font-weight: bold;
+    left: 50%;
+    margin-left: -185px;
+    text-align: center;
+    top: 415px;
+    width: 370px;
+}
+#lodgix-image-gallery .royalCaptionItem a {
+    color: #D2D2D2;
+}
+
+#lodgix-image-gallery .royalCaption {
+	position: static;
+}
+
+
+
+
+
 ';
 
 $content = str_replace('__PLUGIN_FOLDER__',$url,$content);

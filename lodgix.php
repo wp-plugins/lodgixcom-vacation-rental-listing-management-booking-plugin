@@ -2724,7 +2724,7 @@ if (!class_exists('p_lodgix')) {
          		}
          		else
          		{
-         			include('single_property_tabbed_de.php');
+         			include('single_property_de.php');
          		}
         	}
         	else

@@ -291,6 +291,7 @@ if ($policies || $taxes || $fees || $deposits)
    $single_property .= "<br>";
   }   
   $single_property .="</span></td></tr>";
+  $single_property .="<tr><td>&nbsp;</td></tr>";
   
  }
  
@@ -315,6 +316,7 @@ if ($policies || $taxes || $fees || $deposits)
    $single_property .= "<br>";
   }   
   $single_property .="</span></td></tr>";
+  $single_property .="<tr><td>&nbsp;</td></tr>";
  }
  
 
@@ -328,6 +330,7 @@ if ($policies || $taxes || $fees || $deposits)
    $single_property .= "<br>";
   }   
   $single_property .="</span></td></tr>";
+  $single_property .="<tr><td>&nbsp;</td></tr>";
  } 
  
  if ($policies)
@@ -336,21 +339,23 @@ if ($policies || $taxes || $fees || $deposits)
    {
     if ($policy->cancellation_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" . $policy->cancellation_policy  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" . str_replace(array("\r", "\r\n", "\n"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td>&nbsp;</td></tr>";
     }
     if ($policy->deposit_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . $policy->deposit_policy  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . str_replace(array("\r", "\r\n", "\n"),'<br>',$policy->deposit_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td>&nbsp;</td></tr>";
     } 
     if ($policy->single_unit_helptext)
     {
-      $single_unit_helptext = $policy->single_unit_helptext;
+      $single_unit_helptext = str_replace(array("\r", "\r\n", "\n"),'<br>',$policy->single_unit_helptext);
+      $single_property .= "<tr><td>&nbsp;</td></tr>";
     }       
     else
     {
       $single_unit_helptext = '';
-    }
-    
+    }    
    }
  }
 

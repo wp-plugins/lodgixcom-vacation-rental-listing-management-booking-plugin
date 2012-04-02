@@ -2690,6 +2690,7 @@ if (!class_exists('p_lodgix')) {
         global $wpdb;
         global $sitepress;
         $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
+        
 
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";

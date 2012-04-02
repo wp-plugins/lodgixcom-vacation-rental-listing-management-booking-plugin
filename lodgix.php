@@ -2721,11 +2721,11 @@ if (!class_exists('p_lodgix')) {
         	{	
         		if ($language == 'en')
         		{
-         			include('single_property.php');
+         			include('single_property_tabbed.php');
          		}
          		else
          		{
-         			include('single_property_de.php');
+         			include('single_property_tabbed_de.php');
          		}
         	}
         	else

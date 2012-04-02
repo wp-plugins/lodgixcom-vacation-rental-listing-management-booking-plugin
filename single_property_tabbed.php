@@ -128,17 +128,24 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
                 <div class="lodgix_tabbed_detailPhotos">
    
                 </div>
-                <h2>Property Details</h2>
-                <div class="lodgix_tabbed_lodgix-listing-amenities">
-                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/parking.png" title="Parking Available"/>&nbsp;&nbsp;
-                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/computer.png" title="Computer" />&nbsp;&nbsp;
-                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/internet.png" title="Internet" />&nbsp;&nbsp;
-                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/tv.png" title="TV" />&nbsp;&nbsp;
-                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/no_smoking.png" title="No Smoking" />&nbsp;&nbsp;
-                    <img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/no_pets.png" title="No Pets" />
-                </div>
-                <br><p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '</p>
-            </div>
+                <h2>Property Details</h2>';
+
+$single_property .= '<br><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
+foreach($photos as $photo)
+{
+      $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);
+      $single_property .= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
+      if ($photo->caption != '')
+      {
+      	$single_property .= '<div class="royalCaption"><div class="royalCaptionItem royalMidText">' . $photo->caption . '</div></div>';
+      }
+      $single_property .= '</li>';
+}
+
+$single_property .= '</ul></div></center><br><p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '</p>';
+                
+$single_property .= '</div>
+
             <div class="lodgix_tabbed_clearFix"></div>
         </div>
         <div id="lodgix_tabbed_content-2">
@@ -261,15 +268,15 @@ if ($policies || $taxes || $fees || $deposits)
    {
     if ($policy->cancellation_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" . $policy->cancellation_policy  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" .  str_replace(array("\r", "\r\n", "\n"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
     }
     if ($policy->deposit_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . $policy->deposit_policy  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . str_replace(array("\r", "\r\n", "\n"),'<br>', $policy->deposit_policy) . "</td></td></tr>";
     } 
     if ($policy->single_unit_helptext)
     {
-      $single_unit_helptext = $policy->single_unit_helptext;
+      $single_unit_helptext = str_replace(array("\r", "\r\n", "\n"),'<br>', $policy->single_unit_helptext);
     }       
     else
     {

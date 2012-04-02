@@ -90,11 +90,16 @@ if ($property->beds_text != "")
 	$beds_text = ' This property has ' . $property->beds_text . '.';
 }
 
-$single_property .= '<br><center><div class="pikachoose-whiteout"><ul id="pikame">';
+$single_property .= '<br><center><div id="lodgix-image-gallery" class="royalSlider iskin"><ul class="royalSlidesContainer dragme">';
 foreach($photos as $photo)
 {
       $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);
-      $single_property .= '<li><a href="' . $photo_url . '"><img src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
+      $single_property .= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
+      if ($photo->caption != '')
+      {
+      	$single_property .= '<div class="royalCaption"><div class="royalCaptionItem royalMidText">' . $photo->caption . '</div></div>';
+      }
+      $single_property .= '</li>';
 }
 $single_property .= '</ul></div><p style="text-align:center;"><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . home_url() . $p_plugin_path  . '/images/Lodgix200x50.png"></a></p></center>';
 

@@ -772,9 +772,12 @@ if (!class_exists('p_lodgix')) {
         	wp_enqueue_script('thickbox');
         	wp_enqueue_style('thickbox');      
         	
-        	wp_enqueue_style('p_lodgix_pikachoose_css',$p_plugin_path . 'gallery/pikachoose-whiteout-theme.css');      
-        	wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
-        	
+        	wp_enqueue_style('p_lodgix_royalslider',$p_plugin_path . 'gallery/css/lodgixroyalslider.css');
+        	wp_enqueue_style('p_lodgix_royalslider_skins_default',$p_plugin_path . 'gallery/royalslider-skins/default/default.css');      
+        	wp_enqueue_style('p_lodgix_royalslider_skins_iskin',$p_plugin_path . 'gallery/royalslider-skins/iskin/iskin.css');      
+        	wp_enqueue_script('p_lodgix_easing',$p_plugin_path . 'gallery/js/jquerylodgix.easing.min.js');
+        	wp_enqueue_script('p_lodgix_royal',$p_plugin_path . 'gallery/js/lodgixroyal-slider.min.js');
+        	        	
         	wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
         	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
         	wp_enqueue_script('p_lodgix_jquery_swf_object',$p_plugin_path . 'js/jquery.swfobject.js');            	    
@@ -881,7 +884,16 @@ if (!class_exists('p_lodgix')) {
 												var a = function(self){
 												self.anchor.fancybox();
 											};
-											jQueryLodgix("#pikame").PikaChoose({carousel:true});
+											
+											jQueryLodgix('#lodgix-image-gallery').royalSlider({
+										    		captionShowEffects:["fade"],
+														controlNavThumbs:true,																	
+														imageAlignCenter:true,												
+														directionNavEnabled: true,
+														welcomeScreenEnabled:false,
+														hideArrowOnLastSlide:true
+										    });	 
+											
 											jQueryLodgix('#lodgix_property_badge').corner("round 8px");
 											if (location.hash != '')
 												location.hash = location.hash;

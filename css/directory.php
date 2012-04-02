@@ -1236,7 +1236,7 @@ border:0 none;
     background: none repeat scroll 0 0 #F5F5F5;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     height: 480px;
-    width: 100%;
+    width: 640px;
 }
 #lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb {
   background-size: 100px 75px;

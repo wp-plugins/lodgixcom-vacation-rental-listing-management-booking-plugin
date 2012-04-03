@@ -149,7 +149,7 @@ foreach($photos as $photo)
       $single_property .= '</li>';
 }
 
-$single_property .= '</ul></div></center><br><p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '</p>';
+$single_property .= '</ul></div></center><br><p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$german_details->description_long)  .  '<br>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$german_details->details) . '</p>';
                 
 $single_property .= '</div>
 

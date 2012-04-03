@@ -126,9 +126,6 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
         </ul>
         <div id="lodgix_tabbed_content-1">
             <div id="lodgix_tabbed_lodgix_property_details">
-                <div class="lodgix_tabbed_detailPhotos">
-   
-                </div>
                 <h2>Property Details</h2>';
 
 $single_property .= '<br><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
@@ -143,7 +140,7 @@ foreach($photos as $photo)
       $single_property .= '</li>';
 }
 
-$single_property .= '</ul></div></center><br><p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '</p>';
+$single_property .= '</ul></div></center><br><p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->description_long)  .  '<br><br>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '</p>';
                 
 $single_property .= '</div>
 
@@ -308,7 +305,7 @@ if (count($reviews) >= 1)
 { 
  foreach($reviews as $review)
  {
-  $single_property .= '<p><i>' . $review->description . '</i><br>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
+  $single_property .= '<p><i>' . str_replace(array("\r", "\r\n", "\n"),'<br>', $review->description) . '</i><br>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
  }
 }                 
                 

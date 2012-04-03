@@ -75,7 +75,7 @@ v1.0.0: Initial release
 */
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "1.6";
+$p_lodgix_db_version = "1.7";
 
 
 if (!class_exists('LogidxHTTPRequest')) {
@@ -487,7 +487,7 @@ if (!class_exists('p_lodgix')) {
 
 			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1) && !$detect->isMobile())
 			{
-  				$content .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . $single_unit_helptext . '</p></div></div></div></div>';
+  				$content .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><br><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . str_replace(array("\r", "\r\n", "\n"),'<br>',$single_unit_helptext) . '</p></div></div></div></div>';
 		  }
 			else
 			{
@@ -3737,6 +3737,11 @@ if (!class_exists('p_lodgix')) {
         	$sql = "ALTER TABLE " . $properties_table  . " ADD COLUMN `beds_text` text default NULL;";
         	$wpdb->query($sql);        	 	
         }        
+        
+        if ($old_db_version < 1.7)
+        {
+        	$this->build_individual_pages();
+        }                
         
       }
       

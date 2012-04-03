@@ -127,7 +127,7 @@ if (count($reviews) >= 1)
   {
     $single_property .= '<br   />';
   }
-  $single_property .= '<p><i>' . $review->description . '</i></p><p>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
+  $single_property .= '<p><i>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$review->description) . '</i></p><p>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
   $counter++;
   if ($counter != count($reviews))
   	$single_property .= '<center><img src="' .  $p_plugin_path  . 'images/post_separator.png"></center>';

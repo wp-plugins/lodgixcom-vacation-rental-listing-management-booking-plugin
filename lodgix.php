@@ -564,6 +564,18 @@ if (!class_exists('p_lodgix')) {
     
     function p_lodgix_filter_content($content)
     {     	
+      global $p_lodgix_db_version;
+      if (get_option('p_lodgix_db_version'))
+      {
+        $old_db_version = ((float)get_option('p_lodgix_db_version'));
+        if ($old_db_version < ((float)$p_lodgix_db_version))
+        {
+          
+          $this->update_db($old_db_version);
+        }
+      }
+      update_option('p_lodgix_db_version',$p_lodgix_db_version);
+              	
       if (strrpos($content,'[lodgix vacation_rentals]') > 0)
         $content = str_replace('[lodgix vacation_rentals]',$this->get_vacation_rentals_content('en'),$content);
       if (strrpos($content,'[lodgix vacation_rentals de]') > 0)

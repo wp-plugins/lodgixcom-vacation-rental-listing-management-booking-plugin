@@ -167,12 +167,12 @@ $single_property .= '</div>
                 <ul class="lodgix_tabbed_amenities">';  
 								if (count($amenities) >= 1)
 								{ 
-									$counter = 0;
  									foreach($amenities as $amenity)
 									{
 	
-  									$single_property .= '<li>' . $amenity->description . '</li>';
-  									$counter++;
+	  								$amenity_name = $wpdb->get_var("select description_de from " . $lang_amenities_table . " WHERE description='" . $amenity->description . "';"); 
+  									if ($amenity_name != "")
+  										$single_property .= '<li>' . $amenity_name . '</li>';
  									}
 
 								} 

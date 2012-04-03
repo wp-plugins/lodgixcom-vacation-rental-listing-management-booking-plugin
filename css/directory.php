@@ -1201,7 +1201,7 @@ border:0 none;
 .lodgix_tabbed_amenities li {
   list-style: circle outside none;
   white-space: nowrap;
-  width: 160px;  
+  width: 170px;  
   float:left;
 }
 

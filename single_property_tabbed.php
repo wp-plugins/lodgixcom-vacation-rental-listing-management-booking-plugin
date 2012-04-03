@@ -140,7 +140,7 @@ foreach($photos as $photo)
       $single_property .= '</li>';
 }
 
-$single_property .= '</ul></div></center><br><p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->description_long)  .  '<br>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '</p>';
+$single_property .= '</ul></div></center><br><p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->description_long)  .  '<br>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->details) . '</p>';
                 
 $single_property .= '</div>
 
@@ -266,15 +266,15 @@ if ($policies || $taxes || $fees || $deposits)
    {
     if ($policy->cancellation_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" .  str_replace(array("\r", "\r\n", "\n"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" .  str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
     }
     if ($policy->deposit_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . str_replace(array("\r", "\r\n", "\n"),'<br>', $policy->deposit_policy) . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>', $policy->deposit_policy) . "</td></td></tr>";
     } 
     if ($policy->single_unit_helptext)
     {
-      $single_unit_helptext = str_replace(array("\r", "\r\n", "\n"),'<br>', $policy->single_unit_helptext);
+      $single_unit_helptext = str_replace(array("\r\n", "\n", "\r"),'<br>', $policy->single_unit_helptext);
     }       
     else
     {
@@ -305,7 +305,7 @@ if (count($reviews) >= 1)
 { 
  foreach($reviews as $review)
  {
-  $single_property .= '<p><i>' . str_replace(array("\r", "\r\n", "\n"),'<br>', $review->description) . '</i><br>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
+  $single_property .= '<p><i>' . str_replace(array("\r\n", "\n", "\r"),'<br>', $review->description) . '</i><br>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
  }
 }                 
                 

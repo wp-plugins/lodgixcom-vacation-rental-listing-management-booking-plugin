@@ -104,8 +104,8 @@ foreach($photos as $photo)
 
 $single_property .= '</ul></div><p style="text-align:center;"><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' .  $p_plugin_path  . '/images/Lodgix200x50.png"></a></p></center>';
 
-$single_property .= '<div id="lodgix_property_description"><p><h2>Property Description</h2></p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->description_long) . '</div>';
-$single_property .= '<div id="lodgix_property_details"><p><h2>Property Details</h2></p>' . str_replace(array("\r", "\r\n", "\n"),'<br>',$property->details) . '</div>';
+$single_property .= '<div id="lodgix_property_description"><p><h2>Property Description</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->description_long) . '</div>';
+$single_property .= '<div id="lodgix_property_details"><p><h2>Property Details</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->details) . '</div>';
 
 if (count($amenities) >= 1)
 { 
@@ -339,17 +339,17 @@ if ($policies || $taxes || $fees || $deposits)
    {
     if ($policy->cancellation_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" . str_replace(array("\r", "\r\n", "\n"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
       $single_property .= "<tr><td>&nbsp;</td></tr>";
     }
     if ($policy->deposit_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . str_replace(array("\r", "\r\n", "\n"),'<br>',$policy->deposit_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->deposit_policy)  . "</td></td></tr>";
       $single_property .= "<tr><td>&nbsp;</td></tr>";
     } 
     if ($policy->single_unit_helptext)
     {
-      $single_unit_helptext = str_replace(array("\r", "\r\n", "\n"),'<br>',$policy->single_unit_helptext);
+      $single_unit_helptext = str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->single_unit_helptext);
       $single_property .= "<tr><td>&nbsp;</td></tr>";
     }       
     else

@@ -51,19 +51,19 @@ if ($this->options['p_lodgix_contact_url_de'] != "")
 	{
 		$mail_url = str_replace('__PROPERTYID__',$property->id,$mail_url);
 	}		
-	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url  . '"><img src="' . home_url() . $p_plugin_path  . '/images/mail_50.png"></a>';
+	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url  . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a>';
 }
 
 $video_icon = '';
 if ($property->video_url != '')
 {
-	$video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url  . '"><img title="Display Video" src="' . home_url() . $p_plugin_path  . '/images/video_icon.png"></a></span>';
+	$video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url  . '"><img title="Display Video" src="' . $p_plugin_path  . '/images/video_icon.png"></a></span>';
 }
 
 $virtual_tour_icon = '';
 if ($property->virtual_tour_url != '')
 {
-	$virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url  . '"><img title="Display Virtual Tour" src="' . home_url() . $p_plugin_path  . '/images/virtual_tour.png"></a>';
+	$virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url  . '"><img title="Display Virtual Tour" src="' . $p_plugin_path  . '/images/virtual_tour.png"></a>';
 }
 
 $bedrooms = $property->bedrooms .' Bedroom';
@@ -71,6 +71,9 @@ if ($property->bedrooms == 0)
 {
    $bedrooms = 'Studio';
 }
+
+
+
 
 $single_property .= '<div id="content_lodgix_wrapper">';
 $single_property .= '<div id="lodgix_property_badge">';
@@ -83,26 +86,31 @@ $single_property .= '<table width="100%">
 										<hr>
 										<table width="100%">												
 													<tr>
-														<td id="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . home_url() . $p_plugin_path  . 'images/map_50.png"></a>' . $video_icon . $virtual_tour_icon . $mail_icon . '</td>
-														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' . home_url() . $p_plugin_path  . '/images/no_pets.png" style="' . $pets . '"><img src="' . home_url() . $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '"></span></td>
+														<td id="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' .  $p_plugin_path  . 'images/map_50.png"></a>' . $video_icon . $virtual_tour_icon . $mail_icon . '</td>
+														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' . $p_plugin_path  . '/images/no_pets.png" style="' . $pets . '"><img src="' . home_url() . $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '"></span></td>
 													</tr>
 										</table>';
 $single_property .= '</div>';
 $single_property .= '';
 
-$single_property .= '<center><ul id="pikame">';
+$single_property .= '<br><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
 foreach($photos as $photo)
 {
       $photo_url = str_replace('media/gallery','photo/0/gallery',$photo->url);
-      $single_property .= '<li><a href="' . $photo_url . '"><img width="74px" height="74px" src="' . $photo_url  .'" border=0 title="' . $photo->caption . '"></a><span>' . $photo->caption . '</span></li>';
+      $single_property .= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
+      if ($photo->caption != '')
+      {
+      	$single_property .= '<div class="royalCaption"><div class="royalCaptionItem royalMidText">' . $photo->caption . '</div></div>';
+      }
+      $single_property .= '</li>';
 }
-$single_property .= '</ul><p style="text-align:center;"><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . home_url() . $p_plugin_path  . '/images/Lodgix200x50.png"></a></p></center>';
+$single_property .= '</ul></div><p style="text-align:center;"><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></p></center>';
 
 if ($german_details->description_long != "")
 {
-  $single_property .= '<div id="lodgix_property_description"><p><h2>Kurzbeschreibung</h2></p>' . str_replace('\n', '<br>', $german_details->description_long) . '</div>';
+  $single_property .= '<div id="lodgix_property_description"><p><h2>Kurzbeschreibung</h2></p>' . str_replace(array("\r\n", "\n", "\r"), '<br>', $german_details->description_long) . '</div>';
 }
-$single_property .= '<div id="lodgix_property_details"><p><h2>Ausf&uuml;hrliche Beschreibung</h2></p>' . str_replace('\n', '<br>', $german_details->details) . '</div>';
+$single_property .= '<div id="lodgix_property_details"><p><h2>Ausf&uuml;hrliche Beschreibung</h2></p>' . str_replace(array("\r\n", "\n", "\r"), '<br>', $german_details->details) . '</div>';
 
 if (count($amenities) >= 1)
 { 
@@ -130,7 +138,7 @@ if (count($reviews) >= 1)
   
   $counter++;
   if ($counter != count($reviews))
-  	$single_property .= '<center><img src="' . home_url() . $p_plugin_path  . 'images/post_separator.png"></center>';
+  	$single_property .= '<center><img src="' . $p_plugin_path  . 'images/post_separator.png"></center>';
   
  }
  $single_property .= '</div><br><br>';
@@ -285,6 +293,7 @@ if ($policies || $taxes || $fees || $deposits)
    $single_property .= "<br>";
   }   
   $single_property .="</span></td></tr>";
+  $single_property .="<tr><td>&nbsp;</td></tr>";
   
  }
  
@@ -309,6 +318,7 @@ if ($policies || $taxes || $fees || $deposits)
    $single_property .= "<br>";
   }   
   $single_property .="</span></td></tr>";
+  $single_property .="<tr><td>&nbsp;</td></tr>";
  }
  
 
@@ -322,28 +332,32 @@ if ($policies || $taxes || $fees || $deposits)
    $single_property .= "<br>";
   }   
   $single_property .="</span></td></tr>";
+  $single_property .="<tr><td>&nbsp;</td></tr>";
  } 
  
- if ($policies)
+  if ($policies)
  {
    foreach($policies as $policy)
    {
     if ($policy->cancellation_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Stornierungsbedingungen</b><br><br>" . str_replace('\n', '<br>', $policy->cancellation_policy) . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>Stornierungsbedingungen</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td>&nbsp;</td></tr>";
     }
     if ($policy->deposit_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Kautionsbedingungen</b><br><br>" . str_replace('\n', '<br>',$policy->deposit_policy)  . "</td></td></tr>";
-    }  
+      $single_property .= "<tr><td class='lodgix_policies'><b>Kautionsbedingungen</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->deposit_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td>&nbsp;</td></tr>";
+    } 
     if ($policy->single_unit_helptext)
     {
-      $single_unit_helptext = $policy->single_unit_helptext;
-    }   
+      $single_unit_helptext = str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->single_unit_helptext);
+      $single_property .= "<tr><td>&nbsp;</td></tr>";
+    }       
     else
     {
       $single_unit_helptext = '';
-    }            
+    }    
    }
  }
 
@@ -374,7 +388,7 @@ foreach($photos as $photo)
       }  
                 
       $single_property .= '<td valign="top" align="center" style="border-bottom: 0;">';
-      $single_property .= '<a href="' . $photo_url . '" class="thickbox"  rel="gallery-images"><img src="' . $photo->thumb_url .'" height="150" width="200"  style="cursor:url(' . home_url() . $p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
+      $single_property .= '<a href="' . $photo_url . '" class="thickbox"  rel="gallery-images"><img src="' . $photo->thumb_url .'" height="150" width="200"  style="cursor:url(' . $p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
             <div class="image_desc"></div> 
             </td>
                <div style="align:left"></div>

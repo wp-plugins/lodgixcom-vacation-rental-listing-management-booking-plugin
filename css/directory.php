@@ -594,6 +594,25 @@ border:0 none;
 
 }
 
+#lodgix_property_badge_tabbed {
+	background-color: #F0F7FF;
+	height: auto;
+#	margin: 0 auto 15px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	
+	border: 1px solid #d7d7d7;
+	font-family:Verdana, Tahoma, Arial;
+	font-weight:bold;
+	
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+
+}
+
 #lodgix_property_badge hr {
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -613,6 +632,14 @@ border:0 none;
 #lodgix_property_badge_title {
   vertical-align:top;
 	color: #8DB339;
+	font-size:16px;
+	padding:0px;
+	
+}
+
+#lodgix_property_badge_tabbed_title {
+  vertical-align:top;
+	color: #004185;
 	font-size:16px;
 	padding:0px;
 	
@@ -1009,38 +1036,7 @@ border:0 none;
 
 
 
-.pikachoose{width: 660px; margin: 0 auto;}
 
-.pika-image {position: relative; height: 480px; width: 640px; background: #fafafa; border: 1px solid #e5e5e5; padding: 10px;}
-	/*position image holders */
-	.pika-image .animation, .pika-image .main-image {position: absolute; top: 10px; left: 10px;}
-	.pika-image .animation {display: none;z-index:2;}
-	.pika-image img {border:0;width:640px;height:480px; }
-
-.pika-image .caption {position: absolute; background: url(__PLUGIN_FOLDER__gallery/75-black.png);  border: 1px solid #141414; font-size: 11px; color: #fafafa; padding: 10px; text-align: right; bottom: 30px; right: 10px;}
-	.pika-image .caption p {padding: 0; margin: 0; line-height: 14px;}
-
-.pika-imgnav a {position: absolute; text-indent: -5000px; display: none;z-index:3;}
-	.pika-imgnav a.previous {background: url(__PLUGIN_FOLDER__gallery/prev.png) no-repeat left 50%; height: 480px; width: 50px; top: 10px; left: 10px;cursor:pointer;}
-	.pika-imgnav a.next {background: url(__PLUGIN_FOLDER__gallery/next.png) no-repeat right 50%; height: 480px; width: 50px; top: 10px; right: 10px;cursor:pointer;}
-	.pika-imgnav a.play {background: url(__PLUGIN_FOLDER__gallery/play.png) no-repeat 50% 50%; height: 100px; width: 40px;top:0;left:50%;display: none;cursor:pointer;}
-	.pika-imgnav a.pause {background: url(__PLUGIN_FOLDER__gallery/pause.png) no-repeat 50% 50%; height: 100px; width: 40px;top:0;left:50%;display:none;cursor:pointer;}
-
-.pika-textnav {overflow: hidden; margin: 10px 0 0 0; display:none;}
-.pika-textnav a {font-size: 12px; text-decoration: none; font-family:  helvetica, arial, sans-serif; color: #333; padding: 4px;}
-		.pika-textnav a:hover {background: #e5e5e5; color: #0065B2;}
-	.pika-textnav a.previous {float: left; width: auto; display: block;}
-	.pika-textnav a.next {float: right; width: auto; display: block;}
-	
-.pika-thumbs {margin: 10px 0 0 0; padding: 0; overflow: hidden; }
-	.pika-thumbs li {float: left; list-style-type: none; width: 82px; padding: 3px; margin: 0 2px; background: #fafafa; border: 1px solid #e5e5e5; cursor: pointer;}
-		.pika-thumbs li:last {margin: 0;}
-		.pika-thumbs li .clip {position:relative;width: 74px; height: 74px; text-align: center; vertical-align: center; overflow: hidden;}
-
-.clip span{background-color:black;position:absolute;top:0px;left:5px;display:block;}
-.pika-tooltip{font-size:12px;position:absolute;color:white;padding:3px; background-color: rgba(0,0,0,0.7);border:3px solid black;}
-
-ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin-right:10px;}
 
 
 
@@ -1183,9 +1179,132 @@ ul#pikame{width:660px;margin-bottom:10px;margin-top:10px;margin-left:10px;margin
 }
 
 
+/* TABBED */
+
+
+#lodgix_tabbed_content {
+    clear: both;
+    width: 100%;
+    font-family: arial, sans-serif;
+    color: #575757;
+    font-size: 10pt;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+
+.lodgix_tabbed_amenities {
+  list-style: circle outside none;
+  height: 350px;
+  width:100%;
+}
+.lodgix_tabbed_amenities li {
+  list-style: circle outside none;
+  white-space: nowrap;
+  width: 170px;  
+  float:left;
+}
+
+#lodgix_tabbed_content h2 {
+  color: #575757;
+	font-size: 13pt;
+	font-family: arial,sans-serif;
+	margin: 1em 0 0.588em;
+	border-bottom: 0 none;
+}
+
+#lodgix_tabbed_content h2#booking{
+	border-bottom: 0 none;	
+}
+
+.lodgix_tabbed_headline_area {
+    margin: 5px 5px;
+    height:30px;
+}
+
+.lodgix_tabbed_headline_area {
+  
+}
+.lodgix_tabbed_headline_areaLeft {
+    width: 400px;
+    float: left;
+}
+.lodgix_tabbed_headline_areaRight {
+    float: right;
+    text-align: right;
+}
+
+.lodgix_tabbed_headline_area h1 {
+		font-family: arial,sans-serif;
+    font-size: 14pt;
+    color: #d73c38;
+    margin: 0;
+}
+
+.lodgix_tabbed_headline_text h1
+{
+ color: #575757;
+ font-family: arial,sans-serif;
+}
 
 
 
+
+
+
+
+
+
+
+
+
+
+#lodgix-image-gallery {
+    background: none repeat scroll 0 0 #F5F5F5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    height: 480px;
+    width: 640px;
+}
+#lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb {
+  background-size: 100px 75px;
+}
+#lodgix-lodgix-image-gallery .royalCaption {
+    position: static;
+}
+#lodgix-image-gallery .royalCaptionItem, #image-gallery .staticTextBlock {
+    color: #D2D2D2;
+    font-weight: bold;
+    left: 50%;
+    margin-left: -185px;
+    text-align: center;
+    top: 415px;
+    width: 370px;
+}
+#lodgix-image-gallery .royalCaptionItem a {
+    color: #D2D2D2;
+}
+
+#lodgix-image-gallery .royalCaption {
+	position: static;
+}
+
+
+#lodgix-image-gallery .royalCaptionItem, #lodgix-image-gallery .staticTextBlock {
+    color: #D2D2D2;
+    font-weight: bold;
+    left: 50%;
+    margin-left: -185px;
+    text-align: center;
+    top: 440px;
+    width: 370px;
+    background-color: grey;
+    opacity:0.8;    
+ }
+
+#lodgix-image-gallery .staticTextBlockInner {
+   color: #ffffff;
+   opacity:1; 
+}
 
 
 ';

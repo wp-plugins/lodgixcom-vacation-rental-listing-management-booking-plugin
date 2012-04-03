@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.68
+Version: 1.0.69
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.69: Added New Tabbed Design
 v1.0.68: Added GetURLs AJAX
 v1.0.67: Added Studio support
 v1.0.66: CSS Adjusted
@@ -75,7 +76,7 @@ v1.0.0: Initial release
 */
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "1.6";
+$p_lodgix_db_version = "1.7";
 
 
 if (!class_exists('LogidxHTTPRequest')) {
@@ -373,7 +374,9 @@ if (!class_exists('p_lodgix')) {
       add_shortcode('lodgix_availability', array(&$this,'p_lodgix_pcode_availability'));
       add_shortcode('lodgix_availability_de', array(&$this,'p_lodgix_pcode_availability_de'));
       add_shortcode('lodgix_search_rentals', array(&$this,'p_lodgix_pcode_search_rentals'));
-      add_shortcode('lodgix_search_rentals_de', array(&$this,'p_lodgix_pcode_search_rentals_de'));      
+      add_shortcode('lodgix_search_rentals_de', array(&$this,'p_lodgix_pcode_search_rentals_de'));    
+			add_shortcode('lodgix_single_property', array(&$this,'p_lodgix_pcode_lodgix_single_property'));      
+			add_shortcode('lodgix_single_property_de', array(&$this,'p_lodgix_pcode_lodgix_single_property_de'));    
       add_filter("gform_pre_render", array(&$this,'p_lodgix_pre_render_function'));
       add_filter("gform_admin_pre_render", array(&$this,'p_lodgix_pre_render_function'));
     }
@@ -437,6 +440,16 @@ if (!class_exists('p_lodgix')) {
     	return $this->get_search_rentals_page_content('de');
     }    
      
+    function p_lodgix_pcode_lodgix_single_property($atts) {
+    	$p_lodgix_property_id = $atts[0];
+    	return $this->get_single_page_content($p_lodgix_property_id,'en');
+    }
+    
+    function p_lodgix_pcode_lodgix_single_property_de($atts) {
+    	$p_lodgix_property_id = $atts[0];
+    	return $this->get_single_page_content($p_lodgix_property_id,'de');
+    }         
+     
     
     function p_get_lodgix_calendar($atts) {		  	
     	global $wpdb;	  		  
@@ -460,17 +473,22 @@ if (!class_exists('p_lodgix')) {
 		  $detect = new Mobile_Detect();
 		  
 		  if (!$detect->isMobile()) {
-
-		  	$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
+		  	if ($this->options['p_lodgix_single_page_design'] == 1)
+			  	$content = '<div id="lodgix_property_booking"><h2>Availability & Booking Calendar</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
+			  else
+			  	$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
 		  }
 		  else
 		  {
-				$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
+		  	if ($this->options['p_lodgix_single_page_design'] == 1)
+					$content = '<div id="lodgix_property_booking"><h2>Availability & Booking Calendar</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
+				else
+					$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
 			}
 
 			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1) && !$detect->isMobile())
 			{
-  				$content .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . $single_unit_helptext . '</p></div></div></div></div>';
+  				$content .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><br><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . str_replace(array("\r\n", "\n", "\r"),'<br>',$single_unit_helptext) . '</p></div></div></div></div>';
 		  }
 			else
 			{
@@ -749,10 +767,18 @@ if (!class_exists('p_lodgix')) {
     	  global $wp_query;
         	$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));         	
         	wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');
+        	wp_enqueue_script('p_lodgix_jqueryui',$p_plugin_path . 'js/jquery-ui-lodgix.min.js');        	
+    	        	
         	wp_enqueue_script('jquery');
         	wp_enqueue_script('thickbox');
         	wp_enqueue_style('thickbox');      
-        	wp_enqueue_script('p_lodgix_pikachoose',$p_plugin_path . 'gallery/jquery.pikachoose.js');
+        	
+        	wp_enqueue_style('p_lodgix_royalslider',$p_plugin_path . 'gallery/css/lodgixroyalslider.css');
+        	wp_enqueue_style('p_lodgix_royalslider_skins_default',$p_plugin_path . 'gallery/royalslider-skins/default/default.css');      
+        	wp_enqueue_style('p_lodgix_royalslider_skins_iskin',$p_plugin_path . 'gallery/royalslider-skins/iskin/iskin.css');      
+        	wp_enqueue_script('p_lodgix_easing',$p_plugin_path . 'gallery/js/jquerylodgix.easing.min.js');
+        	wp_enqueue_script('p_lodgix_royal',$p_plugin_path . 'gallery/js/lodgixroyal-slider.min.js');
+        	        	
         	wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
         	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
         	wp_enqueue_script('p_lodgix_jquery_swf_object',$p_plugin_path . 'js/jquery.swfobject.js');            	    
@@ -859,7 +885,18 @@ if (!class_exists('p_lodgix')) {
 												var a = function(self){
 												self.anchor.fancybox();
 											};
-											jQueryLodgix("#pikame").PikaChoose({buildFinished:a,autoPlay:false,showTooltips:false,speed:5000});
+											
+											jQueryLodgix('#lodgix-image-gallery').royalSlider({
+										    		captionShowEffects:["fade"],
+														controlNavThumbs:true,																	
+														imageAlignCenter:true,												
+														directionNavEnabled: true,
+														welcomeScreenEnabled:false,
+														hideArrowOnLastSlide:true,
+														//imageScaleMode:"fill",                  // Scale mode of all images. Can be "fill", "fit" or "none"
+    												imageAlignCenter:false	
+										    });	 
+											
 											jQueryLodgix('#lodgix_property_badge').corner("round 8px");
 											if (location.hash != '')
 												location.hash = location.hash;
@@ -1320,7 +1357,8 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_display_title' => 'name',
                                   'p_lodgix_display_featured' => 'city',
                                   'p_lodgix_display_multi_instructions' => 0,
-                                  'p_lodgix_display_single_instructions' => 0,                                  
+                                  'p_lodgix_display_single_instructions' => 0,          
+                                  'p_lodgix_single_page_design' => 0,                                                                    
                                   'p_lodgix_vacation_rentals_page_pos' => '3',
                                   'p_lodgix_availability_page_pos' => '4',                                  
                                   'p_lodgix_thesis_compatibility' => false,
@@ -1384,6 +1422,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_display_featured' => 'city',
                               'p_lodgix_display_multi_instructions' => 0,
                               'p_lodgix_display_single_instructions' => 0,                                 
+                              'p_lodgix_single_page_design' => 0,
                               'p_lodgix_vacation_rentals_page_pos' => '3',                                                             
                               'p_lodgix_availability_page_pos' => '4',
                               'p_lodgix_thesis_compatibility' => false,
@@ -2484,6 +2523,17 @@ if (!class_exists('p_lodgix')) {
         return $content;
       }      
       
+      
+ 			/*
+        Get availability page content
+      */
+      function get_single_page_content($id,$lang_code)
+      {
+        $content = $this->get_single_page_html($id,$lang_code);   
+  
+        return $content;
+      }            
+      
       /*
         Get availability page content
       */
@@ -2635,6 +2685,66 @@ if (!class_exists('p_lodgix')) {
                 
       }
       
+      function get_single_page_html($id,$language)
+      {
+      	
+        global $wpdb;
+        global $sitepress;
+        $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
+        
+
+        $properties_table = $wpdb->prefix . "lodgix_properties";
+        $amenities_table = $wpdb->prefix . "lodgix_amenities";
+        $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $rules_table = $wpdb->prefix . "lodgix_rules";           
+        $pictures_table = $wpdb->prefix . "lodgix_pictures";   
+        $pages_table = $wpdb->prefix . "lodgix_pages";
+        $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
+        $lang_properties_table = $wpdb->prefix . "lodgix_lang_properties";
+        $lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";
+        $translation_table =  $wpdb->prefix . "icl_translations";
+        $taxes_table = $wpdb->prefix . "lodgix_taxes";   
+        $fees_table = $wpdb->prefix . "lodgix_fees";   
+        $deposits_table = $wpdb->prefix . "lodgix_deposits";     
+        $reviews_table = $wpdb->prefix . "lodgix_reviews";    
+        
+        
+        
+        $single_property = '';
+        $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table . ' WHERE id=' . $id);  
+  			if ($properties)
+  			{
+  				$property = $properties[0];
+  				
+  			
+        	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id); 
+        	if ($this->options['p_lodgix_single_page_design'] == 1)
+        	{	
+        		if ($language == 'en')
+        		{
+         			include('single_property_tabbed.php');
+         		}
+         		else
+         		{
+         			include('single_property_tabbed_de.php');
+         		}
+        	}
+        	else
+        	{
+   					if ($language == 'en')
+        		{
+         			include('single_property.php');
+         		}
+         		else
+         		{
+         			include('single_property_de.php');
+         		}
+        	}
+      	}
+      	
+      	return do_shortcode($single_property);
+      }
+      
       
       function build_individual_pages() {
         global $wpdb;
@@ -2719,14 +2829,12 @@ if (!class_exists('p_lodgix')) {
             foreach($properties as $property)
             {
               if ($property->post_id != NULL)
-              {
-                $amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id); 
+              {                
                 
                 $post = array();
                 $post['ID'] = $property->post_id;
                 $post['post_title'] = $property->description;
-                $single_property = '';
-                include('single_property.php');
+                $single_property = '[lodgix_single_property ' . $property->id . ']';                
                 $post['post_status'] = 'publish';
                 $post_id = wp_update_post($post); 
                 $posts_table = $wpdb->prefix . "posts";
@@ -2749,15 +2857,15 @@ if (!class_exists('p_lodgix')) {
                   $post['post_title'] = $wpdb->get_var("SELECT description FROM " . $lang_properties_table . " WHERE property_id=" . $property->id);
                   if ($post['post_title'] == '')
                     $post['post_title'] = $property->description;
-                  $single_property = '';
-                  include('single_property_de.php');
+                  $single_property = '[lodgix_single_property_de ' . $property->id . ']';                
                   $post['post_status'] = 'publish';       
                   $post['post_content'] = htmlspecialchars($single_property);  
                   $post_id_de = wp_update_post($post);                      
                   $sql = "UPDATE " . $translation_table . " SET trid=" . $trid . ", language_code='de' WHERE element_id=" . $post_id_de;
                   $wpdb->query($sql);           
                   $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id_de;                  
-                  $wpdb->query($sql);                                   
+                  $wpdb->query($sql);                    
+           
         
                 }
               }
@@ -2902,7 +3010,8 @@ if (!class_exists('p_lodgix')) {
        				<div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="javascript:p_lodgix_search_properties();">
        				<option value="ANY">Any</option> 
        				<option value="0">Studio</option>';
-        for($i = 1 ; $i < 21 ; $i++)
+       	$max_rooms = (int)$wpdb->get_var("SELECT MAX(bedrooms) FROM " . $properties_table);
+        for($i = 1 ; $i < ($max_rooms+1) ; $i++)
         {
         	
         	if ($i == $bedrooms_post)
@@ -3631,6 +3740,11 @@ if (!class_exists('p_lodgix')) {
         	$wpdb->query($sql);        	 	
         }        
         
+        if ($old_db_version < 1.7)
+        {
+        	$this->build_individual_pages();
+        }                
+        
       }
       
       /**
@@ -3798,6 +3912,7 @@ if (!class_exists('p_lodgix')) {
                   $this->options['p_google_maps_api'] = $_POST['p_google_maps_api']; 
                   $this->options['p_lodgix_display_title'] = $_POST['p_lodgix_display_title'];
                   $this->options['p_lodgix_display_multi_instructions'] = ((int)$_POST['p_lodgix_display_multi_instructions']);
+                  $this->options['p_lodgix_single_page_design'] = ((int)$_POST['p_lodgix_single_page_design']);                  
                   $this->options['p_lodgix_display_single_instructions'] = ((int)$_POST['p_lodgix_display_single_instructions']);
                   $this->options['p_lodgix_display_featured'] = $_POST['p_lodgix_display_featured'];                                    
                   $this->options['p_lodgix_vacation_rentals_page_pos'] = $_POST['p_lodgix_vacation_rentals_page_pos'];
@@ -4195,7 +4310,7 @@ if (!class_exists('p_lodgix')) {
                               
                           
                           </td>  
-                                 <tr valign="top"> 
+                           <tr valign="top"> 
                             <th scope="row"><?php _e('Display Instructions on Multi Unit Calendar:', $this->localizationDomain); ?></th> 
                             <td>
                              <select name="p_lodgix_display_multi_instructions"  id="p_lodgix_display_multi_instructions" style="width:120px;">                              
@@ -4203,8 +4318,16 @@ if (!class_exists('p_lodgix')) {
                               <option  <?php if ($this->options['p_lodgix_display_multi_instructions'] == 0) echo "SELECTED"; ?> value='0'>No</option>
                             </select>
                               
-                          
-                          </td>                                                                                                       
+                          </td>             
+            							<tr valign="top"> 
+                            <th scope="row"><?php _e('Single Page Design:', $this->localizationDomain); ?></th> 
+                            <td>
+                             <select name="p_lodgix_single_page_design"  id="p_lodgix_single_page_design" style="width:120px;">                              
+                              <option <?php if ($this->options['p_lodgix_single_page_design'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
+                              <option  <?php if ($this->options['p_lodgix_single_page_design'] == 1) echo "SELECTED"; ?> value='1'>Tabbed</option>
+                            </select>
+                              
+                          </td>                                                                                                                           
 
                     </table><br>
         <p>                  

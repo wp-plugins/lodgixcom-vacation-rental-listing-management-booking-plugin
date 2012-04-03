@@ -47,8 +47,9 @@ if ($this->options['p_lodgix_contact_url'] != "")
 	{
 		$mail_url = str_replace('__PROPERTYID__',$property->id,$mail_url);
 	}	
-	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url  . '"><img src="' . home_url() . $p_plugin_path  . '/images/mail_50.png"></a>';
+	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url  . '"><img src="' .  $p_plugin_path  . '/images/mail_50.png"></a>';
 }
+
 
 $video_icon = '';
 if ($property->video_url != '')
@@ -80,23 +81,26 @@ $high_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(defaul
 $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
 $high_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
 
+$single_property .= '<div id="content_lodgix_wrapper">';
+$single_property .= '<div id="lodgix_property_badge_tabbed">';
+$single_property .= '<table width="100%">												
+													<tr>
+														<td id="lodgix_property_badge_tabbed_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $bedrooms . ' | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '</div></td>
+														<td id="lodgix_property_badge_rates"><span class="lodgix_nowrap">' . $min_daily_rate . $min_weekly_rate .'<a href="javascript:void(0)" onclick=\'jQueryLodgix("#lodgix_tabbed_content").tabs("select","4");\'>check rate</a></span></td>
+													</tr>
+										</table>
+										<hr>
+										<table width="100%">												
+													<tr>
+														<td id="lodgix_property_badge_icons_left">' . $video_icon . $virtual_tour_icon . $mail_icon . '</td>
+														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' .  $p_plugin_path  . '/images/no_pets.png" style="' . $pets . '"><img src="' .  $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '"></span></td>
+													</tr>
+										</table>';
+$single_property .= '</div>';
+$single_property .= '<br>';
+
 $single_property .= '<link rel="stylesheet" href="' . $p_plugin_path . '/css/jquery-ui-1.8.17.custom.css" type="text/css" />';
 $single_property .= '<script>jQueryLodgix(document).ready(function(){jQueryLodgix("#lodgix_tabbed_content" ).tabs();});</script>';
-
-$single_property .= '<div class="lodgix_tabbed_headline_text"><h1>' .  $property->description . $property_area . '</h1>';
-$single_property .= '' . $bedrooms . ' | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '</div><br>';
-
-$single_property .= '<div class="lodgix_tabbed_headline_area">
-						<div class="lodgix_tabbed_headline_areaLeft">
-                <div class="lodgix_tabbed_lodgix-sleep-icons">
-                	<img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/Person-4.png"/>&nbsp;&nbsp;
-                	<img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/Bed-Double.png"/>&nbsp;&nbsp;
-                	<img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/Bed-Single.png"/>&nbsp;&nbsp;
-                	<img border="0" alt="" src="' . $p_plugin_path . 'images/tabbed/Sofa-Single.png"/>
-                </div>
-            </div>
-            <div class="lodgix_tabbed_clearfix"></div>
-        </div>';
 
 $single_property .= '<div id="lodgix_tabbed_content_box">
     <div id="lodgix_tabbed_content">
@@ -117,9 +121,6 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
                 <a href="#lodgix_tabbed_content-5">Availability</a>
             </li>
             <li>
-                <a href="' . $this->options['p_lodgix_contact_url'] . '">Contact Us</a>
-            </li>            
-            <li>
                 <a href="#lodgix_tabbed_content-6">Reviews</a>
             </li>
         </ul>
@@ -137,7 +138,7 @@ foreach($photos as $photo)
       $single_property .= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
       if ($photo->caption != '')
       {
-      	$single_property .= '<div class="royalCaption"><div class="royalCaptionItem royalMidText">' . $photo->caption . '</div></div>';
+      	$single_property .= '<div style="position: absolute;" class="staticTextBlock"><div class="staticTextBlockInner">' . $photo->caption . '</div></div>';
       }
       $single_property .= '</li>';
 }
@@ -313,7 +314,7 @@ if (count($reviews) >= 1)
                 
 $single_property .= '
             </div>
-        </div>';
+        </div></div>';
         
 $single_property .= '</div></div>';
 

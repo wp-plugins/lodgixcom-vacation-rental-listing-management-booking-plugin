@@ -594,6 +594,25 @@ border:0 none;
 
 }
 
+#lodgix_property_badge_tabbed {
+	background-color: #F0F7FF;
+	height: auto;
+#	margin: 0 auto 15px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	
+	border: 1px solid #d7d7d7;
+	font-family:Verdana, Tahoma, Arial;
+	font-weight:bold;
+	
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+
+}
+
 #lodgix_property_badge hr {
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -613,6 +632,14 @@ border:0 none;
 #lodgix_property_badge_title {
   vertical-align:top;
 	color: #8DB339;
+	font-size:16px;
+	padding:0px;
+	
+}
+
+#lodgix_property_badge_tabbed_title {
+  vertical-align:top;
+	color: #004185;
 	font-size:16px;
 	padding:0px;
 	
@@ -1262,7 +1289,22 @@ border:0 none;
 }
 
 
+#lodgix-image-gallery .royalCaptionItem, #lodgix-image-gallery .staticTextBlock {
+    color: #D2D2D2;
+    font-weight: bold;
+    left: 50%;
+    margin-left: -185px;
+    text-align: center;
+    top: 440px;
+    width: 370px;
+    background-color: grey;
+    opacity:0.8;    
+ }
 
+#lodgix-image-gallery .staticTextBlockInner {
+   color: #ffffff;
+   opacity:1; 
+}
 
 
 ';

@@ -106,7 +106,17 @@ $single_property .= '</div>';
 $single_property .= '<br>';
 
 $single_property .= '<link rel="stylesheet" href="' . $p_plugin_path . '/css/jquery-ui-1.8.17.custom.css" type="text/css" />';
-$single_property .= '<script>jQueryLodgix(document).ready(function(){jQueryLodgix("#lodgix_tabbed_content" ).tabs();});</script>';
+$single_property .= '<script>
+													jQueryLodgix(document).ready(function(){
+															jQueryLodgix("#lodgix_tabbed_content" ).tabs();
+															if(document.location.hash == "#booking") {					
+																jQueryLodgix("#lodgix_tabbed_content").tabs("select",4);
+														  }
+															if(document.location.hash == "#map_canvas") {					
+																jQueryLodgix("#lodgix_tabbed_content").tabs("select",1);
+														  }														  
+													});
+									  </script>';
 
 $single_property .= '<div id="lodgix_tabbed_content_box">
     <div id="lodgix_tabbed_content">

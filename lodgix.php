@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.71
+Version: 1.0.72
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.72: Fixed Per Person Rates
 v1.0.71: Added Per Person Rates
 v1.0.70: Fixed Availability Links
 v1.0.69: Added New Tabbed Design
@@ -1868,25 +1869,20 @@ if (!class_exists('p_lodgix')) {
             $sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
             $sql = str_replace("'NULL'","NULL",$sql);
             $wpdb->query($sql);    
-            $pprates = $rate['PerPersonRates']['Amount'];
- 
- 						if (is_array($pprates)) 
- 						{ 							
-	            foreach ($pprates as $ppr)            
-	        		{     
-	        			$ratearray['default_rate'] = $ppr;
-	           		$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
-	            	$sql = str_replace("'NULL'","NULL",$sql);
-	            	$wpdb->query($sql);            			
-	        	  }
-	        	 }
-	        	 else 
-	        	 {
-	        			$ratearray['default_rate'] = $pprates;
-	           		$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
-	            	$sql = str_replace("'NULL'","NULL",$sql);
-	            	$wpdb->query($sql);  	        	 	
-	        	 }
+            $pprates = $rate['PerPersonRates'];
+            if ($pprates)
+            {
+	        		if ($rate['PerPersonRates']['PerPersonRate'][0])
+	            	$pprates = $rate['PerPersonRates']['PerPersonRate'];
+			
+		          foreach ($pprates as $ppr)            
+		        	{        		
+		        			$ratearray['default_rate'] = $ppr['Amount'];
+		           		$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
+		            	$sql = str_replace("'NULL'","NULL",$sql);
+		            	$wpdb->query($sql);            			
+		        	}
+	        	}
             
         }    
         

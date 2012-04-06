@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.70
+Version: 1.0.71
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.71: Added Per Person Rates
 v1.0.70: Fixed Availability Links
 v1.0.69: Added New Tabbed Design
 v1.0.68: Added GetURLs AJAX
@@ -1867,6 +1868,26 @@ if (!class_exists('p_lodgix')) {
             $sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
             $sql = str_replace("'NULL'","NULL",$sql);
             $wpdb->query($sql);    
+            $pprates = $rate['PerPersonRates']['Amount'];
+ 
+ 						if (is_array($pprates)) 
+ 						{ 							
+	            foreach ($pprates as $ppr)            
+	        		{     
+	        			$ratearray['default_rate'] = $ppr;
+	           		$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
+	            	$sql = str_replace("'NULL'","NULL",$sql);
+	            	$wpdb->query($sql);            			
+	        	  }
+	        	 }
+	        	 else 
+	        	 {
+	        			$ratearray['default_rate'] = $pprates;
+	           		$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
+	            	$sql = str_replace("'NULL'","NULL",$sql);
+	            	$wpdb->query($sql);  	        	 	
+	        	 }
+            
         }    
         
         $rules = $property['Rules'];
@@ -1892,6 +1913,7 @@ if (!class_exists('p_lodgix')) {
         $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $parray['id'] . ";"));
         $sql = 'UPDATE ' . $properties_table .' SET min_daily_rate=' . $low_daily_rate . ',min_weekly_rate=' . $low_weekly_rate . ',min_monthly_rate=' . $low_monthly_rate . ' WHERE id=' . $parray['id'];
         $wpdb->query($sql);        
+
         
 
         $languages = $property['Languages'];

@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.73
+Version: 1.0.74
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.74: Fixed plugin path 
 v1.0.73: Fixed Include Bug
 v1.0.72: Fixed Per Person Rates
 v1.0.71: Added Per Person Rates
@@ -781,7 +782,7 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_template_redirect()
     {
     	  global $wp_query;
-        	$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));         	
+        	$p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );       	
         	wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');
         	wp_enqueue_script('p_lodgix_jqueryui',$p_plugin_path . 'js/jquery-ui-lodgix.min.js');        	
     	        	
@@ -1336,7 +1337,7 @@ if (!class_exists('p_lodgix')) {
 
     function p_lodgix_script() {
       if (is_admin()){ 
-        $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));         	
+        $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );
         wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');      	
         wp_enqueue_script('jquery'); 
         wp_enqueue_script('jquerylodgix', 'http://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js', array('jquery'));
@@ -2722,8 +2723,8 @@ if (!class_exists('p_lodgix')) {
       	
         global $wpdb;
         global $sitepress;
-        $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
-        
+        $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) ); 
+   
 
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
@@ -2781,7 +2782,7 @@ if (!class_exists('p_lodgix')) {
       function build_individual_pages() {
         global $wpdb;
         global $sitepress;
-        $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
+        $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );
         
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";

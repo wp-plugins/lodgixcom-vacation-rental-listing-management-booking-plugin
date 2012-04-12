@@ -1,7 +1,7 @@
 <?php
 
 $permalink = get_permalink($property->post_id);
-$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
+$p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );  
 
 $sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='en' AND property_id=" . $property->id . ' ORDER BY date DESC';
 $reviews = $wpdb->get_results($sql);   

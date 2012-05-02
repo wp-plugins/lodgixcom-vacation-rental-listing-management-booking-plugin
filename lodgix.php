@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.77
+Version: 1.0.78
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.78: Added property Wordpress Status
 v1.0.77: Fixed german language path
 v1.0.76: Fixed video and virtual tour links
 v1.0.75: Fixed page encoding
@@ -1668,7 +1669,7 @@ if (!class_exists('p_lodgix')) {
         $sql = "DELETE FROM " . $reviews_table . " WHERE property_id=" . $property['ID'];
         $wpdb->query($sql);                          
         
-        if ($property['ServingStatus'] != "ACTIVE")
+        if (($property['ServingStatus'] != "ACTIVE") || ($property['WordpressStatus'] != "ACTIVE"))
             return 0;
                
         $parray = $this->property_array;
@@ -1722,7 +1723,7 @@ if (!class_exists('p_lodgix')) {
         $parray['serving_status'] = 1;
         $parray['display_calendar'] = 1;
         $parray['allow_booking'] = 1;             
-        if ($property['ServingStatus'] == 'PAUSED')
+        if (($property['ServingStatus'] == 'PAUSED') || ($property['WordpressStatus'] == 'PAUSED'))
         {
            $parray['serving_status'] = 0;
         }
@@ -3313,7 +3314,7 @@ if (!class_exists('p_lodgix')) {
               $counter = 0;                  
               foreach ($properties as $property)
               {
-               if ($property['ServingStatus'] == "ACTIVE")
+               if (($property['ServingStatus'] == "ACTIVE" ) && ($property['WordpressStatus'] == "ACTIVE" ))
                   $active_properties[] = $property['ID'];
                $this->update_tables($property,$counter);
                $counter++;
@@ -4180,7 +4181,7 @@ if (!class_exists('p_lodgix')) {
         							$wpdb->query($sql);      
                       foreach ($properties as $property)
                       { 
-                        if ($property['ServingStatus'] == "ACTIVE")
+                        if (($property['ServingStatus'] == "ACTIVE" ) && ($property['WordpressStatus'] == "ACTIVE" ))
                           $active_properties[] = $property['ID'];
                         $this->update_tables($property,$counter);
                         $counter++;

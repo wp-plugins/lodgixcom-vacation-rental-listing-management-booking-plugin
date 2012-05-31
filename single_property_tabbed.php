@@ -326,7 +326,7 @@ $single_property .= '
 $single_property .= '</div></div>';
 
   
-$single_property .= '<script src="https://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>';
+$single_property .= '<script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>';
 $single_property .= '<script type="text/javascript">        
     // <![CDATA[
 		function lodgix_gmap_initialize() {    

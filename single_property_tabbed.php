@@ -326,22 +326,25 @@ $single_property .= '
 $single_property .= '</div></div>';
 
   
-$single_property .= '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $this->options['p_google_maps_api'] . '"type="text/javascript"></script>';
-$single_property .= '<script type="text/javascript">    
-    function lodgix_gmap_initialize() {
-    //<![CDATA[
-      if (GBrowserIsCompatible()) {
-        var map = new GMap(document.getElementById("lodgix_tabbed_map_canvas"));
-    		map.addControl(new GSmallMapControl()); 
-		    map.addControl(new GMapTypeControl());
-        var point = new GPoint(' . $property->longitude . ', ' . $property->latitude . ');
-		    map.centerAndZoom(point, 4);        
-		    var marker = new GMarker(point);
-		    map.addOverlay(marker)      
-		   }
+$single_property .= '<script src="https://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>';
+$single_property .= '<script type="text/javascript">        
+    // <![CDATA[
+		function lodgix_gmap_initialize() {    
+		    var lodgixLatLng = new google.maps.LatLng(' . $property->latitude . ', ' . $property->longitude . ');
+    		var lodgixMapOptions = {
+      	zoom: 13,
+      	center: lodgixLatLng,
+      	mapTypeId: google.maps.MapTypeId.ROADMAP
+    		};
+    
+    		var map = new google.maps.Map(document.getElementById("lodgix_tabbed_map_canvas"),lodgixMapOptions);
+				var marker = new google.maps.Marker({
+      		position: lodgixLatLng,
+      		map: map
+  			});    		
     }
-    lodgix_gmap_initialize();
-    //]]>
+    window.onload = lodgix_gmap_initialize;
+    // ]]>
     </script>';
 
 ?>

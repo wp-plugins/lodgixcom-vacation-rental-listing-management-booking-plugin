@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.80
+Version: 1.0.81
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.81: Updated Google Maps API Version
 v1.0.80: Fixed sidebar position
 v1.0.79: Changed multi unit calendar to HTML5
 v1.0.78: Added property Wordpress Status
@@ -4501,20 +4502,8 @@ if (!class_exists('p_lodgix')) {
                              <input name="p_lodgix_generate_german" type="checkbox" id="p_lodgix_generate_german" <?php if ($this->options['p_lodgix_generate_german']) echo "CHECKED"; ?>/>
                           </td> 
                         </tr>
-                    </table><br>                    
-        <p>                                    
-        <b><?php _e('Google Maps', $this->localizationDomain); ?></b>
-        </p>
-                     <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('API Key:', $this->localizationDomain); ?></th> 
-                            <td>
-                <input name="p_google_maps_api" type="text" id="p_google_maps_api" size="85" value="<?php echo $this->options['p_google_maps_api'] ;?>"/>
-                <br /><span class="setting-description"><?php _e('Please enter Google Maps API Key', $this->localizationDomain); ?>
-                          </td> 
-                        </tr>
-                    </table>
-                    </table>            
+                    </table><br>
+                             
         <p>                    
         <b><?php _e('Property Display Settings', $this->localizationDomain); ?></b>
         </p>

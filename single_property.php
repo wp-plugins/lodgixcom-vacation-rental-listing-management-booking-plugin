@@ -404,7 +404,7 @@ $single_property .= '<script type="text/javascript">
 		function lodgix_gmap_initialize() {    
 		    var lodgixLatLng = new google.maps.LatLng(' . $property->latitude . ', ' . $property->longitude . ');
     		var lodgixMapOptions = {
-      	zoom: 13,
+      	zoom: 12,
       	center: lodgixLatLng,
       	mapTypeId: google.maps.MapTypeId.ROADMAP
     		};

@@ -26,7 +26,7 @@ if ($lang_code == 'de')
   $title = 'Online Buchungs Instruktionen';
 if (($multi_unit_helptext != '') && ($allow_booking == 1) && ($this->options['p_lodgix_display_multi_instructions'] == 1))
 {
-  $availability .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">' . $title . '</h2><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;margin-top:10px;">' . $multi_unit_helptext . '</p></div></div></div></div>';
+  $availability .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">' . $title . '</h2><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;margin-top:10px;">' . $multi_unit_helptext . '</p></div></div></div></div><br>';
 }
 else
 {

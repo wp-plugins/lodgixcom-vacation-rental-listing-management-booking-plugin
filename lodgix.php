@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.83
+Version: 1.0.84
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.84: Fixed German Multi Unit Instructions
 v1.0.83: Updated Google Maps API Sensor
 v1.0.82: Updated Google Maps API Version Zoom
 v1.0.81: Updated Google Maps API Version
@@ -3684,7 +3685,7 @@ if (!class_exists('p_lodgix')) {
               $langarray['cancellation_policy'] = $language['CancellationPolicy'];
               $langarray['deposit_policy'] = $language['DepositPolicy']; 
               $langarray['single_unit_helptext'] = $language['CalendarHelpText'];  
-              $langarray['multi_unit_helptext'] = $language['MultiCalendarHelpText'];  
+              $langarray['multi_unit_helptext'] = $language['HTML5MultiCalendarHelpText'];  
               
               $sql = $this->get_insert_sql_from_array($policies_table,$langarray);
               $wpdb->query($sql);     

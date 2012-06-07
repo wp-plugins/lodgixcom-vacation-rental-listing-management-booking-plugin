@@ -134,7 +134,7 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
                 <a href="#lodgix_tabbed_content-4">Kurs</a>
             </li>
             <li>
-                <a href="#lodgix_tabbed_content-5">Availability</a>
+                <a href="#lodgix_tabbed_content-5">Verf&uuml;gbarkeit</a>
             </li>
             <li>
                 <a href="#lodgix_tabbed_content-6">Bewertungen</a>

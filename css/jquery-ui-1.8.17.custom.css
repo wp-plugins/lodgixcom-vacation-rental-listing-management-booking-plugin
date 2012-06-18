@@ -60,7 +60,7 @@
     font-size: 1em;
 }
 .lodgix-widget-content {
-    background: url("../images/lodgix-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #FFFFFF;
+    background: #FFFFFF;
     border: 1px solid #99B3CE;
     color: #575757;
 }
@@ -68,7 +68,7 @@
     color: #575757;
 }
 .lodgix-widget-header {
-    background: url("../images/lodgix-bg_highlight-soft_15_004185_1x100.png") repeat-x scroll 50% 50% #004185;
+    background: #004185;
     border: 1px solid #004185;
     color: #FFFFFF;
     font-weight: bold;
@@ -77,7 +77,7 @@
     color: #FFFFFF;
 }
 .lodgix-state-default, .lodgix-widget-content .lodgix-state-default, .lodgix-widget-header .lodgix-state-default {
-    background: url("../images/lodgix-bg_highlight-hard_100_e5ecf3_1x100.png") repeat-x scroll 50% 50% #E5ECF3;
+    background: #E5ECF3;
     border: 1px solid #99B3CE;
     color: #004185;
     font-weight: bold;
@@ -87,7 +87,7 @@
     text-decoration: none;
 }
 .lodgix-state-hover, .lodgix-widget-content .lodgix-state-hover, .lodgix-widget-header .lodgix-state-hover, .lodgix-state-focus, .lodgix-widget-content .lodgix-state-focus, .lodgix-widget-header .lodgix-state-focus {
-    background: url("../images/lodgix-bg_highlight-hard_100_f7d9d9_1x100.png") repeat-x scroll 50% 50% #F7D9D9;
+    background: #F7D9D9;
     border: 1px solid #F7D9D9;
     color: #004185;
     font-weight: bold;
@@ -97,7 +97,7 @@
     text-decoration: none;
 }
 .lodgix-state-active, .lodgix-widget-content .lodgix-state-active, .lodgix-widget-header .lodgix-state-active {
-    background: url("../images/lodgix-bg_flat_65_ffffff_40x100.png") repeat-x scroll 50% 50% #FFFFFF;
+    background: #FFFFFF;
     border: 1px solid #004185;
     color: #CC0000;
     font-weight: bold;
@@ -110,7 +110,7 @@
     outline: medium none;
 }
 .lodgix-state-highlight, .lodgix-widget-content .lodgix-state-highlight, .lodgix-widget-header .lodgix-state-highlight {
-    background: url("../images/lodgix-bg_glass_55_f7d9d9_1x400.png") repeat-x scroll 50% 50% #F7D9D9;
+    background: #F7D9D9;
     border: 1px solid #F0B2B2;
     color: #444444;
 }

@@ -564,6 +564,10 @@ border:0 none;
     text-decoration: none;
 }
 
+.lodgix-datepicker-trigger {
+		
+}
+
 .lodgix_image_cell_icons {
    width:200px;
    margin-top:5px;

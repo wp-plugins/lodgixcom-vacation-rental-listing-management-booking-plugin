@@ -3025,7 +3025,20 @@ if (!class_exists('p_lodgix')) {
         echo $before_widget . $before_title . $title . $after_title;
         echo '<div class="lodgix-search-properties" align="center">';
 
-        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');   
+        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');  
+        
+        $date_format = $loptions['p_lodgix_date_format'];
+        
+        if ($date_format == '%m/%d/%Y')
+           $date_format = 'mm/dd/yy';
+        else if ($date_format == '%d/%m/%Y')
+           $date_format = 'dd/mm/yy';
+        else if ($date_format == '%m-%d-%Y')
+                $date_format = 'mm-dd-yy';
+        else if ($date_format == '%d-%m-%Y')
+                $date_format = 'dd-mm-yy';                
+        else if ($date_format == '%d %b %Y')
+                $date_format = 'dd M yy';
         
         echo '<script type="text/javascript">
         				 var P_LODGIX_SEARCH_RESULTS = 0;
@@ -3035,7 +3048,7 @@ if (!class_exists('p_lodgix')) {
 										jQueryLodgix.ajax({
                       type: "POST",
                       url: "' .  get_bloginfo('wpurl') . '/wp-admin/admin-ajax.php",
-                      data: "action=p_lodgix_custom_search&area=" + jQueryLodgix(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQueryLodgix(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQueryLodgix(\'#lodgix-custom-search-id\').val(),
+                      data: "action=p_lodgix_custom_search&area=" + jQueryLodgix(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQueryLodgix(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQueryLodgix(\'#lodgix-custom-search-id\').val() + "&arrival=" + jQueryLodgix.datepicker.formatDate("yy-mm-dd",jQueryLodgix(\'#lodgix-custom-search-arrival\').datepicker("getDate")) + "&nights=" + jQueryLodgix(\'#lodgix-custom-search-nights\').val(),
                       success: function(response){
                         //response_array = response.split(" ");
                         //P_LODGIX_SEARCH_RESULTS = parseInt(response_array[0]);
@@ -3054,7 +3067,9 @@ if (!class_exists('p_lodgix')) {
 							   jQueryLodgix(document).ready(function() {
                  	jQueryLodgix( "#lodgix-custom-search-arrival" ).datepicker({
 											showOn: "both",
-
+											buttonImage: "' . $p_plugin_path . 'images/calendar.png",
+											buttonImageOnly: true,
+											dateFormat: "' . $date_format . '"
 								 	});
 								 });
               </script>';
@@ -3077,7 +3092,7 @@ if (!class_exists('p_lodgix')) {
         				</td>
         				<td>
         				<div>Nights:</div>
-        				<div><input id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:50px;" onchange="javascript:p_lodgix_search_properties();" value="1"></div>
+        				<div><input id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:50px;" onkeyup="javascript:p_lodgix_search_properties();" value="1"></div>
         				</td>
         				</tr>
         			</table>

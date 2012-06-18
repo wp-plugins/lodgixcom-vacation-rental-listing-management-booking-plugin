@@ -2956,6 +2956,13 @@ if (!class_exists('p_lodgix')) {
         }
       }
       
+			function p_lodgix_add_days($dt, $days) {
+			    $date = strtotime($dt);
+			    $date = strtotime("+" . $days . " day", $date);
+			    return date('Y-m-d',$date);
+			}
+      
+      
      function p_lodgix_custom_search()
      {
        global $wpdb;
@@ -2963,10 +2970,30 @@ if (!class_exists('p_lodgix')) {
        $area = @mysql_real_escape_string($_POST['area']);
        $bedrooms = @mysql_real_escape_string($_POST['bedrooms']);
        $id = @mysql_real_escape_string($_POST['id']);
+       $arrival = @mysql_real_escape_string($_POST['arrival']);
+       $nights = @mysql_real_escape_string($_POST['nights']);
+       
+	     $available = 'ALL';
+	     if ((strtotime($arrival) !== false) && (is_numeric($nights)))
+	     {
+
+	     	  $departure = $this->p_lodgix_add_days($arrival,$nights);
+    	 		$fetch_url = 'http://127.0.0.1:8000/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+       		$r = new LogidxHTTPRequest($fetch_url);
+			 		$xml = $r->DownloadToString(); 
+       		if ($xml)
+       		{         
+							$root = new DOMDocument();  
+              $root->loadXML($xml);
+              $available_array = $this->domToArray($root);       			
+         			$available = $available_array['Response']['Results']['AvailabilityProperties'];
+       		}
+       }
+       
        $sql = "SELECT COUNT(*) as num_results FROM " . $properties_table . " WHERE 1=1 AND ";
        if (is_numeric($id))
        {
-       	 	$sql .= "id=" . $id;
+       	 	$sql .= "id=" . $id . ' AND ';
        }	      
        else
        {
@@ -2983,8 +3010,19 @@ if (!class_exists('p_lodgix')) {
        	if ($bedrooms != 'ANY')
        		$sql .= "bedrooms = " . $wpdb->_real_escape($bedrooms) . ' AND ';
        	
-       	$sql .= " 1=1 ";
-       } 
+       	
+       }        
+	  
+       if ($available != 'ALL' && $available != 'null')
+       {
+          $sql .= " id IN (" . $available . ") AND ";	  
+       }
+       else if ($available == 'null')
+       {
+       	   $sql .= " 1=0 AND ";	  
+       }
+       $sql .= " 1=1 ";
+       
        $count = $wpdb->get_results($sql);
        if ($language == "de")
          $content = $count[0]->num_results . ' Properties Found.';
@@ -3062,7 +3100,7 @@ if (!class_exists('p_lodgix')) {
                  	
                  }
                  
-                 
+                                 
 
 							   jQueryLodgix(document).ready(function() {
                  	jQueryLodgix( "#lodgix-custom-search-arrival" ).datepicker({

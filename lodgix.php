@@ -816,6 +816,7 @@ if (!class_exists('p_lodgix')) {
         	$p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );       	
         	wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');
         	wp_enqueue_script('p_lodgix_jqueryui',$p_plugin_path . 'js/jquery-ui-lodgix.min.js');        	
+        	wp_enqueue_style('p_lodgix_jqueryui_css',$p_plugin_path . 'css/jquery-ui-1.8.17.custom.css');      
     	        	
         	wp_enqueue_script('jquery');
         	wp_enqueue_script('thickbox');
@@ -830,7 +831,8 @@ if (!class_exists('p_lodgix')) {
         	wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
         	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
         	wp_enqueue_script('p_lodgix_jquery_swf_object',$p_plugin_path . 'js/jquery.swfobject.js');            	    
-        	wp_enqueue_script('p_lodgix_jquery_ceebox',$p_plugin_path . 'js/jquery.ceebox.js');          	  
+        	wp_enqueue_script('p_lodgix_jquery_ceebox',$p_plugin_path . 'js/jquery.ceebox.js');        
+        	  	  
     	  
     		if ($this->p_is_lodgix_page($wp_query->post->ID))
       	{	
@@ -3046,6 +3048,15 @@ if (!class_exists('p_lodgix')) {
                    });                 	
                  	
                  }
+                 
+                 
+
+							   jQueryLodgix(document).ready(function() {
+                 	jQueryLodgix( "#lodgix-custom-search-arrival" ).datepicker({
+											showOn: "both",
+
+								 	});
+								 });
               </script>';
         
         if ($lang_code == 'de')
@@ -3055,7 +3066,21 @@ if (!class_exists('p_lodgix')) {
         	
         $post_url = get_permalink($post_id);
         echo '<form name="lodgix_search_form" method="POST" action="' . $post_url .'">
-        			<div class="lodgix-custom-search-listing" align="left" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">       			
+        			<div class="lodgix-custom-search-listing" align="left" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">    
+        			<table>
+        			  <tr>
+        			  <td>
+        					<div>Arriving:</div> 			
+        					<div><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:100px;" onchange="javascript:p_lodgix_search_properties();" readonly></div>
+        				</td>
+        				<td>&nbsp;
+        				</td>
+        				<td>
+        				<div>Nights:</div>
+        				<div><input id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:50px;" onchange="javascript:p_lodgix_search_properties();" value="1"></div>
+        				</td>
+        				</tr>
+        			</table>
        				<div>Location:</div> 
        				<div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="javascript:p_lodgix_search_properties();">
        				<option value="ALL_AREAS">All Areas</option>';       	

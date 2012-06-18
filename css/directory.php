@@ -541,6 +541,28 @@ border:0 none;
 	width:98%;
 }
 
+#lodgix-custom-search-button {
+		background: none repeat scroll 0 0 #666666 !important;
+    border: medium none !important;
+    border-radius: 2px 2px 2px 2px;
+    color: #FFFFFF;
+    font-family: Arial,Tahoma,Verdana;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    margin: 0;
+    padding: 5px 7px !important;
+    text-decoration: none;
+    text-transform: none;
+    width: auto !important;
+}
+
+#lodgix-custom-search-button:hover {
+		background: none repeat scroll 0 0 #000000 !important;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-decoration: none;
+}
 
 .lodgix_image_cell_icons {
    width:200px;

@@ -49,6 +49,12 @@ if ($property->bedrooms == 0)
    $bedrooms = 'Studio';
 }
 
+$warning = '';
+if ($differentiate && !$really_available)
+{  	 	
+  	$warning = '<span style="color:red;font-size:9px;text-decoration:none;">Rules may exist that prevent this booking from proceeding. Please check availability.</span><br><br>';
+}
+
 $vacation_rentals = '
 <table cellspacing="0" class="lodgix_listing">
 <tbody><tr><td class="lodgix_border_top_left"><div></div></td><td colspan="2" class="lodgix_border_top"><div></div></td><td class="lodgix_border_top_right"><div></div></td></tr>
@@ -57,7 +63,7 @@ $vacation_rentals = '
   <td class="lodgix_image_cell"><a href="'. $permalink .'"><img border="0" alt="" src="' . $property->main_image_thumb . '"></a></td><td class="lodgix_description_cell">
   			<div class="lodgix_description">
   	<div class="lodgix_name">
-  			<a href="'. $permalink .'">' . $property->description . '</a></div><div>' . $property->area . '</div><div class="lodgix_comments">
+  			<a href="'. $permalink .'">' . $property->description . '</a></div><div>' . $property->area . '</div><div class="lodgix_comments">' . $warning . '
       <div>' . str_replace('\n','<br />',$property->details) . '</div> 
     </div>
   <td class="lodgix_border_right"><div></div></td>

@@ -2289,7 +2289,7 @@ if (!class_exists('p_lodgix')) {
       /*
         Returns table for vacation rentals (regular/ajax)
       */
-      function get_vacation_rentals_html($sort = '',$area = '',$bedrooms=NULL,$id='')
+      function get_vacation_rentals_html($sort = '',$area = '',$bedrooms=NULL,$id='',$arrival='',$nights='')
       {
         global $wpdb;
         
@@ -2321,11 +2321,38 @@ if (!class_exists('p_lodgix')) {
         		$filter .= " UPPER(description) like '%" . $wpdb->_real_escape(strtoupper($id)) . "%' AND ";
         	if ($bedrooms != NULL && $bedrooms != 'ANY')
         		$filter .= " bedrooms = " . $wpdb->_real_escape($bedrooms) . " AND ";
+        }        
+                   	      
+       $available = 'ALL';
+	     if ((strtotime($arrival) !== false) && (is_numeric($nights)))
+	     {
+
+	     	  $departure = $this->p_lodgix_add_days($arrival,$nights);
+    	 		$fetch_url = 'http://127.0.0.1:8000/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+       		$r = new LogidxHTTPRequest($fetch_url);
+			 		$xml = $r->DownloadToString(); 
+       		if ($xml)
+       		{         
+       			
+							$root = new DOMDocument();  
+              $root->loadXML($xml);
+              $available_array = $this->domToArray($root);       			
+         			$available = $available_array['Response']['Results']['AvailableProperties'];
+         			$available_after_rules = $available_array['Response']['Results']['AvailablePropertiesAfterRules'];
+       		}
+       }                      
+
+        if ($available != 'ALL' && $available != 'null')
+        {
+          $filter .= " id IN (" . $available . ") AND ";	  
         }
+        else if ($available == 'null')
+        {
+       	   $filter .= " 1=0 AND ";	  
+        }       
         
        	$sql = 'SELECT * FROM ' . $properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction ;
         $properties = $wpdb->get_results($sql);      
-
 
         if ($properties)
         {
@@ -2356,7 +2383,7 @@ if (!class_exists('p_lodgix')) {
       /*
         Returns table for vacation rentals (regular/ajax)
       */
-      function get_vacation_rentals_html_de($sort = '',$area = '',$bedrooms=NULL,$id='')
+      function get_vacation_rentals_html_de($sort = '',$area = '',$bedrooms=NULL,$id='',$arrival='',$nights='')
       {
         global $wpdb;
                 
@@ -2572,16 +2599,18 @@ if (!class_exists('p_lodgix')) {
            <div id="content_lodgix">
         ';
       	
-      	$sort = $_POST['sort'];
-      	$language = $_POST['lang'];
-      	$area = $_POST['lodgix-custom-search-area'];
-      	$bedrooms = $_POST['lodgix-custom-search-bedrooms'];
-      	$id = $_POST['lodgix-custom-search-id'];
+      	$sort = @mysql_real_escape_string($_POST['sort']);
+      	$language = @mysql_real_escape_string($_POST['lang']);
+      	$area = @mysql_real_escape_string($_POST['lodgix-custom-search-area']);
+      	$bedrooms = @mysql_real_escape_string($_POST['lodgix-custom-search-bedrooms']);
+      	$id = @mysql_real_escape_string($_POST['lodgix-custom-search-id']);
+      	$arrival = @mysql_real_escape_string($_POST['lodgix-custom-search-arrival']);
+      	$nights = @mysql_real_escape_string($_POST['lodgix-custom-search-nights']);
       	             	      	
       	if ($lang_code == "de")
-        	$content .= $this->get_vacation_rentals_html_de($sort,$area,$bedrooms,$id);      
+        	$content .= $this->get_vacation_rentals_html_de($sort,$area,$bedrooms,$id,$arrival,$nights);      
       	else
-        	$content .= $this->get_vacation_rentals_html($sort,$area,$bedrooms,$id);  
+        	$content .= $this->get_vacation_rentals_html($sort,$area,$bedrooms,$id,$arrival,$nights);  
         
         
         $content .= '</div>';
@@ -2986,7 +3015,7 @@ if (!class_exists('p_lodgix')) {
 							$root = new DOMDocument();  
               $root->loadXML($xml);
               $available_array = $this->domToArray($root);       			
-         			$available = $available_array['Response']['Results']['AvailabilityProperties'];
+         			$available = $available_array['Response']['Results']['AvailableProperties'];
        		}
        }
        

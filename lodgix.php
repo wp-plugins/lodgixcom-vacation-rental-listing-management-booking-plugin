@@ -2333,7 +2333,7 @@ if (!class_exists('p_lodgix')) {
 						$arrival = str_replace('-','/');
 					$arrival = date("Y-m-d", strtotime($arrival));
 	     	  $departure = $this->p_lodgix_add_days($arrival,$nights);
-    	 		$fetch_url = 'http://127.0.0.1:8000/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+    	 		$fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
        		$r = new LogidxHTTPRequest($fetch_url);
 			 		$xml = $r->DownloadToString(); 
        		if ($xml)
@@ -2441,11 +2441,65 @@ if (!class_exists('p_lodgix')) {
         		$filter .= " bedrooms = " . $wpdb->_real_escape($bedrooms) . " AND ";
         }
         
+        
+       $available = 'ALL';
+       $available_after_rules = '';
+       $differentiate = false;
+	     if ((strtotime($arrival) !== false) && (is_numeric($nights)))
+	     {
+					$differentiate = true;
+					if (strpos('%m',$this->options['p_lodgix_date_format']) == 1)
+						$arrival = str_replace('-','/');
+					$arrival = date("Y-m-d", strtotime($arrival));
+	     	  $departure = $this->p_lodgix_add_days($arrival,$nights);
+    	 		$fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+       		$r = new LogidxHTTPRequest($fetch_url);
+			 		$xml = $r->DownloadToString(); 
+       		if ($xml)
+       		{         
+       			
+							$root = new DOMDocument();  
+              $root->loadXML($xml);
+              $available_array = $this->domToArray($root);       			
+         			$available = $available_array['Response']['Results']['AvailableProperties'];
+         			$available_after_rules = $available_array['Response']['Results']['AvailablePropertiesAfterRules'];
+         			if (!(gettype($available_after_rules) == 'array'))
+	         			$available_after_rules = split(',',$available_after_rules);	         		
+       		}
+       }                      
+
+        if ($available != 'ALL' && $available != 'null')
+        {
+          $filter .= " id IN (" . $available . ") AND ";	  
+        }
+        else if ($available == 'null')
+        {
+       	   $filter .= " 1=0 AND ";	  
+        }               
+        
        	$sql = 'SELECT * FROM ' . $properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction ;
         $properties = $wpdb->get_results($sql);           
          
         if ($properties)
         {
+        	
+         $really_available = false;
+         foreach($properties as $property)
+         {
+         	if (is_array($available_after_rules))
+         	{
+         		foreach($available_after_rules as $pk)
+         		{
+         			if ($pk == $property->id)
+         			{
+         				$booklink = 'http://www.lodgix.com/' . $this->options['p_lodgix_owner_id'] . '/?selected_reservations=' . $property->id . ',' . $arrival . ',' . $departure . '&adult=1&children=0&gift=&discount=&tax=&external=1';
+         				$really_available = true;
+         				$break;
+         			}
+         		}
+         	}
+         }
+         	        	
          foreach($properties as $property)
          {
           if ($this->options['p_lodgix_display_daily_rates'])
@@ -3028,7 +3082,7 @@ if (!class_exists('p_lodgix')) {
 	     {
 
 	     	  $departure = $this->p_lodgix_add_days($arrival,$nights);
-    	 		$fetch_url = 'http://127.0.0.1:8000/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+    	 		$fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
        		$r = new LogidxHTTPRequest($fetch_url);
 			 		$xml = $r->DownloadToString(); 
        		if ($xml)

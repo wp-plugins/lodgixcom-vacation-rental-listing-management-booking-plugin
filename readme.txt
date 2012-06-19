@@ -91,6 +91,8 @@ website.  It really is a sweet plugin that will allow a property owner or design
 vacation rental website in a couple hours.
 
 == Changelog ==
+= 1.0.87 = Bug Fix
+* Search Widget Enhancements, HTML5 Single Calendar
 = 1.0.86 =
 * Search Widget Enhancements, HTML5 Single Calendar
 = 1.0.85 = 

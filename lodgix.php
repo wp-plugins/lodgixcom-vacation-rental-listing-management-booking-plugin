@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.86
+Version: 1.0.87
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.87: Bug Fix
 v1.0.86: Search Widget Enhancements, HTML5 Single Calendar
 v1.0.85: German Language correction
 v1.0.84: Fixed German Multi Unit Instructions
@@ -508,7 +509,7 @@ if (!class_exists('p_lodgix')) {
 		  }*/
 		
 
-			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1) && !$detect->isMobile())
+			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1))
 			{
   				$content .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><br><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . str_replace(array("\r\n", "\n", "\r"),'<br>',$single_unit_helptext) . '</p></div></div></div></div>';
 		  }

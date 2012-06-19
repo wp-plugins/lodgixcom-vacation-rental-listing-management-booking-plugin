@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.87
+Version: 1.0.88
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.88: Changed Nights Input
 v1.0.87: Bug Fix
 v1.0.86: Search Widget Enhancements, HTML5 Single Calendar
 v1.0.85: German Language correction
@@ -486,27 +487,11 @@ if (!class_exists('p_lodgix')) {
       {
         $single_unit_helptext = $policy->multi_unit_helptext;
       }  			  
-		  
-		  //include_once('mobile_detect.php');
-		  //$detect = new Mobile_Detect();
-		  
+		  		  
 		  if ($p_lodgix_language == 'de')
 			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Verf&uuml;gbarkeit</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
 			else
 			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
-		  
-		  /*if (!$detect->isMobile()) {
-		  	if ($this->options['p_lodgix_single_page_design'] == 1)
-		  	{
-		  		if ($p_lodgix_language == 'de')
-		  			$content = '<div id="lodgix_property_booking"><h2>Verf&uuml;gbarkeit</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
-		  		else
-			  		$content = '<div id="lodgix_property_booking"><h2>Availability & Booking Calendar</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
-			  }
-			  else
-			  {			  	
-			  }
-		  }*/
 		
 
 			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1))
@@ -3221,7 +3206,14 @@ if (!class_exists('p_lodgix')) {
         				</td>
         				<td>
         				<div>Nights:</div>
-        				<div><input id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:50px;" onkeyup="javascript:p_lodgix_search_properties();" value="1"></div>
+        				<div><select id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:54px;" onchange="javascript:p_lodgix_search_properties();">';
+        				
+        for ($i = 1 ; $i < 100 ; $i++)				
+        {
+        	echo "<option value='" . $i . "'>" . $i . "</option>";
+        }
+        echo '</select>
+        				</div>
         				</td>
         				</tr>
         			</table>

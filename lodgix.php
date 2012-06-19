@@ -2324,9 +2324,11 @@ if (!class_exists('p_lodgix')) {
         }        
                    	      
        $available = 'ALL';
+       $available_after_rules = '';
+       $differentiate = false;
 	     if ((strtotime($arrival) !== false) && (is_numeric($nights)))
 	     {
-
+					$differentiate = true;
 	     	  $departure = $this->p_lodgix_add_days($arrival,$nights);
     	 		$fetch_url = 'http://127.0.0.1:8000/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
        		$r = new LogidxHTTPRequest($fetch_url);
@@ -2339,6 +2341,8 @@ if (!class_exists('p_lodgix')) {
               $available_array = $this->domToArray($root);       			
          			$available = $available_array['Response']['Results']['AvailableProperties'];
          			$available_after_rules = $available_array['Response']['Results']['AvailablePropertiesAfterRules'];
+         			if (!(gettype($available_after_rules) == 'array'))
+	         			$available_after_rules = split(',',$available_after_rules);
        		}
        }                      
 
@@ -2356,8 +2360,20 @@ if (!class_exists('p_lodgix')) {
 
         if ($properties)
         {
+         $really_available = false;
          foreach($properties as $property)
          {
+         	if (is_array($available_after_rules))
+         	{
+         		foreach($available_after_rules as $pk)
+         		{
+         			if ($pk == $property->id)
+         			{
+         				$really_available = true;
+         				$break;
+         			}
+         		}
+         	}
           if ($this->options['p_lodgix_display_daily_rates'])
           {
             $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));

@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.85
+Version: 1.0.86
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.86: Search Widget Enhancements, HTML5 Single Calendar
 v1.0.85: German Language correction
 v1.0.84: Fixed German Multi Unit Instructions
 v1.0.83: Updated Google Maps API Sensor
@@ -480,15 +481,20 @@ if (!class_exists('p_lodgix')) {
 			$policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $p_lodgix_language . "'"); 
 		  $policy = $policies[0];
    		$single_unit_helptext = '';
-      if ($policy->single_unit_helptext)
+      if ($policy->multi_unit_helptext)
       {
-        $single_unit_helptext = $policy->single_unit_helptext;
+        $single_unit_helptext = $policy->multi_unit_helptext;
       }  			  
 		  
-		  include_once('mobile_detect.php');
-		  $detect = new Mobile_Detect();
+		  //include_once('mobile_detect.php');
+		  //$detect = new Mobile_Detect();
 		  
-		  if (!$detect->isMobile()) {
+		  if ($p_lodgix_language == 'de')
+			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Verf&uuml;gbarkeit</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
+			else
+			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
+		  
+		  /*if (!$detect->isMobile()) {
 		  	if ($this->options['p_lodgix_single_page_design'] == 1)
 		  	{
 		  		if ($p_lodgix_language == 'de')
@@ -497,30 +503,10 @@ if (!class_exists('p_lodgix')) {
 			  		$content = '<div id="lodgix_property_booking"><h2>Availability & Booking Calendar</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
 			  }
 			  else
-			  {
-			  	if ($p_lodgix_language == 'de')
-			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Verf&uuml;gbarkeit</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
-			  	else
-			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
+			  {			  	
 			  }
-		  }
-		  else
-		  {
-		  	if ($this->options['p_lodgix_single_page_design'] == 1)
-		  	{
-		  		if ($p_lodgix_language == 'de')
-						$content = '<div id="lodgix_property_booking"><h2>Verf&uuml;gbarkeit</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
-					else
-						$content = '<div id="lodgix_property_booking"><h2>Availability & Booking Calendar</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
-				}
-				else 
-				{
-					if ($p_lodgix_language == 'de')
-						$content = '<div id="lodgix_property_booking"><h2 id="booking">Verf&uuml;gbarkeit</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
-					else
-						$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
-				}
-			}
+		  }*/
+		
 
 			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1) && !$detect->isMobile())
 			{
@@ -816,6 +802,7 @@ if (!class_exists('p_lodgix')) {
         	$p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );       	
         	wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');
         	wp_enqueue_script('p_lodgix_jqueryui',$p_plugin_path . 'js/jquery-ui-lodgix.min.js');        	
+        	wp_enqueue_style('p_lodgix_jqueryui_css',$p_plugin_path . 'css/jquery-ui-1.8.17.custom.css');      
     	        	
         	wp_enqueue_script('jquery');
         	wp_enqueue_script('thickbox');
@@ -830,7 +817,8 @@ if (!class_exists('p_lodgix')) {
         	wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
         	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
         	wp_enqueue_script('p_lodgix_jquery_swf_object',$p_plugin_path . 'js/jquery.swfobject.js');            	    
-        	wp_enqueue_script('p_lodgix_jquery_ceebox',$p_plugin_path . 'js/jquery.ceebox.js');          	  
+        	wp_enqueue_script('p_lodgix_jquery_ceebox',$p_plugin_path . 'js/jquery.ceebox.js');        
+        	  	  
     	  
     		if ($this->p_is_lodgix_page($wp_query->post->ID))
       	{	
@@ -2287,7 +2275,7 @@ if (!class_exists('p_lodgix')) {
       /*
         Returns table for vacation rentals (regular/ajax)
       */
-      function get_vacation_rentals_html($sort = '',$area = '',$bedrooms=NULL,$id='')
+      function get_vacation_rentals_html($sort = '',$area = '',$bedrooms=NULL,$id='',$arrival='',$nights='')
       {
         global $wpdb;
         
@@ -2319,16 +2307,64 @@ if (!class_exists('p_lodgix')) {
         		$filter .= " UPPER(description) like '%" . $wpdb->_real_escape(strtoupper($id)) . "%' AND ";
         	if ($bedrooms != NULL && $bedrooms != 'ANY')
         		$filter .= " bedrooms = " . $wpdb->_real_escape($bedrooms) . " AND ";
+        }        
+                   	      
+       $available = 'ALL';
+       $available_after_rules = '';
+       $differentiate = false;
+	     if ((strtotime($arrival) !== false) && (is_numeric($nights)))
+	     {
+					$differentiate = true;
+					if (strpos('%m',$this->options['p_lodgix_date_format']) == 1)
+						$arrival = str_replace('-','/');
+					$arrival = date("Y-m-d", strtotime($arrival));
+	     	  $departure = $this->p_lodgix_add_days($arrival,$nights);
+    	 		$fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+       		$r = new LogidxHTTPRequest($fetch_url);
+			 		$xml = $r->DownloadToString(); 
+       		if ($xml)
+       		{         
+       			
+							$root = new DOMDocument();  
+              $root->loadXML($xml);
+              $available_array = $this->domToArray($root);       			
+         			$available = $available_array['Response']['Results']['AvailableProperties'];
+         			$available_after_rules = $available_array['Response']['Results']['AvailablePropertiesAfterRules'];
+         			if (!(gettype($available_after_rules) == 'array'))
+	         			$available_after_rules = split(',',$available_after_rules);	         		
+       		}
+       }                      
+
+        if ($available != 'ALL' && $available != 'null')
+        {
+          $filter .= " id IN (" . $available . ") AND ";	  
         }
+        else if ($available == 'null')
+        {
+       	   $filter .= " 1=0 AND ";	  
+        }       
         
        	$sql = 'SELECT * FROM ' . $properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction ;
         $properties = $wpdb->get_results($sql);      
 
-
         if ($properties)
         {
+         $really_available = false;
          foreach($properties as $property)
          {
+         	if (is_array($available_after_rules))
+         	{
+         		foreach($available_after_rules as $pk)
+         		{
+         			if ($pk == $property->id)
+         			{
+         				$booklink = 'http://www.lodgix.com/' . $this->options['p_lodgix_owner_id'] . '/?selected_reservations=' . $property->id . ',' . $arrival . ',' . $departure . '&adult=1&children=0&gift=&discount=&tax=&external=1';
+         				$really_available = true;
+         				$break;
+         			}
+         		}
+         	}
+         	
           if ($this->options['p_lodgix_display_daily_rates'])
           {
             $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
@@ -2354,7 +2390,7 @@ if (!class_exists('p_lodgix')) {
       /*
         Returns table for vacation rentals (regular/ajax)
       */
-      function get_vacation_rentals_html_de($sort = '',$area = '',$bedrooms=NULL,$id='')
+      function get_vacation_rentals_html_de($sort = '',$area = '',$bedrooms=NULL,$id='',$arrival='',$nights='')
       {
         global $wpdb;
                 
@@ -2391,11 +2427,65 @@ if (!class_exists('p_lodgix')) {
         		$filter .= " bedrooms = " . $wpdb->_real_escape($bedrooms) . " AND ";
         }
         
+        
+       $available = 'ALL';
+       $available_after_rules = '';
+       $differentiate = false;
+	     if ((strtotime($arrival) !== false) && (is_numeric($nights)))
+	     {
+					$differentiate = true;
+					if (strpos('%m',$this->options['p_lodgix_date_format']) == 1)
+						$arrival = str_replace('-','/');
+					$arrival = date("Y-m-d", strtotime($arrival));
+	     	  $departure = $this->p_lodgix_add_days($arrival,$nights);
+    	 		$fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+       		$r = new LogidxHTTPRequest($fetch_url);
+			 		$xml = $r->DownloadToString(); 
+       		if ($xml)
+       		{         
+       			
+							$root = new DOMDocument();  
+              $root->loadXML($xml);
+              $available_array = $this->domToArray($root);       			
+         			$available = $available_array['Response']['Results']['AvailableProperties'];
+         			$available_after_rules = $available_array['Response']['Results']['AvailablePropertiesAfterRules'];
+         			if (!(gettype($available_after_rules) == 'array'))
+	         			$available_after_rules = split(',',$available_after_rules);	         		
+       		}
+       }                      
+
+        if ($available != 'ALL' && $available != 'null')
+        {
+          $filter .= " id IN (" . $available . ") AND ";	  
+        }
+        else if ($available == 'null')
+        {
+       	   $filter .= " 1=0 AND ";	  
+        }               
+        
        	$sql = 'SELECT * FROM ' . $properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction ;
         $properties = $wpdb->get_results($sql);           
          
         if ($properties)
         {
+        	
+         $really_available = false;
+         foreach($properties as $property)
+         {
+         	if (is_array($available_after_rules))
+         	{
+         		foreach($available_after_rules as $pk)
+         		{
+         			if ($pk == $property->id)
+         			{
+         				$booklink = 'http://www.lodgix.com/' . $this->options['p_lodgix_owner_id'] . '/?selected_reservations=' . $property->id . ',' . $arrival . ',' . $departure . '&adult=1&children=0&gift=&discount=&tax=&external=1';
+         				$really_available = true;
+         				$break;
+         			}
+         		}
+         	}
+         }
+         	        	
          foreach($properties as $property)
          {
           if ($this->options['p_lodgix_display_daily_rates'])
@@ -2570,16 +2660,18 @@ if (!class_exists('p_lodgix')) {
            <div id="content_lodgix">
         ';
       	
-      	$sort = $_POST['sort'];
-      	$language = $_POST['lang'];
-      	$area = $_POST['lodgix-custom-search-area'];
-      	$bedrooms = $_POST['lodgix-custom-search-bedrooms'];
-      	$id = $_POST['lodgix-custom-search-id'];
+      	$sort = @mysql_real_escape_string($_POST['sort']);
+      	$language = @mysql_real_escape_string($_POST['lang']);
+      	$area = @mysql_real_escape_string($_POST['lodgix-custom-search-area']);
+      	$bedrooms = @mysql_real_escape_string($_POST['lodgix-custom-search-bedrooms']);
+      	$id = @mysql_real_escape_string($_POST['lodgix-custom-search-id']);
+      	$arrival = @mysql_real_escape_string($_POST['lodgix-custom-search-arrival']);
+      	$nights = @mysql_real_escape_string($_POST['lodgix-custom-search-nights']);
       	             	      	
       	if ($lang_code == "de")
-        	$content .= $this->get_vacation_rentals_html_de($sort,$area,$bedrooms,$id);      
+        	$content .= $this->get_vacation_rentals_html_de($sort,$area,$bedrooms,$id,$arrival,$nights);      
       	else
-        	$content .= $this->get_vacation_rentals_html($sort,$area,$bedrooms,$id);  
+        	$content .= $this->get_vacation_rentals_html($sort,$area,$bedrooms,$id,$arrival,$nights);  
         
         
         $content .= '</div>';
@@ -2954,6 +3046,13 @@ if (!class_exists('p_lodgix')) {
         }
       }
       
+			function p_lodgix_add_days($dt, $days) {
+			    $date = strtotime($dt);
+			    $date = strtotime("+" . $days . " day", $date);
+			    return date('Y-m-d',$date);
+			}
+      
+      
      function p_lodgix_custom_search()
      {
        global $wpdb;
@@ -2961,10 +3060,30 @@ if (!class_exists('p_lodgix')) {
        $area = @mysql_real_escape_string($_POST['area']);
        $bedrooms = @mysql_real_escape_string($_POST['bedrooms']);
        $id = @mysql_real_escape_string($_POST['id']);
+       $arrival = @mysql_real_escape_string($_POST['arrival']);
+       $nights = @mysql_real_escape_string($_POST['nights']);
+       
+	     $available = 'ALL';
+	     if ((strtotime($arrival) !== false) && (is_numeric($nights)))
+	     {
+
+	     	  $departure = $this->p_lodgix_add_days($arrival,$nights);
+    	 		$fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+       		$r = new LogidxHTTPRequest($fetch_url);
+			 		$xml = $r->DownloadToString(); 
+       		if ($xml)
+       		{         
+							$root = new DOMDocument();  
+              $root->loadXML($xml);
+              $available_array = $this->domToArray($root);       			
+         			$available = $available_array['Response']['Results']['AvailableProperties'];
+       		}
+       }
+       
        $sql = "SELECT COUNT(*) as num_results FROM " . $properties_table . " WHERE 1=1 AND ";
        if (is_numeric($id))
        {
-       	 	$sql .= "id=" . $id;
+       	 	$sql .= "id=" . $id . ' AND ';
        }	      
        else
        {
@@ -2981,8 +3100,19 @@ if (!class_exists('p_lodgix')) {
        	if ($bedrooms != 'ANY')
        		$sql .= "bedrooms = " . $wpdb->_real_escape($bedrooms) . ' AND ';
        	
-       	$sql .= " 1=1 ";
-       } 
+       	
+       }        
+	  
+       if ($available != 'ALL' && $available != 'null')
+       {
+          $sql .= " id IN (" . $available . ") AND ";	  
+       }
+       else if ($available == 'null')
+       {
+       	   $sql .= " 1=0 AND ";	  
+       }
+       $sql .= " 1=1 ";
+       
        $count = $wpdb->get_results($sql);
        if ($language == "de")
          $content = $count[0]->num_results . ' Properties Found.';
@@ -3023,7 +3153,20 @@ if (!class_exists('p_lodgix')) {
         echo $before_widget . $before_title . $title . $after_title;
         echo '<div class="lodgix-search-properties" align="center">';
 
-        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');   
+        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');  
+        
+        $date_format = $loptions['p_lodgix_date_format'];
+        
+        if ($date_format == '%m/%d/%Y')
+           $date_format = 'mm/dd/yy';
+        else if ($date_format == '%d/%m/%Y')
+           $date_format = 'dd/mm/yy';
+        else if ($date_format == '%m-%d-%Y')
+                $date_format = 'mm-dd-yy';
+        else if ($date_format == '%d-%m-%Y')
+                $date_format = 'dd-mm-yy';                
+        else if ($date_format == '%d %b %Y')
+                $date_format = 'dd M yy';
         
         echo '<script type="text/javascript">
         				 var P_LODGIX_SEARCH_RESULTS = 0;
@@ -3033,7 +3176,7 @@ if (!class_exists('p_lodgix')) {
 										jQueryLodgix.ajax({
                       type: "POST",
                       url: "' .  get_bloginfo('wpurl') . '/wp-admin/admin-ajax.php",
-                      data: "action=p_lodgix_custom_search&area=" + jQueryLodgix(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQueryLodgix(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQueryLodgix(\'#lodgix-custom-search-id\').val(),
+                      data: "action=p_lodgix_custom_search&area=" + jQueryLodgix(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQueryLodgix(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQueryLodgix(\'#lodgix-custom-search-id\').val() + "&arrival=" + jQueryLodgix.datepicker.formatDate("yy-mm-dd",jQueryLodgix(\'#lodgix-custom-search-arrival\').datepicker("getDate")) + "&nights=" + jQueryLodgix(\'#lodgix-custom-search-nights\').val(),
                       success: function(response){
                         //response_array = response.split(" ");
                         //P_LODGIX_SEARCH_RESULTS = parseInt(response_array[0]);
@@ -3046,6 +3189,17 @@ if (!class_exists('p_lodgix')) {
                    });                 	
                  	
                  }
+                 
+                                 
+
+							   jQueryLodgix(document).ready(function() {
+                 	jQueryLodgix( "#lodgix-custom-search-arrival" ).datepicker({
+											showOn: "both",
+											buttonImage: "' . $p_plugin_path . 'images/calendar.png",
+											buttonImageOnly: true,
+											dateFormat: "' . $date_format . '"
+								 	});
+								 });
               </script>';
         
         if ($lang_code == 'de')
@@ -3055,7 +3209,21 @@ if (!class_exists('p_lodgix')) {
         	
         $post_url = get_permalink($post_id);
         echo '<form name="lodgix_search_form" method="POST" action="' . $post_url .'">
-        			<div class="lodgix-custom-search-listing" align="left" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">       			
+        			<div class="lodgix-custom-search-listing" align="left" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">    
+        			<table>
+        			  <tr>
+        			  <td>
+        					<div>Arriving:</div> 			
+        					<div style="vertical-align:bottom;"><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:117px;" onchange="javascript:p_lodgix_search_properties();" readonly></div>
+        				</td>
+        				<td>&nbsp;
+        				</td>
+        				<td>
+        				<div>Nights:</div>
+        				<div><input id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:50px;" onkeyup="javascript:p_lodgix_search_properties();" value="1"></div>
+        				</td>
+        				</tr>
+        			</table>
        				<div>Location:</div> 
        				<div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="javascript:p_lodgix_search_properties();">
        				<option value="ALL_AREAS">All Areas</option>';       	
@@ -3086,7 +3254,7 @@ if (!class_exists('p_lodgix')) {
        	echo '</select></div>
        				<div>Search by Property Name or ID:</div> 
        				<div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="javascript:p_lodgix_search_properties();" value="' . $id_post .  '"></div>
-       				<div id="lodgix-custom-search-results">
+       				<div id="lodgix-custom-search-results" align="center">
        				<div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
        				<div id="search_results">
        				</div>

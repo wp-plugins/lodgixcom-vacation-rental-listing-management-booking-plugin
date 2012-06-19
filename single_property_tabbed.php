@@ -74,6 +74,12 @@ if ($property->allow_booking == 0)
    $static = '_static';
 }   
 
+$beds_text = "";
+if ($property->beds_text != "")
+{
+	$beds_text = ' This property has ' . $property->beds_text . '.';
+}
+
 $low_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
 $high_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
 $low_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
@@ -150,7 +156,7 @@ foreach($photos as $photo)
       $single_property .= '</li>';
 }
 
-$single_property .= '</ul></div></center><br><p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->description_long)  .  '<br>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->details) . '</p>';
+$single_property .= '</ul></div></center><br><p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->description_long)  .  '<br>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->details) . $beds_text . '</p>';
                 
 $single_property .= '</div>
 

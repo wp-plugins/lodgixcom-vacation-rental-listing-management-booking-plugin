@@ -49,6 +49,12 @@ if ($property->bedrooms == 0)
    $bedrooms = 'Studio';
 }
 
+$warning = '';
+if ($differentiate && !$really_available)
+{  	 	
+  	$warning = '<span style="color:red;font-size:9px;text-decoration:none;">Rules may exist that prevent this booking from proceeding. Please check availability.</span><br><br>';
+}
+
 $vacation_rentals = '
 <table cellspacing="0" class="lodgix_listing">
 <tbody><tr><td class="lodgix_border_top_left"><div></div></td><td colspan="2" class="lodgix_border_top"><div></div></td><td class="lodgix_border_top_right"><div></div></td></tr>
@@ -57,7 +63,7 @@ $vacation_rentals = '
   <td class="lodgix_image_cell"><a href="'. $permalink .'"><img border="0" alt="" src="' . $property->main_image_thumb . '"></a></td><td class="lodgix_description_cell">
   			<div class="lodgix_description">
   	<div class="lodgix_name">
-  			<a href="'. $permalink .'">' . $property->description . '</a></div><div>' . $property->area . '</div><div class="lodgix_comments">
+  			<a href="'. $permalink .'">' . $property->description . '</a></div><div>' . $property->area . '</div><div class="lodgix_comments">' . $warning . '
       <div>' . str_replace('\n','<br />',$property->details) . '</div> 
     </div>
   <td class="lodgix_border_right"><div></div></td>
@@ -93,9 +99,25 @@ $vacation_rentals = '
 <tr>
   <td class="lodgix_border_left"><div></div></td>
   <td colspan="2"><table class="lodgix_image_cell_icons" border="0" cellspacing="0" style="text-align:center;width:100%;' . $global_icons .'">
-  	<tr>
-  		<td><a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a><a title="Display Google Map" style="' . $icon_margin_left . $icons . '" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;' . $icons . '" href="' . $mail_url . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a><a title="Details" style="margin-left:4px;' . $icons . '" href="' . $permalink . '"><img src="' . $p_plugin_path  . '/images/kappfinder_50.png"></a></td>
-  		</tr>
+  	<tr><td>';
+		
+		if ($differentiate)
+		{  	 	
+			if ($really_available)
+			{
+  			$vacation_rentals .= '<a title="Book Now" style="' . $icon_availability . '" href="' . $booklink . '"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
+  		}
+  		else
+  		{
+  		  $vacation_rentals .= '<a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a>';
+  		}
+  	}
+  	else
+  	{
+  		$vacation_rentals .= '<a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a>';
+  	}
+
+$vacation_rentals .= '<a title="Display Google Map" style="' . $icon_margin_left . $icons . '" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path  . '/images/map_50.png"></a><a title="Contact Us" style="margin-left:5px;' . $icons . '" href="' . $mail_url . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a><a title="Details" style="margin-left:4px;' . $icons . '" href="' . $permalink . '"><img src="' . $p_plugin_path  . '/images/kappfinder_50.png"></a></td></tr>
   	</table></td>
   <td class="lodgix_border_right"><div></div></td> 			
 </tr>

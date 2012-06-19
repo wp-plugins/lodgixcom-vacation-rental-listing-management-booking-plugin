@@ -3174,7 +3174,7 @@ if (!class_exists('p_lodgix')) {
         			  <tr>
         			  <td>
         					<div>Arriving:</div> 			
-        					<div><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:100px;" onchange="javascript:p_lodgix_search_properties();" readonly></div>
+        					<div style="vertical-align:bottom;"><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:117px;" onchange="javascript:p_lodgix_search_properties();" readonly></div>
         				</td>
         				<td>&nbsp;
         				</td>
@@ -3214,7 +3214,7 @@ if (!class_exists('p_lodgix')) {
        	echo '</select></div>
        				<div>Search by Property Name or ID:</div> 
        				<div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="javascript:p_lodgix_search_properties();" value="' . $id_post .  '"></div>
-       				<div id="lodgix-custom-search-results">
+       				<div id="lodgix-custom-search-results" align="center">
        				<div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
        				<div id="search_results">
        				</div>

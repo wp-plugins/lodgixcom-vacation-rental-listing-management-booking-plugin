@@ -99,11 +99,11 @@ $vacation_rentals = '
 		{  	 	
 			if ($really_available)
 			{
-  			$vacation_rentals .= '<a title="Book Now" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
+  			$vacation_rentals .= '<a title="Book Now" style="' . $icon_availability . '" href="' . $booklink . '"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
   		}
   		else
   		{
-  		  $vacation_rentals .= 'XXXXXXXXXXXXXXXX <a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a>';
+  		  $vacation_rentals .= '<a title="Check Availability" style="' . $icon_availability . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a>';
   		}
   	}
   	else

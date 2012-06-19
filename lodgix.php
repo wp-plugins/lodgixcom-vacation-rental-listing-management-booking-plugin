@@ -480,15 +480,20 @@ if (!class_exists('p_lodgix')) {
 			$policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $p_lodgix_language . "'"); 
 		  $policy = $policies[0];
    		$single_unit_helptext = '';
-      if ($policy->single_unit_helptext)
+      if ($policy->multi_unit_helptext)
       {
-        $single_unit_helptext = $policy->single_unit_helptext;
+        $single_unit_helptext = $policy->multi_unit_helptext;
       }  			  
 		  
-		  include_once('mobile_detect.php');
-		  $detect = new Mobile_Detect();
+		  //include_once('mobile_detect.php');
+		  //$detect = new Mobile_Detect();
 		  
-		  if (!$detect->isMobile()) {
+		  if ($p_lodgix_language == 'de')
+			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Verf&uuml;gbarkeit</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
+			else
+			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
+		  
+		  /*if (!$detect->isMobile()) {
 		  	if ($this->options['p_lodgix_single_page_design'] == 1)
 		  	{
 		  		if ($p_lodgix_language == 'de')
@@ -497,30 +502,10 @@ if (!class_exists('p_lodgix')) {
 			  		$content = '<div id="lodgix_property_booking"><h2>Availability & Booking Calendar</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
 			  }
 			  else
-			  {
-			  	if ($p_lodgix_language == 'de')
-			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Verf&uuml;gbarkeit</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
-			  	else
-			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><object height="760" width="615" id="flashcontrol" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,5,0,0"><param name="flashvars" value="propertyOwnerID=' . $p_lodgix_owner_id . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color="><param name="src" value="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf"><param name="wmode" value="transparent"><param name="allowscriptaccess" value="always"><param name="allownetworking" value="external"><embed height="760" width="615" allowscriptaccess="always" allownetworking="external" id="flashcontrolemb" name="flashcontrol" pluginspage="http://www.macromedia.com/go/getflashplayer" src="http://www.lodgix.com/static/calendar12_widget'. $p_lodgix_static .'.swf" flashvars="propertyOwnerID=' . $p_lodgix_owner_id  . '&amp;propertyID=' . $p_lodgix_property_id . '&amp;root_width=615&amp;root_height=760&amp;show_header=1&amp;cell_color_serv=ff0000&amp;cell_color=" wmode="transparent"></object>';
+			  {			  	
 			  }
-		  }
-		  else
-		  {
-		  	if ($this->options['p_lodgix_single_page_design'] == 1)
-		  	{
-		  		if ($p_lodgix_language == 'de')
-						$content = '<div id="lodgix_property_booking"><h2>Verf&uuml;gbarkeit</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
-					else
-						$content = '<div id="lodgix_property_booking"><h2>Availability & Booking Calendar</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
-				}
-				else 
-				{
-					if ($p_lodgix_language == 'de')
-						$content = '<div id="lodgix_property_booking"><h2 id="booking">Verf&uuml;gbarkeit</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
-					else
-						$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><iframe style="border:0;" frameborder="0" scrolling="no" src="http://www.lodgix.com/calendars/' . $p_lodgix_owner_id . '/' . $p_lodgix_property_id  . '" height="850" width="630"></iframe>';
-				}
-			}
+		  }*/
+		
 
 			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1) && !$detect->isMobile())
 			{

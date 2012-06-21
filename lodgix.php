@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.88
+Version: 1.0.89
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.89  Fixed Search Widget
 v1.0.88: Changed Nights Input
 v1.0.87: Bug Fix
 v1.0.86: Search Widget Enhancements, HTML5 Single Calendar
@@ -2344,9 +2345,9 @@ if (!class_exists('p_lodgix')) {
          		{
          			if ($pk == $property->id)
          			{
-         				$booklink = 'http://www.lodgix.com/' . $this->options['p_lodgix_owner_id'] . '/?selected_reservations=' . $property->id . ',' . $arrival . ',' . $departure . '&adult=1&children=0&gift=&discount=&tax=&external=1';
-         				$really_available = true;
-         				$break;
+         				$property->booklink = 'http://www.lodgix.com/' . $this->options['p_lodgix_owner_id'] . '/?selected_reservations=' . $property->id . ',' . $arrival . ',' . $departure . '&adult=1&children=0&gift=&discount=&tax=&external=1';
+         				$property->really_available = true;
+         				break;
          			}
          		}
          	}
@@ -2464,8 +2465,8 @@ if (!class_exists('p_lodgix')) {
          		{
          			if ($pk == $property->id)
          			{
-         				$booklink = 'http://www.lodgix.com/' . $this->options['p_lodgix_owner_id'] . '/?selected_reservations=' . $property->id . ',' . $arrival . ',' . $departure . '&adult=1&children=0&gift=&discount=&tax=&external=1';
-         				$really_available = true;
+         				$property->booklink = 'http://www.lodgix.com/' . $this->options['p_lodgix_owner_id'] . '/?selected_reservations=' . $property->id . ',' . $arrival . ',' . $departure . '&adult=1&children=0&gift=&discount=&tax=&external=1';
+         				$property->really_available = true;
          				$break;
          			}
          		}

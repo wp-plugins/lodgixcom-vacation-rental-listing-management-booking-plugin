@@ -55,7 +55,7 @@ if ($property->bedrooms == 0)
 }
 
 $warning = '';
-if ($differentiate && !$really_available)
+if ($differentiate && !$property->really_available)
 {  	 	
   	$warning = '<span style="color:red;font-size:9px;text-decoration:none;">Rules may exist that prevent this booking from proceeding. Please check availability.</span><br><br>';
 }
@@ -108,9 +108,9 @@ $vacation_rentals = '
   	
 		if ($differentiate)
 		{  	 	
-			if ($really_available)
+			if ($property->really_available)
 			{
-  			$vacation_rentals .= '<a title="Book Now" style="' . $icon_availability . '" href="' . $booklink . '"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
+  			$vacation_rentals .= '<a title="Book Now" style="' . $icon_availability . '" href="' . $property->booklink . '"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
   		}
   		else
   		{

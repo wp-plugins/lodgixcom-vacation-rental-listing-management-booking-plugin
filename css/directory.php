@@ -251,6 +251,7 @@ div#lodgix_property_reviews h2 {
 .lodgix_image_cell {
   vertical-align: top;
   padding: 0px 7px 7px 0px;
+  width: 200px;
 }
 
 .lodgix_image_cell div {

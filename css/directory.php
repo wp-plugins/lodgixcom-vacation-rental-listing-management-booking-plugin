@@ -541,6 +541,10 @@ border:0 none;
 	width:98%;
 }
 
+.lodgix-custom-search-listing tr, .lodgix-custom-search-listing th, .lodgix-custom-search-listing td {
+	padding:0;
+}
+
 #lodgix-custom-search-button {
 		background: none repeat scroll 0 0 #666666 !important;
     border: medium none !important;

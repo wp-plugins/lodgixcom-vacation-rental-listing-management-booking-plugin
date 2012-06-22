@@ -173,6 +173,7 @@ div#lodgix_property_reviews h2 {
   border-collapse: separate;
   border:0px;
   max-width:1024px;
+  width:100%;
 }
 
 #lodgix_listing table {

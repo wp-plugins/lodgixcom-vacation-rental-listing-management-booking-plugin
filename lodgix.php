@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.92
+Version: 1.0.93
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.93: Added Link Rotation
 v1.0.92: CSS Adjustment
 v1.0.91: Search Widget CSS Adjustment
 v1.0.90: Fixed Datepicker Current Date
@@ -99,7 +100,7 @@ v1.0.0: Initial release
 */
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "1.7";
+$p_lodgix_db_version = "1.8";
 
 
 if (!class_exists('LogidxHTTPRequest')) {
@@ -1123,6 +1124,17 @@ if (!class_exists('p_lodgix')) {
        $wpdb->query($sql);             
       }        
       
+      $table_name = $wpdb->prefix . "lodgix_link_rotators";
+      if($wpdb->get_var("show tables like '$table_name'") != $table_name) {          
+       $sql = "CREATE TABLE " . $table_name . " (
+       	`id` int(11) NOT NULL auto_increment,
+        `url` varchar(255) NOT NULL DEFAULT '',
+        `title` varchar(255) DEFAULT NULL,
+        PRIMARY KEY (`id`)
+       );";      
+       $wpdb->query($sql);             
+      }              
+      
       $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Access to beach', 'Zugang zum Strand')");
       $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Balcony', 'Balkon')");
       $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Beachfront', 'Direkt am Strand')");
@@ -1339,8 +1351,12 @@ if (!class_exists('p_lodgix')) {
       if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
        $sql = "DROP TABLE " . $table_name . ";"; 
        $wpdb->query($sql);      
-      }                        
-      
+      }                   
+      $table_name = $wpdb->prefix . "lodgix_link_rotators";   
+      if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
+       $sql = "DROP TABLE " . $table_name . ";"; 
+       $wpdb->query($sql);      
+      }                                    
       //$this->p_lodgix_build();
     }
 
@@ -2270,7 +2286,8 @@ if (!class_exists('p_lodgix')) {
         global $wpdb;
         
         $content = '';
-        $properties_table = $wpdb->prefix . "lodgix_properties";
+        $properties_table = $wpdb->prefix . "lodgix_properties"; 
+        $link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";  
         $rates_table = $wpdb->prefix . "lodgix_rates";        
         $sort_sql = '';
         $direction = '';
@@ -2373,7 +2390,18 @@ if (!class_exists('p_lodgix')) {
           $content .= $vacation_rentals;          
          }
         }        
-        $content .= '<br><div align="center" style="width:100%;font-size:10px;"><a href="http://www.lodgix.com">Vacation Rental Software</a> by Lodgix.com</div><br>';
+        $link = '<a href="http://www.lodgix.com">Vacation Rental Software</a>';
+        
+        $sql = 'SELECT url,title FROM `' . $link_rotators_table . '` ORDER BY RAND() LIMIT 1';
+  			$rotators = $wpdb->get_results($sql);           
+         
+        if ($rotators)
+        {
+        	foreach($rotators as $rotator)
+        	 $link = '<a href="' . $rotator->url . '">' . $rotator->title . '</a>';  
+        }
+               
+        $content .= '<br><div align="center" style="width:100%;font-size:10px;">' . $link . ' by Lodgix.com</div><br>';
         return $content;
       }      
 
@@ -2852,9 +2880,19 @@ if (!class_exists('p_lodgix')) {
         $taxes_table = $wpdb->prefix . "lodgix_taxes";   
         $fees_table = $wpdb->prefix . "lodgix_fees";   
         $deposits_table = $wpdb->prefix . "lodgix_deposits";     
-        $reviews_table = $wpdb->prefix . "lodgix_reviews";    
+        $reviews_table = $wpdb->prefix . "lodgix_reviews";
+        $link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";    
         
-        
+
+				$link = '<a href="http://www.lodgix.com">Vacation Rental Software</a>';
+				$sql = 'SELECT url,title FROM `' . $link_rotators_table . '` ORDER BY RAND() LIMIT 1';
+				$rotators = $wpdb->get_results($sql);           
+				         
+				if ($rotators)
+				{
+				 	foreach($rotators as $rotator)
+				  $link = '<a href="' . $rotator->url . '">' . $rotator->title . '</a>';  
+				}        
         
         $single_property = '';
         $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table . ' WHERE id=' . $id);  
@@ -3847,8 +3885,12 @@ if (!class_exists('p_lodgix')) {
           
            
           $policies_table = $wpdb->prefix . "lodgix_policies";   
+          $link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";   
           $sql = "DELETE FROM " . $policies_table;
           $wpdb->query($sql);
+					$sql = "DELETE FROM " . $link_rotators_table;
+    			$wpdb->query($sql);
+          
           $policies = array();
           $policies['cancellation_policy'] = $owner["Results"]['Website']['CancellationPolicy'];
           $policies['deposit_policy'] = $owner["Results"]['Website']['DepositPolicy'];   
@@ -3878,7 +3920,16 @@ if (!class_exists('p_lodgix')) {
               $wpdb->query($sql);     
             }
            }
-          
+           
+            $rotators = $owner["Results"]['Rotators']['Rotator'];    
+            foreach ($rotators as $rotator)
+            {    
+              $rotatorarray = array();
+              $rotatorarray['url'] = $rotator['URL']; 
+              $rotatorarray['title'] = $rotator['Title'];       
+              $sql = $this->get_insert_sql_from_array($link_rotators_table,$rotatorarray);
+              $wpdb->query($sql);     
+            }           
         }                                     
         else
         {
@@ -3974,6 +4025,22 @@ if (!class_exists('p_lodgix')) {
         {
         	$this->build_individual_pages();
         }                
+
+        if ($old_db_version < 1.8)
+        {
+        	 $table_name = $wpdb->prefix . "lodgix_link_rotators";
+      		 if($wpdb->get_var("show tables like '$table_name'") != $table_name) {          
+       				$sql = "CREATE TABLE " . $table_name . " (
+       					`id` int(11) NOT NULL auto_increment,
+        				`url` varchar(255) NOT NULL DEFAULT '',
+        				`title` varchar(255) DEFAULT NULL,
+        				PRIMARY KEY (`id`)
+       		 );";             		 
+       		 $wpdb->query($sql);     
+       		}
+        }                
+        
+        
         
       }
       
@@ -4070,6 +4137,8 @@ if (!class_exists('p_lodgix')) {
           $pages_table = $wpdb->prefix . "lodgix_pages";  
           $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
           $lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";    
+          $link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";    
+          
           
           if (get_option('p_lodgix_db_version'))
           {
@@ -4335,7 +4404,7 @@ if (!class_exists('p_lodgix')) {
                                            
                   $this->saveAdminOptions();       
 									
-                  $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
+                  $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&IncludeRotators=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
                   
                   $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
  
@@ -4371,7 +4440,7 @@ if (!class_exists('p_lodgix')) {
                       $active_properties = array(-1,-2,-3); 
                       $counter = 0;                  
         							$sql = "DELETE FROM " . $lang_amenities_table;
-        							$wpdb->query($sql);      
+        							$wpdb->query($sql);
                       foreach ($properties as $property)
                       { 
                         if (($property['ServingStatus'] == "ACTIVE" ) && ($property['WordpressStatus'] == "ACTIVE" ))

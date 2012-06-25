@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.0.93
+Version: 1.0.94
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.0.94: Added Theme Support
 v1.0.93: Added Link Rotation
 v1.0.92: CSS Adjustment
 v1.0.91: Search Widget CSS Adjustment
@@ -3156,6 +3157,9 @@ if (!class_exists('p_lodgix')) {
       if ( !function_exists('register_sidebar_widget') )
         return;
     
+    
+    	if(!function_exists('widget_lodgix_custom_search'))
+    	{
       // This is the function that outputs our widget_lodgix_custom_search.
       function widget_lodgix_custom_search($args) {
         global $wpdb;
@@ -3300,7 +3304,11 @@ if (!class_exists('p_lodgix')) {
         echo '</div></form>';
         echo $after_widget;
       }
-    
+      }
+      
+      
+    	if(!function_exists('widget_lodgix_custom_search_control'))
+    	{
       // This is the function that outputs the form to let the users edit
       // the widget's title. It's an optional feature that users cry for.
       function widget_lodgix_custom_search_control() {
@@ -3331,6 +3339,7 @@ if (!class_exists('p_lodgix')) {
 
       register_widget_control(array('Rentals Search', 'widgets'), 'widget_lodgix_custom_search_control');
       }      
+      }
       
       function widget_lodgix_featured_init() {
     
@@ -3338,7 +3347,9 @@ if (!class_exists('p_lodgix')) {
       // errors occurring when you deactivate the dynamic-sidebar plugin.
       if ( !function_exists('register_sidebar_widget') )
         return;
-    
+
+			if(!function_exists('widget_lodgix_featured'))
+			{
       // This is the function that outputs our widget_lodgix_featured.
       function widget_lodgix_featured($args) {
         global $wpdb;
@@ -3413,7 +3424,12 @@ if (!class_exists('p_lodgix')) {
         echo '</div>';
         echo $after_widget;
       }
+      }
+      
+      
     
+			if(!function_exists('widget_lodgix_featured_control'))
+			{
       // This is the function that outputs the form to let the users edit
       // the widget's title. It's an optional feature that users cry for.
       function widget_lodgix_featured_control() {
@@ -3447,6 +3463,7 @@ if (!class_exists('p_lodgix')) {
       // This registers our optional widget control form. Because of this
       // our widget will have a button that reveals a 300x100 pixel form.
       register_widget_control(array('Featured Rentals', 'widgets'), 'widget_lodgix_featured_control');
+      }
       }
       
       function clean_all()

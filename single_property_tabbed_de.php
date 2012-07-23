@@ -325,9 +325,13 @@ $single_property .= '</div>
 
 if (count($reviews) >= 1)
 { 
+ $counter = 0;	
  foreach($reviews as $review)
  {
   $single_property .= '<p><i>' . str_replace(array("\r\n", "\n", "\r"),'<br>', $review->description) . '</i><br>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
+  $counter++;
+  if ($counter != count($reviews))
+  	$single_property .= '<center><img src="' . $p_plugin_path  . 'images/post_separator.png"><br><br></center>';    
  }
 }                 
                 

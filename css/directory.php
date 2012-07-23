@@ -173,6 +173,7 @@ div#lodgix_property_reviews h2 {
   border-collapse: separate;
   border:0px;
   max-width:1024px;
+  width:100%;
 }
 
 #lodgix_listing table {
@@ -250,6 +251,7 @@ div#lodgix_property_reviews h2 {
 .lodgix_image_cell {
   vertical-align: top;
   padding: 0px 7px 7px 0px;
+  width: 200px;
 }
 
 .lodgix_image_cell div {
@@ -539,6 +541,10 @@ border:0 none;
   padding-top:5px;
 	border-top: 1px dotted #666666;
 	width:98%;
+}
+
+.lodgix-custom-search-listing tr, .lodgix-custom-search-listing th, .lodgix-custom-search-listing td {
+	padding:0;
 }
 
 #lodgix-custom-search-button {

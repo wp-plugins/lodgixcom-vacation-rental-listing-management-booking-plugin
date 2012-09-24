@@ -92,7 +92,7 @@ $single_property .= '<div id="lodgix_property_badge_tabbed">';
 $single_property .= '<table width="100%">												
 													<tr>
 														<td id="lodgix_property_badge_tabbed_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $bedrooms . ' | ' . $property->bathrooms .' Badezimmer | ' . $property->proptype . $property_city . '</div></td>
-														<td id="lodgix_property_badge_rates"><span class="lodgix_nowrap">' . $min_daily_rate . $min_weekly_rate .'<a href="javascript:void(0)" onclick=\'jQueryLodgix("#lodgix_tabbed_content").tabs("select","4");\'>check rate</a></span></td>
+														<td id="lodgix_property_badge_rates"><span class="lodgix_nowrap">' . $min_daily_rate . $min_weekly_rate .'<a href="javascript:void(0)" onclick=\'jQueryLodgix("#lodgix_tabbed_content").tabs("select","2");\'>Book Now</a></span></td>
 													</tr>
 										</table>
 										<hr>
@@ -110,10 +110,13 @@ $single_property .= '<script>
 													jQueryLodgix(document).ready(function(){
 															jQueryLodgix("#lodgix_tabbed_content" ).tabs();
 															if(document.location.hash == "#booking") {					
-																jQueryLodgix("#lodgix_tabbed_content").tabs("select",4);
+																	window.scrollTo(0,0);
+																	jQueryLodgix("#lodgix_tabbed_content").tabs("select",1);																					
 														  }
 															if(document.location.hash == "#map_canvas") {					
-																jQueryLodgix("#lodgix_tabbed_content").tabs("select",1);
+																jQueryLodgix().scrollTop();
+																jQueryLodgix("#lodgix_tabbed_content").tabs("select",2);
+																
 														  }														  
 													});
 									  </script>';
@@ -340,6 +343,7 @@ $single_property .= '</div></div>';
 $single_property .= '<script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>';
 $single_property .= '<script type="text/javascript">        
     // <![CDATA[
+            
 		function lodgix_gmap_initialize() {    
 		    var lodgixLatLng = new google.maps.LatLng(' . $property->latitude . ', ' . $property->longitude . ');
     		var lodgixMapOptions = {
@@ -353,8 +357,10 @@ $single_property .= '<script type="text/javascript">
       		position: lodgixLatLng,
       		map: map
   			});    		
+  			 			
     }
-    window.onload = lodgix_gmap_initialize;
+    window.onload = lodgix_gmap_initialize;    
+    
     // ]]>
     </script>';
 

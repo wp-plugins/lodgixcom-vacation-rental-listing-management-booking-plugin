@@ -125,16 +125,16 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
                 <a href="#lodgix_tabbed_content-1">Details</a>
             </li>
             <li>
-                <a href="#lodgix_tabbed_content-2">Location</a>
+                <a href="#lodgix_tabbed_content-2">Booking Calendar</a>
+            </li>            
+            <li>
+                <a href="#lodgix_tabbed_content-3">Location</a>
             </li>
             <li>
-                <a href="#lodgix_tabbed_content-3">Amenities</a>
+                <a href="#lodgix_tabbed_content-4">Amenities</a>
             </li>
             <li>
-                <a href="#lodgix_tabbed_content-4">Rates</a>
-            </li>
-            <li>
-                <a href="#lodgix_tabbed_content-5">Availability</a>
+                <a href="#lodgix_tabbed_content-5">Policies</a>
             </li>
             <li>
                 <a href="#lodgix_tabbed_content-6">Reviews</a>
@@ -162,13 +162,16 @@ $single_property .= '</div>
 
             <div class="lodgix_tabbed_clearFix"></div>
         </div>
-        <div id="lodgix_tabbed_content-2">
+        <div id="lodgix_tabbed_content-2">';
+$single_property .= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";        
+$single_property .= '</div>        
+        <div id="lodgix_tabbed_content-3">
             <div id="lodgix_tabbed_lodgix_property_location">
                 <h2>Property Location</h2>
                 <div id="lodgix_tabbed_map_canvas" style="width: 100%; height: 500px"></div>                          
             </div>
         </div>
-        <div id="lodgix_tabbed_content-3">
+        <div id="lodgix_tabbed_content-4">
             <div id="lodgix_tabbed_lodgix_property_amenities">
                 <h2>Amenities</h2>
                 <ul class="lodgix_tabbed_amenities">';  
@@ -186,9 +189,9 @@ $single_property .= '</div>
 								$single_property .= '</ul>
             </div>
         </div>
-        <div id="lodgix_tabbed_content-4">';
+        <div id="lodgix_tabbed_content-5">';
         
-$single_property .= '<h2>Rates</h2>';
+$single_property .= '<h2>Policies</h2>';
 if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0)
 	$single_property .= 'Daily Rate:	' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' per night<br/>';
 if ($low_weekly_rate > 0)	
@@ -207,7 +210,7 @@ $deposits = $wpdb->get_results("SELECT * FROM " . $deposits_table . " WHERE prop
 
 if ($policies || $taxes || $fees || $deposits)
 {
- $single_property .= "<h2>Policies</h2><table width='98%'>";
+ $single_property .= "<br><table width='98%'>";
 
  if ($taxes)
  {
@@ -304,14 +307,6 @@ if ($policies || $taxes || $fees || $deposits)
  $single_property .= "</table>";  
 }
           
-$single_property .= '</div>
-        <div id="lodgix_tabbed_content-5">';
-
-
-
-
-$single_property .= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";        
-
 $single_property .= '</div>
         <div id="lodgix_tabbed_content-6">
             <div id="lodgix_tabbed_lodgix_property_reviews">

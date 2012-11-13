@@ -77,7 +77,7 @@ $.fn.ceebox.defaults = {
 	margin: 150, //minimum margin between ceebox inside content and browser frame (this does not count the padding and border; I know it's odd. I'll likely change how it works at some point)
 	//misc settings
 	onload:null, //callback function once ceebox popup is loaded. MUST BE A FUNCTION!
-	unload:null, //callback function once ceebox popup is unloaded. MUST BE A FUNCTION!
+	unloadcee:null, //callback function once ceebox popup is unloadceeed. MUST BE A FUNCTION!
 	videoJSON:null, //allows addition of seperate json file with more video support.
 	iPhoneRedirect:true //set to automatically redirect iPhone users for video links (youtube will launch video player)
 };
@@ -121,6 +121,11 @@ $.fn.ceebox.videos = {
 	youtube: {
 		siteRgx : /youtube\.com\/watch/i, 
 		idRgx: /(?:v=)([a-zA-Z0-9_\-]+)/i,
+		src : "http://www.youtube.com/v/[id]&hl=en&fs=1&autoplay=1"
+	},
+	youtu_be: {
+		siteRgx : /youtu\.be/i, 
+		idRgx: /(?:be\/)([a-zA-Z0-9_\-]+)/i,
 		src : "http://www.youtube.com/v/[id]&hl=en&fs=1&autoplay=1"
 	},
 	metacafe: {
@@ -272,10 +277,10 @@ $.fn.ceebox.popup = function(content,opts) {
 	// 2. Creates overlay and empty ceebox to page if one does not already exist; also adds loader
 	$.fn.ceebox.overlay(opts);
 	
-	// attach action,onload, and unload functions to global variable to be called by $.fn.ceebox.onload() and $.fn.ceebox.closebox()
+	// attach action,onload, and unloadcee functions to global variable to be called by $.fn.ceebox.onload() and $.fn.ceebox.closebox()
 	base.action = opts.action;
 	base.onload = opts.onload;
-	base.unload = opts.unload;
+	base.unloadcee = opts.unloadcee;
 
 	// 3. setup animation based on opts
 	var pos = boxPos(opts);//grab margins
@@ -332,13 +337,13 @@ $.fn.ceebox.popup = function(content,opts) {
 };
 
 //--------------------------- ceebox close function ----------------------------------
-$.fn.ceebox.closebox = function(fade,unload) { //removes ceebox popup
+$.fn.ceebox.closebox = function(fade,unloadcee) { //removes ceebox popup
 	fade = fade || 400;
 	$("#cee_box").fadeOut(fade);
 	$("#cee_overlay").fadeOut((typeof fade == 'number') ? fade*2 : "slow",function(){
-		$('#cee_box,#cee_overlay,#cee_HideSelect,#cee_load').unbind().trigger("unload").remove();
-		if (isFunction(unload)) { unload(); } else if (isFunction(base.unload)) {base.unload();}
-		base.unload = null; //call optional unload callback, then empty function
+		$('#cee_box,#cee_overlay,#cee_HideSelect,#cee_load').unbind().trigger("unloadcee").remove();
+		if (isFunction(unloadcee)) { unloadcee(); } else if (isFunction(base.unloadcee)) {base.unloadcee();}
+		base.unloadcee = null; //call optional unloadcee callback, then empty function
 	});
 	document.onkeydown = null;
 };

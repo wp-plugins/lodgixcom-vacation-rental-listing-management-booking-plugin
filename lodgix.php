@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.00
+Version: 1.1.01
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.01: Fixed search widget
 v1.1.00: Fixed CeeBox
 v1.0.99: Tabbed CSS minor adjustments - 2
 v1.0.98: Tabbed CSS minor adjustments
@@ -3120,12 +3121,22 @@ if (!class_exists('p_lodgix')) {
        		}
        }
        
+       $found = false;
        $sql = "SELECT COUNT(*) as num_results FROM " . $properties_table . " WHERE 1=1 AND ";
        if (is_numeric($id))
        {
-       	 	$sql .= "id=" . $id . ' AND ';
+       	 	
+       	 	$testsql = $sql . "id=" . $wpdb->_real_escape($id);
+					$testcount = $wpdb->get_results($testsql);
+
+       	 	if ($testcount[0]->num_results > 0)
+       	 	{
+       	 		$found = true;
+       	 		$sql .= "id=" . $wpdb->_real_escape($id) . ' AND ';
+       	 	}
        }	      
-       else
+       
+       if (!$found)
        {
        	if ($area != 'ALL_AREAS')
        	{
@@ -3145,7 +3156,7 @@ if (!class_exists('p_lodgix')) {
 	  
        if ($available != 'ALL' && $available != 'null')
        {
-          $sql .= " id IN (" . $available . ") AND ";	  
+          $sql .= " id IN (" . $wpdb->_real_escape($available) . ") AND ";	  
        }
        else if ($available == 'null')
        {

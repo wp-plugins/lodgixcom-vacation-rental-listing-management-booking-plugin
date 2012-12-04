@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.01
+Version: 1.1.02
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.02: Fixed jquery validate
 v1.1.01: Fixed search widget
 v1.1.00: Fixed CeeBox
 v1.0.99: Tabbed CSS minor adjustments - 2
@@ -1378,8 +1379,7 @@ if (!class_exists('p_lodgix')) {
         $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );
         wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');      	
         wp_enqueue_script('jquery'); 
-        wp_enqueue_script('jquerylodgix', 'http://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js', array('jquery'));
-        wp_enqueue_script('jquery-validate', 'http://ajax.microsoft.com/ajax/jquery.validate/1.6/jquery.validate.min.js', array('jquery'));
+       	wp_enqueue_script('jquery-validate',$p_plugin_path . 'js/jquery.validate.min.js');        
         wp_enqueue_script('p_lodgix_script', $this->url.'?p_lodgix_javascript'); 
         wp_localize_script( 'p_lodgix_script', 'p_lodgix_lang', array(
           'required' => __('Field is required.', $this->localizationDomain),

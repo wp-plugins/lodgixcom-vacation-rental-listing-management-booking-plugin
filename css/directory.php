@@ -301,6 +301,11 @@ width: 100%;
   white-space: pre-wrap;
 }
 
+.lodgix_comments div p {
+  width: 99%;
+  white-space: pre-wrap;
+}
+
 div#lodgix_sort_div { 
   margin-left:15px;
   margin-bottom:15px;

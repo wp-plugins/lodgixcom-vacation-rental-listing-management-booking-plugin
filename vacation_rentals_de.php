@@ -69,7 +69,7 @@ $vacation_rentals = '
   			<div class="lodgix_description">
   	<div class="lodgix_name">
   			<a href="'. $permalink .'">' . $german_details->description . '</a></div><div>' . $property->area . '</div><div class="lodgix_comments">' . $warning . '
-      <div>' . str_replace('\n','<br />',$german_details->details) . '</div> 
+      <div><p>' . str_replace('\n','<br />',$german_details->details) . '</p></div> 
     </div>
   <td class="lodgix_border_right"><div></div></td>
 </tr>

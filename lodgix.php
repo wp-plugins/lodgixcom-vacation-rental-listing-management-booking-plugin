@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.03
+Version: 1.1.04
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.04: Fixed wpdb functions
 v1.1.03: Fixed IE CSS
 v1.1.02: Fixed jquery validate
 v1.1.01: Fixed search widget
@@ -1828,7 +1829,7 @@ if (!class_exists('p_lodgix')) {
         }
 
         $sql = $this->get_insert_sql_from_array($properties_table,$parray);
-        $exists = (int)$wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM " . $properties_table . " WHERE id=" . $parray['id'] . ";"));        
+        $exists = (int)$wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM " . $properties_table . " WHERE id=" . $parray['id'] . ";",null));        
         if ($exists > 0)        
           $sql = $this->get_update_sql_from_array($properties_table,$parray,$parray['id']);      
         $wpdb->query($sql);   
@@ -1945,9 +1946,9 @@ if (!class_exists('p_lodgix')) {
             $wpdb->query($sql);       
         }    
         
-        $low_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $parray['id'] . ";"));        
-        $low_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $parray['id'] . ";"));
-        $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $parray['id'] . ";"));
+        $low_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $parray['id'] . ";",null));        
+        $low_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $parray['id'] . ";",null));
+        $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $parray['id'] . ";",null));
         $sql = 'UPDATE ' . $properties_table .' SET min_daily_rate=' . $low_daily_rate . ',min_weekly_rate=' . $low_weekly_rate . ',min_monthly_rate=' . $low_monthly_rate . ' WHERE id=' . $parray['id'];
         $wpdb->query($sql);        
 
@@ -2388,18 +2389,18 @@ if (!class_exists('p_lodgix')) {
          	
           if ($this->options['p_lodgix_display_daily_rates'])
           {
-            $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
-            $high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
+            $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
+            $high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
           }
           else
           {
             $low_daily_rate = $property->currency_symbol . '0';
             $high_daily_rate = $property->currency_symbol . '0';
           }
-          $low_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
-          $high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
-          $low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
-          $high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
+          $low_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";",null));
+          $high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";",null));
+          $low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
+          $high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
           include('vacation_rentals.php');
           $content .= $vacation_rentals;          
          }
@@ -2522,17 +2523,17 @@ if (!class_exists('p_lodgix')) {
          {
           if ($this->options['p_lodgix_display_daily_rates'])
           {
-            $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
-            $high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";"));
+            $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
+            $high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
           }
           else
           {
             $low_daily_rate = $property->currency_symbol . '0';
             $high_daily_rate = $property->currency_symbol . '0';
-          }          $low_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
-          $high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";"));
-          $low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
-          $high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";"));
+          }          $low_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";",null));
+          $high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";",null));
+          $low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
+          $high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
           include('vacation_rentals_de.php');
           $content .= $vacation_rentals;
          }
@@ -2848,9 +2849,9 @@ if (!class_exists('p_lodgix')) {
             }                                    
             else
             {              
-             $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT page_id FROM " . $pages_table . " WHERE property_id=" . $post->property_id . ";"));
+             $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT page_id FROM " . $pages_table . " WHERE property_id=" . $post->property_id . ";",null));
             }
-            $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $translation_table . " WHERE element_id=" . $post_id . " AND language_code='en';"));
+            $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $translation_table . " WHERE element_id=" . $post_id . " AND language_code='en';",null));
             $sitepress->set_element_language_details($post->page_id,'post_page',$trid,'de','en');            
          }          
         }
@@ -2863,7 +2864,7 @@ if (!class_exists('p_lodgix')) {
   			 		{
   			 			if ($page_de->area == $page->area)
   			 			{  			 			
-							 $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $translation_table . " WHERE element_id=" . $page->page_id . " AND language_code='en';"));
+							 $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $translation_table . " WHERE element_id=" . $page->page_id . " AND language_code='en';",null));
         			 $sitepress->set_element_language_details($page_de->page_id,'post_page',$trid,'de','en');	
         			}
         		}
@@ -3006,8 +3007,8 @@ if (!class_exists('p_lodgix')) {
                   	 
                       if ($this->options['p_lodgix_generate_german'])
                       {
-                        $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT post_id FROM " . $properties_table . " WHERE id=" . $property->id . ";"));
-                        $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $translation_table . " WHERE element_id=" . $post_id . " AND language_code='en';"));
+                        $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT post_id FROM " . $properties_table . " WHERE id=" . $property->id . ";",null));
+                        $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $translation_table . " WHERE element_id=" . $post_id . " AND language_code='en';",null));
                         $post['post_parent'] = (int)$this->options['p_lodgix_vacation_rentals_page_de'];
                         $post_id_de = wp_insert_post( $post );   
                         $sql = "INSERT INTO " . $lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_id_de . "," . $property->id."," . $post_id   . ",'de')";
@@ -4836,7 +4837,7 @@ if (!class_exists('p_lodgix')) {
                     </table>
                     </table>                       
           <p class="submit"> 
-            <input type="submit" name="p_lodgix_save" class="button-primary" value="<?php _e('Save and Regenerate', $this->localizationDomain); ?>" /><input onclick="return confirm('Are you sure you want to clean the database ?');" type="submit" name="p_lodgix_clean" class="button-primary" value="<?php _e('Clean Database', $this->localizationDomain); ?>" /><br><br><br><br>
+            <input type="submit" name="p_lodgix_save" class="button-primary" value="<?php _e('Save and Regenerate', $this->localizationDomain); ?>" />&nbsp;<input onclick="return confirm('Are you sure you want to clean the database ?');" type="submit" name="p_lodgix_clean" class="button-primary" value="<?php _e('Clean Database', $this->localizationDomain); ?>" /><br><br><br><br>
             <b>
           Please wait while database is updated. Time will depend on the number of properties to process.</b>            
           </p>

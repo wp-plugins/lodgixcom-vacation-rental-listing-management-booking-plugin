@@ -99,7 +99,7 @@ $vacation_rentals = '
 <tr>
   <td class="lodgix_border_left"><div></div></td>
   <td colspan="2"><table class="lodgix_image_cell_icons" border="0" cellspacing="0" style="text-align:center;width:100%;' . $global_icons .'">
-  	<tr><td>';
+  	<tr><td style="text-align:center;">';
 		
 		if ($differentiate)
 		{  	 	

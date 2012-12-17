@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.04
+Version: 1.1.05
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.05: Fixed template CSS
 v1.1.04: Fixed wpdb functions
 v1.1.03: Fixed IE CSS
 v1.1.02: Fixed jquery validate
@@ -3651,7 +3652,8 @@ if (!class_exists('p_lodgix')) {
         $post_id = (int)$this->options['p_lodgix_vacation_rentals_page'];
         $post = array();
         $post['ID'] = $post_id;
-        if ($post_id)
+        $exists = get_post($post_id); 
+        if ($exists)  
         {
           if ($this->options['p_lodgix_allow_comments'])
               $post['comment_status'] = 'open';
@@ -3669,7 +3671,8 @@ if (!class_exists('p_lodgix')) {
         $post_id = (int)$this->options['p_lodgix_availability_page'];
         $post = array();
         $post['ID'] = $post_id;
-        if ($post_id)
+        $exists = get_post($post_id); 
+        if ($exists)  
         {
           if ($this->options['p_lodgix_allow_comments'])
               $post['comment_status'] = 'open';
@@ -3685,7 +3688,8 @@ if (!class_exists('p_lodgix')) {
         $post_id = (int)$this->options['p_lodgix_search_rentals_page'];
         $post = array();
         $post['ID'] = $post_id;
-        if ($post_id)
+        $exists = get_post($post_id); 
+        if ($exists)  
         {
           if ($this->options['p_lodgix_allow_comments'])
               $post['comment_status'] = 'open';
@@ -3701,7 +3705,8 @@ if (!class_exists('p_lodgix')) {
         $post_id = (int)$this->options['p_lodgix_vacation_rentals_page_de'];
         $post = array();
         $post['ID'] = $post_id;
-        if ($post_id)
+        $exists = get_post($post_id); 
+        if ($exists)  
         {
           if ($this->options['p_lodgix_allow_comments'])
               $post['comment_status'] = 'open';
@@ -3721,7 +3726,8 @@ if (!class_exists('p_lodgix')) {
           $post_id = (int)$this->options['p_lodgix_availability_page_de'];
          $post = array();
          $post['ID'] = $post_id;
-         if ($post_id)
+         $exists = get_post($post_id); 
+         if ($exists)  
          {
           if ($this->options['p_lodgix_allow_comments'])
               $post['comment_status'] = 'open';
@@ -3742,7 +3748,8 @@ if (!class_exists('p_lodgix')) {
           $post_id = (int)$this->options['p_lodgix_search_rentals_page_de'];
          $post = array();
          $post['ID'] = $post_id;
-         if ($post_id)
+         $exists = get_post($post_id); 
+         if ($exists)  
          {
           if ($this->options['p_lodgix_allow_comments'])
               $post['comment_status'] = 'open';
@@ -3766,7 +3773,8 @@ if (!class_exists('p_lodgix')) {
           $post_id = $page->page_id;
           $post = array();
           $post['ID'] = $post_id;        
-          if ($post_id)
+          $exists = get_post($post_id); 
+          if ($exists)  
           {
             if ($this->options['p_lodgix_allow_comments'])
                 $post['comment_status'] = 'open';
@@ -3789,7 +3797,8 @@ if (!class_exists('p_lodgix')) {
           $post_id = $page->page_id;
           $post = array();
           $post['ID'] = $post_id;        
-          if ($post_id)
+          $exists = get_post($post_id); 
+          if ($exists)  
           {
             if ($this->options['p_lodgix_allow_comments'])
                 $post['comment_status'] = 'open';
@@ -3814,7 +3823,8 @@ if (!class_exists('p_lodgix')) {
           $post_id = $page->page_id;
           $post = array();
           $post['ID'] = $post_id;        
-          if ($post_id)
+          $exists = get_post($post_id); 
+          if ($exists)  
           {
             if ($this->options['p_lodgix_allow_comments'])
                 $post['comment_status'] = 'open';
@@ -3836,7 +3846,8 @@ if (!class_exists('p_lodgix')) {
             $post_id = $page->page_id;
             $post = array();
             $post['ID'] = $post_id;        
-            if ($post_id)
+            $exists = get_post($post_id); 
+            if ($exists)  
             {
               if ($this->options['p_lodgix_allow_comments'])
                   $post['comment_status'] = 'open';

@@ -168,6 +168,139 @@ div#lodgix_property_reviews h2 {
   display: table;
 }
 
+.ldgxShadow {
+	margin: 5px 10px 10px 5px;
+	padding: 5px;
+	border: 1px solid #eee;
+	-moz-box-shadow: 0 0 8px 2px #ccc;
+	-webkit-box-shadow: 0 0 8px 2px #ccc;
+	box-shadow: 2px 2px 8px 0 #666;
+}
+
+.ldgxListingImg {
+	float: left;
+	margin-right: 7px;
+}
+
+.ldgxListingName {
+	padding-left: 7px;
+	background: #eee;
+}
+
+.ldgxListingName a {
+	font: bold 18px Verdana, sans-serif;
+	color: #9f1314;
+	text-decoration: underline;
+	white-space: nowrap;
+}
+
+.ldgxListingBody {
+	padding: 7px;
+	background: #f7f7f7;
+	font: 12px Verdana, sans-serif;
+}
+
+.ldgxListingWarn {
+	margin-top: 14px;
+	text-align: justify;
+	color: #666;
+}
+
+.ldgxListingDesc {
+	margin-top: 14px;
+	font: 14px "Maven Pro", sans-serif;
+	color: #5f5e5e;
+	white-space: pre-wrap;
+}
+
+.ldgxListingFeats {
+	clear: left;
+	text-align: center;
+}
+
+.ldgxListingFeat {
+	display: inline-block;
+	margin: 0 1px;
+	width: 14.1%;
+	min-width: 110px;
+	vertical-align: middle;
+	font: 14px "Maven Pro", sans-serif;
+	color: #5f5e5e;
+}
+
+.ldgxListingFeatCell {
+	margin: 2px 0;
+	height: 33px;
+	line-height: 33px;
+	background: #ebebeb;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.ldgxListingFeatDaily {
+	background: #ddd;
+}
+
+.ldgxListingFeatWeekly {
+	background: #cfcfcf;
+}
+
+.ldgxListingFeatMonthly {
+	background: #c2c2c2;
+}
+
+.ldgxPetsNo {
+	background:url("__PLUGIN_FOLDER__images/pets_friendly_no.gif") no-repeat scroll center center transparent;
+	height: 33px;
+}
+
+.ldgxPetsYes {
+	background:url("__PLUGIN_FOLDER__images/pets_friendly_yes.gif") no-repeat scroll center center transparent;
+	height: 33px;
+}
+
+.ldgxListingButs {
+	text-align: center;
+}
+
+.ldgxListingButsBlock1 {
+	display: inline;
+	margin: 0 20px;
+}
+
+.ldgxListingButsBlock2 {
+	display: inline;
+	white-space: nowrap;
+}
+
+.ldgxListingButs a {
+	display: inline-block;
+	margin: 7px 5px 3px 5px;
+}
+
+
+
+
+
+
+
+
+
+
+.ldgxPowered {
+	margin: 20px 0;
+	text-align: center;
+	font-size: 10px;
+}
+
+
+
+
+
+
+
+
 #content_lodgix table {
   background-color:#FFFFFF;
   border-collapse: separate;
@@ -176,134 +309,9 @@ div#lodgix_property_reviews h2 {
   width:100%;
 }
 
-#lodgix_listing table {
-  width:100%;
-  border:0px;
-  padding: 0px;
-}
-
 #content_lodgix table tr td {
   border:0px;
   padding: 0;
-}
-
-.lodgix_border_top {
-  background: url("__PLUGIN_FOLDER__images/decor/bord-top.gif") repeat-x bottom;
-}
-
-.lodgix_border_top div {
-  height: 11px;
-}
-
-.lodgix_border_top_left {
-  background: url("__PLUGIN_FOLDER__images/decor/bord-top-left.gif") no-repeat bottom right;
-}
-
-.lodgix_border_top_left div {
-  width: 13px;
-  height: 11px;
-}
-
-.lodgix_border_top_right {
-  background: url("__PLUGIN_FOLDER__images/decor/bord-top-right.gif") no-repeat bottom left;
-}
-
-.lodgix_border_top_right div {
-  width: 15px;
-  height: 11px;
-}
-
-.lodgix_border_bot {
-  background: url("__PLUGIN_FOLDER__images/decor/bord-bot.gif") repeat-x top;
-}
-
-.lodgix_border_bot div {
-  height: 17px;
-}
-
-.lodgix_border_bot_left {
-  background: url("__PLUGIN_FOLDER__images/decor/bord-bot-left.gif") no-repeat top right;
-}
-
-.lodgix_border_bot_right div {
-  width: 13px;
-  height: 17px;
-}
-
-.lodgix_border_bot_right {
-  background: url("__PLUGIN_FOLDER__images/decor/bord-bot-right.gif") no-repeat top left;
-}
-
-.lodgix_border_bot_right div {
-  width: 15px;
-  height: 17px;
-}
-
-.lodgix_border_left {
-  background: url("__PLUGIN_FOLDER__images/decor/bord-left.gif") repeat-y right;
-}
-
-.lodgix_border_right {
-  background: url("__PLUGIN_FOLDER__images/decor/bord-right.gif") repeat-y left;
-}
-
-
-.lodgix_image_cell {
-  vertical-align: top;
-  padding: 0px 7px 7px 0px;
-  width: 200px;
-}
-
-.lodgix_image_cell div {
-  width: 200px;
-}
-
-.lodgix_description_cell {
-  vertical-align: top;
-  font: 12px Verdana, sans-serif;
-}
-
-.lodgix_description, .lodgix_name, .lodgix_comments {
-width: 100%;
-}
-
-.lodgix_description {
-	padding-left: 6px;
-	width:99%;
-}
-
-.lodgix_name, .lodgix_address {
-  background: #eee;
-}
-
-.lodgix_name a, .lodgix_name a:link, .lodgix_name a:visited, .lodgix_name a:hover {
-  font: bold 18px Verdana, sans-serif !important;
-  font-family:Verdana, Tahoma, Arial;
-	color:#9f1314;
-	text-decoration: underline;  
-}
-
-
-.lodgix_comments {
-  color: #666;
-  font: 12px Verdana, sans-serif;
-  text-align:justify;
-  margin-top:8px;  
-}
-
-.lodgix_comments div {
-  color: #353535;
-  font: "Droid Sans","Lucida Grande",Tahoma,sans-serif;
-  height: 110px;
-  overflow: auto;
-  margin: 2px;
-  text-align: left;
-  white-space: pre-wrap;
-}
-
-.lodgix_comments div p {
-  width: 99%;
-  white-space: pre-wrap;
 }
 
 div#lodgix_sort_div { 
@@ -311,44 +319,6 @@ div#lodgix_sort_div {
   margin-bottom:15px;
 }
 
-table.lodgix_property_features {
-clear:both;
-float:left;
-font:11px/13px normal,Verdana,Tahoma sans-serif;
-border-spacing: 2px;
-width:100%;
-}
-table.lodgix_property_features tr td.lodgix_gray_box {
-background:none repeat scroll 0 0 #EBEBEB;
-height:33px;
-text-align:center;
-vertical-align:middle;
-min-width:92px;
-}
-table.lodgix_property_features tr td.lodgix_gray_lower, table.lodgix_property_features tr th.lodgix_gray_lower {
-background:none repeat scroll 0 0 #DDDDDD;
-height:33px;
-text-align:center;
-vertical-align:middle;
-min-width:90px;
-border: 0 none;
-}
-table.lodgix_property_features tr td.lodgix_gray_medium, table.lodgix_property_features tr th.lodgix_gray_medium {
-background:none repeat scroll 0 0 #CFCFCF;
-height:33px;
-text-align:center;
-vertical-align:middle;
-min-width:90px;
-border: 0 none;
-}
-table.lodgix_property_features tr td.lodgix_gray_highest, table.lodgix_property_features tr th.lodgix_gray_highest {
-background:none repeat scroll 0 0 #C2C2C2;
-height:33px;
-text-align:center;
-vertical-align:middle;
-min-width:90px;
-border: 0 none;
-}
 div.lodgix_bedroom1 {
 background:url("__PLUGIN_FOLDER__images/bedroom1_list.gif") no-repeat scroll center center transparent;
 height:27px;
@@ -373,15 +343,6 @@ div.lodgix_bedroom5 {
 background:url("__PLUGIN_FOLDER__images/bedroom5_list.gif") no-repeat scroll center center transparent;
 height:30px;
 width:90px;
-}
-div.lodgix_pets_friendly_no {
-background:url("__PLUGIN_FOLDER__images/pets_friendly_no.gif") no-repeat scroll center center transparent;
-height:25px;
-min-width:90px;
-}
-div.lodgix_pets_friendly_yes {
-background:url("__PLUGIN_FOLDER__images/pets_friendly_yes.gif") no-repeat scroll center center transparent;
-height:25px;
 }
 
 ul.amenities {
@@ -577,12 +538,6 @@ border:0 none;
 
 .lodgix-datepicker-trigger {
 		
-}
-
-.lodgix_image_cell_icons {
-   width:200px;
-   margin-top:5px;
-   text-align:center;
 }
 
 .lodgix_google_map_icon {

@@ -2417,7 +2417,7 @@ if (!class_exists('p_lodgix')) {
         	 $link = '<a href="' . $rotator->url . '">' . $rotator->title . '</a>';  
         }
                
-        $content .= '<br><div align="center" style="width:100%;font-size:10px;">' . $link . ' by Lodgix.com</div><br>';
+        $content .= '<div class="ldgxPowered">' . $link . ' by Lodgix.com</div>';
         return $content;
       }      
 

@@ -932,13 +932,13 @@ if (!class_exists('p_lodgix')) {
 											
 											jQueryLodgix('#lodgix-image-gallery').royalSlider({
 										    		captionShowEffects:["fade"],
-														controlNavThumbs:true,																	
-														imageAlignCenter:true,												
-														directionNavEnabled: true,
-														welcomeScreenEnabled:false,
-														hideArrowOnLastSlide:true,
-														//imageScaleMode:"fill",                  // Scale mode of all images. Can be "fill", "fit" or "none"
-    												imageAlignCenter:false	
+													controlNavThumbs:true,																	
+													directionNavEnabled: true,
+													welcomeScreenEnabled:false,
+													hideArrowOnLastSlide:true,
+    												autoScaleSlider: true,
+    												autoScaleSliderWidth: 640,
+    												autoScaleSliderHeight: 480
 										    });	 
 											
 											jQueryLodgix('#lodgix_property_badge').corner("round 8px");

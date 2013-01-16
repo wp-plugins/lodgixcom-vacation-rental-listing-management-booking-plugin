@@ -1176,7 +1176,6 @@ border:0 none;
 
 #lodgix_tabbed_content {
     clear: both;
-    width: 100%;
     font-family: arial, sans-serif;
     color: #575757;
     font-size: 10pt;
@@ -1254,48 +1253,24 @@ border:0 none;
 #lodgix-image-gallery {
     background: none repeat scroll 0 0 #F5F5F5;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    height: 480px;
-    width: 640px;
 }
+
 #lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb {
   background-size: 100px 75px;
 }
-#lodgix-lodgix-image-gallery .royalCaption {
-    position: static;
-}
-#lodgix-image-gallery .royalCaptionItem, #image-gallery .staticTextBlock {
-    color: #D2D2D2;
-    font-weight: bold;
-    left: 50%;
-    margin-left: -185px;
-    text-align: center;
-    top: 415px;
-    width: 370px;
-}
-#lodgix-image-gallery .royalCaptionItem a {
-    color: #D2D2D2;
-}
 
 #lodgix-image-gallery .royalCaption {
-	position: static;
-}
-
-
-#lodgix-image-gallery .royalCaptionItem, #lodgix-image-gallery .staticTextBlock {
-    color: #D2D2D2;
-    font-weight: bold;
+	position: absolute;
     left: 50%;
+    bottom: 5%;
     margin-left: -185px;
-    text-align: center;
-    top: 440px;
     width: 370px;
     background-color: grey;
-    opacity:0.8;    
- }
-
-#lodgix-image-gallery .staticTextBlockInner {
-   color: #ffffff;
-   opacity:1; 
+	color: #fff;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0.8;
+    overflow: hidden;
 }
 
 

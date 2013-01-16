@@ -97,7 +97,7 @@ foreach($photos as $photo)
       $single_property .= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
       if ($photo->caption != '')
       {
-      	$single_property .= '<div class="royalCaption"><div class="royalCaptionItem royalMidText">' . $photo->caption . '</div></div>';
+      	$single_property .= '<div class="royalCaption"><div class="royalCaptionItem">' . $photo->caption . '</div></div>';
       }
       $single_property .= '</li>';
 }

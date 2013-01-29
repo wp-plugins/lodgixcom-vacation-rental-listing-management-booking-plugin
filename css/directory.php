@@ -1173,6 +1173,34 @@ border:0 none;
 
 /* TABBED */
 
+.ldgxTabs {
+	display: none;
+}
+
+.ldgxMobileTab {
+	clear: both;
+	margin: 5px;
+	border: 1px solid #99B3CE;
+	border-radius: 6px;
+	padding: 0.8em 1.6em;
+	background: #E5ECF3;
+	color: #004185;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+@media only screen and (min-width: 40em) {
+
+	.ldgxTabs {
+		display: block;
+	}
+
+	.ldgxMobileTab {
+		display: none;
+	}
+
+}
+
 
 #lodgix_tabbed_content {
     clear: both;

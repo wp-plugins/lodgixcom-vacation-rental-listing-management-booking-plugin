@@ -100,7 +100,7 @@ foreach($photos as $photo)
       $single_property .= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
       if ($photo->caption != '')
       {
-      	$single_property .= '<div class="royalCaption"><div class="royalCaptionItem royalMidText">' . $photo->caption . '</div></div>';
+      	$single_property .= '<div class="royalCaption"><div class="royalCaptionItem">' . $photo->caption . '</div></div>';
       }
       $single_property .= '</li>';
 }
@@ -399,7 +399,7 @@ foreach($photos as $photo)
 }
 
 $single_property .= '</tr></table></div></div><div id="lodgix_photo_bottom"></div></div>';
-$single_property .= '<div align="center" style="width:100%;font-size:10px;">' . $link . ' by Lodgix.com</div><br></div>';
+$single_property .= '<div class="ldgxPowered">' . $link . ' by Lodgix.com</div></div>';
 
 $single_property .= '<script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>';
 $single_property .= '<script type="text/javascript">        

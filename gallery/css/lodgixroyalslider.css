@@ -6,8 +6,8 @@
 .royalSlider {	
 	position:relative;
 	/* set width and height of slider here, in px, % or em*/
-	width:600px;
-	height:300px;
+	max-width:640px;
+	height:480px;
 	/* Used to prevent content "jumping" on page load. this property is removed when javascript is loaded and slider is instanciated */
 	overflow:hidden;
 }
@@ -234,27 +234,6 @@
 
 
 
-/* Captions container */
-.royalSlider .royalCaption {
-	z-index:20;
-	display:block;
-	position:absolute;	
-	left:0;
-	top:0;
-	/*font: normal normal normal 1em/1.5em Georgia, serif;
-	color:#FFF;		*/
-}
-/* Caption item */
-.royalSlider .royalCaptionItem {
-	position:absolute;	
-	left:0;
-	top:0;
-	margin: 0;
-	padding: 0;
-}
-
-
-
 /* Loading (welcome) screen */
 .royalSlider .royalLoadingScreen {
 	background:#FFF;
@@ -321,7 +300,7 @@
 	z-index: 10;
 }
 .royalSlider .royalImage {
-	max-width:none;
+	max-width:100%;
 	margin:0;
 	padding: 0 !important;
 	border: 0 !important;	

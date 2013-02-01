@@ -123,7 +123,7 @@ $single_property .= '<script>
 
 $single_property .= '<div id="lodgix_tabbed_content_box">
     <div id="lodgix_tabbed_content">
-        <ul>
+        <ul class="ldgxTabs">
             <li>
                 <a href="#lodgix_tabbed_content-1">Details</a>
             </li>
@@ -143,6 +143,7 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
                 <a href="#lodgix_tabbed_content-6">Reviews</a>
             </li>
         </ul>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'1\',this)">Details</div>
         <div id="lodgix_tabbed_content-1">
             <div id="lodgix_tabbed_lodgix_property_details">
                 <h2>Property Details</h2>';
@@ -154,7 +155,7 @@ foreach($photos as $photo)
       $single_property .= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
       if ($photo->caption != '')
       {
-      	$single_property .= '<div style="position: absolute;" class="staticTextBlock"><div class="staticTextBlockInner">' . $photo->caption . '</div></div>';
+      	$single_property .= '<div class="royalCaption">' . $photo->caption . '</div>';
       }
       $single_property .= '</li>';
 }
@@ -165,15 +166,18 @@ $single_property .= '</div>
 
             <div class="lodgix_tabbed_clearFix"></div>
         </div>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'2\',this)">Booking Calendar</div>
         <div id="lodgix_tabbed_content-2">';
 $single_property .= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";        
 $single_property .= '</div>        
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'3\',this)">Location</div>
         <div id="lodgix_tabbed_content-3">
             <div id="lodgix_tabbed_lodgix_property_location">
                 <h2>Property Location</h2>
                 <div id="lodgix_tabbed_map_canvas" style="width: 100%; height: 500px"></div>                          
             </div>
         </div>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'4\',this)">Amenities</div>
         <div id="lodgix_tabbed_content-4">
             <div id="lodgix_tabbed_lodgix_property_amenities">
                 <h2>Amenities</h2>
@@ -192,6 +196,7 @@ $single_property .= '</div>
 								$single_property .= '</ul>
             </div>
         </div>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'5\',this)">Policies</div>
         <div id="lodgix_tabbed_content-5">';
         
 $single_property .= '<h2>Policies</h2>';
@@ -311,6 +316,7 @@ if ($policies || $taxes || $fees || $deposits)
 }
           
 $single_property .= '</div>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'6\',this)">Reviews</div>
         <div id="lodgix_tabbed_content-6">
             <div id="lodgix_tabbed_lodgix_property_reviews">
                 <h2>Guest Reviews</h2>';

@@ -514,7 +514,7 @@ if (!class_exists('p_lodgix')) {
 
 			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1))
 			{
-  				$content .= '<div style="width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><br><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . str_replace(array("\r\n", "\n", "\r"),'<br>',$single_unit_helptext) . '</p></div></div></div></div>';
+  				$content .= '<div style="max-width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><br><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . str_replace(array("\r\n", "\n", "\r"),'<br>',$single_unit_helptext) . '</p></div></div></div></div>';
 		  }
 			else
 			{
@@ -933,13 +933,13 @@ if (!class_exists('p_lodgix')) {
 											
 											jQueryLodgix('#lodgix-image-gallery').royalSlider({
 										    		captionShowEffects:["fade"],
-														controlNavThumbs:true,																	
-														imageAlignCenter:true,												
-														directionNavEnabled: true,
-														welcomeScreenEnabled:false,
-														hideArrowOnLastSlide:true,
-														//imageScaleMode:"fill",                  // Scale mode of all images. Can be "fill", "fit" or "none"
-    												imageAlignCenter:false	
+													controlNavThumbs:true,																	
+													directionNavEnabled: true,
+													welcomeScreenEnabled:false,
+													hideArrowOnLastSlide:true,
+    												autoScaleSlider: true,
+    												autoScaleSliderWidth: 640,
+    												autoScaleSliderHeight: 480
 										    });	 
 											
 											jQueryLodgix('#lodgix_property_badge').corner("round 8px");
@@ -2418,7 +2418,7 @@ if (!class_exists('p_lodgix')) {
         	 $link = '<a href="' . $rotator->url . '">' . $rotator->title . '</a>';  
         }
                
-        $content .= '<br><div align="center" style="width:100%;font-size:10px;">' . $link . ' by Lodgix.com</div><br>';
+        $content .= '<div class="ldgxPowered">' . $link . ' by Lodgix.com</div>';
         return $content;
       }      
 

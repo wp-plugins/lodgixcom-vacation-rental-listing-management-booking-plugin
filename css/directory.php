@@ -221,7 +221,7 @@ div#lodgix_property_reviews h2 {
 .ldgxListingFeat {
 	display: inline-block;
 	margin: 0 1px;
-	width: 14.1%;
+	width: 14%;
 	min-width: 110px;
 	vertical-align: middle;
 	font: 14px "Maven Pro", sans-serif;

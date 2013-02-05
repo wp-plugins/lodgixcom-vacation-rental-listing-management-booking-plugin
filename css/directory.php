@@ -211,6 +211,8 @@ div#lodgix_property_reviews h2 {
 	font: 14px "Maven Pro", sans-serif;
 	color: #5f5e5e;
 	white-space: pre-wrap;
+	overflow-y:scroll;
+	height:110px;
 }
 
 .ldgxListingFeats {
@@ -1198,7 +1200,16 @@ border:0 none;
 	.ldgxMobileTab {
 		display: none;
 	}
+	
 
+
+}
+
+@media (max-width: 767px) {
+	.ldgxListingDesc {;
+		overflow-y:visible;
+		height:auto;
+	}	
 }
 
 

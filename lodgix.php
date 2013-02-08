@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.10
+Version: 1.1.14
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,9 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+
+v1.1.14: Fix lodgix-custom.css path
+v1.1.11: Fix German Description
 v1.1.10: Fix German Details
 v1.1.09: Add VR scrollbars
 v1.1.08: Fix CSS width
@@ -907,10 +910,10 @@ if (!class_exists('p_lodgix')) {
 					  	 $p_plugin_path = home_url() . $p_plugin_path;
 					  }
             echo '<link type="text/css" rel="stylesheet" href="' . $p_plugin_path  . 'css/directory.php" />' . "\n";            
-            $css_path = plugin_dir_path(__FILE__) . 'css/';
-            if (file_exists($css_path  . 'lodgix-custom.css'))
+            $css_path = WP_CONTENT_DIR;
+            if (file_exists($css_path  . '/lodgix-custom.css'))
         		{
-            	echo '<link type="text/css" rel="stylesheet" href="' . $p_plugin_path  . 'css/lodgix-custom.css" />' . "\n";                    			
+            	echo '<link type="text/css" rel="stylesheet" href="' . WP_CONTENT_URL  . '/lodgix-custom.css" />' . "\n";                    			
         	  }
             ?><script type="text/javascript">
                  function p_lodgix_sort_vr(val,filter)                 

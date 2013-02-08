@@ -910,9 +910,9 @@ if (!class_exists('p_lodgix')) {
 					  }
             echo '<link type="text/css" rel="stylesheet" href="' . $p_plugin_path  . 'css/directory.php" />' . "\n";            
             $css_path = WP_CONTENT_DIR;
-            if (file_exists($css_path  . 'lodgix-custom.css'))
+            if (file_exists($css_path  . '/lodgix-custom.css'))
         		{
-            	echo '<link type="text/css" rel="stylesheet" href="' . WP_CONTENT_URL  . 'css/lodgix-custom.css" />' . "\n";                    			
+            	echo '<link type="text/css" rel="stylesheet" href="' . WP_CONTENT_URL  . '/lodgix-custom.css" />' . "\n";                    			
         	  }
             ?><script type="text/javascript">
                  function p_lodgix_sort_vr(val,filter)                 

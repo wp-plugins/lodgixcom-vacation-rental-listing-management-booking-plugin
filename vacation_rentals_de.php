@@ -45,11 +45,11 @@ $vacation_rentals = '
 		<a href="'. $permalink .'"><img border="0" alt="" src="' . $property->main_image_thumb . '"></a>
 	</div>
 	<div class="ldgxListingName">
-		<a href="'. $permalink .'">' . $property->description . '</a>
+		<a href="'. $permalink .'">' . $german_details->description . '</a>
 	</div>
 	<div class="ldgxListingBody">
 		' . $property->area . ($warning ? '<div class="ldgxListingWarn">' . $warning . '</div>' : '') . '
-		<div class="ldgxListingDesc">' . str_replace('\n','<br />',$property->details) . '</div>
+		<div class="ldgxListingDesc">' . str_replace('\n','<br />',$$german_details->details) . '</div>
 	</div>
 	<div class="ldgxListingFeats"><div class="ldgxListingFeat">
 			<div class="ldgxListingFeatCell">Schlafzimmer</div>

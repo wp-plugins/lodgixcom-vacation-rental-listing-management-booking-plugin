@@ -165,7 +165,6 @@ div#lodgix_property_reviews h2 {
 #content_lodgix {
   padding-right: 0px !important;
   margin-right: 5px !important;
-  display: table;
 }
 
 .ldgxShadow {
@@ -213,6 +212,15 @@ div#lodgix_property_reviews h2 {
 	white-space: pre-wrap;
 }
 
+@media only screen and (min-width: 1025px) {
+
+	.ldgxListingDesc {;
+	    height: 110px;
+    	overflow-y: scroll;
+	}    
+
+}
+
 .ldgxListingFeats {
 	clear: left;
 	text-align: center;
@@ -226,6 +234,14 @@ div#lodgix_property_reviews h2 {
 	vertical-align: middle;
 	font: 14px "Maven Pro", sans-serif;
 	color: #5f5e5e;
+}
+
+@media only screen and (min-width: 1025px) {
+
+	.ldgxListingFeats {
+		white-space: nowrap;
+	}
+
 }
 
 .ldgxListingFeatCell {

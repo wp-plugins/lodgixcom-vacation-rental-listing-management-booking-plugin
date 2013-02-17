@@ -236,14 +236,6 @@ div#lodgix_property_reviews h2 {
 	color: #5f5e5e;
 }
 
-@media only screen and (min-width: 1025px) {
-
-	.ldgxListingFeats {
-		white-space: nowrap;
-	}
-
-}
-
 .ldgxListingFeatCell {
 	margin: 2px 0;
 	height: 33px;

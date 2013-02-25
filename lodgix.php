@@ -821,8 +821,9 @@ if (!class_exists('p_lodgix')) {
         	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
         	wp_enqueue_script('p_lodgix_jquery_swf_object',$p_plugin_path . 'js/jquery.swfobject.js');            	    
         	wp_enqueue_script('p_lodgix_jquery_ceebox',$p_plugin_path . 'js/jquery.ceebox.js');        
-        	  	  
-    	  
+
+        	wp_enqueue_script('p_lodgix_jquery_responsive_table_js',$p_plugin_path . 'js/jquery.lodgix-responsive-table.js');
+
     		if ($this->p_is_lodgix_page($wp_query->post->ID))
       	{	
         	
@@ -2405,7 +2406,8 @@ if (!class_exists('p_lodgix')) {
           include('vacation_rentals.php');
           $content .= $vacation_rentals;          
          }
-        }        
+			$content .= '<script type="text/javascript">jQueryLodgix(".ldgxFeats").LodgixResponsiveTable()</script>';
+        }
         $link = '<a href="http://www.lodgix.com">Vacation Rental Software</a>';
         
         $sql = 'SELECT url,title FROM `' . $link_rotators_table . '` ORDER BY RAND() LIMIT 1';

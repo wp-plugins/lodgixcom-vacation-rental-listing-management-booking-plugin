@@ -223,36 +223,21 @@ div#lodgix_property_reviews h2 {
 
 }
 
-.ldgxListingFeats {
-	clear: left;
-	text-align: center;
-}
-
-.ldgxListingFeat {
-	display: inline-block;
-	margin: 0 1px;
-	width: 14%;
-	min-width: 110px;
-	vertical-align: middle;
-	font: 14px "Maven Pro", sans-serif;
-	color: #5f5e5e;
-}
-
-@media only screen and (min-width: 1025px) {
-
-	.ldgxListingFeats {
-		white-space: nowrap;
-	}
-
+.ldgxListingSeparator {
+	clear: both;
 }
 
 .ldgxListingFeatCell {
-	margin: 2px 0;
+	margin: 2px 1px;
 	height: 33px;
 	line-height: 33px;
+	padding: 0 2px;
 	background: #ebebeb;
 	text-align: center;
 	vertical-align: middle;
+	font-family: "Maven Pro", sans-serif;
+	font-size: 12px;
+	color: #5f5e5e;
 	white-space: nowrap;
 }
 

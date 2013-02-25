@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.16
+Version: 1.1.17
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.17: Responsive features table 
 v1.1.16: Fixed regressions on the vacation rental listings page
 v1.1.15: Responsive Design
 v1.1.14: Fix lodgix-custom.css path
@@ -830,8 +831,9 @@ if (!class_exists('p_lodgix')) {
         	wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
         	wp_enqueue_script('p_lodgix_jquery_swf_object',$p_plugin_path . 'js/jquery.swfobject.js');            	    
         	wp_enqueue_script('p_lodgix_jquery_ceebox',$p_plugin_path . 'js/jquery.ceebox.js');        
-        	  	  
-    	  
+
+        	wp_enqueue_script('p_lodgix_jquery_responsive_table_js',$p_plugin_path . 'js/jquery.lodgix-responsive-table.js');
+
     		if ($this->p_is_lodgix_page($wp_query->post->ID))
       	{	
         	
@@ -2414,7 +2416,8 @@ if (!class_exists('p_lodgix')) {
           include('vacation_rentals.php');
           $content .= $vacation_rentals;          
          }
-        }        
+			$content .= '<script type="text/javascript">jQueryLodgix(".ldgxFeats").LodgixResponsiveTable()</script>';
+        }
         $link = '<a href="http://www.lodgix.com">Vacation Rental Software</a>';
         
         $sql = 'SELECT url,title FROM `' . $link_rotators_table . '` ORDER BY RAND() LIMIT 1';

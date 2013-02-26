@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.17
+Version: 1.1.18
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.18: Added AJAX search details
 v1.1.17: Responsive features table 
 v1.1.16: Fixed regressions on the vacation rental listings page
 v1.1.15: Responsive Design
@@ -395,6 +396,9 @@ if (!class_exists('p_lodgix')) {
       add_action('wp_ajax_nopriv_p_lodgix_sort_vr', array(&$this,"p_lodgix_sort_vr"));
       add_action('wp_ajax_p_lodgix_custom_search', array(&$this,"p_lodgix_custom_search"));
       add_action('wp_ajax_nopriv_p_lodgix_custom_search', array(&$this,"p_lodgix_custom_search"));
+
+      add_action('wp_ajax_p_lodgix_custom_search_get_details', array(&$this,"p_lodgix_custom_search_get_details"));
+      add_action('wp_ajax_nopriv_p_lodgix_custom_search_get_details', array(&$this,"p_lodgix_custom_search_get_details"));
       
       add_action('p_lodgix_download_images', array(&$this,"p_lodgix_download_images"));
       add_action("template_redirect", array(&$this,"p_lodgix_template_redirect"));
@@ -3107,6 +3111,50 @@ if (!class_exists('p_lodgix')) {
 			    $date = strtotime("+" . $days . " day", $date);
 			    return date('Y-m-d',$date);
 			}
+
+
+     function p_lodgix_custom_search_get_details()
+     {
+       global $wpdb;
+       $properties_table = $wpdb->prefix . "lodgix_properties";
+       
+     	 $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');  
+       $loptions = get_option('p_lodgix_options'); 
+       $date_format = $loptions['p_lodgix_date_format'];
+        
+       if ($date_format == '%m/%d/%Y')
+          $date_format = 'mm/dd/yy';
+       else if ($date_format == '%d/%m/%Y')
+          $date_format = 'dd/mm/yy';
+       else if ($date_format == '%m-%d-%Y')
+          $date_format = 'mm-dd-yy';
+       else if ($date_format == '%d-%m-%Y')
+          $date_format = 'dd-mm-yy';                
+       else if ($date_format == '%d %b %Y')
+          $date_format = 'dd M yy';       
+       $lang_code = $_GET['lang'];
+       
+       if ($lang_code == 'de')
+         $post_id = (int)$loptions['p_lodgix_search_rentals_page_de'];
+       else
+         $post_id = (int)$loptions['p_lodgix_search_rentals_page'];
+        	
+       $post_url = get_permalink($post_id);                
+       
+       $max_rooms = (int)$wpdb->get_var("SELECT MAX(bedrooms) FROM " . $properties_table);
+       
+       $areas_json = array();
+			 foreach($areas as $area)       				
+			 {
+					array_push($areas_json, $area->area);	
+			 }
+       
+       $json = array('date_format' => $date_format, 'max_rooms' => $max_rooms, 'post_url' => $post_url, 'areas' => $areas_json);
+       $json =  json_encode($json);
+       
+       die($json);
+     }      
+      
       
       
      function p_lodgix_custom_search()

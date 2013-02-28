@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.18
+Version: 1.1.19
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.19: Allow multiple websites
 v1.1.18: Added AJAX search details
 v1.1.17: Responsive features table 
 v1.1.16: Fixed regressions on the vacation rental listings page
@@ -2595,6 +2596,7 @@ if (!class_exists('p_lodgix')) {
             {
               $allow_booking = $properties[0]->allow_booking;
               $owner_id = $properties[0]->owner_id;
+           		$owner_id_multiple =  $this->options['p_lodgix_owner_id'];
               $property_id = $properties[0]->id;
               include('availability.php');
               $content .= $availability;
@@ -2762,6 +2764,7 @@ if (!class_exists('p_lodgix')) {
            $multi_unit_helptext = $wpdb->get_var("SELECT multi_unit_helptext FROM " . $policies_table . " WHERE language_code='" . $lang_code . "'");
            $allow_booking = $properties[0]->allow_booking;
            $owner_id = $properties[0]->owner_id;
+           $owner_id_multiple =  $this->options['p_lodgix_owner_id'];
            $property_id = $properties[0]->id;
            include('availability.php');
            $content .= $availability;
@@ -4318,7 +4321,7 @@ if (!class_exists('p_lodgix')) {
                       $this->options['p_lodgix_display_availability_icon'] = false;                 
                                    
 									$this->options['p_lodgix_display_featured_horizontally'] = (int)$_POST['p_lodgix_display_featured_horizontally'];                                         
-                  $this->options['p_lodgix_owner_id'] = (int)$_POST['p_lodgix_owner_id'];  
+                  $this->options['p_lodgix_owner_id'] = $_POST['p_lodgix_owner_id'];  
                   $this->options['p_lodgix_api_key'] = $_POST['p_lodgix_api_key'];           
                   $this->options['p_google_maps_api'] = $_POST['p_google_maps_api']; 
                   $this->options['p_lodgix_display_title'] = $_POST['p_lodgix_display_title'];
@@ -4943,9 +4946,7 @@ jQueryLodgix(document).ready(function(){
     jQuery("#p_lodgix_options").validate({
     rules: {
         p_lodgix_owner_id: {
-        required: true,
-        number: true,
-        min: 1
+        required: true
       },
       p_lodgix_api_key: {
         required: true

@@ -2540,6 +2540,7 @@ if (!class_exists('p_lodgix')) {
           include('vacation_rentals_de.php');
           $content .= $vacation_rentals;
          }
+			$content .= '<script type="text/javascript">jQueryLodgix(".ldgxFeats").LodgixResponsiveTable()</script>';
         }        
 				$content .= '<br><div align="center" style="width:100%;font-size:10px;"><a href="http://www.lodgix.com">Vacation Rental Software</a> by Lodgix.com</div><br>';
         return $content;

@@ -942,7 +942,6 @@ if (!class_exists('p_lodgix')) {
     												autoScaleSliderHeight: 480
 										    });	 
 											
-											jQueryLodgix('#lodgix_property_badge').corner("round 8px");
 											if (location.hash != '')
 												location.hash = location.hash;
 												

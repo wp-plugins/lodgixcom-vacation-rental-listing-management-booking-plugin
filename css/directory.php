@@ -558,113 +558,69 @@ border:0 none;
 }
 
 
-#lodgix_property_badge_border {
- background-color: #d7d7d7;
- padding:4px;
- -moz-border-radius: 10px;
- -webkit-border-radius: 10px;
- border-radius: 10px; 
+.ldgxPropBadge {
+	margin-bottom: 20px;
+	border: 1px solid #d7d7d7;
+	padding: 10px 20px 5px 20px;
+	background: #F0F7FF;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
 }
 
-.lodgix_nowrap {
+.ldgxPropBadgeSingle {
+	background: #F0F7EE;
+}
+
+.ldgxPropBadgeLine {
+	background: #fafafa;
+}
+
+.ldgxPropBadgeTitle {
+	float: left;
+	font-size: 16px;
+	color: #004185;
+}
+
+.ldgxPropBadgeSingle .ldgxPropBadgeTitle {
+	color: #8DB339;
+}
+
+.ldgxPropBadgeRooms {
+	font-size: 12px;
+	color: #000;
+}
+
+.ldgxPropBadgeRates {
+	float: right;
 	white-space: nowrap;
 }
 
-#lodgix_property_badge {
-	background-color: #F0F7EE;
-	height: auto;
-#	margin: 0 auto 15px auto;
-	padding-left: 20px;
-	padding-right: 20px;
-	padding-top: 10px;
-	padding-bottom: 5px;
-	
-	border: 1px solid #d7d7d7;
-	font-family:Verdana, Tahoma, Arial;
-	font-weight:bold;
-	
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
+@media only screen and (max-width: 640px) {
+
+	.ldgxPropBadgeTitle, .ldgxPropBadgeRates {
+		float: none;
+	}
 
 }
 
-#lodgix_property_badge_tabbed {
-	background-color: #F0F7FF;
-	height: auto;
-#	margin: 0 auto 15px auto;
-	padding-left: 20px;
-	padding-right: 20px;
-	padding-top: 10px;
-	padding-bottom: 5px;
-	
-	border: 1px solid #d7d7d7;
-	font-family:Verdana, Tahoma, Arial;
-	font-weight:bold;
-	
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
-
+.ldgxPropBadgeIconsLeft {
+	float: left;
 }
 
-#lodgix_property_badge hr {
-	margin-top: 5px;
-	margin-bottom: 5px;
-	width:100%;
+.ldgxPropBadgeIconsRight {
+	float: right;
+	white-space: nowrap;
+}
+
+.ldgxPropBadgeSeparator {
+	clear: both;
+}
+
+.ldgxPropBadge hr {
+	margin: 5px 0;
 	height:1px;
 }
-
-#lodgix_property_badge table {
-	border:0px;
-	width:100%;
-}
-
-#lodgix_property_badge tr td {
-	border:0px;
-}
-
-#lodgix_property_badge_title {
-  vertical-align:top;
-	color: #8DB339;
-	font-size:16px;
-	padding:0px;
-	
-}
-
-#lodgix_property_badge_tabbed_title {
-  vertical-align:top;
-	color: #004185;
-	font-size:16px;
-	padding:0px;
-	
-}
-
-#lodgix_property_badge_rooms {
-	font-size:12px;
-	color: #000000;
-	
-}
-
-#lodgix_property_badge_rates {
-  width:10px;
-  white-space:nowrap;
-  vertical-align:top; 
-}
-
-#lodgix_property_badge_icons_left {
- 	text-align:left;
-  height:50px;
-  padding:0px;
-}
-
-#lodgix_property_badge_icons_right {
-  width:10px;
-  white-space:nowrap;
-  height:50px;
-  padding:0px;
-}
-
 
 
 /*

@@ -51,19 +51,19 @@ if ($this->options['p_lodgix_contact_url_de'] != "")
 	{
 		$mail_url = str_replace('__PROPERTYID__',$property->id,$mail_url);
 	}		
-	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url  . '"><img src="' . $p_plugin_path  . '/images/mail_50.png"></a>';
+	$mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url  . '"><img src="' . $p_plugin_path  . 'images/mail_50.png"></a>';
 }
 
 $video_icon = '';
 if ($property->video_url != '')
 {
-	$video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url  . '"><img title="Display Video" src="' . $p_plugin_path  . '/images/video_icon.png"></a></span>';
+	$video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url  . '"><img title="Display Video" src="' . $p_plugin_path  . 'images/video_icon.png"></a></span>';
 }
 
 $virtual_tour_icon = '';
 if ($property->virtual_tour_url != '')
 {
-	$virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url  . '"><img title="Display Virtual Tour" src="' . $p_plugin_path  . '/images/virtual_tour.png"></a>';
+	$virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url  . '"><img title="Display Virtual Tour" src="' . $p_plugin_path  . 'images/virtual_tour.png"></a>';
 }
 
 $bedrooms = $property->bedrooms .' Bedroom';
@@ -88,24 +88,33 @@ $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(defaul
 $high_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
 
 $single_property .= '<div id="content_lodgix_wrapper">';
-$single_property .= '<div id="lodgix_property_badge_tabbed">';
-$single_property .= '<table width="100%">												
-													<tr>
-														<td id="lodgix_property_badge_tabbed_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $bedrooms . ' | ' . $property->bathrooms .' Badezimmer | ' . $property->proptype . $property_city . '</div></td>
-														<td id="lodgix_property_badge_rates"><span class="lodgix_nowrap">' . $min_daily_rate . $min_weekly_rate .'<a href="javascript:void(0)" onclick=\'jQueryLodgix("#lodgix_tabbed_content").tabs("select","2");\'>Book Now</a></span></td>
-													</tr>
-										</table>
-										<hr>
-										<table width="100%">												
-													<tr>
-														<td id="lodgix_property_badge_icons_left">' . $video_icon . $virtual_tour_icon . $mail_icon . '</td>
-														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' .  $p_plugin_path  . '/images/no_pets.png" style="' . $pets . '"><img src="' .  $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '"></span></td>
-													</tr>
-										</table>';
-$single_property .= '</div>';
-$single_property .= '<br>';
-
-$single_property .= '<link rel="stylesheet" href="' . $p_plugin_path . '/css/jquery-ui-1.8.17.custom.css" type="text/css" />';
+$single_property .= '
+<div class="ldgxPropBadge">
+	<div class="ldgxPropBadgeLine">
+		<div class="ldgxPropBadgeTitle">
+			' .  $property->description . $property_area . '
+			<div class="ldgxPropBadgeRooms">
+				' . $bedrooms . ' | ' . $property->bathrooms .' Badezimmer | ' . $property->proptype . $property_city . '
+			</div>
+		</div>
+		<div class="ldgxPropBadgeRates">
+			' . $min_daily_rate . $min_weekly_rate .'<a href="javascript:void(0)" onclick=\'jQueryLodgix("#lodgix_tabbed_content").tabs("select","2");\'>Book Now</a>
+		</div>
+		<div class="ldgxPropBadgeSeparator"></div>
+	</div>
+	<hr>
+	<div class="ldgxPropBadgeLine">
+		<div class="ldgxPropBadgeIconsLeft">
+			' . $video_icon . $virtual_tour_icon . $mail_icon . '
+		</div>
+		<div class="ldgxPropBadgeIconsRight">
+			<img src="' .  $p_plugin_path  . 'images/no_pets.png" style="' . $pets . '"><img src="' .  $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '">
+		</div>
+		<div class="ldgxPropBadgeSeparator"></div>
+	</div>
+</div>
+';
+$single_property .= '<link rel="stylesheet" href="' . $p_plugin_path . 'css/jquery-ui-1.8.17.custom.css" type="text/css" />';
 $single_property .= '<script>
 													jQueryLodgix(document).ready(function(){
 															jQueryLodgix("#lodgix_tabbed_content" ).tabs();

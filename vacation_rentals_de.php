@@ -51,28 +51,37 @@ $vacation_rentals = '
 		' . $property->area . ($warning ? '<div class="ldgxListingWarn">' . $warning . '</div>' : '') . '
 		<div class="ldgxListingDesc">' . str_replace('\n','<br />',$german_details->details) . '</div>
 	</div>
-	<div class="ldgxListingFeats"><div class="ldgxListingFeat">
-			<div class="ldgxListingFeatCell">Schlafzimmer</div>
-			<div class="ldgxListingFeatCell">' . $bedrooms . '</div>
-		</div><div class="ldgxListingFeat">
-			<div class="ldgxListingFeatCell">Badezimmer</div>
-			<div class="ldgxListingFeatCell">' . $property->bathrooms . '</div>
-		</div><div class="ldgxListingFeat">
-			<div class="ldgxListingFeatCell">Mietart</div>
-			<div class="ldgxListingFeatCell">' . $property->proptype . '</div>
-		</div><div class="ldgxListingFeat">
-			<div class="ldgxListingFeatCell">Haustiere?</div>
-			<div class="ldgxListingFeatCell"><div class="ldgxPets' . ($property->pets == 1 ? 'Yes' : 'No') . '"></div></div>
-		</div><div class="ldgxListingFeat">
-			<div class="ldgxListingFeatCell ldgxListingFeatDaily">Tageskurs</div>
-			<div class="ldgxListingFeatCell ldgxListingFeatDaily">' . $low_daily_rate . ' - ' . $high_daily_rate . '</div>
-		</div><div class="ldgxListingFeat">
-			<div class="ldgxListingFeatCell ldgxListingFeatWeekly">Wochenpreis</div>
-			<div class="ldgxListingFeatCell ldgxListingFeatWeekly">' . $low_weekly_rate . ' - ' . $high_weekly_rate . '</div>
-		</div><div class="ldgxListingFeat">
-			<div class="ldgxListingFeatCell ldgxListingFeatMonthly">Monatspreis</div>
-			<div class="ldgxListingFeatCell ldgxListingFeatMonthly">' . $low_monthly_rate . ' - ' . $high_monthly_rate . '</div>
-	</div></div>
+	<div class="ldgxListingSeparator"></div>
+	<table class="ldgxFeats">
+		<tr>
+			<th width="90" class="ldgxListingFeatCell">Schlafzimmer</th>
+			<td class="ldgxListingFeatCell">' . $bedrooms . '</td>
+		</tr>
+		<tr>
+			<th width="80" class="ldgxListingFeatCell">Badezimmer</th>
+			<td class="ldgxListingFeatCell">' . $property->bathrooms . '</td>
+		</tr>
+		<tr>
+			<th width="50" class="ldgxListingFeatCell">Mietart</th>
+			<td class="ldgxListingFeatCell">' . $property->proptype . '</td>
+		</tr>
+		<tr>
+			<th width="70" class="ldgxListingFeatCell">Haustiere?</th>
+			<td class="ldgxListingFeatCell"><div class="ldgxPets' . ($property->pets == 1 ? 'Yes' : 'No') . '"></div></td>
+		</tr>
+		<tr>
+			<th width="80" class="ldgxListingFeatCell ldgxListingFeatDaily">Tageskurs</th>
+			<td class="ldgxListingFeatCell ldgxListingFeatDaily">' . $low_daily_rate . ' - ' . $high_daily_rate . '</td>
+		</tr>
+		<tr>
+			<th width="100" class="ldgxListingFeatCell ldgxListingFeatWeekly">Wochenpreis</th>
+			<td class="ldgxListingFeatCell ldgxListingFeatWeekly">' . $low_weekly_rate . ' - ' . $high_weekly_rate . '</td>
+		</tr>
+		<tr>
+			<th width="100" class="ldgxListingFeatCell ldgxListingFeatMonthly">Monatspreis</th>
+			<td class="ldgxListingFeatCell ldgxListingFeatMonthly">' . $low_monthly_rate . ' - ' . $high_monthly_rate . '</td>
+		</tr>
+	</table>
 	';
 
 	if ($lodgixoptions['p_lodgix_display_availability_icon'] || $lodgixoptions['p_lodgix_display_icons']) {

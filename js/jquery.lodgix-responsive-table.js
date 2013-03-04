@@ -54,7 +54,13 @@ $.widget("ui.LodgixResponsiveTable", {
 				}
 			}
 			row.alt = td.attr('alt');
+			if (!row.alt) {
+				row.alt = row.title;
+			}
 			row.altWidth = td.attr('altwidth') * 1;
+			if (!row.altWidth) {
+				row.altWidth = row.width;
+			}
 			if (row.altWidth) {
 				totalAltWidth += row.altWidth;
 			}

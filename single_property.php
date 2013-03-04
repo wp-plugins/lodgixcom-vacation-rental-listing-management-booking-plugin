@@ -67,22 +67,32 @@ if ($property->bedrooms == 0)
    $bedrooms = 'Studio';
 }
 $single_property .= '<div id="content_lodgix_wrapper">';
-$single_property .= '<div id="lodgix_property_badge">';
-$single_property .= '<table width="100%">												
-													<tr>
-														<td id="lodgix_property_badge_title">' .  $property->description . $property_area . '<div id="lodgix_property_badge_rooms">' . $bedrooms . ' | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '</div></td>
-														<td id="lodgix_property_badge_rates"><span class="lodgix_nowrap">' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a></span></td>
-													</tr>
-										</table>
-										<hr>
-										<table width="100%">												
-													<tr>
-														<td id="lodgix_property_badge_icons_left"><a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' .  $p_plugin_path  . 'images/map_50.png"></a>' . $video_icon . $virtual_tour_icon . $mail_icon . '</td>
-														<td id="lodgix_property_badge_icons_right"><span class="lodgix_nowrap"><img src="' .  $p_plugin_path  . '/images/no_pets.png" style="' . $pets . '"><img src="' .  $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '"></span></td>
-													</tr>
-										</table>';
-$single_property .= '</div>';
-$single_property .= '';
+$single_property .= '
+<div class="ldgxPropBadge ldgxPropBadgeSingle">
+	<div class="ldgxPropBadgeLine">
+		<div class="ldgxPropBadgeTitle">
+			' .  $property->description . $property_area . '
+			<div class="ldgxPropBadgeRooms">
+				' . $bedrooms . ' | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '
+			</div>
+		</div>
+		<div class="ldgxPropBadgeRates">
+			' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a>
+		</div>
+		<div class="ldgxPropBadgeSeparator"></div>
+	</div>
+	<hr>
+	<div class="ldgxPropBadgeLine">
+		<div class="ldgxPropBadgeIconsLeft">
+			<a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' .  $p_plugin_path  . 'images/map_50.png"></a>' . $video_icon . $virtual_tour_icon . $mail_icon . '
+		</div>
+		<div class="ldgxPropBadgeIconsRight">
+			<img src="' .  $p_plugin_path  . 'images/no_pets.png" style="' . $pets . '"><img src="' .  $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '">
+		</div>
+		<div class="ldgxPropBadgeSeparator"></div>
+	</div>
+</div>
+';
 
 $beds_text = "";
 if ($property->beds_text != "")

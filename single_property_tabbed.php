@@ -87,6 +87,12 @@ $high_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(defaul
 $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
 $high_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
 
+if ($property->really_available) {
+	$booklink = $property->booklink;
+} else {
+	$booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('select','2')";
+}
+
 $single_property .= '<div id="content_lodgix_wrapper">';
 $single_property .= '
 <div class="ldgxPropBadge">
@@ -98,7 +104,7 @@ $single_property .= '
 			</div>
 		</div>
 		<div class="ldgxPropBadgeRates">
-			' . $min_daily_rate . $min_weekly_rate .'<a href="javascript:void(0)" onclick=\'jQueryLodgix("#lodgix_tabbed_content").tabs("select","2");\'>Book Now</a>
+			' . $min_daily_rate . $min_weekly_rate . '<a href="' . $booklink . '" class="ldgxBookNow">Book Now</a>
 		</div>
 		<div class="ldgxPropBadgeSeparator"></div>
 	</div>

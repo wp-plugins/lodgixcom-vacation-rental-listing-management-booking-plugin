@@ -2382,7 +2382,14 @@ if (!class_exists('p_lodgix')) {
          		{
          			if ($pk == $property->id)
          			{
-         				$property->booklink = 'http://www.lodgix.com/' . $this->options['p_lodgix_owner_id'] . '/?selected_reservations=' . $property->id . ',' . $arrival . ',' . $departure . '&adult=1&children=0&gift=&discount=&tax=&external=1';
+						$owner_id = $this->options['p_lodgix_owner_id'];
+						if ($owner_id == 2) {
+							$owner_id = 'rosewoodpointe';
+						} elseif ($owner_id == 13) {
+							$owner_id = 'demo_booking_calendar';
+						}
+         				$property->bookdates = $arrival . ',' . $departure;
+         				$property->booklink = 'http://www.lodgix.com/' . $owner_id . '/?selected_reservations=' . $property->id . ',' . $property->bookdates . '&adult=1&children=0&gift=&discount=&tax=&external=1';
          				$property->really_available = true;
          				break;
          			}
@@ -2515,9 +2522,16 @@ if (!class_exists('p_lodgix')) {
          		{
          			if ($pk == $property->id)
          			{
-         				$property->booklink = 'http://www.lodgix.com/' . $this->options['p_lodgix_owner_id'] . '/?selected_reservations=' . $property->id . ',' . $arrival . ',' . $departure . '&adult=1&children=0&gift=&discount=&tax=&external=1';
+						$owner_id = $this->options['p_lodgix_owner_id'];
+						if ($owner_id == 2) {
+							$owner_id = 'rosewoodpointe';
+						} elseif ($owner_id == 13) {
+							$owner_id = 'demo_booking_calendar';
+						}
+         				$property->bookdates = $arrival . ',' . $departure;
+         				$property->booklink = 'http://www.lodgix.com/' . $owner_id . '/?selected_reservations=' . $property->id . ',' . $property->bookdates . '&adult=1&children=0&gift=&discount=&tax=&external=1';
          				$property->really_available = true;
-         				$break;
+         				break;
          			}
          		}
          	}
@@ -2724,7 +2738,10 @@ if (!class_exists('p_lodgix')) {
       */
       function get_single_page_content($id,$lang_code)
       {
-        $content = $this->get_single_page_html($id,$lang_code);   
+
+      	$bookdates = @mysql_real_escape_string($_GET['bookdates']);
+
+        $content = $this->get_single_page_html($id,$lang_code,$bookdates);   
   
         return $content;
       }            
@@ -2880,7 +2897,7 @@ if (!class_exists('p_lodgix')) {
                 
       }
       
-      function get_single_page_html($id,$language)
+      function get_single_page_html($id,$language,$bookdates='')
       {
       	
         global $wpdb;
@@ -2920,7 +2937,19 @@ if (!class_exists('p_lodgix')) {
   			if ($properties)
   			{
   				$property = $properties[0];
-  				
+
+				if ($bookdates) {
+					$owner_id = $this->options['p_lodgix_owner_id'];
+					if ($owner_id == 2) {
+						$owner_id = 'rosewoodpointe';
+					} elseif ($owner_id == 13) {
+						$owner_id = 'demo_booking_calendar';
+					}
+					$property->booklink = 'http://www.lodgix.com/' . $owner_id . '/?selected_reservations=' . $property->id . ',' . $bookdates . '&adult=1&children=0&gift=&discount=&tax=&external=1';
+					$property->really_available = true;
+				} else {
+					$property->really_available = false;
+				}
   			
         	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id); 
         	if ($this->options['p_lodgix_single_page_design'] == 1)

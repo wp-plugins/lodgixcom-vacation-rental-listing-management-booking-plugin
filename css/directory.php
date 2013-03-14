@@ -194,7 +194,6 @@ div#lodgix_property_reviews h2 {
 }
 
 .ldgxListingBody {
-	padding: 7px;
 	background: #f7f7f7;
 	font: 12px Verdana, sans-serif;
 }
@@ -206,19 +205,32 @@ div#lodgix_property_reviews h2 {
 }
 
 .ldgxListingDesc {
-	margin-top: 14px;
 	font: 14px "Maven Pro", sans-serif;
 	color: #5f5e5e;
 	white-space: pre-wrap;
 }
 
-@media only screen and (min-width: 1025px) {
+.lodgixTextExpanderWrapper {
+	padding: 7px;
+	min-height: 114px;
+}
 
-	.ldgxListingDesc {;
-	    height: 110px;
-    	overflow-y: scroll;
-	}    
+.lodgixTextExpander {
+	padding: 4px;
+	width: 20px;
+	height: 20px;
+	color: #960;
+	font: bold 14px Arial, sans-serif;
+	line-height: 2;
+	text-align: right;
+	cursor: pointer;
+}
 
+.lodgixTextExpanderShadow {
+	border-top: 14px solid transparent;
+	border-right: 14px solid #9cf;
+	border-bottom: 14px solid #9cf;
+	border-left: 14px solid transparent;
 }
 
 .ldgxListingSeparator {

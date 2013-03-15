@@ -3,6 +3,9 @@
 $lodgixoptions = get_option('p_lodgix_options');
 
 $permalink = get_permalink($property->post_id);
+if ($differentiate && $property->really_available) {
+	$permalink = add_query_arg(array('bookdates' => $property->bookdates), $permalink);
+}
 
 //$p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
 $p_plugin_path = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));

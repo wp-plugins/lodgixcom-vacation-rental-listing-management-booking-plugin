@@ -72,8 +72,11 @@ if ($property->bedrooms == 0)
    $bedrooms = 'Studio';
 }
 
-
-
+if ($property->really_available) {
+	$booklink = $property->booklink;
+} else {
+	$booklink = '#booking';
+}
 
 $single_property .= '<div id="content_lodgix_wrapper">';
 $single_property .= '
@@ -86,7 +89,7 @@ $single_property .= '
 			</div>
 		</div>
 		<div class="ldgxPropBadgeRates">
-			' . $min_daily_rate . $min_weekly_rate .'<a href="#booking">check rate</a>
+			' . $min_daily_rate . $min_weekly_rate .'<a href="' . $booklink . '" class="ldgxBookNow">Book Now</a>
 		</div>
 		<div class="ldgxPropBadgeSeparator"></div>
 	</div>
@@ -114,7 +117,16 @@ foreach($photos as $photo)
       }
       $single_property .= '</li>';
 }
-$single_property .= '</ul></div><p style="text-align:center;"><br/><a title="Check Availability" href="' . $permalink . '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a></p></center>';
+
+$single_property .= '</ul></div><p style="text-align:center;"><br/>';
+if ($property->really_available) {
+	$single_property .= '<a title="Book Now" href="' . $property->booklink .
+	'"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
+} else {
+	$single_property .= '<a title="Check Availability" href="' . $permalink .
+	'#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a>';
+}
+$single_property .= '</p></center>';
 
 if ($german_details->description_long != "")
 {

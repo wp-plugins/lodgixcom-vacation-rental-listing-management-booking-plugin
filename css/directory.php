@@ -467,6 +467,7 @@ border:0 none;
 	border: 1px solid #BDBDBD;
 }
 .lodgix-featured-properties .lodgix-featured-listing .imgset .featured-flag {
+  background-image: url("__PLUGIN_FOLDER__images/featured-flag.png");
 	position: absolute;
 	left: 0px;
 	top: 0px;

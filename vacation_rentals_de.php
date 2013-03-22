@@ -49,7 +49,7 @@ $vacation_rentals = '
 	</div>
 	<div class="ldgxListingBody">
 		' . $property->area . ($warning ? '<div class="ldgxListingWarn">' . $warning . '</div>' : '') . '
-		<div class="ldgxListingDesc">' . str_replace('\n','<br />',$property->details) . '</div>
+		<div class="ldgxListingDesc">' . nl2br($property->details) . '</div>
 	</div>
 	<div class="ldgxListingSeparator"></div>
 	<table class="ldgxFeats">

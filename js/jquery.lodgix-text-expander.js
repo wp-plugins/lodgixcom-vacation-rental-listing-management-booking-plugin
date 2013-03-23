@@ -11,7 +11,7 @@ $.widget("ui.LodgixTextExpander", {
 	_create: function() {
 		var text = this.element;
 		text.css('font-size', text.css('font-size'));
-		text.css('line-height', 1.2);
+		text.css('line-height', 1);
 		var wrapper = $('<div class="lodgixTextExpanderWrapper" style="position:relative"/>');
 		this.element.replaceWith(wrapper);
 		this.element = wrapper;

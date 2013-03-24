@@ -11,15 +11,15 @@ $.widget("ui.LodgixTextExpander", {
 	_create: function() {
 		var text = this.element;
 		text.css('font-size', text.css('font-size'));
-		text.css('line-height', 1.2);
+		text.css('line-height', 1);
 		var wrapper = $('<div class="lodgixTextExpanderWrapper" style="position:relative"/>');
 		this.element.replaceWith(wrapper);
 		this.element = wrapper;
 		wrapper.append(text);
 		this._text = text;
-		if (wrapper.innerHeight() > this.options.heightPx) {
-			var lineHeight = parseInt(text.css('line-height'));
-			this._height = parseInt(parseInt(this.options.heightPx / lineHeight) * lineHeight);
+		var lineHeight = parseFloat(text.css('line-height'));
+		if (wrapper.innerHeight() - this.options.heightPx > lineHeight) {
+			this._height = Math.ceil(Math.floor(this.options.heightPx / lineHeight) * lineHeight);
 			wrapper.append($('<div class="lodgixTextExpanderShadow" style="position:absolute;bottom:0;right:0"/>'));
 			this._expander = $('<div class="lodgixTextExpander" style="position:absolute;bottom:0;right:0"/>');
 			wrapper.append(this._expander);

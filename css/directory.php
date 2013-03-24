@@ -207,7 +207,6 @@ div#lodgix_property_reviews h2 {
 .ldgxListingDesc {
 	font: 14px "Maven Pro", sans-serif;
 	color: #5f5e5e;
-	white-space: pre-wrap;
 	overflow-y:scroll;
 	height:110px;
 }

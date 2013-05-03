@@ -2294,11 +2294,28 @@ if (!class_exists('p_lodgix')) {
         
 
       }
-      
+
+	function getPropertyIdsWithAmenities($amenities) {
+		if (!($amenities && is_array($amenities))) {
+			return '';
+		}
+        global $wpdb;
+		$len = count($amenities);
+		for ($i = 0; $i < $len; $i++) {
+			$amenities[$i] = @mysql_real_escape_string($amenities[$i]);
+		}
+		$propertyIds = array();
+		$properties = $wpdb->get_results('SELECT property_id, count(property_id) AS amenities FROM ' . $wpdb->prefix . "lodgix_amenities WHERE description IN ('" . join("','", $amenities) . "') GROUP BY property_id HAVING amenities=" . $len . "");
+		foreach ($properties as $property) {
+			array_push($propertyIds, $property->property_id);
+		}
+		return " id IN (" . join(",", $propertyIds) . ") AND ";
+	}
+
       /*
         Returns table for vacation rentals (regular/ajax)
       */
-      function get_vacation_rentals_html($sort = '',$area = '',$bedrooms=NULL,$id='',$arrival='',$nights='')
+      function get_vacation_rentals_html($sort = '',$area = '',$bedrooms=NULL,$id='',$arrival='',$nights='',$amenities=NULL)
       {
         global $wpdb;
         
@@ -2367,7 +2384,9 @@ if (!class_exists('p_lodgix')) {
         {
        	   $filter .= " 1=0 AND ";	  
         }       
-        
+
+		$filter .= $this->getPropertyIdsWithAmenities($amenities);
+
        	$sql = 'SELECT * FROM ' . $properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction ;
         $properties = $wpdb->get_results($sql);      
 
@@ -2434,7 +2453,7 @@ if (!class_exists('p_lodgix')) {
       /*
         Returns table for vacation rentals (regular/ajax)
       */
-      function get_vacation_rentals_html_de($sort = '',$area = '',$bedrooms=NULL,$id='',$arrival='',$nights='')
+      function get_vacation_rentals_html_de($sort = '',$area = '',$bedrooms=NULL,$id='',$arrival='',$nights='',$amenities=NULL)
       {
         global $wpdb;
                 
@@ -2506,7 +2525,9 @@ if (!class_exists('p_lodgix')) {
         {
        	   $filter .= " 1=0 AND ";	  
         }               
-        
+
+		$filter .= $this->getPropertyIdsWithAmenities($amenities);
+
        	$sql = 'SELECT * FROM ' . $properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction ;
         $properties = $wpdb->get_results($sql);           
          
@@ -2712,7 +2733,7 @@ if (!class_exists('p_lodgix')) {
         $content = '
            <div id="content_lodgix">
         ';
-      	
+
       	$sort = @mysql_real_escape_string($_POST['sort']);
       	$language = @mysql_real_escape_string($_POST['lang']);
       	$area = @mysql_real_escape_string($_POST['lodgix-custom-search-area']);
@@ -2720,11 +2741,13 @@ if (!class_exists('p_lodgix')) {
       	$id = @mysql_real_escape_string($_POST['lodgix-custom-search-id']);
       	$arrival = @mysql_real_escape_string($_POST['lodgix-custom-search-arrival']);
       	$nights = @mysql_real_escape_string($_POST['lodgix-custom-search-nights']);
-      	             	      	
+
+		$amenities = $_POST['lodgix-custom-search-amenities'];
+
       	if ($lang_code == "de")
-        	$content .= $this->get_vacation_rentals_html_de($sort,$area,$bedrooms,$id,$arrival,$nights);      
+        	$content .= $this->get_vacation_rentals_html_de($sort,$area,$bedrooms,$id,$arrival,$nights,$amenities);      
       	else
-        	$content .= $this->get_vacation_rentals_html($sort,$area,$bedrooms,$id,$arrival,$nights);  
+        	$content .= $this->get_vacation_rentals_html($sort,$area,$bedrooms,$id,$arrival,$nights,$amenities);  
         
         
         $content .= '</div>';
@@ -3133,13 +3156,13 @@ if (!class_exists('p_lodgix')) {
       
      function p_lodgix_custom_search()
      {
-       global $wpdb;
-       $properties_table = $wpdb->prefix . "lodgix_properties";
-       $area = @mysql_real_escape_string($_POST['area']);
-       $bedrooms = @mysql_real_escape_string($_POST['bedrooms']);
-       $id = @mysql_real_escape_string($_POST['id']);
-       $arrival = @mysql_real_escape_string($_POST['arrival']);
-       $nights = @mysql_real_escape_string($_POST['nights']);
+		global $wpdb;
+		$properties_table = $wpdb->prefix . "lodgix_properties";
+		$area = @mysql_real_escape_string($_POST['area']);
+		$bedrooms = @mysql_real_escape_string($_POST['bedrooms']);
+		$id = @mysql_real_escape_string($_POST['id']);
+		$arrival = @mysql_real_escape_string($_POST['arrival']);
+		$nights = @mysql_real_escape_string($_POST['nights']);
        
 	     $available = 'ALL';
 	     if ((strtotime($arrival) !== false) && (is_numeric($nights)))
@@ -3199,6 +3222,9 @@ if (!class_exists('p_lodgix')) {
        {
        	   $sql .= " 1=0 AND ";	  
        }
+
+		$sql .= $this->getPropertyIdsWithAmenities($_POST['amenity']);
+
        $sql .= " 1=1 ";
        
        $count = $wpdb->get_results($sql);
@@ -3262,12 +3288,21 @@ if (!class_exists('p_lodgix')) {
         echo '<script type="text/javascript">
         				 var P_LODGIX_SEARCH_RESULTS = 0;
                  function p_lodgix_search_properties() {
+                 	var amenities = [];
+                 	var checked = jQueryLodgix(".lodgix-custom-search-amenities:checked");
+                 	var len = checked.length;
+                 	if (len) {
+						for (var i = 0; i < len; i++) {
+							amenities.push(checked[i].value);
+						}
+						amenities = "&amenity[]=" + amenities.join("&amenity[]=");
+					}
                     jQueryLodgix(\'#search_results\').html(\'\');
                  		jQueryLodgix("#lodgix_search_spinner").show();
 										jQueryLodgix.ajax({
                       type: "POST",
                       url: "' .  get_bloginfo('wpurl') . '/wp-admin/admin-ajax.php",
-                      data: "action=p_lodgix_custom_search&area=" + jQueryLodgix(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQueryLodgix(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQueryLodgix(\'#lodgix-custom-search-id\').val() + "&arrival=" + jQueryLodgix.datepicker.formatDate("yy-mm-dd",jQueryLodgix(\'#lodgix-custom-search-arrival\').datepicker("getDate")) + "&nights=" + jQueryLodgix(\'#lodgix-custom-search-nights\').val(),
+                      data: "action=p_lodgix_custom_search&area=" + jQueryLodgix(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQueryLodgix(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQueryLodgix(\'#lodgix-custom-search-id\').val() + "&arrival=" + jQueryLodgix.datepicker.formatDate("yy-mm-dd",jQueryLodgix(\'#lodgix-custom-search-arrival\').datepicker("getDate")) + "&nights=" + jQueryLodgix(\'#lodgix-custom-search-nights\').val() + amenities,
                       success: function(response){
                         //response_array = response.split(" ");
                         //P_LODGIX_SEARCH_RESULTS = parseInt(response_array[0]);
@@ -3306,13 +3341,13 @@ if (!class_exists('p_lodgix')) {
         			  <tr>
         			  <td>
         					<div>Arriving:</div> 			
-        					<div style="vertical-align:bottom;"><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:117px;" onchange="javascript:p_lodgix_search_properties();" readonly></div>
+        					<div style="vertical-align:bottom;"><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:117px;" onchange="p_lodgix_search_properties()" readonly></div>
         				</td>
         				<td>&nbsp;
         				</td>
         				<td>
         				<div>Nights:</div>
-        				<div><select id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:54px;" onchange="javascript:p_lodgix_search_properties();">';
+        				<div><select id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:54px;" onchange="p_lodgix_search_properties()">';
         				
         for ($i = 1 ; $i < 100 ; $i++)				
         {
@@ -3324,7 +3359,7 @@ if (!class_exists('p_lodgix')) {
         				</tr>
         			</table>
        				<div>Location:</div> 
-       				<div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="javascript:p_lodgix_search_properties();">
+       				<div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="p_lodgix_search_properties()">
        				<option value="ALL_AREAS">All Areas</option>';       	
 
 				foreach($areas as $area)       				
@@ -3338,7 +3373,7 @@ if (!class_exists('p_lodgix')) {
   			
        	echo	'</select></div>
        				<div>Bedrooms:</div> 
-       				<div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="javascript:p_lodgix_search_properties();">
+       				<div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="p_lodgix_search_properties()">
        				<option value="ANY">Any</option> 
        				<option value="0">Studio</option>';
        	$max_rooms = (int)$wpdb->get_var("SELECT MAX(bedrooms) FROM " . $properties_table);
@@ -3350,9 +3385,20 @@ if (!class_exists('p_lodgix')) {
         	else
         		echo '<option value="'.$i.'">'.$i.'</option>';
         }
-       	echo '</select></div>
-       				<div>Search by Property Name or ID:</div> 
-       				<div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="javascript:p_lodgix_search_properties();" value="' . $id_post .  '"></div>
+       	echo '</select></div>';
+
+		if ($options['amenities']) {
+			echo '<div>Amenities:</div>';
+			$amenities = $wpdb->get_results('SELECT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities');
+			$a = 0;
+			foreach($amenities as $amenity) {
+				echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ' . ($lang_code == 'de' ? $amenity->description_de : $amenity->description) . '</div>';
+				$a++;
+			}
+		}
+
+       	echo '<div>Search by Property Name or ID:</div> 
+       				<div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="p_lodgix_search_properties()" value="' . $id_post .  '"></div>
        				<div id="lodgix-custom-search-results" align="center">
        				<div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
        				<div id="search_results">
@@ -3377,20 +3423,25 @@ if (!class_exists('p_lodgix')) {
     
         //Set the default options for the widget here
         if ( !is_array($options) )
-          $options = array('title'=>'Rentals Search');
+          $options = array(
+          	'title' => 'Rentals Search',
+          	'amenities' => false
+          );
     
         if ( $_POST['widget_lodgix_custom_search-submit'] ) {
           // Remember to sanitize and format use input appropriately.
           $options['title'] = strip_tags(stripslashes($_POST['widget_lodgix_custom_search-title']));
+          $options['amenities'] = $_POST['widget_lodgix_custom_search-amenities'] == 't' ? true : false;
           update_option('widget_lodgix_custom_search', $options);
         }
     
         // Be sure you format your options to be valid HTML attributes.
         $title = htmlspecialchars($options['title'], ENT_QUOTES);
-        $limit = $options['limit'];
+        $amenities = $options['amenities'] ? 'checked="checked"' : '';
         // Here is our little form segment. Notice that we don't need a
         // complete form. This will be embedded into the existing form.
         echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-title">' . __('Title:') . ' <input style="width: 200px;" id="widget_lodgix_custom_search-title" name="widget_lodgix_custom_search-title" type="text" value="'.$title.'" /></label></p>';
+        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-amenities">' . __('Amenities:') . ' <input id="widget_lodgix_custom_search-amenities" name="widget_lodgix_custom_search-amenities" type="checkbox" value="t" ' . $amenities . '/></label></p>';
         echo '<input type="hidden" id="widget_lodgix_custom_search-submit" name="widget_lodgix_custom_search-submit" value="1" />';
       } 
 
@@ -4879,8 +4930,8 @@ if (!class_exists('p_lodgix')) {
                         <?php 
                           } 
                         ?>
-                    </table>
-                    </table>                       
+                    </table><br>
+
           <p class="submit"> 
             <input type="submit" name="p_lodgix_save" class="button-primary" value="<?php _e('Save and Regenerate', $this->localizationDomain); ?>" />&nbsp;<input onclick="return confirm('Are you sure you want to clean the database ?');" type="submit" name="p_lodgix_clean" class="button-primary" value="<?php _e('Clean Database', $this->localizationDomain); ?>" /><br><br><br><br>
             <b>

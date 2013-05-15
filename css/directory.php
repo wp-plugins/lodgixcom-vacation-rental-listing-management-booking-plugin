@@ -526,6 +526,14 @@ border:0 none;
 	padding:0;
 }
 
+.lodgix-custom-search-listing input[readonly] {
+	cursor:default;
+}
+
+.lodgix-custom-search-amenities-list {
+	margin-bottom:8px;
+}
+
 .lodgix-search-properties .lodgix-custom-search-listing .lodgix-custom-search-amenities {
 	margin:0;
 	vertical-align:baseline;

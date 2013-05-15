@@ -3392,13 +3392,14 @@ if (!class_exists('p_lodgix')) {
        	echo '</select></div>';
 
 		if ($options['amenities']) {
-			echo '<div>Amenities:</div>';
+			echo '<div class="lodgix-custom-search-amenities-list">Amenities:';
 			$amenities = $wpdb->get_results('SELECT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities WHERE searchable=1');
 			$a = 0;
 			foreach($amenities as $amenity) {
 				echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ' . ($lang_code == 'de' ? $amenity->description_de : $amenity->description) . '</div>';
 				$a++;
 			}
+			echo '</div>';
 		}
 
        	echo '<div>Search by Property Name or ID:</div> 

@@ -89,7 +89,7 @@ $vacation_rentals = '
 		if ($lodgixoptions['p_lodgix_display_availability_icon']) {
 			$vacation_rentals .= '<div class="ldgxListingButsBlock1">';
 			if ($differentiate) {  	 	
-				if ($property->really_available) {
+				if ($property->really_available && $property->allow_booking) {
 	  				$vacation_rentals .= '<a title="Book Now" href="' . $property->booklink .
 	  				 '"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
 		  		} else {

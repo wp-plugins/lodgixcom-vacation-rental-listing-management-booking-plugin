@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.28
+Version: 1.1.29
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.29: Added extra search rental widget
 v1.1.28: Fixed search availability bug II
 v1.1.27: Fixed search availability bug
 v1.1.26: Fixed Policies formatting
@@ -3297,7 +3298,7 @@ if (!class_exists('p_lodgix')) {
        	   $sql .= " 1=0 AND ";	  
        }
 
-		$sql .= $this->getPropertyIdsWithAmenities($_POST['amenity']);
+			 $sql .= $this->getPropertyIdsWithAmenities($_POST['amenity']);
 
        $sql .= " 1=1 ";
        
@@ -3306,6 +3307,9 @@ if (!class_exists('p_lodgix')) {
          $content = $count[0]->num_results . ' Properties Found.';
        else
          $content = $count[0]->num_results . ' Properties Found.';
+
+       if ($content == ' Properties Found.')       
+       		$content = '0 Properties Found.';
        die($content);
      }      
       
@@ -3504,6 +3508,17 @@ if (!class_exists('p_lodgix')) {
 	    		}
 	      }
 	      
+		  function widget_lodgix_custom_search_control_common($options) {
+		   				// Be sure you format your options to be valid HTML attributes.
+			        $title = htmlspecialchars($options['title'], ENT_QUOTES);
+			        $amenities = $options['amenities'] ? 'checked="checked"' : '';
+			        // Here is our little form segment. Notice that we don't need a
+			        // complete form. This will be embedded into the existing form.
+			        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-title">' . __('Title:') . ' <input style="width: 200px;" id="widget_lodgix_custom_search-title" name="widget_lodgix_custom_search-title" type="text" value="'.$title.'" /></label></p>';
+			        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-amenities">' . __('Amenities:') . ' <input id="widget_lodgix_custom_search-amenities" name="widget_lodgix_custom_search-amenities" type="checkbox" value="t" ' . $amenities . '/></label></p>';
+			        echo '<input type="hidden" id="widget_lodgix_custom_search-submit" name="widget_lodgix_custom_search-submit" value="1" />';    	
+		    	
+		    }	      
 	      
 	    	if(!function_exists('widget_lodgix_custom_search_control'))
 	    	{
@@ -3528,22 +3543,14 @@ if (!class_exists('p_lodgix')) {
 	          update_option('widget_lodgix_custom_search', $options);
 	        }
 	    
-	        // Be sure you format your options to be valid HTML attributes.
-	        $title = htmlspecialchars($options['title'], ENT_QUOTES);
-	        $amenities = $options['amenities'] ? 'checked="checked"' : '';
-	        // Here is our little form segment. Notice that we don't need a
-	        // complete form. This will be embedded into the existing form.
-	        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-title">' . __('Title:') . ' <input style="width: 200px;" id="widget_lodgix_custom_search-title" name="widget_lodgix_custom_search-title" type="text" value="'.$title.'" /></label></p>';
-	        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-amenities">' . __('Amenities:') . ' <input id="widget_lodgix_custom_search-amenities" name="widget_lodgix_custom_search-amenities" type="checkbox" value="t" ' . $amenities . '/></label></p>';
-	        echo '<input type="hidden" id="widget_lodgix_custom_search-submit" name="widget_lodgix_custom_search-submit" value="1" />';
+	        widget_lodgix_custom_search_control_common($options);
 	      } 
 	
 	      register_sidebar_widget(array('Rentals Search', 'widgets'), 'widget_lodgix_custom_search');
-	
 	      register_widget_control(array('Rentals Search', 'widgets'), 'widget_lodgix_custom_search_control');
 	      }      
       
-      
+  
       
   	if(!function_exists('widget_lodgix_custom_search_control_2'))
 	    	{
@@ -3565,17 +3572,10 @@ if (!class_exists('p_lodgix')) {
 	          // Remember to sanitize and format use input appropriately.
 	          $options['title'] = strip_tags(stripslashes($_POST['widget_lodgix_custom_search-title']));
 	          $options['amenities'] = $_POST['widget_lodgix_custom_search-amenities'] == 't' ? true : false;
-	          update_option('widget_lodgix_custom_search', $options);
+	          update_option('widget_lodgix_custom_search_2', $options);
 	        }
 	    
-	        // Be sure you format your options to be valid HTML attributes.
-	        $title = htmlspecialchars($options['title'], ENT_QUOTES);
-	        $amenities = $options['amenities'] ? 'checked="checked"' : '';
-	        // Here is our little form segment. Notice that we don't need a
-	        // complete form. This will be embedded into the existing form.
-	        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-title">' . __('Title:') . ' <input style="width: 200px;" id="widget_lodgix_custom_search-title" name="widget_lodgix_custom_search-title" type="text" value="'.$title.'" /></label></p>';
-	        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-amenities">' . __('Amenities:') . ' <input id="widget_lodgix_custom_search-amenities" name="widget_lodgix_custom_search-amenities" type="checkbox" value="t" ' . $amenities . '/></label></p>';
-	        echo '<input type="hidden" id="widget_lodgix_custom_search-submit" name="widget_lodgix_custom_search-submit" value="1" />';
+	        widget_lodgix_custom_search_control_common($options);
 	      } 
 	
 	      register_sidebar_widget(array('Rentals Search 2', 'widgets'), 'widget_lodgix_custom_search_2');

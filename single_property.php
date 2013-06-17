@@ -67,10 +67,11 @@ if ($property->bedrooms == 0)
    $bedrooms = 'Studio';
 }
 
-if ($property->really_available) {
+if ($property->really_available && $property->allow_booking) {
 	$booklink = $property->booklink;
+	$booklink = '<a href="' . $booklink . '" class="ldgxBookNow">Book Now</a>';
 } else {
-	$booklink = '#booking';
+	$booklink = '';
 }
 
 $single_property .= '<div id="content_lodgix_wrapper">';
@@ -84,7 +85,7 @@ $single_property .= '
 			</div>
 		</div>
 		<div class="ldgxPropBadgeRates">
-			' . $min_daily_rate . $min_weekly_rate .'<a href="' . $booklink . '" class="ldgxBookNow">Book Now</a>
+			' . $min_daily_rate . $min_weekly_rate .  $booklink . '
 		</div>
 		<div class="ldgxPropBadgeSeparator"></div>
 	</div>
@@ -120,7 +121,7 @@ foreach($photos as $photo)
 }
 
 $single_property .= '</ul></div><p style="text-align:center;"><br/>';
-if ($property->really_available) {
+if ($property->really_available && $property->allow_booking) {
 	$single_property .= '<a title="Book Now" href="' . $property->booklink .
 	'"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
 } else {

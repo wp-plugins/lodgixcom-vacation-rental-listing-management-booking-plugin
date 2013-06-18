@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.30
+Version: 1.1.31
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.31: Fixed Custom Amenity Search
 v1.1.30: Fixed Book Now button
 v1.1.29: Added extra search rental widget
 v1.1.28: Fixed search availability bug II
@@ -1181,74 +1182,6 @@ if (!class_exists('p_lodgix')) {
        $wpdb->query($sql);             
       }              
 
-/*
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Access to beach', 'Zugang zum Strand', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Balcony', 'Balkon', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Beachfront', 'Direkt am Strand', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Bed Linens', 'Bettwäsche', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Bike Rentals', 'Fahrrad Verleih', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Biking', 'Radfahren', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Cable Television', 'Kabelfernsehen', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Catering', 'Versorgung mit Lebensmitteln', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Central A/C', 'Zentrale Klimaanlage', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Central Heat', 'Zentralheizung', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Charcoal Grill', 'Holzkohlengrill', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Chef', 'Koch', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Coffee Maker', 'Kaffeemaschine', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Cookware', 'Kochutensilien', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Dishwasher', 'Geschirrspülmaschine', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Dock', 'Bootsanlegestelle', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Downhill Skiing', 'Abfahrts-Skilaufen', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('DVD', 'DVD-Spieler', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Fax', 'Faxgerät', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Fire Pit', 'offene Feuerstelle', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Fireplace', 'offener Kamin', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Fishing', 'Fischen und Angeln', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Gas Grill', 'Gasgrill', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Golfing', 'Golfspielen', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Hair Dryer', 'Haarfön', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Handicap Accessible', 'Behindertengerecht', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('HDTV/Blu-ray', 'HDTV/Blu-ray', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Hi Speed Internet', 'Hi Speed Internet', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Hiking', 'Wandern', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Iron', 'Bügeleisen', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Jacuzzi', 'Whirlpool', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Kayak', 'Kayak', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Kitchen', 'Küche', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Lakefront', 'See Lage', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Microwave', 'Mikrowelle', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Mountain Views', 'Bergpanorama', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Oceanfront', 'Blick aufs Meer', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Oven', 'Ofen', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Parking', 'Parkmöglichkeit', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Pedal Boat', 'Tretboot', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Phone', 'Telefon', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Picnic Table', 'Picknick Tisch', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Playground', 'Spielplatz', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Pontoon Boat', 'Pontoon Boot', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Pool', 'Swimming Pool', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Premium Cable Channels', 'Premium Kabel Kanäle', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Restaurant', 'Restaurant', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Riverfront', 'Lage am Fluss', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Row Boat', 'Ruderboot', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Safe', 'Tresor', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Satellite Television', 'Satelliten Fernsehen', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Scrapbooking Tables', 'Basteltisch', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Shopping', 'Einkaufsmöglichkeiten', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Shower', 'Dusche', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Snowmobile Rentals', 'Schneemobil Vermietung', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Spa', 'Spa', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Swimming', 'Schwimmen', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Tennis', 'Tennis', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Towels', 'Bade- und Handtücher', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('VCR', 'Videorekorder', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Volleyball', 'Volleyball', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Washer and Dryer', 'Waschmaschine und Trockner', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Window A/C', 'Fenster Klimaanlage', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Wireless Internet', 'Wireless Internet', 0)");
-      $wpdb->query("INSERT INTO `wp_lodgix_lang_amenities` VALUES ('Workout Facilities', 'Sportstudio', 0)");
-*/
-
       $table_name = $wpdb->prefix . "lodgix_policies";
       if($wpdb->get_var("show tables like '$table_name'") != $table_name) {          
        $sql = "CREATE TABLE " . $table_name . " (
@@ -1889,6 +1822,15 @@ if (!class_exists('p_lodgix')) {
               	$sql = $this->get_insert_sql_from_array($lang_amenities_table,$alrarray);
               	$wpdb->query($sql);                    	
               }
+              else {
+              	$alrarray = array();
+              	$alrarray['description'] = $amenity['Name'];
+              	$alrarray['description_de'] = $amenity['Name'];
+              	$alrarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
+              	$sql = $this->get_insert_sql_from_array($lang_amenities_table,$alrarray);
+              	$wpdb->query($sql);                    	
+              	
+            	}
             }
           }     
         }               
@@ -3471,7 +3413,7 @@ if (!class_exists('p_lodgix')) {
 	
 			if ($options['amenities']) {
 				echo '<div class="lodgix-custom-search-amenities-list">Amenities:';
-				$amenities = $wpdb->get_results('SELECT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities WHERE searchable=1');
+				$amenities = $wpdb->get_results('SELECT DISTINCT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities WHERE searchable=1');
 				$a = 0;
 				foreach($amenities as $amenity) {
 					echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ' . ($lang_code == 'de' ? $amenity->description_de : $amenity->description) . '</div>';
@@ -4715,14 +4657,15 @@ if (!class_exists('p_lodgix')) {
                     $this->update_owner($owner);                  
                     $this->saveAdminOptions();  
 
-					$ownerAmenities = @$owner['Results']['Amenities']['Amenity'];
-					$searchableAmenities = array();
-					if (!empty($ownerAmenities)) {
-						foreach ($ownerAmenities as $ownerAmenity) {
-							$searchableAmenities[$ownerAmenity['Name']] = 1;
-						}
-					}
+										$ownerAmenities = @$owner['Results']['Amenities']['Amenity'];
+										$searchableAmenities = array();
+										if (!empty($ownerAmenities)) {
+											foreach ($ownerAmenities as $ownerAmenity) {
+												$searchableAmenities[$ownerAmenity['Name']] = 1;
+											}
+										}
                                      
+                               
           					$r = new LogidxHTTPRequest($fetch_url);
 										$xml = $r->DownloadToString();                     
                     if ($xml)

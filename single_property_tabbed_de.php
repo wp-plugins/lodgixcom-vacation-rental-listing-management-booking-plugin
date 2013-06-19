@@ -91,7 +91,8 @@ if ($property->really_available && $property->allow_booking) {
 	$booklink = $property->booklink;
 	$booklink = '<a href="' . $booklink . '" class="ldgxBookNow">Book Now</a>';
 } else {
-	$booklink = "";
+	$booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('select','2')";
+	$booklink = '<a href="javascript:void(0);" onclick="' . $booklink . '" class="ldgxBookNow">Book Now</a>';
 }
 
 $single_property .= '<div id="content_lodgix_wrapper">';

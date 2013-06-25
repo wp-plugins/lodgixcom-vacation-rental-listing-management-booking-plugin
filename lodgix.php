@@ -5035,7 +5035,6 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 			<p>
 				<img class="ldgxAdminAvatar" src="http://gravatar.com/avatar/b06319de949d4ce08bbafd6306a9f6f9?s=70">
 				<a href="https://twitter.com/lodgix" class="twitter-follow-button" data-show-count="false">Follow @lodgix</a>
-				<!--div class="fb-follow" data-href="https://www.facebook.com/lodgix" data-layout="button_count" data-show-faces="true" data-width="450"></div-->
 			</p>
 			<p><a href="http://www.lodgix.com">Lodgix.com</a> is a leading provider of web-based vacation rental management software. We do not charge setup fees or require a contract of any kind. We do not collect a percentage of every reservation. We simply charge a flat monthly fee and seek to provide value to property owners and managers who seek an easy to use application to manage and grow their business.</p>
 		</div>

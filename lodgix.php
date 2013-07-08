@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.32
+Version: 1.1.33
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.33: Added plugin rate button
 v1.1.32: Fixed Book Now button II
 v1.1.31: Fixed Custom Amenity Search
 v1.1.30: Fixed Book Now button
@@ -135,6 +136,8 @@ v1.0.4: Fixed directory
 v1.0.0: Initial release
 
 */
+
+define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 
 global $p_lodgix_db_version;
 $p_lodgix_db_version = "1.9";
@@ -4736,314 +4739,386 @@ if (!class_exists('p_lodgix')) {
           	echo '<div class="updated"><p>Success! Database sucessfully cleaned!</p></div>';
           }
 ?>                                   
-                <div class="wrap">
-                <h2>Lodgix Settings</h2>
-                <p style="width:900px;">Please read through our <a target="_blank" href="http://docs.lodgix.com/spaces/vacation-rental/manuals/wordpress-vacation-rental">comprehensive manual</a> if you encounter issues with the plugin.
-                   The manual is comprehensive and includes tutorials on proper setup techniques (including screenshot) as well as documentation on getting the plugin to work with various WordPress themes.  
-                 Please visit our <a target="_blank" href="http://support.lodgix.com">support site</a> to submit a support ticket if the manual does not help to resolve your issues.</p><br>
-        <p>
-        <b><?php _e('Lodgix Subscriber Settings', $this->localizationDomain); ?></b>
-        </p>
-                <form method="post" id="p_lodgix_options">
-                <?php wp_nonce_field('p_lodgix-update-options'); ?>
-                    <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Customer ID:', $this->localizationDomain); ?></th> 
-                            <td>
-                <input name="p_lodgix_owner_id" type="text" id="p_lodgix_owner_id" size="45" value="<?php echo $this->options['p_lodgix_owner_id'] ;?>"/>
-                <br /><span class="setting-description"><?php _e('Please enter your Lodgix Customer ID', $this->localizationDomain); ?>
-                          </td> 
-                        </tr>
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('API Key:', $this->localizationDomain); ?></th> 
-                            <td>
-                <input name="p_lodgix_api_key" type="text" id="p_lodgix_api_key" size="45" value="<?php echo $this->options['p_lodgix_api_key'] ;?>"/>
-                <br /><span class="setting-description"><?php _e('Please enter your Lodgix API Key', $this->localizationDomain); ?>
-                          </td> 
-                        </tr>   
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"></th> 
-                            <td></td> 
-                        </tr>     
-                            <tr valign="top"> 
-                            <td colspan="2">
-                            	To setup your properties for use with the plug-in, a Lodgix.com subscription is required. <a target="_blank" href="http://www.lodgix.com/register/0?wordpress=1">Sign-up for a free 30 day trial subscription at Lodgix.com</a>. 
-                            	No credit card is required.<br>We do offer a a free starter subscription for plug-in users which is good for up to five properties, however it is restricted to payments via PayPal only and does not include use <br>of automated trigger emails or any of the premium modules. This subscription is free and will not expire.
-													
-															Additionally, if you just wish to test the plug-in within your website using<br> demo property images and data,  and do not wish to sign up for a Lodgix.com subscription at this time, click here to populate the Customer ID and API Key with demo credentials.
-															<br><br>If you are a current Lodgix.com subscriber, please login to your Lodgix.com account and go to "Settings >> Important Settings" to obtain your "Customer ID" and "API Key". 
-															<br>In alternative click <a href="javascript:void(0)" onclick="p_lodgix_set_demo_credentials(); return false;">here</a> to setup Demo Credentials.
-                            	</td> 
-                        </tr>                   
-                          </tr>     
-                            <tr valign="top"> 
-                            <td colspan="2">
-       
-                            	</td> 
-                        </tr>                                   
-                    </table>
-        <p>          
-        <b><?php _e('General Display Options', $this->localizationDomain); ?></b>
-        </p>
-                    <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-                        <tr valign="top"> 
-                            <th style="width:400px;" scope="row"><?php _e('Display daily rates on individual property pages?:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_display_daily_rates" type="checkbox" id="p_lodgix_display_daily_rates" <?php if ($this->options['p_lodgix_display_daily_rates']) echo "CHECKED"; ?>/>
-                          
-                          </td> 
-                        </tr>
-                        <tr valign="top"> 
-                            <th scope="row"><?php _e('Display Google Map, Contact Us & Details Icons on Search / Sort Page?:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_display_icons" type="checkbox" id="p_lodgix_display_icons" <?php if ($this->options['p_lodgix_display_icons']) echo "CHECKED"; ?>/>
-                          
-                          </td> 
-                        </tr>         
-                        <tr valign="top"> 
-                            <th scope="row"><?php _e('Display Availability Icon on Search / Sort Page?:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_display_availability_icon" type="checkbox" id="p_lodgix_display_availability_icon" <?php if ($this->options['p_lodgix_display_availability_icon']) echo "CHECKED"; ?>/>
-                          
-                          </td> 
-                        </tr>         
-                     		<tr valign="top"> 
-                            <th scope="row"><?php _e('Display Featured Widget horizontally ?:', $this->localizationDomain); ?></th> 
-                            <td>                             
-                            <select name="p_lodgix_display_featured_horizontally"  id="p_lodgix_display_featured_horizontally" style="width:120px;">                              
-                              <option <?php if (($this->options['p_lodgix_display_featured_horizontally'] == 0) || (($this->options['p_lodgix_display_featured_horizontally'] != 1) && ($this->options['p_lodgix_display_featured_horizontally'] != 2))) echo "SELECTED"; ?> value='0'>No</option>
-                              <option  <?php if ($this->options['p_lodgix_display_featured_horizontally'] == 1) echo "SELECTED"; ?> value='1'>Yes - Float Left</option>
-                              <option  <?php if ($this->options['p_lodgix_display_featured_horizontally'] == 2) echo "SELECTED"; ?> value='2'>Yes - Float Right</option>
-                            </select>
-                          </td> 
-                        </tr>                                              
-                        <tr valign="top"> 
-                            <th scope="row"><?php _e('Property Name:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <select name="p_lodgix_display_title"  id="p_lodgix_display_title" style="width:120px;">                              
-                              <option <?php if ($this->options['p_lodgix_display_title'] == 'title') echo "SELECTED"; ?> value='title'>Marketing Title</option>
-                              <option  <?php if ($this->options['p_lodgix_display_title'] == 'name') echo "SELECTED"; ?> value='name'>Name</option>
-                            </select>
-                              
-                          
-                          </td> 
-                        </tr>
-                        <tr valign="top"> 
-                            <th scope="row"><?php _e('Featured Rentals:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <select name="p_lodgix_display_featured"  id="p_lodgix_display_featured" style="width:120px;">                              
-                              <option <?php if ($this->options['p_lodgix_display_featured'] == 'city') echo "SELECTED"; ?> value='city'>Display City</option>
-                              <option  <?php if ($this->options['p_lodgix_display_featured'] == 'area') echo "SELECTED"; ?> value='area'>Display Area</option>
-                            </select>
-                              
-                          
-                          </td> 
-                        </tr> 
-                                  <tr valign="top"> 
-                            <th scope="row"><?php _e('Display Instructions on Single Unit Calendar:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <select name="p_lodgix_display_single_instructions"  id="p_lodgix_display_single_instructions" style="width:120px;">                              
-                              <option <?php if ($this->options['p_lodgix_display_single_instructions'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                              <option  <?php if ($this->options['p_lodgix_display_single_instructions'] == 0) echo "SELECTED"; ?> value='0'>No</option>
-                            </select>
-                              
-                          
-                          </td>  
-                           <tr valign="top"> 
-                            <th scope="row"><?php _e('Display Instructions on Multi Unit Calendar:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <select name="p_lodgix_display_multi_instructions"  id="p_lodgix_display_multi_instructions" style="width:120px;">                              
-                              <option <?php if ($this->options['p_lodgix_display_multi_instructions'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                              <option  <?php if ($this->options['p_lodgix_display_multi_instructions'] == 0) echo "SELECTED"; ?> value='0'>No</option>
-                            </select>
-                              
-                          </td>             
-            							<tr valign="top"> 
-                            <th scope="row"><?php _e('Single Page Design:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <select name="p_lodgix_single_page_design"  id="p_lodgix_single_page_design" style="width:120px;">                              
-                              <option <?php if ($this->options['p_lodgix_single_page_design'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
-                              <option  <?php if ($this->options['p_lodgix_single_page_design'] == 1) echo "SELECTED"; ?> value='1'>Tabbed</option>
-                            </select>
-                              
-                          </td>                                                                                                                           
+<link href="<?php echo plugins_url('css/admin.css', __FILE__); ?>" rel="stylesheet" type="text/css">
+<div class="wrap">
+	<h2>Lodgix Settings</h2>
+	<p style="width:900px;">
+Please read through our <a target="_blank" href="http://docs.lodgix.com/spaces/vacation-rental/manuals/wordpress-vacation-rental">comprehensive manual</a> if you encounter issues with the plugin.
+The manual is comprehensive and includes tutorials on proper setup techniques (including screenshot) as well as documentation on getting the plugin to work with various WordPress themes.  
+Please visit our <a target="_blank" href="http://support.lodgix.com">support site</a> to submit a support ticket if the manual does not help to resolve your issues.
+	</p>
 
-                    </table><br>
-        <p>                  
-        <b><?php _e('General Page Options', $this->localizationDomain); ?></b>
-        </p>
-                    <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Allow Comments:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_allow_comments" type="checkbox" id="p_lodgix_allow_comments" <?php if ($this->options['p_lodgix_allow_comments']) echo "CHECKED"; ?>/>
-                          
-                          </td> 
-                        </tr>
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Allow PingBacks:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_allow_pingback" type="checkbox" id="p_lodgix_allow_pingback" <?php if ($this->options['p_lodgix_allow_pingback']) echo "CHECKED"; ?>/>
-                          
-                          </td> 
-                        </tr>
-                    </table><br>
-        <p>                  
-        <b><?php _e('Menu Display Options', $this->localizationDomain); ?></b>
-        </p>
-                    <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-                      <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Vacation Rentals Menu Position:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <select name="p_lodgix_vacation_rentals_page_pos"  id="p_lodgix_vacation_rentals_page_pos" style="width:120px;">                              
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '3') echo "SELECTED"; ?> value='3'>3</option>
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '4') echo "SELECTED"; ?> value='4'>4</option>
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '5') echo "SELECTED"; ?> value='5'>5</option>
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '6') echo "SELECTED"; ?> value='6'>6</option>
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '7') echo "SELECTED"; ?> value='7'>7</option>
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '8') echo "SELECTED"; ?> value='8'>8</option>
-                              <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '9') echo "SELECTED"; ?> value='9'>9</option>
-                              
-                            </select>
-                              
-                          
-                          </td>
-                        </tr>   
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Availability Page Menu Position:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <select name="p_lodgix_availability_page_pos"  id="p_lodgix_availability_page_pos" style="width:120px;">                              
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '3') echo "SELECTED"; ?> value='3'>3</option>
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '4') echo "SELECTED"; ?> value='4'>4</option>
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '5') echo "SELECTED"; ?> value='5'>5</option>
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '6') echo "SELECTED"; ?> value='6'>6</option>
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '7') echo "SELECTED"; ?> value='7'>7</option>
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '8') echo "SELECTED"; ?> value='8'>8</option>
-                              <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '9') echo "SELECTED"; ?> value='9'>9</option>
-                              
-                            </select>
-                              
-                          
-                          </td> 
-                        </tr>     
-                    </table><br>                    
-        <p>
-        <b><?php _e('Contact Options', $this->localizationDomain); ?></b>
-        </p>
-                    <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Contact URL:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_contact_url" style="width:430px;" type="text" id="p_lodgix_contact_url" value="<?php echo $this->options['p_lodgix_contact_url']; ?>" maxlength="255" />                   
-                          </td> 
-                        </tr>
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('German Contact URL:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_contact_url_de" style="width:430px;" type="text" id="p_lodgix_contact_url_de" value="<?php echo $this->options['p_lodgix_contact_url_de']; ?>" maxlength="255" />                   
-                          </td> 
-                        </tr>
-                
-                    </table><br>                    
-        <p>                	  
-        <b><?php _e('Vacation Rentals Page Options', $this->localizationDomain); ?></b>
-        </p>
-                    <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Page Title:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_vr_title" style="width:430px;" type="text" id="p_lodgix_vr_title" value="<?php echo $this->options['p_lodgix_vr_title']; ?>" maxlength="70" />                   
-                          </td> 
-                        </tr>
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Meta Description:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <textarea cols="55" name="p_lodgix_vr_meta_description" id="p_lodgix_vr_meta_description"><?php echo $this->options['p_lodgix_vr_meta_description']; ?></textarea>                          
-                          </td> 
-                        </tr>
-                       <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Meta Keywords:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <textarea cols="55" name="p_lodgix_vr_meta_keywords" id="p_lodgix_vr_meta_keywords"><?php echo $this->options['p_lodgix_vr_meta_keywords']; ?></textarea>                          
-                          </td> 
-                        </tr>                        
-                    </table><br>                    
-        <p>        
-        <b><?php _e('Theme Options', $this->localizationDomain); ?></b>
-        </p>
-                    <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Thesis Compatibility:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_thesis_compatibility" type="checkbox" id="p_lodgix_thesis_compatibility" <?php if ($this->options['p_lodgix_thesis_compatibility']) echo "CHECKED"; ?>/>
-                          
-                          </td> 
-                        </tr>
-                       <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Custom Page Template:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_custom_page_template" id="p_lodgix_custom_page_template" style="width:430px;" type="text" value="<?php echo $this->options['p_lodgix_custom_page_template']; ?>">
-                          </td> 
-                        </tr>                            
-                    </table><br>
-        <b><?php _e('Language Options', $this->localizationDomain); ?></b>
-        </p>
-                    <table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-                        <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e('Generate German:', $this->localizationDomain); ?></th> 
-                            <td>
-                             <input name="p_lodgix_generate_german" type="checkbox" id="p_lodgix_generate_german" <?php if ($this->options['p_lodgix_generate_german']) echo "CHECKED"; ?>/>
-                          </td> 
-                        </tr>
-                    </table><br>
-                             
-        <p>                    
-        <b><?php _e('Property Display Settings', $this->localizationDomain); ?></b>
-        </p>
-                     <table width="100%" cellspacing="2" cellpadding="5" class="form-table">
-                           <tr valign="top"> 
-                            <th>Property</td>
-                            <td width="1%">
-                            Menu:
-                          </td>    
-                            <td>
-                            Featured:
-                          </td>    
-                           </tr>                                                           
-                        <?php
-                          $properties = $wpdb->get_results('SELECT ' . $properties_table . '.id,property_id,description,enabled,featured FROM ' . $properties_table . ' LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id ORDER BY ' . $properties_table . '.`order`');      
-                          foreach($properties as $property)
-                          {                            
-                        ?> 
-                           <tr valign="top"> 
-                            <th width="33%" scope="row"><?php _e($property->description, $this->localizationDomain); ?></th> 
-                            <td width="1%">
-                            <input name="p_lodgix_page_<?php echo $property->id ?>" type="checkbox" id="p_lodgix_page_<?php echo $property->id ?>" <?php if ($property->enabled) echo "CHECKED"; ?>/>
-                          </td>    
-                            <td>
-                            <input name="p_lodgix_featured_<?php echo $property->id ?>" type="checkbox" id="p_lodgix_featured_<?php echo $property->id ?>" <?php if ($property->featured) echo "CHECKED"; ?>/>
-                          </td>    
-                           </tr>     
-                        <?php 
-                          } 
-                        ?>
-                    </table><br>
+	<div class="ldgxAdminMain">
+		<form method="post" id="p_lodgix_options">
+			<?php wp_nonce_field('p_lodgix-update-options'); ?>
 
-          <p class="submit"> 
-            <input type="submit" name="p_lodgix_save" class="button-primary" value="<?php _e('Save and Regenerate', $this->localizationDomain); ?>" />&nbsp;<input onclick="return confirm('Are you sure you want to clean the database ?');" type="submit" name="p_lodgix_clean" class="button-primary" value="<?php _e('Clean Database', $this->localizationDomain); ?>" /><br><br><br><br>
-            <b>
-          Please wait while database is updated. Time will depend on the number of properties to process.</b>            
-          </p>
-                </form>       
-                <?php
-        }
-  } //End Class
+			<p><b><?php _e('Lodgix Subscriber Settings', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
+				<tr valign="top"> 
+					<th width="33%" scope="row">
+						<?php _e('Customer ID:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<input name="p_lodgix_owner_id" type="text" id="p_lodgix_owner_id" size="45" value="<?php echo $this->options['p_lodgix_owner_id'] ;?>"/>
+						<br><span class="setting-description"><?php _e('Please enter your Lodgix Customer ID', $this->localizationDomain); ?>
+				  </td> 
+				</tr>
+				<tr valign="top"> 
+					<th width="33%" scope="row">
+						<?php _e('API Key:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<input name="p_lodgix_api_key" type="text" id="p_lodgix_api_key" size="45" value="<?php echo $this->options['p_lodgix_api_key'] ;?>"/>
+						<br><span class="setting-description"><?php _e('Please enter your Lodgix API Key', $this->localizationDomain); ?>
+				  </td> 
+				</tr>   
+				<tr valign="top"> 
+					<td colspan="2">
+To setup your properties for use with the plug-in, a Lodgix.com subscription is required. <a target="_blank" href="http://www.lodgix.com/register/0?wordpress=1">Sign-up for a free 30 day trial subscription at Lodgix.com</a>. 
+No credit card is required. We do offer a a free starter subscription for plug-in users which is good for up to five properties, however it is restricted to payments via PayPal only and does not include use of automated trigger emails or any of the premium modules. This subscription is free and will not expire. Additionally, if you just wish to test the plug-in within your website using demo property images and data,  and do not wish to sign up for a Lodgix.com subscription at this time, click here to populate the Customer ID and API Key with demo credentials.<br><br>
+If you are a current Lodgix.com subscriber, please login to your Lodgix.com account and go to "Settings >> Important Settings" to obtain your "Customer ID" and "API Key". In alternative click <a href="javascript:void(0)" onclick="p_lodgix_set_demo_credentials(); return false;">here</a> to setup Demo Credentials.
+					</td> 
+				</tr>                   
+				</tr>     
+				<tr valign="top"> 
+					<td colspan="2">
+					</td> 
+				</tr>                                   
+			</table>
+
+			<p><b><?php _e('General Display Options', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
+				<tr valign="top"> 
+					<th style="width:400px;" scope="row">
+						<?php _e('Display daily rates on individual property pages?:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<input name="p_lodgix_display_daily_rates" type="checkbox" id="p_lodgix_display_daily_rates" <?php if ($this->options['p_lodgix_display_daily_rates']) echo "CHECKED"; ?>/>
+					</td> 
+				</tr>
+				<tr valign="top"> 
+					<th scope="row">
+						<?php _e('Display Google Map, Contact Us & Details Icons on Search / Sort Page?:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<input name="p_lodgix_display_icons" type="checkbox" id="p_lodgix_display_icons" <?php if ($this->options['p_lodgix_display_icons']) echo "CHECKED"; ?>/>
+					</td> 
+				</tr>         
+				<tr valign="top"> 
+					<th scope="row">
+						<?php _e('Display Availability Icon on Search / Sort Page?:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<input name="p_lodgix_display_availability_icon" type="checkbox" id="p_lodgix_display_availability_icon" <?php if ($this->options['p_lodgix_display_availability_icon']) echo "CHECKED"; ?>/>
+				   </td> 
+				</tr>         
+				<tr valign="top">
+					<th scope="row">
+						<?php _e('Display Featured Widget horizontally ?:', $this->localizationDomain); ?>
+					</th> 
+					<td>                             
+						<select name="p_lodgix_display_featured_horizontally"  id="p_lodgix_display_featured_horizontally" style="width:120px;">                              
+							<option <?php if (($this->options['p_lodgix_display_featured_horizontally'] == 0) || (($this->options['p_lodgix_display_featured_horizontally'] != 1) && ($this->options['p_lodgix_display_featured_horizontally'] != 2))) echo "SELECTED"; ?> value='0'>No</option>
+							<option <?php if ($this->options['p_lodgix_display_featured_horizontally'] == 1) echo "SELECTED"; ?> value='1'>Yes - Float Left</option>
+							<option <?php if ($this->options['p_lodgix_display_featured_horizontally'] == 2) echo "SELECTED"; ?> value='2'>Yes - Float Right</option>
+						</select>
+					</td> 
+				</tr>                                              
+				<tr valign="top"> 
+					<th scope="row">
+						<?php _e('Property Name:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<select name="p_lodgix_display_title"  id="p_lodgix_display_title" style="width:120px;">                              
+							<option <?php if ($this->options['p_lodgix_display_title'] == 'title') echo "SELECTED"; ?> value='title'>Marketing Title</option>
+							<option <?php if ($this->options['p_lodgix_display_title'] == 'name') echo "SELECTED"; ?> value='name'>Name</option>
+						</select>
+					</td> 
+				</tr>
+				<tr valign="top"> 
+					<th scope="row"><?php _e('Featured Rentals:', $this->localizationDomain); ?></th> 
+					<td>
+						<select name="p_lodgix_display_featured"  id="p_lodgix_display_featured" style="width:120px;">                              
+							<option <?php if ($this->options['p_lodgix_display_featured'] == 'city') echo "SELECTED"; ?> value='city'>Display City</option>
+							<option <?php if ($this->options['p_lodgix_display_featured'] == 'area') echo "SELECTED"; ?> value='area'>Display Area</option>
+						</select>
+					</td> 
+				</tr> 
+				<tr valign="top"> 
+					<th scope="row">
+						<?php _e('Display Instructions on Single Unit Calendar:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<select name="p_lodgix_display_single_instructions"  id="p_lodgix_display_single_instructions" style="width:120px;">                              
+							<option <?php if ($this->options['p_lodgix_display_single_instructions'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+							<option <?php if ($this->options['p_lodgix_display_single_instructions'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top"> 
+					<th scope="row">
+						<?php _e('Display Instructions on Multi Unit Calendar:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<select name="p_lodgix_display_multi_instructions"  id="p_lodgix_display_multi_instructions" style="width:120px;">                              
+							<option <?php if ($this->options['p_lodgix_display_multi_instructions'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+							<option  <?php if ($this->options['p_lodgix_display_multi_instructions'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+						</select>
+					</td>             
+				</tr>
+				<tr valign="top"> 
+					<th scope="row">
+						<?php _e('Single Page Design:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<select name="p_lodgix_single_page_design"  id="p_lodgix_single_page_design" style="width:120px;">                              
+							<option <?php if ($this->options['p_lodgix_single_page_design'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
+							<option <?php if ($this->options['p_lodgix_single_page_design'] == 1) echo "SELECTED"; ?> value='1'>Tabbed</option>
+						</select>
+					</td>                                                                                                                           
+				</tr>
+			</table><br>
+
+			<p><b><?php _e('General Page Options', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
+				<tr valign="top"> 
+					<th width="33%" scope="row">
+						<?php _e('Allow Comments:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_allow_comments" type="checkbox" id="p_lodgix_allow_comments" <?php if ($this->options['p_lodgix_allow_comments']) echo "CHECKED"; ?>/>
+				  </td> 
+				</tr>
+				<tr valign="top"> 
+					<th width="33%" scope="row">
+						<?php _e('Allow PingBacks:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_allow_pingback" type="checkbox" id="p_lodgix_allow_pingback" <?php if ($this->options['p_lodgix_allow_pingback']) echo "CHECKED"; ?>/>
+				  </td> 
+				</tr>
+			</table><br>
+
+			<p><b><?php _e('Menu Display Options', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
+				<tr valign="top"> 
+					<th width="33%" scope="row">
+						<?php _e('Vacation Rentals Menu Position:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<select name="p_lodgix_vacation_rentals_page_pos"  id="p_lodgix_vacation_rentals_page_pos" style="width:120px;">                              
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '3') echo "SELECTED"; ?> value='3'>3</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '4') echo "SELECTED"; ?> value='4'>4</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '5') echo "SELECTED"; ?> value='5'>5</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '6') echo "SELECTED"; ?> value='6'>6</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '7') echo "SELECTED"; ?> value='7'>7</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '8') echo "SELECTED"; ?> value='8'>8</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '9') echo "SELECTED"; ?> value='9'>9</option>
+						</select>
+					</td>
+				</tr>   
+				<tr valign="top"> 
+					<th width="33%" scope="row">
+						<?php _e('Availability Page Menu Position:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<select name="p_lodgix_availability_page_pos"  id="p_lodgix_availability_page_pos" style="width:120px;">                              
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '3') echo "SELECTED"; ?> value='3'>3</option>
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '4') echo "SELECTED"; ?> value='4'>4</option>
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '5') echo "SELECTED"; ?> value='5'>5</option>
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '6') echo "SELECTED"; ?> value='6'>6</option>
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '7') echo "SELECTED"; ?> value='7'>7</option>
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '8') echo "SELECTED"; ?> value='8'>8</option>
+							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '9') echo "SELECTED"; ?> value='9'>9</option>
+						</select>
+					</td> 
+				</tr>     
+			</table><br>                    
+
+			<p><b><?php _e('Contact Options', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
+				<tr valign="top"> 
+					<th width="33%" scope="row">
+						<?php _e('Contact URL:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_contact_url" style="width:430px;" type="text" id="p_lodgix_contact_url" value="<?php echo $this->options['p_lodgix_contact_url']; ?>" maxlength="255" />
+					</td> 
+				</tr>
+				<tr valign="top"> 
+					<th width="33%" scope="row">
+						<?php _e('German Contact URL:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_contact_url_de" style="width:430px;" type="text" id="p_lodgix_contact_url_de" value="<?php echo $this->options['p_lodgix_contact_url_de']; ?>" maxlength="255" />
+					</td>
+				</tr>
+			</table><br>                    
+
+			<p><b><?php _e('Vacation Rentals Page Options', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
+				<tr valign="top"> 
+					<th width="33%" scope="row"><?php _e('Page Title:', $this->localizationDomain); ?></th> 
+					<td>
+						<input name="p_lodgix_vr_title" style="width:430px;" type="text" id="p_lodgix_vr_title" value="<?php echo $this->options['p_lodgix_vr_title']; ?>" maxlength="70" />
+					</td> 
+				</tr>
+				<tr valign="top"> 
+					<th width="33%" scope="row"><?php _e('Meta Description:', $this->localizationDomain); ?></th> 
+					<td>
+						<textarea cols="55" name="p_lodgix_vr_meta_description" id="p_lodgix_vr_meta_description"><?php echo $this->options['p_lodgix_vr_meta_description']; ?></textarea>
+					</td> 
+				</tr>
+				<tr valign="top"> 
+					<th width="33%" scope="row"><?php _e('Meta Keywords:', $this->localizationDomain); ?></th> 
+					<td>
+						<textarea cols="55" name="p_lodgix_vr_meta_keywords" id="p_lodgix_vr_meta_keywords"><?php echo $this->options['p_lodgix_vr_meta_keywords']; ?></textarea>
+					</td> 
+				</tr>
+			</table><br>                    
+
+			<p><b><?php _e('Theme Options', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
+				<tr valign="top">
+					<th width="33%" scope="row">
+						<?php _e('Thesis Compatibility:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_thesis_compatibility" type="checkbox" id="p_lodgix_thesis_compatibility" <?php if ($this->options['p_lodgix_thesis_compatibility']) echo "CHECKED"; ?>/>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th width="33%" scope="row">
+						<?php _e('Custom Page Template:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_custom_page_template" id="p_lodgix_custom_page_template" style="width:430px;" type="text" value="<?php echo $this->options['p_lodgix_custom_page_template']; ?>">
+					</td>
+				</tr>
+			</table><br>
+
+			<p><b><?php _e('Language Options', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
+				<tr valign="top">
+					<th width="33%" scope="row">
+						<?php _e('Generate German:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_generate_german" type="checkbox" id="p_lodgix_generate_german" <?php if ($this->options['p_lodgix_generate_german']) echo "CHECKED"; ?>/>
+					</td>
+				</tr>
+			</table><br>
+				 
+			<p><b><?php _e('Property Display Settings', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
+				<tr valign="top">
+					<th>Property</td>
+					<td width="1%">Menu:</td>
+					<td>Featured:</td>
+				</tr>
+				<?php
+					$properties = $wpdb->get_results('SELECT ' . $properties_table . '.id,property_id,description,enabled,featured FROM ' . $properties_table . ' LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id ORDER BY ' . $properties_table . '.`order`');      
+					foreach($properties as $property) {                            
+				?> 
+					<tr valign="top">
+						<th width="33%" scope="row">
+							<?php _e($property->description, $this->localizationDomain); ?>
+						</th>
+						<td width="1%">
+							<input name="p_lodgix_page_<?php echo $property->id ?>" type="checkbox" id="p_lodgix_page_<?php echo $property->id ?>" <?php if ($property->enabled) echo "CHECKED"; ?>/>
+						</td>
+						<td>
+							<input name="p_lodgix_featured_<?php echo $property->id ?>" type="checkbox" id="p_lodgix_featured_<?php echo $property->id ?>" <?php if ($property->featured) echo "CHECKED"; ?>/>
+						</td>
+					</tr>
+				<?php 
+					} 
+				?>
+			</table><br>
+
+			<p class="submit">
+				<input type="submit" name="p_lodgix_save" class="button-primary" value="<?php _e('Save and Regenerate', $this->localizationDomain); ?>" />&nbsp;<input onclick="return confirm('Are you sure you want to clean the database ?');" type="submit" name="p_lodgix_clean" class="button-primary" value="<?php _e('Clean Database', $this->localizationDomain); ?>" /><br><br><br><br>
+				<b>Please wait while database is updated. Time will depend on the number of properties to process.</b>
+			</p>
+		</form>
+	</div>
+
+	<div class="ldgxAdminRight">
+		<div><a href="http://www.lodgix.com"><img src="<?php echo plugins_url('images/logo_250_63.png', __FILE__); ?>"></a></div>
+		<div class="ldgxAdminBox">
+			<h2>Like this Plugin?</h2>
+
+			<a href="http://wordpress.org/plugins/lodgixcom-vacation-rental-listing-management-booking-plugin/" target="_blank"><button type="submit" class="ldgxAdminRateButton">Rate this plugin	&#9733;	&#9733;	&#9733;	&#9733;	&#9733;</button></a><br><br>
+
+			<div id="fb-root"></div>
+			<script>(function(d, s, id) {
+			  var js, fjs = d.getElementsByTagName(s)[0];
+			  if (d.getElementById(id)) return;
+			  js = d.createElement(s); js.id = id;
+			  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+			  fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));</script>
+			<div class="fb-like" data-href="<?php echo LODGIX_LIKE_URL; ?>" data-send="true" data-layout="button_count" data-width="450" data-show-faces="true"></div>
+			<br>
+
+			<a href="https://twitter.com/share" class="twitter-share-button" data-text="Just been using #Lodgix #WordPress plugin" data-via="lodgix" data-related="lodgix">Tweet</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+			<br>
+
+			<a href="http://bufferapp.com/add" class="buffer-add-button" data-text="Just been using #Lodgix #WordPress plugin" data-url="<?php echo LODGIX_LIKE_URL; ?>" data-count="horizontal" data-via="lodgix">Buffer</a><script type="text/javascript" src="http://static.bufferapp.com/js/button.js"></script>
+			<br>
+
+
+			<div class="g-plusone" data-size="medium" data-href="<?php echo LODGIX_LIKE_URL; ?>"></div>
+			<script type="text/javascript">
+			  (function() {
+				var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+				po.src = 'https://apis.google.com/js/plusone.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+			  })();
+			</script>
+			<br>
+
+			<su:badge layout="2" location="<?php echo LODGIX_LIKE_URL; ?>"></su:badge>
+			<script type="text/javascript">
+			  (function() {
+				var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+				li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+			  })();
+			</script>
+
+		</div>
+		<div class="ldgxAdminBox">
+			<h2>About Lodgix.com</h2>
+			<p>
+				<img class="ldgxAdminAvatar" src="http://gravatar.com/avatar/b06319de949d4ce08bbafd6306a9f6f9?s=70">
+				<a href="https://twitter.com/lodgix" class="twitter-follow-button" data-show-count="false">Follow @lodgix</a>
+			</p>
+			<p><a href="http://www.lodgix.com">Lodgix.com</a> is a leading provider of web-based vacation rental management software. We do not charge setup fees or require a contract of any kind. We do not collect a percentage of every reservation. We simply charge a flat monthly fee and seek to provide value to property owners and managers who seek an easy to use application to manage and grow their business.</p>
+		</div>
+	</div>
+
+	<div class="clear"></div>
+</div>
+<?php
+		}
+	} //End Class
 } //End if class exists statement
 
 

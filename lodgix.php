@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.33
+Version: 1.1.34
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.34: Added full size thumbnails option
 v1.1.33: Added plugin rate button
 v1.1.32: Fixed Book Now button II
 v1.1.31: Fixed Custom Amenity Search
@@ -1410,6 +1411,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_vr_meta_description_de' => NULL,
                                   'p_lodgix_vr_meta_keywords' => NULL,
                                   'p_lodgix_vr_meta_keywords_de' => NULL,
+                                  'p_lodgix_full_size_thumbnails' => false,
                                   'p_lodgix_custom_page_template' => '',
                               		'p_lodgix_areas_pages' => serialize(array()),
                               		'p_lodgix_areas_pages_de' => serialize(array())                                                                     
@@ -1475,6 +1477,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_vr_meta_keywords' => NULL,
                               'p_lodgix_vr_meta_keywords_de' => NULL,
                               'p_lodgix_custom_page_template' => '',
+                              'p_lodgix_full_size_thumbnails' => false,
                               'p_lodgix_areas_pages' => serialize(array()),
                               'p_lodgix_areas_pages_de' => serialize(array())                                                              
                               );
@@ -4417,6 +4420,12 @@ if (!class_exists('p_lodgix')) {
                       $this->options['p_lodgix_thesis_compatibility'] = true;
                   else
                       $this->options['p_lodgix_thesis_compatibility'] = false;
+                  
+                  if ($_POST['p_lodgix_full_size_thumbnails'] == "on")
+                      $this->options['p_lodgix_full_size_thumbnails'] = true;
+                  else
+                      $this->options['p_lodgix_full_size_thumbnails'] = false;                      
+                      
                   $old_generate_german_value = $this->options['p_lodgix_generate_german'];
                   if ($_POST['p_lodgix_generate_german'] == "on")
                       $this->options['p_lodgix_generate_german'] = true;
@@ -4987,6 +4996,14 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<textarea cols="55" name="p_lodgix_vr_meta_keywords" id="p_lodgix_vr_meta_keywords"><?php echo $this->options['p_lodgix_vr_meta_keywords']; ?></textarea>
 					</td> 
 				</tr>
+				<tr valign="top">
+					<th width="33%" scope="row">
+						<?php _e('Full Size Thumbnails:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_full_size_thumbnails" type="checkbox" id="p_lodgix_full_size_thumbnails" <?php if ($this->options['p_lodgix_full_size_thumbnails']) echo "CHECKED"; ?>/>
+					</td>
+				</tr>				
 			</table><br>                    
 
 			<p><b><?php _e('Theme Options', $this->localizationDomain); ?></b></p>

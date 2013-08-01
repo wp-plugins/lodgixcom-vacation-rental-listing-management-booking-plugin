@@ -39,10 +39,16 @@ if ($differentiate && !$property->really_available)
   	$warning = '<span style="color:red;font-size:9px;text-decoration:none;">Rules may exist that prevent this booking from proceeding. Please check availability.</span><br><br>';
 }
 
+$main_image_thumb = $property->main_image_thumb;
+if ($lodgixoptions['p_lodgix_full_size_thumbnails']) {
+	$main_image_thumb = $property->main_image;
+}	
+
+
 $vacation_rentals = '
 <div class="ldgxShadow">
 	<div class="ldgxListingImg">
-		<a href="'. $permalink .'"><img border="0" alt="" src="' . $property->main_image_thumb . '"></a>
+		<a href="'. $permalink .'"><img border="0" alt="" src="' . $main_image_thumb . '"></a>
 	</div>
 	<div class="ldgxListingName">
 		<a href="'. $permalink .'">' . $german_details->description . '</a>

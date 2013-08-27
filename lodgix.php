@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.34
+Version: 1.1.35
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.35: Added Merged Rates
 v1.1.34: Added full size thumbnails option
 v1.1.33: Added plugin rate button
 v1.1.32: Fixed Book Now button II
@@ -359,6 +360,18 @@ if (!class_exists('p_lodgix')) {
         'name' => NULL
     );
     
+    var $merged_rates_array = array(
+	'property_id' => NULL,
+        'from_date' => NULL,
+        'to_date' => NULL,
+        'nightly' => NULL,
+        'weekend_nightly' => NULL,
+        'weekly' => NULL,
+        'monthly' => NULL,
+        'min_stay' => NULL,
+        'rate_type' => NULL,
+        'name' => NULL    
+    );
 
     var $rules_array = array(    
         'property_id' => NULL,
@@ -993,13 +1006,13 @@ if (!class_exists('p_lodgix')) {
 	  	
 	  } 
 		
-		function p_lodgix_activate() {
+    function p_lodgix_activate() {
 			global $wpdb;
 			$table_name = $wpdb->prefix . "lodgix_properties";
 			if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
       	$this->p_lodgix_build();
       }     
-	  }
+    }
 	  
     function p_lodgix_build() {
       global $wpdb;
@@ -1110,6 +1123,28 @@ if (!class_exists('p_lodgix')) {
        );";      
        $wpdb->query($sql);   
       }
+      
+      $table_name = $wpdb->prefix . "lodgix_merged_rates";
+      if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
+          
+       $sql = "CREATE TABLE " . $table_name . " (
+        `id` int(11) NOT NULL auto_increment,
+        `property_id` int(11) NOT NULL,
+        `from_date` date default NULL,
+        `to_date` date default NULL,
+        `nightly` decimal(10,2) default NULL,
+        `weekend_nightly` decimal(10,2) default NULL,
+        `weekly` decimal(10,2) default NULL,
+        `monthly` decimal(10,2) default NULL,
+        `min_stay` int(11) NOT NULL default '1',
+        `rate_type` varchar(64) default NULL,
+        `name` varchar(128) default NULL,
+        PRIMARY KEY  (`id`)
+       );";      
+       $wpdb->query($sql);   
+      }      
+
+      
       $table_name = $wpdb->prefix . "lodgix_pictures";
       if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
           
@@ -1384,7 +1419,8 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_display_title' => 'name',
                                   'p_lodgix_display_featured' => 'city',
                                   'p_lodgix_display_multi_instructions' => 0,
-                                  'p_lodgix_display_single_instructions' => 0,          
+                                  'p_lodgix_display_single_instructions' => 0,
+                                  'p_lodgix_rates_display' => 0,                                  
                                   'p_lodgix_single_page_design' => 0,                                                                    
                                   'p_lodgix_vacation_rentals_page_pos' => '3',
                                   'p_lodgix_availability_page_pos' => '4',                                  
@@ -1449,7 +1485,8 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_display_title' => 'name',
                               'p_lodgix_display_featured' => 'city',
                               'p_lodgix_display_multi_instructions' => 0,
-                              'p_lodgix_display_single_instructions' => 0,                                 
+                              'p_lodgix_display_single_instructions' => 0,
+                              'p_lodgix_rates_display' => 0,                              
                               'p_lodgix_single_page_design' => 0,
                               'p_lodgix_vacation_rentals_page_pos' => '3',                                                             
                               'p_lodgix_availability_page_pos' => '4',
@@ -1601,6 +1638,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";    
         $pages_table = $wpdb->prefix . "lodgix_pages";
@@ -1619,6 +1657,8 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql);
         $sql = "DELETE FROM " . $rates_table;
         $wpdb->query($sql);
+        $sql = "DELETE FROM " . $merged_rates_table;
+        $wpdb->query($sql);        
         $sql = "DELETE FROM " . $rules_table;
         $wpdb->query($sql);          
         $sql = "DELETE FROM " . $pictures_table;
@@ -1648,7 +1688,8 @@ if (!class_exists('p_lodgix')) {
           
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
-        $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $rates_table = $wpdb->prefix . "lodgix_rates";    
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";    
         $lang_properties_table = $wpdb->prefix . "lodgix_lang_properties";   
@@ -1660,8 +1701,10 @@ if (!class_exists('p_lodgix')) {
                 
         $sql = "DELETE FROM " . $amenities_table . " WHERE property_id=" . $property['ID'];
         $wpdb->query($sql);
-        $sql = "DELETE FROM " . $rates_table . " WHERE property_id=" . $property['ID'];
+        $sql = "DELETE FROM " . $rates_table . " WHERE property_id=" . $property['ID'];        
         $wpdb->query($sql);
+        $sql = "DELETE FROM " . $merged_rates_table . " WHERE property_id=" . $property['ID'];        
+        $wpdb->query($sql);        
         $sql = "DELETE FROM " . $rules_table . " WHERE property_id=" . $property['ID'];
         $wpdb->query($sql);          
         $sql = "DELETE FROM " . $pictures_table . " WHERE property_id=" . $property['ID'];
@@ -1901,14 +1944,54 @@ if (!class_exists('p_lodgix')) {
 			
 		          foreach ($pprates as $ppr)            
 		        	{        		
-		        			$ratearray['default_rate'] = $ppr['Amount'];
-		           		$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
+                                $ratearray['default_rate'] = $ppr['Amount'];
+		           	$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
 		            	$sql = str_replace("'NULL'","NULL",$sql);
 		            	$wpdb->query($sql);            			
 		        	}
 	        	}
             
         }    
+        
+        
+        $merged_rates = $property['MergedRates'];
+        if ($property['MergedRates']['RatePeriod'][0])
+            $merged_rates = $property['MergedRates']['RatePeriod'];          
+        
+        foreach ($merged_rates as $rate)
+        {
+            $mergedratesarray = $merged_rates_array;
+            $mergedratesarray['property_id'] = $parray['id'];
+            $mergedratesarray['name'] = $rate['RateName'];
+            $mergedratesarray['from_date'] = $rate['StartDate'];
+            $mergedratesarray['to_date'] = $rate['EndDate'];             
+            $mergedratesarray['min_stay'] = $rate['MinimumStay'];              
+            $mrates = $rate['Rates'];
+            if ($mrates)
+            {
+	        if ($rate['Rates']['Rate'][0])
+                    $mrates = $rate['Rates']['Rate'];
+			
+		foreach ($mrates as $mr)            
+                {
+                    $mergedratesarray['rate_type'] = $mr['RateType'];
+                    if ($mr['RateType'] == 'NIGHTLY_WEEKDAY')
+                        $mergedratesarray['nightly'] = $mr['Amount'];
+                    else if ($mr['RateType'] == 'NIGHTLY_WEEKEND')
+                        $mergedratesarray['weekend_nightly'] = $mr['Amount'];
+                    else if ($mr['RateType'] == 'WEEKLY')
+                        $mergedratesarray['weekly'] = $mr['Amount'];		        				
+                    else if ($mr['RateType'] == 'MONTHLY')
+                    $mergedratesarray['monthly'] = $mr['Amount'];		        				
+
+                }
+	    }
+   
+            $sql = $this->get_insert_sql_from_array($merged_rates_table,$mergedratesarray);
+            $sql = str_replace("'NULL'","NULL",$sql);
+            $wpdb->query($sql);    
+            
+        }            
         
         $rules = $property['Rules'];
         if ($property['Rules']['Rule'][0])
@@ -2303,6 +2386,8 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties"; 
         $link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";  
         $rates_table = $wpdb->prefix . "lodgix_rates";        
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";        
+        
         $sort_sql = '';
         $direction = '';
         if ($sort != '')
@@ -2440,6 +2525,7 @@ if (!class_exists('p_lodgix')) {
         $content = '';
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
         $lang_properties_table = $wpdb->prefix . "lodgix_lang_properties";
         $sort_sql = '';
@@ -2913,6 +2999,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";   
         $pages_table = $wpdb->prefix . "lodgix_pages";
@@ -2956,7 +3043,12 @@ if (!class_exists('p_lodgix')) {
 					$property->really_available = false;
 				}
   			
-        	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id); 
+        	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id);
+                $merged_rates =  $wpdb->get_results('SELECT * FROM ' . $merged_rates_table . " WHERE property_id=" . $property->id . " ORDER BY from_date,to_date");
+    
+                
+             
+         
         	if ($this->options['p_lodgix_single_page_design'] == 1)
         	{	
         		if ($language == 'en')
@@ -2993,6 +3085,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";   
         $pages_table = $wpdb->prefix . "lodgix_pages";
@@ -3751,7 +3844,7 @@ if (!class_exists('p_lodgix')) {
 				}
 			}
 
-          $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
+          $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
           $r = new LogidxHTTPRequest($fetch_url);
 					$xml = $r->DownloadToString(); 
           if ($xml)
@@ -4066,6 +4159,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";    
         $pages_table = $wpdb->prefix . "lodgix_pages";
@@ -4078,6 +4172,8 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql);
         $sql = "DELETE FROM " . $rates_table . " WHERE property_id not in (" . $active_properties . ")";
         $wpdb->query($sql);
+        $sql = "DELETE FROM " . $merged_rates_table . " WHERE property_id not in (" . $active_properties . ")";
+        $wpdb->query($sql);        
         $sql = "DELETE FROM " . $rules_table . " WHERE property_id not in (" . $active_properties . ")";
         $wpdb->query($sql);          
         $sql = "DELETE FROM " . $pictures_table . " WHERE property_id not in (" . $active_properties . ")";
@@ -4221,6 +4317,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures"; 
         
@@ -4369,7 +4466,11 @@ if (!class_exists('p_lodgix')) {
           $table_name = $wpdb->prefix . "lodgix_properties";
 					if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
       			$this->p_lodgix_build();
-      		}               
+      	  }               
+          $table_name = $wpdb->prefix . "lodgix_merged_rates";
+	    if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
+                $this->p_lodgix_build();
+      	  }               
           $properties_table = $wpdb->prefix . "lodgix_properties";
           $pages_table = $wpdb->prefix . "lodgix_pages";  
           $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
@@ -4456,6 +4557,7 @@ if (!class_exists('p_lodgix')) {
                   $this->options['p_lodgix_display_multi_instructions'] = ((int)$_POST['p_lodgix_display_multi_instructions']);
                   $this->options['p_lodgix_single_page_design'] = ((int)$_POST['p_lodgix_single_page_design']);                  
                   $this->options['p_lodgix_display_single_instructions'] = ((int)$_POST['p_lodgix_display_single_instructions']);
+                  $this->options['p_lodgix_rates_display'] = ((int)$_POST['p_lodgix_rates_display']);                  
                   $this->options['p_lodgix_display_featured'] = $_POST['p_lodgix_display_featured'];                                    
                   $this->options['p_lodgix_vacation_rentals_page_pos'] = $_POST['p_lodgix_vacation_rentals_page_pos'];
                   $this->options['p_lodgix_availability_page_pos'] = $_POST['p_lodgix_availability_page_pos'];                  
@@ -4649,10 +4751,10 @@ if (!class_exists('p_lodgix')) {
 									
                   $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&IncludeRotators=Yes&IncludeAmenities=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
                   
-                  $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
+                  $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
  
-          				$r = new LogidxHTTPRequest($owner_fetch_url);
-									$xml = $r->DownloadToString(); 
+          	  $r = new LogidxHTTPRequest($owner_fetch_url);
+		  $xml = $r->DownloadToString(); 
                   
                 
                   $ROOT_HEIGHT = 84;
@@ -4888,6 +4990,17 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						</select>
 					</td>                                                                                                                           
 				</tr>
+				<tr valign="top"> 
+					<th scope="row">
+						<?php _e('Rates Display:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<select name="p_lodgix_rates_display"  id="p_lodgix_rates_display" style="width:120px;">                              
+							<option <?php if ($this->options['p_lodgix_rates_display'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
+							<option <?php if ($this->options['p_lodgix_rates_display'] == 1) echo "SELECTED"; ?> value='1'>Merged</option>
+						</select>
+					</td>                                                                                                                           
+				</tr>                                
 			</table><br>
 
 			<p><b><?php _e('General Page Options', $this->localizationDomain); ?></b></p>

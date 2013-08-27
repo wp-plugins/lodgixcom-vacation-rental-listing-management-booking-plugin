@@ -161,103 +161,11 @@ if (count($reviews) >= 1)
  $single_property .= '</div><br><br>';
 } 
 
-
-
-/*
-
-$sql = "SELECT from_date,to_date,default_rate,name FROM " . $rates_table . " WHERE property_id=" . $property->id . " AND (DATE(from_date) >= DATE(NOW()) OR from_date IS NULL) AND min_nights=1 ORDER BY is_default,from_date";
-$daily_rates = $wpdb->get_results($sql);
-
-$sql = "SELECT from_date,to_date,default_rate,name FROM " . $rates_table . " WHERE property_id=" . $property->id .  " AND (DATE(from_date) >= DATE(NOW()) OR from_date IS NULL) AND min_nights=7 ORDER BY is_default,from_date";
-$weekly_rates = $wpdb->get_results($sql);
- 
-$sql = "SELECT from_date,to_date,default_rate,name FROM " . $rates_table . " WHERE property_id=" . $property->id .  " AND (DATE(from_date) >= DATE(NOW()) OR from_date IS NULL) AND min_nights=30 ORDER BY is_default,from_date";
-$monthly_rates = $wpdb->get_results($sql);
- 
-$sql = "SELECT min_nights,from_date,to_date FROM " . $rules_table . " WHERE property_id=" . $property->id .  " AND (DATE(from_date) >= DATE(NOW()) OR from_date IS NULL) ORDER BY is_default,from_date";
-$rules = $wpdb->get_results($sql);
-  
-
-$single_property .= '<div class="lodgix_rentalrates">';
-
-if ((count($daily_rates) != 0) && $this->options['p_lodgix_display_daily_rates'])
-{
- $single_property .= "<table width='98%'>";
- $single_property .= "<thead><tr><th align=left style='width:250px;'>Daily Rates</th><th align=left style='width:200px;'>Date</th><th>Rates</th></tr></thead>";
- 
- foreach($daily_rates as $daily_rate)
- {
-  if ($daily_rate->from_date == NULL) 
-    $period = "All Periods";
-  else
-    $period = $this->format_date($daily_rate->from_date) . " to " . $this->format_date($daily_rate->to_date);
-  $single_property .= "<tr><td>" .  $daily_rate->name .  "</td><td>" .  $period . "</td><td align=center>" . $property->currency_code . $daily_rate->default_rate . "</td></tr>"; 
- }
- $single_property .= "</table><br><br>";
-} 
-
-
-
-if (count($weekly_rates) != 0)
-{
- $single_property .= "<table width='98%'>";
- $single_property .= "<thead><tr><th align=left style='width:250px;'>Weekly Rates</th><th align=left style='width:200px;'>Date</th><th>Rates</th></tr></thead>";
- 
- foreach($weekly_rates as $weekly_rate)
- {
-  if ($weekly_rate->from_date == NULL) 
-    $period = "All Periods";
-  else
-    $period =$this->format_date($weekly_rate->from_date) . " to " . $this->format_date($weekly_rate->to_date);
-  $single_property .= "<tr><td>" .  $weekly_rate->name .  "</td><td>" .  $period  . "</td><td align=center>" . $property->currency_code . $weekly_rate->default_rate . "</td></tr>"; 
- }
- $single_property .= "</table><br><br>";
-} 
-if (count($monthly_rates) != 0)
-{
- $single_property .= "<table width='98%'>";
- $single_property .= "<thead><tr><th align=left style='width:250px;'>Monthly Rates</th><th align=left style='width:200px;'>Date</th><th>Rates</th></tr></thead>";
- 
- foreach($monthly_rates as $monthly_rate)
- {
-  if ($monthly_rate->from_date == NULL) 
-    $period = "All Periods";
-  else
-    $period = $this->format_date($monthly_rate->from_date) . " to " . $this->format_date($monthly_rate->to_date);
-  $single_property .= "<tr><td>" .  $monthly_rate->name .  "</td><td>" .  $period  . "</td><td align=center>" . $property->currency_code . $monthly_rate->default_rate . "</td></tr>"; 
- }
- $single_property .= "</table><br><br>";
-} 
-
-if (count($rules) != 0)
-{
- $single_property .= "<table width='98%'>";
- $single_property .= "<thead><tr><th align=left style='width:250px;'>Minimum Nights</th><th>Nights</th></tr></thead>";
- 
- foreach($rules as $rule)
- {
-  if ($rule->from_date == NULL) 
-    $period = "All Periods";
-  else
-    $period = $this->format_date($rule->from_date) . " to " . $this->format_date($rule->to_date);
- 
-  $single_property .= "<tr><td>" . $period  . "</td><td align=center>" . $rule->min_nights . "</td></tr>";
- }
- $single_property .= "</table><br><br><br><br>";
-}
-*/
-
-
-
-
-
 $static = '';
 if ($property->allow_booking == 0)
 {
    $static = '_static';
 }   
-
-
 
 $low_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
 $high_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
@@ -267,12 +175,51 @@ $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(defaul
 $high_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
 
 $single_property .= '<div id="lodgix_property_rates"><h2>Rates</h2>';
-if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0)
-	$single_property .= 'Daily Rate:	' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' per night<br/>';
-if ($low_weekly_rate > 0)	
-	$single_property .= 'Weekly Rate:	' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' per week<br/>';
-if ($low_monthly_rate > 0)		
-	$single_property .= 'Monthly Rate:	' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate  . ' per month<br/>';
+
+if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates)) {
+	if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0)
+		$single_property .= 'Daily Rate:	' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' per night<br/>';
+	if ($low_weekly_rate > 0)	
+		$single_property .= 'Weekly Rate:	' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' per week<br/>';
+	if ($low_monthly_rate > 0)		
+		$single_property .= 'Monthly Rate:	' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate  . ' per month<br/>';
+}
+else {
+    $single_property .= '<table class="merged_rates_table">';
+    $single_property .= '<thead><tr class="">';
+    $single_property .= '<th class="lodgix_left lodgix_dates merged_rates_table_green">Dates</th>';
+	if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) {
+        $single_property .= '<th class="lodgix_centered merged_rates_table_green">Weekday</th>';
+        $single_property .= '<th class="lodgix_centered merged_rates_table_green">Weekend</th>';
+    }
+    $single_property .= '<th class="lodgix_centered merged_rates_table_green">Weekly</th>';
+    $single_property .= '<th class="lodgix_centered merged_rates_table_green">Monthly</th>';        
+    $single_property .= '</tr></thead><tbody>';
+    $even = true;
+    foreach($merged_rates as $mr) {
+        if ($even)
+            $single_property .= '<tr class="merged_rates_table-even">';
+        else
+            $single_property .= '<tr class="merged_rates_table-odd">';
+        $single_property .= '<td class="lodgix_left lodgix_dates">';
+        $single_property .= '<b>' . $mr->name . '</b><br>';
+        $single_property .= '' . strftime($this->options['p_lodgix_date_format'], strtotime($mr->from_date)) . ' - ' . strftime($this->options['p_lodgix_date_format'], strtotime($mr->to_date)) ;
+        if ($mr->min_stay > 1)
+            $single_property .= '<br>' . $mr->min_stay . ' nights min stay';
+        $single_property .= '</td>';        
+        if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) {
+            $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->nightly) ? "0.00" : $mr->nightly) . '</td>';
+            $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->nightly_weekend) ? "0.00" : $mr->nightly_weekend) . '</td>';
+        }
+        $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->weekly) ? "0.00" : $mr->weekly)  . '</td>';
+        $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->monthly) ? "0.00" : $mr->monthly)  . '</td>';
+        $single_property .= '</tr>';
+        $even = !$even;
+    }
+    $single_property .= '</tbody></table><br>';
+}
+
+
 $single_property .= '- Rate varies due to seasonality and holidays.<br/>';
 $single_property .= '- Please select your dates on our online booking calendar for an exact quote.<br/>';
 $single_property .= '</div>';

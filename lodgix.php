@@ -1418,7 +1418,8 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_display_title' => 'name',
                                   'p_lodgix_display_featured' => 'city',
                                   'p_lodgix_display_multi_instructions' => 0,
-                                  'p_lodgix_display_single_instructions' => 0,          
+                                  'p_lodgix_display_single_instructions' => 0,
+                                  'p_lodgix_rates_display' => 0,                                  
                                   'p_lodgix_single_page_design' => 0,                                                                    
                                   'p_lodgix_vacation_rentals_page_pos' => '3',
                                   'p_lodgix_availability_page_pos' => '4',                                  
@@ -1483,7 +1484,8 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_display_title' => 'name',
                               'p_lodgix_display_featured' => 'city',
                               'p_lodgix_display_multi_instructions' => 0,
-                              'p_lodgix_display_single_instructions' => 0,                                 
+                              'p_lodgix_display_single_instructions' => 0,
+                              'p_lodgix_rates_display' => 0,                              
                               'p_lodgix_single_page_design' => 0,
                               'p_lodgix_vacation_rentals_page_pos' => '3',                                                             
                               'p_lodgix_availability_page_pos' => '4',
@@ -1941,8 +1943,8 @@ if (!class_exists('p_lodgix')) {
 			
 		          foreach ($pprates as $ppr)            
 		        	{        		
-		        			$ratearray['default_rate'] = $ppr['Amount'];
-		           		$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
+                                $ratearray['default_rate'] = $ppr['Amount'];
+		           	$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
 		            	$sql = str_replace("'NULL'","NULL",$sql);
 		            	$wpdb->query($sql);            			
 		        	}
@@ -1954,34 +1956,35 @@ if (!class_exists('p_lodgix')) {
         $merged_rates = $property['MergedRates'];
         if ($property['MergedRates']['RatePeriod'][0])
             $merged_rates = $property['MergedRates']['RatePeriod'];          
-        $mergedratesarray = $merged_rates_array;
+        
         foreach ($merged_rates as $rate)
-        {     
+        {
+            $mergedratesarray = $merged_rates_array;
             $mergedratesarray['property_id'] = $parray['id'];
             $mergedratesarray['name'] = $rate['RateName'];
             $mergedratesarray['from_date'] = $rate['StartDate'];
             $mergedratesarray['to_date'] = $rate['EndDate'];             
             $mergedratesarray['min_stay'] = $rate['MinimumStay'];              
-        		$mrates = $rate['Rates'];
-            if ($pprates)
+            $mrates = $rate['Rates'];
+            if ($mrates)
             {
-	        		if ($rate['Rates']['Rate'][0])
-	            	$mrates = $rate['Rates']['Rate'];
+	        if ($rate['Rates']['Rate'][0])
+                    $mrates = $rate['Rates']['Rate'];
 			
-		          foreach ($mrates as $mr)            
-		        	{        		
-		        			$mergedratesarray['rate_type'] = $mr['RateType'];
-		        		  if ($mr['RateType'] == 'NIGHTLY_WEEKDAY')
-		        				$mergedratesarray['nightly'] = $mr['Amount'];
-		        			else if ($mr['RateType'] == 'NIGHTLY_WEEKEND')
-		        				$mergedratesarray['weekend_nightly'] = $mr['Amount'];
-									else if ($mr['RateType'] == 'WEEKLY')
-		        				$mergedratesarray['weekly'] = $mr['Amount'];		        				
-									else if ($mr['RateType'] == 'MONTHLY')
-		        				$mergedratesarray['monthly'] = $mr['Amount'];		        				
-		
-		        	}
-	        	}
+		foreach ($mrates as $mr)            
+                {        		
+                    $mergedratesarray['rate_type'] = $mr['RateType'];
+                    if ($mr['RateType'] == 'NIGHTLY_WEEKDAY')
+                        $mergedratesarray['nightly'] = $mr['Amount'];
+                    else if ($mr['RateType'] == 'NIGHTLY_WEEKEND')
+                        $mergedratesarray['weekend_nightly'] = $mr['Amount'];
+                    else if ($mr['RateType'] == 'WEEKLY')
+                        $mergedratesarray['weekly'] = $mr['Amount'];		        				
+                    else if ($mr['RateType'] == 'MONTHLY')
+                    $mergedratesarray['monthly'] = $mr['Amount'];		        				
+
+                }
+	    }
    
             $sql = $this->get_insert_sql_from_array($merged_rates_table,$mergedratesarray);
             $sql = str_replace("'NULL'","NULL",$sql);
@@ -4548,6 +4551,7 @@ if (!class_exists('p_lodgix')) {
                   $this->options['p_lodgix_display_multi_instructions'] = ((int)$_POST['p_lodgix_display_multi_instructions']);
                   $this->options['p_lodgix_single_page_design'] = ((int)$_POST['p_lodgix_single_page_design']);                  
                   $this->options['p_lodgix_display_single_instructions'] = ((int)$_POST['p_lodgix_display_single_instructions']);
+                  $this->options['p_lodgix_rates_display'] = ((int)$_POST['p_lodgix_rates_display']);                  
                   $this->options['p_lodgix_display_featured'] = $_POST['p_lodgix_display_featured'];                                    
                   $this->options['p_lodgix_vacation_rentals_page_pos'] = $_POST['p_lodgix_vacation_rentals_page_pos'];
                   $this->options['p_lodgix_availability_page_pos'] = $_POST['p_lodgix_availability_page_pos'];                  
@@ -4980,6 +4984,17 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						</select>
 					</td>                                                                                                                           
 				</tr>
+				<tr valign="top"> 
+					<th scope="row">
+						<?php _e('Rates Display:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<select name="p_lodgix_rates_display"  id="p_lodgix_rates_display" style="width:120px;">                              
+							<option <?php if ($this->options['p_lodgix_rates_display'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
+							<option <?php if ($this->options['p_lodgix_rates_display'] == 1) echo "SELECTED"; ?> value='1'>Merged</option>
+						</select>
+					</td>                                                                                                                           
+				</tr>                                
 			</table><br>
 
 			<p><b><?php _e('General Page Options', $this->localizationDomain); ?></b></p>

@@ -1256,7 +1256,7 @@ border:0 none;
 
 .merged_rates_table .lodgix_dates {
     padding-left:5px;
-    min-width: 110px;
+    min-width: 115px;
 }
 
 

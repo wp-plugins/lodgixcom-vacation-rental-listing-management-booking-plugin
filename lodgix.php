@@ -3042,7 +3042,9 @@ if (!class_exists('p_lodgix')) {
 					$property->really_available = false;
 				}
   			
-        	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id); 
+        	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id);
+                $merged_rates =  $wpdb->get_results('SELECT * FROM ' . $merged_rates_table . " WHERE property_id=" . $property->id);
+         
         	if ($this->options['p_lodgix_single_page_design'] == 1)
         	{	
         		if ($language == 'en')

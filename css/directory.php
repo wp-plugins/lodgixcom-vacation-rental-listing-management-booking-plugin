@@ -1296,6 +1296,32 @@ border:0 none;
 }
 
 
+.merged_rates_table {
+    border: 1px solid #DCDCDC;
+    border-collapse: collapse;
+    border-radius: 10px 10px 0 0;
+    left: 0;
+    position: relative;
+    top: 0;
+    width:100%;
+}
+
+.merged_rates_table .lodgix_dates {
+    padding-left:5px;
+}
+
+.lodgix_centered {
+    text-align:center;
+}
+
+.lodgix_left {
+    text-align:left;
+}
+
+.lodgix_right {
+    text-align:right;
+}
+
 ';
 
 $content = str_replace('__PLUGIN_FOLDER__',$url,$content);

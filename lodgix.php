@@ -1972,7 +1972,7 @@ if (!class_exists('p_lodgix')) {
                     $mrates = $rate['Rates']['Rate'];
 			
 		foreach ($mrates as $mr)            
-                {        		
+                {
                     $mergedratesarray['rate_type'] = $mr['RateType'];
                     if ($mr['RateType'] == 'NIGHTLY_WEEKDAY')
                         $mergedratesarray['nightly'] = $mr['Amount'];
@@ -2998,7 +2998,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
-        $merged_rates_table = $wpdb->prefix . "merged_rates";              
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";   
         $pages_table = $wpdb->prefix . "lodgix_pages";
@@ -3043,7 +3043,10 @@ if (!class_exists('p_lodgix')) {
 				}
   			
         	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id);
-                $merged_rates =  $wpdb->get_results('SELECT * FROM ' . $merged_rates_table . " WHERE property_id=" . $property->id);
+                $merged_rates =  $wpdb->get_results('SELECT * FROM ' . $merged_rates_table . " WHERE property_id=" . $property->id . " ORDER BY from_date,to_date");
+    
+                
+             
          
         	if ($this->options['p_lodgix_single_page_design'] == 1)
         	{	

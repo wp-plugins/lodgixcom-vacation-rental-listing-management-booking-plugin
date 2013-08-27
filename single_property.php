@@ -175,6 +175,7 @@ $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(defaul
 $high_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
 
 $single_property .= '<div id="lodgix_property_rates"><h2>Rates</h2>';
+
 if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates)) {
 	if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0)
 		$single_property .= 'Daily Rate:	' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' per night<br/>';
@@ -188,17 +189,32 @@ else {
     $single_property .= '<thead><tr>';
     $single_property .= '<th class="lodgix_left lodgix_dates">Dates</th>';
 	if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) {
-        $single_property .= '<td class="lodgix_centered">Weekday</th>';
-        $single_property .= '<td class="lodgix_centered">Weekend</th>';
+        $single_property .= '<th class="lodgix_centered">Weekday</th>';
+        $single_property .= '<th class="lodgix_centered">Weekend</th>';
     }
     $single_property .= '<th class="lodgix_centered">Weekly</th>';
     $single_property .= '<th class="lodgix_centered">Monthly</th>';        
     $single_property .= '</tr></thead><tbody>';
     foreach($merged_rates as $mr) {
-        $single_property .= '<thead><tr>';        
+        $single_property .= '<tr>';
+        $single_property .= '<td class="lodgix_left lodgix_dates">';
+        $single_property .= '<b>' . $mr->name . '</b><br>';
+        $single_property .= '' . strftime($this->options['p_lodgix_date_format'], strtotime($mr->from_date)) . ' - ' . strftime($this->options['p_lodgix_date_format'], strtotime($mr->to_date)) ;
+        if ($mr->min_stay > 1)
+            $single_property .= $mr->min_stay . ' nights min stay';
+        $single_property .= '</td>';        
+        if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) {
+            $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->nightly) ? "0.00" : $mr->nightly) . '</td>';
+            $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->nightly_weekend) ? "0.00" : $mr->nightly_weekend) . '</td>';
+        }
+        $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->weekly) ? "0.00" : $mr->weekly)  . '</td>';
+        $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->monthly) ? "0.00" : $mr->monthly)  . '</td>';
+        $single_property .= '</tr>';
     }
     $single_property .= '</tbody></table><br>';
 }
+
+
 $single_property .= '- Rate varies due to seasonality and holidays.<br/>';
 $single_property .= '- Please select your dates on our online booking calendar for an exact quote.<br/>';
 $single_property .= '</div>';

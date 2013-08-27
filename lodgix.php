@@ -359,6 +359,18 @@ if (!class_exists('p_lodgix')) {
         'name' => NULL
     );
     
+    var $merged_rates_array(
+				'property_id' => NULL,
+        'from_date' => NULL,
+        'to_date' => NULL,
+        'nightly' => NULL,
+        'weekend_nightly' => NULL,
+        'weekly' => NULL,
+        'monthly' => NULL,
+        'min_stay' => NULL,
+        'rate_type' => NULL,
+        'name' => NULL    
+    
 
     var $rules_array = array(    
         'property_id' => NULL,
@@ -1909,6 +1921,39 @@ if (!class_exists('p_lodgix')) {
 	        	}
             
         }    
+        
+        
+        $merged_rates = $property['MergedRates'];
+        if ($property['MergedRates']['RatePeriod'][0])
+            $merged_rates = $property['MergedRates']['RatePeriod'];          
+        $mergedratesarray = $merged_rates_array;
+        foreach ($merged_rates as $rate)
+        {     
+            $mergedratesarray['property_id'] = $parray['id'];
+            $mergedratesarray['name'] = $rate['RateName'];
+            $mergedratesarray['from_date'] = $rate['StartDate'];
+            $mergedratesarray['to_date'] = $rate['EndDate'];             
+            $mergedratesarray['min_nights'] = $rate['MinimumStay'];              
+        		$pprates = $rate['Rates'];
+            if ($pprates)
+            {
+	        		if ($rate['PerPersonRates']['PerPersonRate'][0])
+	            	$pprates = $rate['PerPersonRates']['PerPersonRate'];
+			
+		          foreach ($pprates as $ppr)            
+		        	{        		
+		        			$ratearray['default_rate'] = $ppr['Amount'];
+		           		$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
+		            	$sql = str_replace("'NULL'","NULL",$sql);
+		            	$wpdb->query($sql);            			
+		        	}
+	        	}
+   
+            $sql = $this->get_insert_sql_from_array($merged_rates_table,$mergedratesarray);
+            $sql = str_replace("'NULL'","NULL",$sql);
+            $wpdb->query($sql);    
+            
+        }            
         
         $rules = $property['Rules'];
         if ($property['Rules']['Rule'][0])
@@ -3751,7 +3796,7 @@ if (!class_exists('p_lodgix')) {
 				}
 			}
 
-          $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
+          $fetch_url = 'http://127.0.0.1:8000/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
           $r = new LogidxHTTPRequest($fetch_url);
 					$xml = $r->DownloadToString(); 
           if ($xml)
@@ -4649,7 +4694,7 @@ if (!class_exists('p_lodgix')) {
 									
                   $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&IncludeRotators=Yes&IncludeAmenities=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
                   
-                  $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
+                  $fetch_url = 'http://127.0.0.1:8000/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
  
           				$r = new LogidxHTTPRequest($owner_fetch_url);
 									$xml = $r->DownloadToString(); 

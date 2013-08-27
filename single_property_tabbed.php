@@ -1,5 +1,5 @@
 <?php
-
+$is_german = False;
 $permalink = get_permalink($property->post_id);
 $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );   
 
@@ -227,39 +227,9 @@ if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates)) {
 		$single_property .= 'Monthly Rate:	' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate  . ' per month<br/>';
 }
 else {
-    $single_property .= '<table class="merged_rates_table">';
-    $single_property .= '<thead><tr class="">';
-    $single_property .= '<th class="lodgix_left lodgix_dates merged_rates_table_green">Dates</th>';
-	if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) {
-        $single_property .= '<th class="lodgix_centered merged_rates_table_green">Weekday</th>';
-        $single_property .= '<th class="lodgix_centered merged_rates_table_green">Weekend</th>';
-    }
-    $single_property .= '<th class="lodgix_centered merged_rates_table_green">Weekly</th>';
-    $single_property .= '<th class="lodgix_centered merged_rates_table_green">Monthly</th>';        
-    $single_property .= '</tr></thead><tbody>';
-    $even = true;
-    foreach($merged_rates as $mr) {
-        if ($even)
-            $single_property .= '<tr class="merged_rates_table-even">';
-        else
-            $single_property .= '<tr class="merged_rates_table-odd">';
-        $single_property .= '<td class="lodgix_left lodgix_dates">';
-        $single_property .= '<b>' . $mr->name . '</b><br>';
-        $single_property .= '' . strftime($this->options['p_lodgix_date_format'], strtotime($mr->from_date)) . ' - ' . strftime($this->options['p_lodgix_date_format'], strtotime($mr->to_date)) ;
-        if ($mr->min_stay > 1)
-            $single_property .= '<br>' . $mr->min_stay . ' nights min stay';
-        $single_property .= '</td>';        
-        if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) {
-            $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->nightly) ? "0.00" : $mr->nightly) . '</td>';
-            $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->nightly_weekend) ? "0.00" : $mr->nightly_weekend) . '</td>';
-        }
-        $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->weekly) ? "0.00" : $mr->weekly)  . '</td>';
-        $single_property .= '<td class="lodgix_centered">' . $property->currency_symbol . ((!$mr->monthly) ? "0.00" : $mr->monthly)  . '</td>';
-        $single_property .= '</tr>';
-        $even = !$even;
-    }
-    $single_property .= '</tbody></table><br>';
+    include "merged_rates.php";
 }
+
 
 $single_property .= '- Rate varies due to seasonality and holidays.<br/>';
 $single_property .= '- Please select your dates on our online booking calendar for an exact quote.<br/>';

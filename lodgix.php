@@ -359,8 +359,8 @@ if (!class_exists('p_lodgix')) {
         'name' => NULL
     );
     
-    var $merged_rates_array(
-				'property_id' => NULL,
+    var $merged_rates_array = array(
+	'property_id' => NULL,
         'from_date' => NULL,
         'to_date' => NULL,
         'nightly' => NULL,
@@ -370,7 +370,7 @@ if (!class_exists('p_lodgix')) {
         'min_stay' => NULL,
         'rate_type' => NULL,
         'name' => NULL    
-    
+    );
 
     var $rules_array = array(    
         'property_id' => NULL,
@@ -1005,13 +1005,13 @@ if (!class_exists('p_lodgix')) {
 	  	
 	  } 
 		
-		function p_lodgix_activate() {
+    function p_lodgix_activate() {
 			global $wpdb;
 			$table_name = $wpdb->prefix . "lodgix_properties";
 			if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
       	$this->p_lodgix_build();
       }     
-	  }
+    }
 	  
     function p_lodgix_build() {
       global $wpdb;
@@ -1122,6 +1122,28 @@ if (!class_exists('p_lodgix')) {
        );";      
        $wpdb->query($sql);   
       }
+      
+      $table_name = $wpdb->prefix . "lodgix_merged_rates";
+      if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
+          
+       $sql = "CREATE TABLE " . $table_name . " (
+        `id` int(11) NOT NULL auto_increment,
+        `property_id` int(11) NOT NULL,
+        `from_date` date default NULL,
+        `to_date` date default NULL,
+        `nightly` decimal(10,2) default NULL,
+        `weekend_nightly` decimal(10,2) default NULL,
+        `weekly` decimal(10,2) default NULL,
+        `monthly` decimal(10,2) default NULL,
+        `min_stay` int(11) NOT NULL default '1',
+        `rate_type` varchar(64) default NULL,
+        `name` varchar(128) default NULL,
+        PRIMARY KEY  (`id`)
+       );";      
+       $wpdb->query($sql);   
+      }      
+
+      
       $table_name = $wpdb->prefix . "lodgix_pictures";
       if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
           
@@ -1613,6 +1635,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";    
         $pages_table = $wpdb->prefix . "lodgix_pages";
@@ -1631,6 +1654,8 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql);
         $sql = "DELETE FROM " . $rates_table;
         $wpdb->query($sql);
+        $sql = "DELETE FROM " . $merged_rates_table;
+        $wpdb->query($sql);        
         $sql = "DELETE FROM " . $rules_table;
         $wpdb->query($sql);          
         $sql = "DELETE FROM " . $pictures_table;
@@ -1660,7 +1685,8 @@ if (!class_exists('p_lodgix')) {
           
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
-        $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $rates_table = $wpdb->prefix . "lodgix_rates";    
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";    
         $lang_properties_table = $wpdb->prefix . "lodgix_lang_properties";   
@@ -1672,8 +1698,10 @@ if (!class_exists('p_lodgix')) {
                 
         $sql = "DELETE FROM " . $amenities_table . " WHERE property_id=" . $property['ID'];
         $wpdb->query($sql);
-        $sql = "DELETE FROM " . $rates_table . " WHERE property_id=" . $property['ID'];
+        $sql = "DELETE FROM " . $rates_table . " WHERE property_id=" . $property['ID'];        
         $wpdb->query($sql);
+        $sql = "DELETE FROM " . $merged_rates_table . " WHERE property_id=" . $property['ID'];        
+        $wpdb->query($sql);        
         $sql = "DELETE FROM " . $rules_table . " WHERE property_id=" . $property['ID'];
         $wpdb->query($sql);          
         $sql = "DELETE FROM " . $pictures_table . " WHERE property_id=" . $property['ID'];
@@ -1933,19 +1961,25 @@ if (!class_exists('p_lodgix')) {
             $mergedratesarray['name'] = $rate['RateName'];
             $mergedratesarray['from_date'] = $rate['StartDate'];
             $mergedratesarray['to_date'] = $rate['EndDate'];             
-            $mergedratesarray['min_nights'] = $rate['MinimumStay'];              
-        		$pprates = $rate['Rates'];
+            $mergedratesarray['min_stay'] = $rate['MinimumStay'];              
+        		$mrates = $rate['Rates'];
             if ($pprates)
             {
-	        		if ($rate['PerPersonRates']['PerPersonRate'][0])
-	            	$pprates = $rate['PerPersonRates']['PerPersonRate'];
+	        		if ($rate['Rates']['Rate'][0])
+	            	$mrates = $rate['Rates']['Rate'];
 			
-		          foreach ($pprates as $ppr)            
+		          foreach ($mrates as $mr)            
 		        	{        		
-		        			$ratearray['default_rate'] = $ppr['Amount'];
-		           		$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
-		            	$sql = str_replace("'NULL'","NULL",$sql);
-		            	$wpdb->query($sql);            			
+		        			$mergedratesarray['rate_type'] = $mr['RateType'];
+		        		  if ($mr['RateType'] == 'NIGHTLY_WEEKDAY')
+		        				$mergedratesarray['nightly'] = $mr['Amount'];
+		        			else if ($mr['RateType'] == 'NIGHTLY_WEEKEND')
+		        				$mergedratesarray['weekend_nightly'] = $mr['Amount'];
+									else if ($mr['RateType'] == 'WEEKLY')
+		        				$mergedratesarray['weekly'] = $mr['Amount'];		        				
+									else if ($mr['RateType'] == 'MONTHLY')
+		        				$mergedratesarray['monthly'] = $mr['Amount'];		        				
+		
 		        	}
 	        	}
    
@@ -2348,6 +2382,8 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties"; 
         $link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";  
         $rates_table = $wpdb->prefix . "lodgix_rates";        
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";        
+        
         $sort_sql = '';
         $direction = '';
         if ($sort != '')
@@ -2485,6 +2521,7 @@ if (!class_exists('p_lodgix')) {
         $content = '';
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
         $lang_properties_table = $wpdb->prefix . "lodgix_lang_properties";
         $sort_sql = '';
@@ -2958,6 +2995,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";   
         $pages_table = $wpdb->prefix . "lodgix_pages";
@@ -3038,6 +3076,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";   
         $pages_table = $wpdb->prefix . "lodgix_pages";
@@ -4111,6 +4150,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures";    
         $pages_table = $wpdb->prefix . "lodgix_pages";
@@ -4123,6 +4163,8 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql);
         $sql = "DELETE FROM " . $rates_table . " WHERE property_id not in (" . $active_properties . ")";
         $wpdb->query($sql);
+        $sql = "DELETE FROM " . $merged_rates_table . " WHERE property_id not in (" . $active_properties . ")";
+        $wpdb->query($sql);        
         $sql = "DELETE FROM " . $rules_table . " WHERE property_id not in (" . $active_properties . ")";
         $wpdb->query($sql);          
         $sql = "DELETE FROM " . $pictures_table . " WHERE property_id not in (" . $active_properties . ")";
@@ -4266,6 +4308,7 @@ if (!class_exists('p_lodgix')) {
         $properties_table = $wpdb->prefix . "lodgix_properties";
         $amenities_table = $wpdb->prefix . "lodgix_amenities";
         $rates_table = $wpdb->prefix . "lodgix_rates";      
+        $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
         $rules_table = $wpdb->prefix . "lodgix_rules";           
         $pictures_table = $wpdb->prefix . "lodgix_pictures"; 
         
@@ -4414,7 +4457,11 @@ if (!class_exists('p_lodgix')) {
           $table_name = $wpdb->prefix . "lodgix_properties";
 					if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
       			$this->p_lodgix_build();
-      		}               
+      	  }               
+          $table_name = $wpdb->prefix . "lodgix_merged_rates";
+	    if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
+                $this->p_lodgix_build();
+      	  }               
           $properties_table = $wpdb->prefix . "lodgix_properties";
           $pages_table = $wpdb->prefix . "lodgix_pages";  
           $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";

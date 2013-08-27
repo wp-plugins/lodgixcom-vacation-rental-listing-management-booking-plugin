@@ -377,48 +377,7 @@ margin-right:5px;
 text-indent:15px;
 width:160px;
 white-space: nowrap;
-}
-
-div.lodgix_rentalrates {
-float:left;
-margin:0 auto;
-padding:0;
-width:100%;
-}
-div.lodgix_rentalrates table { 
-border-collapse: collapse; 
-margin-top: 10px;
-margin-bottom: 10px;
-}
-div.lodgix_rentalrates td, th 
-{ 
-padding: .3em;
-border-style:solid;
-border-width:1px;
-border-color:#A4CE4B;
-}
-div.lodgix_rentalrates td.lodgix_policies
-{ 
-border-style:none;
-border-left:1px solid #A4CE4B;
-border-right:1px solid #A4CE4B;
-}
-div.lodgix_rentalrates td.lodgix_policies_bottom
-{ 
-border-style:none;
-border-left:1px solid #A4CE4B;
-border-right:1px solid #A4CE4B;
-border-bottom:1px solid #A4CE4B;
-}
-div.lodgix_rentalrates thead { 
-background: #A4CE4B; 
-}
-div.lodgix_rentalrates tbody { 
-background: #FFFFFF; 
-} 
-
-div.lodgix_rentalrates td.lodgix_policies span p {
-margin-bottom:0px;
+padding-left:4px;
 }
 
 table.lodgix_gallery {
@@ -1295,37 +1254,170 @@ border:0 none;
     overflow: hidden;
 }
 
+.merged_rates_table .lodgix_dates {
+    padding-left:5px;
+    min-width: 110px;
+}
+
+
 
 .merged_rates_table {
     border: 1px solid #DCDCDC;
     border-collapse: collapse;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 10px 10px;
     left: 0;
     position: relative;
     top: 0;
     width:100%;
 }
+.merged_rates_table th {
+    background-color: #F1EFE1;
+    color: #555555;
+    font-size: 12px;
+    padding: 4px 0;
+    text-align: center;
+    vertical-align: top;
+    white-space: nowrap;
+    width: 100px;
+    border-left: 1px solid #DCD6B2;
+}
 
-.merged_rates_table .lodgix_dates {
-    padding-left:5px;
+.merged_rates_table_green {
+    background-color: #A4CE4B !important;
+    background-color: #F1EFE1 !important;
+    
+}     
+
+.merged_rates_table th b {
+    border-left: 1px solid #DCD6B2;
+    display: block;
+    padding: 8px 0;
+}
+.merged_rates_table th.merged_rates_table-0 b {
+    border-left-width: 0;
+}
+.merged_rates_table th.merged_rates_table-0 {
+    padding-left: 10px;
+    width: 130px;
+}
+.merged_rates_table td {
+    -moz-box-sizing: border-box;
+    border-left: 1px solid #DCDCDC;
+    color: #555555;
+    font-size: 12px;
+    padding: 4px 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+.merged_rates_table td b, .merged_rates_table td strong {
+    color: #333333;
+}
+tr.merged_rates_table-odd td, tr.merged_rates_table-odd.merged_rates_table-divider td div, tr.merged_rates_table-even.merged_rates_table-divider td {
+    background-color: #FFFFFF;
+}
+tr.merged_rates_table-odd.merged_rates_table-divider td, tr.merged_rates_table-even td, tr.merged_rates_table-even.merged_rates_table-divider td div {
+    background-color: #F4F4F4;
+}
+.merged_rates_table .merged_rates_table-0 {
+    border-left-width: 0;
+    text-align: left;
+    width: 130px;
+}
+.merged_rates_table-topright, .merged_rates_table-topleft {
+    background-color: #FFFFFF;
+    display: block;
+    height: 12px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 12px;
+}
+.merged_rates_table-topright span, .merged_rates_table-topleft span {
+    background-color: #F1EFE1;
+    border: 1px solid #DCDCDC;
+    display: block;
+    height: 12px;
+    width: 12px;
+}
+.merged_rates_table-topright {
+    left: auto;
+    right: -1px;
+}
+.merged_rates_table-topright span {
+    border-radius: 0 6px 0 0;
+    border-width: 1px 1px 0 0;
+}
+.merged_rates_table-topleft span {
+    border-radius: 6px 0 0 0;
+    border-width: 1px 0 0 1px;
+}
+.ff .merged_rates_table-topright, .ie .merged_rates_table-topright {
+    right: 0;
+}
+.merged_rates_table p {
+    color: #888888;
+    display: block;
+    font-size: 13px;
+    margin: 0;
+    padding: 4px 0 0;
+}
+.merged_rates_table small {
+    color: #888888;
+    display: inline;
+    font-size: 11px;
+    margin: 0;
+    padding: 4px 0 0;
+}
+.merged_rates_table hr {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #FFFFFF;
+    border-color: -moz-use-text-color -moz-use-text-color #DCDCDC;
+    border-image: none;
+    border-style: none none dashed;
+    border-width: 0 0 1px;
+    clear: both;
+    color: #FFFFFF;
+    margin: 6px 0;
+}
+td.merged_rates_table-span {
+    border-left-width: 0;
+    text-align: left;
+}
+.merged_rates_table-divider div {
+    border-top: 1px solid #DCDCDC;
+    margin-top: 8px;
+    padding-top: 8px;
+}
+.merged_rates_table-divider td {
+    border-left-width: 0;
+    padding: 0;
+}
+.merged_rates_table-divider.is-first div {
+    margin-top: 0;
+}
+.merged_rates_table-divider.is-last div {
+    border-top-width: 0;
+    margin-top: 0;
 }
 
 .lodgix_centered {
-    text-align:center;
+    text-align:center !important;
 }
 
 .lodgix_left {
-    text-align:left;
+    text-align:left !important;
 }
 
 .lodgix_right {
-    text-align:right;
+    text-align:right !important;
 }
 
 ';
 
 $content = str_replace('__PLUGIN_FOLDER__',$url,$content);
-
 echo $content;
 
 

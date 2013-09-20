@@ -3089,6 +3089,10 @@ if (!class_exists('p_lodgix')) {
       	return do_shortcode($single_property);
       }
       
+			function is_iterable($var) {
+			    return (is_array($var) || $var instanceof Traversable);
+			}		          
+		      
       
       function set_thesis_2_custom_templates_for_page($page_id) { 
 							
@@ -4941,13 +4945,15 @@ if (!class_exists('p_lodgix')) {
 		            		$class = $thesis_skin['class'];
 		            	$thesis_classic_r_templates = get_option('thesis_classic_r_templates');          
 		          }          
-				    	foreach ($thesis_classic_r_templates as $key => $value) {
-				    		$title = ucwords($key);
-				    		if (0 === strpos($key, 'custom_')) {
-				    			$title = $value['title'];
-				    	  }
-            		array_push($thesis_2_template_options,Array('class' => $key,'title' => $title));
-              }                     
+		          if ($this->is_iterable($thesis_classic_r_templates)) {
+			    			foreach ($thesis_classic_r_templates as $key => $value) {
+					    		$title = ucwords($key);
+					    		if (0 === strpos($key, 'custom_')) {
+					    			$title = $value['title'];
+					    	  }
+	            		array_push($thesis_2_template_options,Array('class' => $key,'title' => $title));
+	              }                     
+	            }
 				  }
 				  catch (SomeException $e)
 				  {

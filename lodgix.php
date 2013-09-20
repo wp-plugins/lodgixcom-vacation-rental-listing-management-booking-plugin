@@ -889,13 +889,38 @@ if (!class_exists('p_lodgix')) {
         	{
           	$current_theme = get_current_theme();
             if ($this->options['p_lodgix_thesis_compatibility'])
-            {
+            {        	
               include('thesis_no_sidebars.php');
               die();
             }
             else if ($this->options['p_lodgix_thesis_2_compatibility'])
             {
-          
+            	$thesis_skin = get_option('thesis_skin');
+            	if ($thesis_skin) {
+            		$class = $thesis_skin['class'];
+            	$thesis_classic_r_templates = get_option('thesis_classic_r_templates');
+            	
+            	$template_mapping = Array();
+				    	foreach ($thesis_classic_r_templates as $key => $value) {
+				    		$title = $key;
+				    		if (0 === strpos($key, 'custom_')) {
+				    			$title = strtolower($value['title']);
+				    	  }
+            		array_push($template_mapping,Array('class' => $key,'title' => $title));
+              }            	
+            	            	
+            	$template = Array('template' => 'single');            	
+            	add_post_meta($wp_query->post->ID,  '_' . $class, $template, true); 
+            	$meta_values = update_post_meta($wp_query->post->ID,  '_' . $class, $template);
+            	
+        
+            	
+            	print_r($template_mapping);
+            	die();
+            	
+            	// INSERT INTO `wp_postmeta` VALUES ('4684', '56293', '_thesis_classic_r', 'a:1:{s:8:\"template\";s:17:\"custom_1348591137\";}');
+            	
+             }
             }
             else if ($current_theme  == "FlexSqueeze")
             {
@@ -1456,6 +1481,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_vr_meta_keywords_de' => NULL,
                                   'p_lodgix_full_size_thumbnails' => false,
                                   'p_lodgix_custom_page_template' => '',
+                                  'p_lodgix_thesis_2_template' => '',                                  
                               		'p_lodgix_areas_pages' => serialize(array()),
                               		'p_lodgix_areas_pages_de' => serialize(array())                                                                     
                                   );
@@ -1522,6 +1548,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_vr_meta_keywords' => NULL,
                               'p_lodgix_vr_meta_keywords_de' => NULL,
                               'p_lodgix_custom_page_template' => '',
+                              'p_lodgix_thesis_2_template' => '',                              
                               'p_lodgix_full_size_thumbnails' => false,
                               'p_lodgix_areas_pages' => serialize(array()),
                               'p_lodgix_areas_pages_de' => serialize(array())                                                              
@@ -4500,6 +4527,8 @@ if (!class_exists('p_lodgix')) {
           }
           update_option('p_lodgix_db_version',$p_lodgix_db_version);
           
+  
+          
           if($_POST['p_lodgix_save']){
           	  ini_set('max_execution_time', 0);
               if (! wp_verify_nonce($_POST['_wpnonce'], 'p_lodgix-update-options') ) die('Whoops! There was a problem with the data you posted. Please go back and try again.');                   
@@ -4582,7 +4611,8 @@ if (!class_exists('p_lodgix')) {
                   $this->options['p_lodgix_vr_meta_description'] = $_POST['p_lodgix_vr_meta_description']; 
                   $this->options['p_lodgix_vr_meta_keywords'] = $_POST['p_lodgix_vr_meta_keywords'];   
                   $this->options['p_lodgix_custom_page_template'] = $_POST['p_lodgix_custom_page_template'];   
-                  
+                  $this->options['p_lodgix_thesis_2_template'] = $_POST['p_lodgix_thesis_2_template'];   
+                                    
                   $this->options['p_lodgix_contact_url'] = $_POST['p_lodgix_contact_url'];    
                   $this->options['p_lodgix_contact_url_de'] = $_POST['p_lodgix_contact_url_de'];    
                   
@@ -4866,6 +4896,24 @@ if (!class_exists('p_lodgix')) {
           	$this->p_lodgix_clean();
           	echo '<div class="updated"><p>Success! Database sucessfully cleaned!</p></div>';
           }
+          
+ 					$thesis_2_template_options = Array();
+ 					array_push($thesis_2_template_options,Array('class' => '','title' => 'Disabled'));
+ 					if ($this->options['p_lodgix_thesis_2_compatibility']) {
+				    	foreach ($thesis_classic_r_templates as $key => $value) {
+				    		$title = ucwords($key);
+				    		if (0 === strpos($key, 'custom_')) {
+				    			$title = $value['title'];
+				    	  }
+            		array_push($thesis_2_template_options,Array('class' => $key,'title' => $title));
+              }                     
+          }
+
+					$thesis_skin = get_option('thesis_skin');
+          if ($thesis_skin) {
+            		$class = $thesis_skin['class'];
+            	$thesis_classic_r_templates = get_option('thesis_classic_r_templates');          
+          }          
 ?>                                   
 <link href="<?php echo plugins_url('css/admin.css', __FILE__); ?>" rel="stylesheet" type="text/css">
 <div class="wrap">
@@ -5153,6 +5201,14 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 					</th>
 					<td>
 						<input name="p_lodgix_thesis_2_compatibility" type="checkbox" id="p_lodgix_thesis_2_compatibility" <?php if ($this->options['p_lodgix_thesis_2_compatibility']) echo "CHECKED"; ?> />
+
+				<td>
+						<select name="p_lodgix_thesis_2_template"  id="p_lodgix_thesis_2_template" style="width:120px;">               
+							<?php foreach($thesis_2_template_options as $to) { ?>              
+							<option <?php if ($this->options['p_lodgix_thesis_2_template'] == $to['key']) echo "SELECTED"; ?> value='<?php echo $to['key'] ?>'><?php echo $to['title'] ?></option>
+							<?php } ?>
+				
+						</select>
 					</td>
 				</tr>
 				

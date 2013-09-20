@@ -5247,10 +5247,10 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Thesis 2 Compatibility:', $this->localizationDomain); ?>
 					</th>
 					<td>
-						<input name="p_lodgix_thesis_2_compatibility" type="checkbox" id="p_lodgix_thesis_2_compatibility" <?php if ($this->options['p_lodgix_thesis_2_compatibility']) echo "CHECKED"; ?> />
+						<input name="p_lodgix_thesis_2_compatibility" type="checkbox" id="p_lodgix_thesis_2_compatibility" <?php if ($this->options['p_lodgix_thesis_2_compatibility']) echo "CHECKED"; ?> onchange="javascript:set_thesis_2_theme_enabled();"/>
 
 
-						<select name="p_lodgix_thesis_2_template"  id="p_lodgix_thesis_2_template" style="width:120px;margin_left:10px;" <?php if (!$this->options['p_lodgix_thesis_2_compatibility']) echo "DISABLED"; ?>>               
+						<select name="p_lodgix_thesis_2_template"  id="p_lodgix_thesis_2_template" style="width:120px;margin_left:10px;"  <?php if (!$this->options['p_lodgix_thesis_2_compatibility']) echo "DISABLED"; ?>>               
 							<?php foreach($thesis_2_template_options as $to) { ?>              
 							<option <?php if ($this->options['p_lodgix_thesis_2_template'] == $to['class']) echo "SELECTED"; ?> value='<?php echo $to['class'] ?>'><?php echo $to['title'] ?></option>
 							<?php } ?>
@@ -5360,13 +5360,25 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 				li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
 			  })();
-			</script>
-      <script>      
+			</script>			
+      <script> 
+      	   function set_thesis_2_theme_enabled() {
+      	   		var is_checked = jQueryLodgix('#p_lodgix_thesis_2_compatibility').is(':checked');      	  	
+      	   		if (is_checked) {
+      	   			  jQueryLodgix('#p_lodgix_thesis_2_template').removeAttr('disabled');
+      	   	  }
+      	   	  else {
+      	   	  		  jQueryLodgix('#p_lodgix_thesis_2_template').attr('disabled','disabled');
+      	   	  }
+      	   }
+      	        
       		 jQuery('#p_lodgix_thesis_compatibility').click(function(){
-      		 	 jQueryLodgix('#p_lodgix_thesis_2_compatibility').prop('checked', false);      	  	
+      		 	 jQueryLodgix('#p_lodgix_thesis_2_compatibility').prop('checked', false);     
+      		 	 set_thesis_2_theme_enabled(); 	  	
     			 });
       		 jQuery('#p_lodgix_thesis_2_compatibility').click(function(){
       		 	 jQueryLodgix('#p_lodgix_thesis_compatibility').prop('checked', false);      	  	
+      		 	 set_thesis_2_theme_enabled();
     			 });
       	    
       </script>

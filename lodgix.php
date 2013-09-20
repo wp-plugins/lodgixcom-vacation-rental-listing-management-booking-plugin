@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.36
+Version: 1.1.37
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.37: Added Thesis 2 support
 v1.1.36: Fixed Merged Rates
 v1.1.35: Added Merged Rates
 v1.1.34: Added full size thumbnails option
@@ -892,6 +893,10 @@ if (!class_exists('p_lodgix')) {
               include('thesis_no_sidebars.php');
               die();
             }
+            else if ($this->options['p_lodgix_thesis_2_compatibility'])
+            {
+          
+            }
             else if ($current_theme  == "FlexSqueeze")
             {
             	
@@ -920,7 +925,7 @@ if (!class_exists('p_lodgix')) {
             
             $post_id = $post->ID;
             echo "\n".'<!-- Start Lodgix -->'."\n";    
-            if (!$this->options['p_lodgix_thesis_compatibility'])
+            if (!$this->options['p_lodgix_thesis_compatibility'] && !$this->options['p_lodgix_thesis_2_compatibility'])
             {
  
               if ($post_id == $this->options['p_lodgix_vacation_rentals_page'])
@@ -1075,7 +1080,7 @@ if (!class_exists('p_lodgix')) {
              `virtual_tour_url` text default NULL,
              `beds_text` text default NULL,
              PRIMARY KEY  (`id`)
-       );";
+       ) DEFAULT CHARSET=utf8;";
        $wpdb->query($sql);
       }           
       $table_name = $wpdb->prefix . "lodgix_lang_properties";
@@ -1087,7 +1092,7 @@ if (!class_exists('p_lodgix')) {
             `details` text,
              `language_code` varchar(2) NOT NULL,
              PRIMARY KEY  (`id`)
-       );";
+       ) DEFAULT CHARSET=utf8;";
        $wpdb->query($sql);
       }                 
       $table_name = $wpdb->prefix . "lodgix_amenities";
@@ -1098,7 +1103,7 @@ if (!class_exists('p_lodgix')) {
         `property_id` int(11) NOT NULL,
         `description` varchar(255) NOT NULL,
         PRIMARY KEY  (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);
       }     
       $table_name = $wpdb->prefix . "lodgix_rates";
@@ -1121,7 +1126,7 @@ if (!class_exists('p_lodgix')) {
         `is_default` tinyint(1) NOT NULL default '0',
         `name` varchar(128) default NULL,
         PRIMARY KEY  (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);   
       }
       
@@ -1141,7 +1146,7 @@ if (!class_exists('p_lodgix')) {
         `rate_type` varchar(64) default NULL,
         `name` varchar(128) default NULL,
         PRIMARY KEY  (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);   
       }      
 
@@ -1157,7 +1162,7 @@ if (!class_exists('p_lodgix')) {
         `url` varchar(255) default NULL,
         `thumb_url` varchar(255) default NULL,      
          PRIMARY KEY  (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);             
       } 
       $table_name = $wpdb->prefix . "lodgix_rules";
@@ -1172,7 +1177,7 @@ if (!class_exists('p_lodgix')) {
         `is_default` tinyint(1) NOT NULL default '0',
         `name` varchar(128) default NULL,
          PRIMARY KEY  (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);             
       } 
       $table_name = $wpdb->prefix . "lodgix_pages";
@@ -1185,7 +1190,7 @@ if (!class_exists('p_lodgix')) {
         `enabled` tinyint(1) NOT NULL default '0',
         `featured` tinyint(1) NOT NULL default '0',        
          PRIMARY KEY  (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);             
       }     
       $table_name = $wpdb->prefix . "lodgix_lang_pages";
@@ -1197,7 +1202,7 @@ if (!class_exists('p_lodgix')) {
         `source_page_id` bigint default NULL,
         `language_code` varchar(2) NOT NULL,
          PRIMARY KEY  (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);             
       } 
 
@@ -1208,7 +1213,7 @@ if (!class_exists('p_lodgix')) {
         `description_de` varchar(255) DEFAULT NULL,
         `searchable` tinyint(1) NOT NULL default 0,
         PRIMARY KEY (`description`)
-       );";
+       ) DEFAULT CHARSET=utf8;";
        $wpdb->query($sql);
       }        
       
@@ -1219,7 +1224,7 @@ if (!class_exists('p_lodgix')) {
         `url` varchar(255) NOT NULL DEFAULT '',
         `title` varchar(255) DEFAULT NULL,
         PRIMARY KEY (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);             
       }              
 
@@ -1233,7 +1238,7 @@ if (!class_exists('p_lodgix')) {
         `multi_unit_helptext` longtext NULL, 
         `language_code` varchar(2) NOT NULL,
          PRIMARY KEY  (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);             
       }      
       
@@ -1248,7 +1253,7 @@ if (!class_exists('p_lodgix')) {
         `is_flat` tinyint(1) NOT NULL,
         `type` varchar(32) NOT NULL,
          PRIMARY KEY (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);           
       }                  
       
@@ -1263,7 +1268,7 @@ if (!class_exists('p_lodgix')) {
         `is_flat` tinyint(1) NOT NULL,
         `frequency` varchar(16) NOT NULL,
          PRIMARY KEY (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);           
       }       
       
@@ -1275,7 +1280,7 @@ if (!class_exists('p_lodgix')) {
         `title` varchar(255) NOT NULL,
         `value` double NOT NULL,
          PRIMARY KEY (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);             
       }      
 
@@ -1289,7 +1294,7 @@ if (!class_exists('p_lodgix')) {
         `description` text NOT NULL,
         `language_code` varchar(2) NOT NULL,
         PRIMARY KEY  (`id`)
-       );";      
+       ) DEFAULT CHARSET=utf8;";      
        $wpdb->query($sql);             
       }                                            
            
@@ -1426,6 +1431,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_vacation_rentals_page_pos' => '3',
                                   'p_lodgix_availability_page_pos' => '4',                                  
                                   'p_lodgix_thesis_compatibility' => false,
+                                  'p_lodgix_thesis_2_compatibility' => false,
                                   'p_lodgix_date_format' => '%m/%d/%Y',
                                   'p_lodgix_time_format' => '12',
                                   'p_lodgix_root_width' => '699',
@@ -1492,6 +1498,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_vacation_rentals_page_pos' => '3',                                                             
                               'p_lodgix_availability_page_pos' => '4',
                               'p_lodgix_thesis_compatibility' => false,
+                              'p_lodgix_thesis_2_compatibility' => false,
                               'p_lodgix_date_format' => 'm/d/Y',
                               'p_lodgix_time_format' => '12',
                               'p_lodgix_root_width' => '699',
@@ -3218,7 +3225,7 @@ if (!class_exists('p_lodgix')) {
       
       function remove_thesis_page($page_id)
       {
-        if ($this->options['p_lodgix_thesis_compatibility'])
+        if ($this->options['p_lodgix_thesis_compatibility'] || $this->options['p_lodgix_thesis_2_compatibility'])
         {
           $thesis_options = get_option('thesis_options');
           unset($thesis_options->nav['pages'][$page_id]);
@@ -4521,10 +4528,16 @@ if (!class_exists('p_lodgix')) {
                       $this->options['p_lodgix_allow_pingback'] = true;
                   else
                       $this->options['p_lodgix_allow_pingback'] = false;
+                      
                   if ($_POST['p_lodgix_thesis_compatibility'] == "on")
                       $this->options['p_lodgix_thesis_compatibility'] = true;
                   else
                       $this->options['p_lodgix_thesis_compatibility'] = false;
+
+                  if ($_POST['p_lodgix_thesis_2_compatibility'] == "on")
+                      $this->options['p_lodgix_thesis_2_compatibility'] = true;
+                  else
+                      $this->options['p_lodgix_thesis_2_compatibility'] = false;
                   
                   if ($_POST['p_lodgix_full_size_thumbnails'] == "on")
                       $this->options['p_lodgix_full_size_thumbnails'] = true;
@@ -4650,7 +4663,7 @@ if (!class_exists('p_lodgix')) {
                   
                   $this->saveAdminOptions();            
                   
-                  if ($this->options['p_lodgix_thesis_compatibility'])
+                  if ($this->options['p_lodgix_thesis_compatibility'] || $this->options['p_lodgix_thesis_2_compatibility'])
                   {
                     if (($this->options['p_lodgix_vr_title']) && ($this->options['p_lodgix_vr_title'] != ""))
                     {
@@ -5128,12 +5141,21 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
 				<tr valign="top">
 					<th width="33%" scope="row">
-						<?php _e('Thesis Compatibility:', $this->localizationDomain); ?>
+						<?php _e('Thesis 1 Compatibility:', $this->localizationDomain); ?>
 					</th>
 					<td>
-						<input name="p_lodgix_thesis_compatibility" type="checkbox" id="p_lodgix_thesis_compatibility" <?php if ($this->options['p_lodgix_thesis_compatibility']) echo "CHECKED"; ?>/>
+						<input name="p_lodgix_thesis_compatibility" type="checkbox" id="p_lodgix_thesis_compatibility" <?php if ($this->options['p_lodgix_thesis_compatibility']) echo "CHECKED";?> />
 					</td>
 				</tr>
+				<tr valign="top">
+					<th width="33%" scope="row">
+						<?php _e('Thesis 2 Compatibility:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_thesis_2_compatibility" type="checkbox" id="p_lodgix_thesis_2_compatibility" <?php if ($this->options['p_lodgix_thesis_2_compatibility']) echo "CHECKED"; ?> />
+					</td>
+				</tr>
+				
 				<tr valign="top">
 					<th width="33%" scope="row">
 						<?php _e('Custom Page Template:', $this->localizationDomain); ?>
@@ -5236,7 +5258,15 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
 			  })();
 			</script>
-
+      <script>      
+      		 jQuery('#p_lodgix_thesis_compatibility').click(function(){
+      		 	 jQueryLodgix('#p_lodgix_thesis_2_compatibility').prop('checked', false);      	  	
+    			 });
+      		 jQuery('#p_lodgix_thesis_2_compatibility').click(function(){
+      		 	 jQueryLodgix('#p_lodgix_thesis_compatibility').prop('checked', false);      	  	
+    			 });
+      	    
+      </script>
 		</div>
 		<div class="ldgxAdminBox">
 			<h2>About Lodgix.com</h2>

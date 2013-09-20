@@ -3110,12 +3110,40 @@ if (!class_exists('p_lodgix')) {
       }	            	            	
 	            	
 	    function set_thesis_2_custom_templates() { 
+	    	
+	    	  global $wpdb;
+    			$pages_table = $wpdb->prefix . "lodgix_pages"; 
+          $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages"; 	    	  
+          
 	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_vacation_rentals_page']);
 	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_vacation_rentals_page_de']);
 	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_availability_page']);
 	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_availability_page_d']);
 	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_search_rentals_page']);
 	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_search_rentals_page']);
+	    		
+   
+         
+     
+	         $posts = $wpdb->get_results('SELECT * FROM ' . $pages_table);   
+	         foreach($posts as $post)
+	         {
+	         		$this->set_thesis_2_custom_templates_for_page($post->page_id);
+	         }         
+	         $posts_de = $wpdb->get_results('SELECT * FROM ' . $lang_pages_table);   
+  	       foreach($posts_de as $post)
+    	     {
+      	      $this->set_thesis_2_custom_templates_for_page($post->page_id);
+        	 }                   
+  	 			 $areas_pages = unserialize($this->options['p_lodgix_areas_pages']);
+	 			 
+	 			 
+	 			 
+					 foreach((array)$areas_pages as $key => $page)
+					 {
+ 					 	$this->set_thesis_2_custom_templates_for_page((int)$page->page_id);
+					 }
+						 
 	    }
       
       function build_individual_pages() {

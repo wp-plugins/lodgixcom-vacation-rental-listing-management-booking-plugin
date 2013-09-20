@@ -895,32 +895,7 @@ if (!class_exists('p_lodgix')) {
             }
             else if ($this->options['p_lodgix_thesis_2_compatibility'])
             {
-            	$thesis_skin = get_option('thesis_skin');
-            	if ($thesis_skin) {
-            		$class = $thesis_skin['class'];
-            	$thesis_classic_r_templates = get_option('thesis_classic_r_templates');
-            	
-            	$template_mapping = Array();
-				    	foreach ($thesis_classic_r_templates as $key => $value) {
-				    		$title = $key;
-				    		if (0 === strpos($key, 'custom_')) {
-				    			$title = strtolower($value['title']);
-				    	  }
-            		array_push($template_mapping,Array('class' => $key,'title' => $title));
-              }            	
-            	            	
-            	$template = Array('template' => 'single');            	
-            	add_post_meta($wp_query->post->ID,  '_' . $class, $template, true); 
-            	$meta_values = update_post_meta($wp_query->post->ID,  '_' . $class, $template);
-            	
         
-            	
-            	print_r($template_mapping);
-            	die();
-            	
-            	// INSERT INTO `wp_postmeta` VALUES ('4684', '56293', '_thesis_classic_r', 'a:1:{s:8:\"template\";s:17:\"custom_1348591137\";}');
-            	
-             }
             }
             else if ($current_theme  == "FlexSqueeze")
             {
@@ -3114,6 +3089,27 @@ if (!class_exists('p_lodgix')) {
       	return do_shortcode($single_property);
       }
       
+       function set_thesis_2_custom_templates() { 
+							
+	    							$thesis_skin = get_option('thesis_skin');
+	            			if ($thesis_skin) {
+			            		$class = $thesis_skin['class'];
+			            		$thesis_classic_r_templates = get_option('thesis_classic_r_templates');
+			            		      
+				  						if ($this->options['p_lodgix_thesis_2_template'] != '') {
+				            		$template = Array('template' => $this->options['p_lodgix_thesis_2_template']);            	
+				            		add_post_meta($post['ID'],  '_' . $class, $template, true); 
+			  	          		$meta_values = update_post_meta($post['ID'],  '_' . $class, $template);
+			  	          	}
+			  	          	else {
+			  	          	}
+	                      	
+      }	            	            	
+	            	
+	        
+	            	
+	            	print_r($template_mapping);
+	            	die();      
       
       function build_individual_pages() {
         global $wpdb;
@@ -3248,6 +3244,10 @@ if (!class_exists('p_lodgix')) {
          {
            $this->link_translated_pages();
          }         
+         
+         if ($this->options['p_lodgix_thesis_2_compatibility']) {
+           $this->set_thesis_2_custom_templates();         	
+         }
       }
       
       function remove_thesis_page($page_id)
@@ -4619,7 +4619,7 @@ if (!class_exists('p_lodgix')) {
                   if ((!$this->options['p_lodgix_vr_title']) || ($this->options['p_lodgix_vr_title'] == ''))
                     $this->options['p_lodgix_vr_title'] = "Vacation Rentals";
 									$this->saveAdminOptions();
-									
+													
 								
 					
                   $post = array();
@@ -4649,7 +4649,6 @@ if (!class_exists('p_lodgix')) {
            					$sql = "UPDATE " . $posts_table . " SET post_content='[lodgix_vacation_rentals]' WHERE id=" . $post_id;
            					$wpdb->query($sql);  
                   }                  
-
 
                   $post = array();
                   $post['post_title'] = 'Ferienvillen &Uuml;bersicht'; 
@@ -4898,8 +4897,15 @@ if (!class_exists('p_lodgix')) {
           }
           
  					$thesis_2_template_options = Array();
- 					array_push($thesis_2_template_options,Array('class' => '','title' => 'Disabled'));
- 					if ($this->options['p_lodgix_thesis_2_compatibility']) {
+ 					array_push($thesis_2_template_options,Array('class' => '','title' => 'Default'));
+ 			
+				  try
+				  {
+							$thesis_skin = get_option('thesis_skin');
+		          if ($thesis_skin) {
+		            		$class = $thesis_skin['class'];
+		            	$thesis_classic_r_templates = get_option('thesis_classic_r_templates');          
+		          }          
 				    	foreach ($thesis_classic_r_templates as $key => $value) {
 				    		$title = ucwords($key);
 				    		if (0 === strpos($key, 'custom_')) {
@@ -4907,13 +4913,13 @@ if (!class_exists('p_lodgix')) {
 				    	  }
             		array_push($thesis_2_template_options,Array('class' => $key,'title' => $title));
               }                     
-          }
+				  }
+				  catch (SomeException $e)
+				  {
+				
+				  } 			
+          
 
-					$thesis_skin = get_option('thesis_skin');
-          if ($thesis_skin) {
-            		$class = $thesis_skin['class'];
-            	$thesis_classic_r_templates = get_option('thesis_classic_r_templates');          
-          }          
 ?>                                   
 <link href="<?php echo plugins_url('css/admin.css', __FILE__); ?>" rel="stylesheet" type="text/css">
 <div class="wrap">
@@ -5202,10 +5208,10 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 					<td>
 						<input name="p_lodgix_thesis_2_compatibility" type="checkbox" id="p_lodgix_thesis_2_compatibility" <?php if ($this->options['p_lodgix_thesis_2_compatibility']) echo "CHECKED"; ?> />
 
-				<td>
-						<select name="p_lodgix_thesis_2_template"  id="p_lodgix_thesis_2_template" style="width:120px;">               
+
+						<select name="p_lodgix_thesis_2_template"  id="p_lodgix_thesis_2_template" style="width:120px;margin_left:10px;" <?php if (!$this->options['p_lodgix_thesis_2_compatibility']) echo "DISABLED"; ?>>               
 							<?php foreach($thesis_2_template_options as $to) { ?>              
-							<option <?php if ($this->options['p_lodgix_thesis_2_template'] == $to['key']) echo "SELECTED"; ?> value='<?php echo $to['key'] ?>'><?php echo $to['title'] ?></option>
+							<option <?php if ($this->options['p_lodgix_thesis_2_template'] == $to['class']) echo "SELECTED"; ?> value='<?php echo $to['class'] ?>'><?php echo $to['title'] ?></option>
 							<?php } ?>
 				
 						</select>

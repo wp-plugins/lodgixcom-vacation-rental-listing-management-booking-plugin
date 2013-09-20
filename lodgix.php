@@ -3089,27 +3089,34 @@ if (!class_exists('p_lodgix')) {
       	return do_shortcode($single_property);
       }
       
-       function set_thesis_2_custom_templates() { 
+      
+      function set_thesis_2_custom_templates_for_page($page_id) { 
 							
-	    							$thesis_skin = get_option('thesis_skin');
-	            			if ($thesis_skin) {
-			            		$class = $thesis_skin['class'];
-			            		$thesis_classic_r_templates = get_option('thesis_classic_r_templates');
+	    		$thesis_skin = get_option('thesis_skin');
+	        if ($thesis_skin) {
+			       $class = $thesis_skin['class'];
+			    		$thesis_classic_r_templates = get_option('thesis_classic_r_templates');
+
+				      $template = Array('template' => $this->options['p_lodgix_thesis_2_template']);            	
 			            		      
-				  						if ($this->options['p_lodgix_thesis_2_template'] != '') {
-				            		$template = Array('template' => $this->options['p_lodgix_thesis_2_template']);            	
-				            		add_post_meta($post['ID'],  '_' . $class, $template, true); 
-			  	          		$meta_values = update_post_meta($post['ID'],  '_' . $class, $template);
-			  	          	}
-			  	          	else {
-			  	          	}
-	                      	
+				  	  if ($template != '') {
+				          add_post_meta($page_id,  '_' . $class, $template, true); 
+			  	        $meta_values = update_post_meta($page_id,  '_' . $class, $template);
+			  	    }
+			  	    else {
+			  	    		delete_post_meta($page_id,  '_' . $class);
+			  	    }
+	       }            	
       }	            	            	
 	            	
-	        
-	            	
-	            	print_r($template_mapping);
-	            	die();      
+	    function set_thesis_2_custom_templates() { 
+	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_vacation_rentals_page']);
+	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_vacation_rentals_page_de']);
+	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_availability_page']);
+	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_availability_page_d']);
+	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_search_rentals_page']);
+	    		$this->set_thesis_2_custom_templates_for_page($this->options['p_lodgix_search_rentals_page']);
+	    }
       
       function build_individual_pages() {
         global $wpdb;

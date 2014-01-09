@@ -95,7 +95,7 @@ $single_property .= '
 			<a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' .  $p_plugin_path  . 'images/map_50.png"></a>' . $video_icon . $virtual_tour_icon . $mail_icon . '
 		</div>
 		<div class="ldgxPropBadgeIconsRight">
-			<img src="' .  $p_plugin_path  . 'images/no_pets.png" style="' . $pets . '"><img src="' .  $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '">
+			<img id="lodgix_no_pets_icon" src="' .  $p_plugin_path  . 'images/no_pets.png" style="' . $pets . '"><img id="lodgix_no_smoke_icon" src="' .  $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '">
 		</div>
 		<div class="ldgxPropBadgeSeparator"></div>
 	</div>

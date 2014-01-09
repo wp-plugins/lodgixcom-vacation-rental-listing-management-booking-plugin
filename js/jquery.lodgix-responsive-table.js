@@ -44,6 +44,7 @@ $.widget("ui.LodgixResponsiveTable", {
 		for (r = 0; r < len; r++) {
 			row = {};
 			tr = trs[r];
+			row.trClassTitle =  $(tr).attr('class');
 			td = $('th', tr);
 			row.title = td.html();
 			row.width = td.attr('width') * 1;
@@ -64,7 +65,7 @@ $.widget("ui.LodgixResponsiveTable", {
 			if (row.altWidth) {
 				totalAltWidth += row.altWidth;
 			}
-			row.classTitle = td.attr('class');
+			row.classTitle = td.attr('class');			
 			td = $('td', tr);
 			row.value = td.html();
 			row.classValue = td.attr('class');
@@ -120,7 +121,13 @@ $.widget("ui.LodgixResponsiveTable", {
 					html.push('%;');
 				}
 			}
-			html.push('vertical-align:top;"><div');
+			html.push('vertical-align:top;" ');
+			if (row.trClassTitle) {
+				html.push(' class="');
+				html.push(row.trClassTitle);
+				html.push('"');
+			}			
+			html.push('><div');
 			if (row.classTitle) {
 				html.push(' class="');
 				html.push(row.classTitle);

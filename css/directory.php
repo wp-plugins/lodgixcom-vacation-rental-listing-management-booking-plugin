@@ -557,8 +557,12 @@ border:0 none;
 	background: #F0F7EE;
 }
 
-.ldgxPropBadgeLine {
-	background: #fafafa;
+.ldgxPropBadgeLineBlue {
+	background: #F0F7FF;
+}
+
+.ldgxPropBadgeLineGreen {
+	background: #F0F7EE;
 }
 
 .ldgxPropBadgeTitle {

@@ -69,7 +69,7 @@ $vacation_rentals = '
 			<th width="80" altwidth="40" alt="Type" class="ldgxListingFeatCell">Rental Type</th>
 			<td class="ldgxListingFeatCell">' . $property->proptype . '</td>
 		</tr>
-		<tr>
+		<tr class="ldgxListingFeatCellPets">
 			<th width="80" altwidth="40" alt="Pets" class="ldgxListingFeatCell">Pet Friendly</th>
 			<td class="ldgxListingFeatCell"><div class="ldgxPets' . ($property->pets == 1 ? 'Yes' : 'No') . '"></div></td>
 		</tr>

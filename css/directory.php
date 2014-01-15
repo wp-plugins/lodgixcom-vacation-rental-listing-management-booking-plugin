@@ -1171,15 +1171,16 @@ border:0 none;
 
 .lodgix_tabbed_amenities {
   list-style: circle outside none;
-  height: 350px;
+  min-height: 350px;
   width:100%;
 }
 .lodgix_tabbed_amenities li {
   list-style: circle outside none;
-  white-space: nowrap;
   width: 170px;  
   float:left;
 }
+
+.lodgix_tabbed_content_clear { clear: left; display: block; }
 
 #lodgix_tabbed_content h2 {
   color: #575757;

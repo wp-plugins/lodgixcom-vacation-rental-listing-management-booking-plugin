@@ -211,7 +211,8 @@ $single_property .= '</div>
  									}
 
 								} 
-								$single_property .= '</ul>
+								$single_property .= '<span class="lodgix_tabbed_content_clear"></span></ul>
+								
             </div>
         </div>
         <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'5\',this)">Policies</div>

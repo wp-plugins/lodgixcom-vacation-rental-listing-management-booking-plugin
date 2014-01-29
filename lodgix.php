@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.39
+Version: 1.1.40
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.40: Fixed Widget header width
 v1.1.39: Fixed Amenities UL
 v1.1.38: Added Pets CSS class
 v1.1.37: Added Thesis 2 support
@@ -4277,10 +4278,10 @@ if (!class_exists('p_lodgix')) {
           $this->options['p_lodgix_root_width'] = $owner["Results"]['MultiWidgetSettings']['RootWidth'];   
           $this->options['p_lodgix_root_height'] = $owner["Results"]['MultiWidgetSettings']['RootHeight'];              
           $this->options['p_lodgix_show_header'] = '0';
-          if ($this->options['p_lodgix_show_header'] == '0')
-          {
-            $this->options['p_lodgix_root_height'] = $owner["Results"]['MultiWidgetSettings']['RootHeight'] - $ROOT_HEIGHT;  
-          }                       
+          //if ($this->options['p_lodgix_show_header'] == '0')
+          //{
+          //  $this->options['p_lodgix_root_height'] = $owner["Results"]['MultiWidgetSettings']['RootHeight'] - $ROOT_HEIGHT;  
+          //}                       
           $this->options['p_lodgix_block_corner_rad'] = $owner["Results"]['MultiWidgetSettings']['BlockCornerRad'];    
           $this->options['p_lodgix_days_number'] = $owner["Results"]['MultiWidgetSettings']['DaysNumber'];
           $this->options['p_lodgix_row_number'] = $owner["Results"]['MultiWidgetSettings']['RowNumber'];                    

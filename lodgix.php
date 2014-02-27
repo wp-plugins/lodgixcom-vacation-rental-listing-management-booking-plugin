@@ -404,9 +404,22 @@ if (!class_exists('p_lodgix')) {
     * PHP 5 Constructor
     */        
     function __construct(){
-        //Language Setup
+        global $l10n;
+        
         $locale = get_locale();
-      $mo = plugins_url("/languages/" . $this->localizationDomain . "-".$locale.".mo", __FILE__); 
+        
+        if ($_GET['lang'] != '') {
+            $locale = $_GET['lang'];
+            if ($locale == 'en') {
+                $locale = 'en_US';
+            }
+            else if ($locale == 'de') {
+                $locale = 'de_DE';
+            }
+        }
+        
+        $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/default/" .$locale.".mo";
+        
         load_textdomain($this->localizationDomain, $mo);
 
       //"Constants" setup
@@ -556,16 +569,13 @@ if (!class_exists('p_lodgix')) {
       {
         $single_unit_helptext = $policy->multi_unit_helptext;
       }  			  
-		  		  
-		  if ($p_lodgix_language == 'de')
-			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Verf&uuml;gbarkeit</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
-			else
-			  		$content = '<div id="lodgix_property_booking"><h2 id="booking">Availability & Booking Calendar</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
+	
+            $content = '<div id="lodgix_property_booking"><h2 id="booking">' . __('Availability & Booking Calendar',$this->localizationDomain) .'</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
 		
 
 			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1))
 			{
-  				$content .= '<div style="max-width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">Online Booking Instructions</h2><br><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . str_replace(array("\r\n", "\n", "\r"),'<br>',$single_unit_helptext) . '</p></div></div></div></div>';
+  				$content .= '<div style="max-width:615px"><div style="padding:5px 20px 0px;text-align:center;"><div style="text-align:left;padding:5px 0px 0px 0px;"><h2 style="margin:0px;padding:0px;color:#0299FF;font-family:Arial,sans-serif;font-size:17px;">'. __('Online Booking Instructions',$this->localizationDomain) .'</h2><br><p style="font-family:Arial,sans-serif;font-size:12px;margin:0px;padding:0px;">' . str_replace(array("\r\n", "\n", "\r"),'<br>',$single_unit_helptext) . '</p></div></div></div></div>';
 		  }
 			else
 			{
@@ -1639,7 +1649,7 @@ if (!class_exists('p_lodgix')) {
       * @desc Adds the Settings link to the plugin activate/deactivate page
       */
       function filter_plugin_actions($links, $file) {
-         $settings_link = '<a href="options-general.php?page=' . basename(__FILE__) . '">' . __('Settings') . '</a>';
+         $settings_link = '<a href="options-general.php?page=' . basename(__FILE__) . '">' . __('Settings',$this->localizationDomain) . '</a>';
          array_unshift( $links, $settings_link ); // before other links
 
          return $links;
@@ -2727,81 +2737,72 @@ if (!class_exists('p_lodgix')) {
       }
       
       
+    function get_sort_content() {
+        $content = '<div id="content_lodgix_wrapper">
+                    <div id="lodgix_sort_div">
+                     <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'en\',\'' . $page->area .  '\');">
+                        <OPTION VALUE="">None</OPTION>
+                        <OPTION VALUE="bedrooms">'.__('Bedrooms',$this->localizationDomain).'</OPTION>
+                        <OPTION VALUE="bathrooms">'.__('Bathrooms',$this->localizationDomain).'</OPTION>
+                        <OPTION VALUE="proptype">'.__('Rental Type',$this->localizationDomain).'</OPTION>
+                        <OPTION VALUE="pets">'.__('Pets Allowed',$this->localizationDomain).'</OPTION>
+                        <OPTION VALUE="min_daily_rate">'.__('Daily Rate',$this->localizationDomain).'</OPTION>
+                        <OPTION VALUE="min_weekly_rate">'.__('Weekly Rate',$this->localizationDomain).'</OPTION>
+                        <OPTION VALUE="min_monthly_rate">'.__('Monthly Rate',$this->localizationDomain).'</OPTION>
+                     </SELECT><BR>
+                     </div>
+                     <div id="content_lodgix">';
+        return $content;
+    }
       
-      /*
-        Get area page content
-      */
-      function get_area_page_content($lang_code,$code)
-      {
+    /*
+      Get area page content
+    */
+    function get_area_page_content($lang_code,$code)
+    {
       	
       	$content = '';
       	preg_match_all('/([\d]+)/', $code, $match);
-				$id = (int) $match[0][0];    
+		$id = (int) $match[0][0];    
 				
-				$loptions = get_option('p_lodgix_options');
-				if (is_numeric($id))
-				{
+		$loptions = get_option('p_lodgix_options');
+		if (is_numeric($id))
+		{
 							 
-					if ($lang_code == 'en')
-					{
-    				$areas_pages = unserialize($loptions['p_lodgix_areas_pages']);
-    				foreach($areas_pages as $page)	
+			if ($lang_code == 'en')
+			{
+    			$areas_pages = unserialize($loptions['p_lodgix_areas_pages']);
+    			foreach($areas_pages as $page)	
       			{
-      				 if ($page->page_id && ($page->page_id == $id))  		  				
-      				 { 			  				
+      				if ($page->page_id && ($page->page_id == $id))  		  				
+      				{ 			  				
       				   $wpost = array();
-                 $wpost['ID'] = $page->page_id;
-                 $content = '<div id="content_lodgix_wrapper">
-                            <div id="lodgix_sort_div">
-                             <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'en\',\'' . $page->area .  '\');">
-                                <OPTION VALUE="">None</OPTION>
-                                <OPTION VALUE="bedrooms">Bedrooms</OPTION>
-                                <OPTION VALUE="bathrooms">Bathrooms</OPTION>
-                                <OPTION VALUE="proptype">Rental Type</OPTION>
-                                <OPTION VALUE="pets">Pets Allowed</OPTION>
-                                <OPTION VALUE="min_daily_rate">Daily Rate</OPTION>
-                                <OPTION VALUE="min_weekly_rate">Weekly Rate</OPTION>
-                                <OPTION VALUE="min_monthly_rate">Monthly Rate</OPTION>
-                             </SELECT><BR>
-                             </div>
-                             <div id="content_lodgix">';
-                 $content .= $this->get_vacation_rentals_html('',$page->area);
-                 $content .= '</div></div>';
+                        $wpost['ID'] = $page->page_id;
+                        $content = $this->get_sort_content();
+                        $content .= $this->get_vacation_rentals_html('',$page->area);
+                        $content .= '</div></div>';
 
+                    }
                 }
             }
-         }
-         else if  ($lang_code == 'de')
-         {
-         	  
-            $areas_pages_de = unserialize($loptions['p_lodgix_areas_pages_de']);
-            foreach($areas_pages_de as $page)	
-      			{
-      				 if ($page->page_id && ($page->page_id == $id)) 	  				
-      				 { 				
-                 $wpost = array();
-                 $wpost['ID'] = $page->page_id;
-                 $content = '<div id="content_lodgix_wrapper">
-                            <div id="lodgix_sort_div">
-                             <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'de\',\'' . $page->area .  '\');">
-                                <OPTION VALUE="">Keine</OPTION>
-                                <OPTION VALUE="bedrooms">Schlafzimmer</OPTION>
-                                <OPTION VALUE="bathrooms">Badezimmer</OPTION>
-                                <OPTION VALUE="proptype">Mietart</OPTION>
-                                <OPTION VALUE="pets">Haustiere erlaubt</OPTION>
-                                <OPTION VALUE="min_daily_rate">Tageskurs</OPTION>
-                                <OPTION VALUE="min_weekly_rate">Wochenpreis</OPTION>
-                                <OPTION VALUE="min_monthly_rate">Monatspreis</OPTION>
-                             </SELECT><BR>
-                             </div>
-                             <div id="content_lodgix">';
-                 $content .= $this->get_vacation_rentals_html_de('',$page->area);
-                 $content .= '</div></div>';
-
+            else if  ($lang_code == 'de')
+            {
+                 
+                $areas_pages_de = unserialize($loptions['p_lodgix_areas_pages_de']);
+                foreach($areas_pages_de as $page)	
+                {
+                    if ($page->page_id && ($page->page_id == $id)) 	  				
+                    { 				
+                        $wpost = array();
+                        $wpost['ID'] = $page->page_id;
+                        $content = $this->get_sort_content();                       
+                        $content .= $this->get_vacation_rentals_html_de('',$page->area);
+                        $content .= '</div></div>';
+   
+                   }
                 }
-    				}
-    			}
-				}
+            }
+		}
   
         return $content;
       }            

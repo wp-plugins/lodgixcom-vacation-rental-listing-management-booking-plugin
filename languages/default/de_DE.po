@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lodgix\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+
+msgid "Sort Results by"
+msgstr ""
+
+msgid "None"
+msgstr "Keine"
+
+msgid "Bedrooms"
+msgstr "Schlafzimmer"
+
+msgid "Bathrooms"
+msgstr "Badezimmer"
+
+msgid "Rental Type"
+msgstr "Mietart"
+
+msgid "Pets Allowed"
+msgstr "Haustiere erlaubt"
+
+msgid "Weekly Rate"
+msgstr "Wochenpreis"
+
+msgid "Daily Rate"
+msgstr "Tageskurs"
+
+msgid "Monthly Rate"
+msgstr "Monatspreis"
+

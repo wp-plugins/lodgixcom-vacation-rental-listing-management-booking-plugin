@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: Lodgix\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Language: en_US\n"
+"X-Generator: Poedit 1.6.4\n"
+
+msgid "Bedrooms"
+msgstr ""
+
+msgid "Bathrooms"
+msgstr ""
+
+msgid "Rental Type"
+msgstr ""
+
+msgid "Pets Allowed"
+msgstr ""
+
+msgid "Weekly Rate"
+msgstr ""
+
+msgid "Daily Rate"
+msgstr ""
+
+msgid "Monthly Rate"
+msgstr ""

@@ -2737,11 +2737,11 @@ if (!class_exists('p_lodgix')) {
       }
       
       
-    function get_sort_content() {
+    function get_sort_content($lang_code,$page) {
         $content = '<div id="content_lodgix_wrapper">
                     <div id="lodgix_sort_div">
-                     <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'en\',\'' . $page->area .  '\');">
-                        <OPTION VALUE="">None</OPTION>
+                     <b>'.__('Sort Results by').':</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr('.$lang_code.',\'' . $page->area .  '\');">
+                        <OPTION VALUE="">'.__('None').'</OPTION>
                         <OPTION VALUE="bedrooms">'.__('Bedrooms',$this->localizationDomain).'</OPTION>
                         <OPTION VALUE="bathrooms">'.__('Bathrooms',$this->localizationDomain).'</OPTION>
                         <OPTION VALUE="proptype">'.__('Rental Type',$this->localizationDomain).'</OPTION>
@@ -2778,7 +2778,7 @@ if (!class_exists('p_lodgix')) {
       				{ 			  				
       				   $wpost = array();
                         $wpost['ID'] = $page->page_id;
-                        $content = $this->get_sort_content();
+                        $content = $this->get_sort_content($lang_code,$page);
                         $content .= $this->get_vacation_rentals_html('',$page->area);
                         $content .= '</div></div>';
 
@@ -2795,7 +2795,7 @@ if (!class_exists('p_lodgix')) {
                     { 				
                         $wpost = array();
                         $wpost['ID'] = $page->page_id;
-                        $content = $this->get_sort_content();                       
+                        $content = $this->get_sort_content($lang_code,$page);
                         $content .= $this->get_vacation_rentals_html_de('',$page->area);
                         $content .= '</div></div>';
    

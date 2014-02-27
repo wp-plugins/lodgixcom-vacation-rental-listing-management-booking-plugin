@@ -2738,9 +2738,13 @@ if (!class_exists('p_lodgix')) {
       
       
     function get_sort_content($lang_code,$page) {
+        $area = '';
+        if ($page) {
+            $area = $page->area;
+        }
         $content = '<div id="content_lodgix_wrapper">
                     <div id="lodgix_sort_div">
-                     <b>'.__('Sort Results by').':</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr('.$lang_code.',\'' . $page->area .  '\');">
+                     <b>'.__('Sort Results by',$this->localizationDomain).':</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\''.$lang_code.'\',\'' . $area .  '\');">
                         <OPTION VALUE="">'.__('None').'</OPTION>
                         <OPTION VALUE="bedrooms">'.__('Bedrooms',$this->localizationDomain).'</OPTION>
                         <OPTION VALUE="bathrooms">'.__('Bathrooms',$this->localizationDomain).'</OPTION>
@@ -2902,23 +2906,9 @@ if (!class_exists('p_lodgix')) {
          
           if ($post_id > 0)
           {
-             $content = '<div id="content_lodgix_wrapper">
-                        <div id="lodgix_sort_div">
-                         <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'en\');">
-                            <OPTION VALUE="">None</OPTION>
-                            <OPTION VALUE="bedrooms">Bedrooms</OPTION>
-                            <OPTION VALUE="bathrooms">Bathrooms</OPTION>
-                            <OPTION VALUE="proptype">Rental Type</OPTION>
-                            <OPTION VALUE="pets">Pets Allowed</OPTION>
-                            <OPTION VALUE="min_daily_rate">Daily Rate</OPTION>
-                            <OPTION VALUE="min_weekly_rate">Weekly Rate</OPTION>
-                            <OPTION VALUE="min_monthly_rate">Monthly Rate</OPTION>
-                            <OPTION VALUE="area">Area</OPTION>
-                         </SELECT><BR>
-                         </div>
-                         <div id="content_lodgix">';
-             $content .= $this->get_vacation_rentals_html();
-             $content .= '</div></div>';
+            $content = $this->get_sort_content($lang_code,false);
+            $content .= $this->get_vacation_rentals_html();
+            $content .= '</div></div>';
           }
         }
         else if ($lang_code == 'de')
@@ -2927,25 +2917,11 @@ if (!class_exists('p_lodgix')) {
           $post_id = $loptions['p_lodgix_vacation_rentals_page_de'];
           if ($post_id > 0)
           {
-             $wpost = array();
-             $wpost['ID'] = $post_id;
-             $content = '<div id="content_lodgix_wrapper">
-                        <div id="lodgix_sort_div">
-                         <b>Sort Results by:</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\'de\');">
-                            <OPTION VALUE="">Keine</OPTION>
-                            <OPTION VALUE="bedrooms">Schlafzimmer</OPTION>
-                            <OPTION VALUE="bathrooms">Badezimmer</OPTION>
-                            <OPTION VALUE="proptype">Mietart</OPTION>
-                            <OPTION VALUE="pets">Haustiere erlaubt</OPTION>
-                            <OPTION VALUE="min_daily_rate">Tageskurs</OPTION>
-                            <OPTION VALUE="min_weekly_rate">Wochenpreis</OPTION>
-                            <OPTION VALUE="min_monthly_rate">Monatspreis</OPTION>
-                            <OPTION VALUE="area">Bereich</OPTION>
-                         </SELECT><BR>
-                         </div>
-                         <div id="content_lodgix">';
-             $content .= $this->get_vacation_rentals_html_de();
-             $content .= '</div></div>';
+            $wpost = array();
+            $wpost['ID'] = $post_id;
+            $content = $this->get_sort_content($lang_code,false);
+            $content .= $this->get_vacation_rentals_html_de();
+            $content .= '</div></div>';
         }  
        }
         

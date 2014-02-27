@@ -417,6 +417,21 @@ if (!class_exists('p_lodgix')) {
                 $locale = 'de_DE';
             }
         }
+        global $wpdb;
+		$lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";        
+        
+        $sql = "SELECT * from " . $lang_amenities_table;
+        $wpdb->query($sql);
+        $pictures = $wpdb->get_results($sql);
+			
+        foreach($pictures as $pic)
+        {
+            print "\r\n";
+            print 'msgid "' . $pic->description.'"';
+            print "\r\n";
+            print 'msgstr "' . $pic->description_de.'"';
+            print "\r\n";
+        }
         
         $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/default/" .$locale.".mo";
         

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lodgix\n"
 "POT-Creation-Date: 2014-02-27 17:38-0000\n"
-"PO-Revision-Date: 2014-02-27 17:46-0000\n"
+"PO-Revision-Date: 2014-02-27 18:11-0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -38,4 +38,151 @@ msgid "Weekly Rate"
 msgstr ""
 
 msgid "Monthly Rate"
+msgstr ""
+
+msgid "Balcony"
+msgstr ""
+
+msgid "Bed Linens"
+msgstr ""
+
+msgid "Bicycles"
+msgstr ""
+
+msgid "Bike Rentals"
+msgstr ""
+
+msgid "Biking"
+msgstr ""
+
+msgid "Blu-ray Player"
+msgstr ""
+
+msgid "Cable Television"
+msgstr ""
+
+msgid "Central A/C"
+msgstr ""
+
+msgid "Central Heat"
+msgstr ""
+
+msgid "Coffee Maker"
+msgstr ""
+
+msgid "Communal Pool"
+msgstr ""
+
+msgid "Cookware"
+msgstr ""
+
+msgid "Dishwasher"
+msgstr ""
+
+msgid "Dock"
+msgstr ""
+
+msgid "DVD"
+msgstr ""
+
+msgid "Fax"
+msgstr ""
+
+msgid "Fishing"
+msgstr ""
+
+msgid "Game Console"
+msgstr ""
+
+msgid "Gas Grill"
+msgstr ""
+
+msgid "Golfing"
+msgstr ""
+
+msgid "Hair Dryer"
+msgstr ""
+
+msgid "Handicap Accessible"
+msgstr ""
+
+msgid "Hi Speed Internet"
+msgstr ""
+
+msgid "Hiking"
+msgstr ""
+
+msgid "Iron"
+msgstr ""
+
+msgid "Kayak"
+msgstr ""
+
+msgid "Kitchen"
+msgstr ""
+
+msgid "Lakefront"
+msgstr ""
+
+msgid "Microwave"
+msgstr ""
+
+msgid "Oven"
+msgstr ""
+
+msgid "Parking"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Pool Baby Fence"
+msgstr ""
+
+msgid "Pool Heating: Electric"
+msgstr ""
+
+msgid "Pool Heating: Solar"
+msgstr ""
+
+msgid "Pool Heating: Solar and Electric"
+msgstr ""
+
+msgid "Premium Cable Channels"
+msgstr ""
+
+msgid "Restaurant"
+msgstr ""
+
+msgid "Saltwater Pool"
+msgstr ""
+
+msgid "Shopping"
+msgstr ""
+
+msgid "Shower"
+msgstr ""
+
+msgid "Spa"
+msgstr ""
+
+msgid "Swimming"
+msgstr ""
+
+msgid "Tennis"
+msgstr ""
+
+msgid "Towels"
+msgstr ""
+
+msgid "Volleyball"
+msgstr ""
+
+msgid "Washer and Dryer"
+msgstr ""
+
+msgid "Wireless Internet"
+msgstr ""
+
+msgid "Workout Facilities"
 msgstr ""

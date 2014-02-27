@@ -37,3 +37,150 @@ msgstr "Wochenpreis"
 
 msgid "Monthly Rate"
 msgstr "Monatspreis"
+
+msgid "Balcony"
+msgstr "Balkon"
+
+msgid "Bed Linens"
+msgstr "Bettw&auml;sche"
+
+msgid "Bicycles"
+msgstr "Fahrr&auml;der"
+
+msgid "Bike Rentals"
+msgstr "Fahrrad Verleih"
+
+msgid "Biking"
+msgstr "Radfahren"
+
+msgid "Blu-ray Player"
+msgstr "Blu-ray Player"
+
+msgid "Cable Television"
+msgstr "Kabelfernsehen"
+
+msgid "Central A/C"
+msgstr "Zentrale Klimaanlage"
+
+msgid "Central Heat"
+msgstr "Zentralheizung"
+
+msgid "Coffee Maker"
+msgstr "Kaffeemaschine"
+
+msgid "Communal Pool"
+msgstr "Swimming Pool"
+
+msgid "Cookware"
+msgstr "Kochutensilien"
+
+msgid "Dishwasher"
+msgstr "Geschirrsp&uuml;lmaschine"
+
+msgid "Dock"
+msgstr "Bootsanlegestelle"
+
+msgid "DVD"
+msgstr "DVD-Spieler"
+
+msgid "Fax"
+msgstr "Faxger&auml;t"
+
+msgid "Fishing"
+msgstr "Fischen und Angeln"
+
+msgid "Game Console"
+msgstr "Spielkonsole"
+
+msgid "Gas Grill"
+msgstr "Gasgrill"
+
+msgid "Golfing"
+msgstr "Haarf&ouml;n"
+
+msgid "Hair Dryer"
+msgstr "Behindertengerecht"
+
+msgid "Handicap Accessible"
+msgstr "HDTV/Blu-ray"
+
+msgid "Hi Speed Internet"
+msgstr "Wandern"
+
+msgid "Hiking"
+msgstr "Hi Speed Internet"
+
+msgid "Iron"
+msgstr "B&uuml;geleisen"
+
+msgid "Kayak"
+msgstr "Kayak"
+
+msgid "Kitchen"
+msgstr "K&uuml;che"
+
+msgid "Lakefront"
+msgstr "See Lage"
+
+msgid "Microwave"
+msgstr "Mikrowelle"
+
+msgid "Oven"
+msgstr "Ofen"
+
+msgid "Parking"
+msgstr "Parkm&ouml;glichkeit"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Pool Baby Fence"
+msgstr "Pool Baby Zaun"
+
+msgid "Pool Heating: Electric"
+msgstr "Pool Heizung: Elektrisch"
+
+msgid "Pool Heating: Solar"
+msgstr "Pool Heizung: Solar"
+
+msgid "Pool Heating: Solar and Electric"
+msgstr "Pool Heizung: Solar und Elektrisch"
+
+msgid "Premium Cable Channels"
+msgstr "Premium Kabel Kan&auml;le"
+
+msgid "Restaurant"
+msgstr "Restaurant"
+
+msgid "Saltwater Pool"
+msgstr "Salzwasser Pool"
+
+msgid "Shopping"
+msgstr "Einkaufsm&ouml;glichkeiten"
+
+msgid "Shower"
+msgstr "Dusche"
+
+msgid "Spa"
+msgstr "Spa"
+
+msgid "Swimming"
+msgstr "Schwimmen"
+
+msgid "Tennis"
+msgstr "Tennis"
+
+msgid "Towels"
+msgstr "Bade- und Handt&uuml;cher"
+
+msgid "Volleyball"
+msgstr "Volleyball"
+
+msgid "Washer and Dryer"
+msgstr "Waschmaschine und Trockner"
+
+msgid "Wireless Internet"
+msgstr "Wireless Internet"
+
+msgid "Workout Facilities"
+msgstr "Sportstudio"

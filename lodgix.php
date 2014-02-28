@@ -288,6 +288,8 @@ if (!class_exists('p_lodgix')) {
     * @var string $urlpath The path to this plugin
     */
     var $urlpath = '';
+    
+    var $locale = 'en_US';
 
 
     var $properties_array = array(
@@ -406,20 +408,20 @@ if (!class_exists('p_lodgix')) {
     function __construct(){
         global $l10n;
         
-        $locale = get_locale();
+        $this->locale = get_locale();
         
         if ($_GET['lang'] != '') {
-            $locale = $_GET['lang'];
-            if ($locale == 'en') {
-                $locale = 'en_US';
+            $this->locale = $_GET['lang'];
+            if ($this->locale == 'en') {
+                $this->locale = 'en_US';
             }
             else if ($locale == 'de') {
-                $locale = 'de_DE';
+                $this->locale = 'de_DE';
             }
         }
         
         
-        $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/default/" .$locale.".mo";
+        $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/default/" .$this->locale.".mo";
         
         load_textdomain($this->localizationDomain, $mo);
 
@@ -3009,15 +3011,15 @@ if (!class_exists('p_lodgix')) {
         $link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";    
         
 
-				$link = '<a href="http://www.lodgix.com">Vacation Rental Software</a>';
-				$sql = 'SELECT url,title FROM `' . $link_rotators_table . '` ORDER BY RAND() LIMIT 1';
-				$rotators = $wpdb->get_results($sql);           
-				         
-				if ($rotators)
-				{
-				 	foreach($rotators as $rotator)
-				  $link = '<a href="' . $rotator->url . '">' . $rotator->title . '</a>';  
-				}        
+        $link = '<a href="http://www.lodgix.com">Vacation Rental Software</a>';
+        $sql = 'SELECT url,title FROM `' . $link_rotators_table . '` ORDER BY RAND() LIMIT 1';
+        $rotators = $wpdb->get_results($sql);           
+                 
+        if ($rotators)
+        {
+            foreach($rotators as $rotator)
+          $link = '<a href="' . $rotator->url . '">' . $rotator->title . '</a>';  
+        }        
         
         $single_property = '';
         $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table . ' WHERE id=' . $id);  
@@ -3039,32 +3041,41 @@ if (!class_exists('p_lodgix')) {
 				}
   			
         	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id);
-                $merged_rates =  $wpdb->get_results('SELECT * FROM ' . $merged_rates_table . " WHERE property_id=" . $property->id . " ORDER BY from_date,to_date");
+            $merged_rates =  $wpdb->get_results('SELECT * FROM ' . $merged_rates_table . " WHERE property_id=" . $property->id . " ORDER BY from_date,to_date");
     
+            if ($this->locale == 'en_US')
+            {
+                $sufix = '';
+            }
+            else {
+                $sufix = substr($this->locale,0,2);
+            }
+
+            $sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='" . $sufix ."' AND property_id=" . $property->id . ' ORDER BY date DESC';
+            $reviews = $wpdb->get_results($sql);
+            
+            if ($this->locale == 'en_US')
+            {
+                $is_german = False;
+            }
+            else
+            {                              
+                $is_german = True;
+                $sql = "SELECT * FROM " . $lang_properties_table . " WHERE id=" . $property->id;
+                $property = $wpdb->get_results($sql);
+                $property = $german_details[0];
+                $post_id = $wpdb->get_var("select page_id from " . $lang_pages_table . " WHERE property_id=" . $property->id . ";");                 
                 
-             
-         
+            }
+
         	if ($this->options['p_lodgix_single_page_design'] == 1)
-        	{	
-        		if ($language == 'en')
-        		{
-         			include('single_property_tabbed.php');
-         		}
-         		else
-         		{
-         			include('single_property_tabbed_de.php');
-         		}
+        	{
+                
+                include('single_property_tabbed.php');
         	}
         	else
         	{
-   					if ($language == 'en')
-        		{
-         			include('single_property.php');
-         		}
-         		else
-         		{
-         			include('single_property_de.php');
-         		}
+      			include('single_property.php');
         	}
       	}
       	

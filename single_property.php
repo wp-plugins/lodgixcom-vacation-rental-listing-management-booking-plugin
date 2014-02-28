@@ -1,5 +1,4 @@
 <?php
-$is_german = False;
 $permalink = get_permalink($property->post_id);
 $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );  
 
@@ -35,15 +34,20 @@ if ($property->smoking)
 	$smoking = "display:none;";
 	
 $mail_icon = '';
-if ($this->options['p_lodgix_contact_url'] != "")
+$contact_var_name = $contact_var_name;
+if ($sufix != '') {
+	$contact_var_name = 'p_lodgix_contact_url_' . $sufix;
+}
+
+if ($this->options[$contact_var_name] != "")
 {
-	$mail_url = $this->options['p_lodgix_contact_url'];
+	$mail_url = $this->options[$contact_var_name];
 	
 	if (strpos($mail_url,'__PROPERTY__') != false)
 	{
 		$mail_url = str_replace('__PROPERTY__',$property->description,$mail_url);
 	}
-  if (strpos($mail_url,'__PROPERTYID__') != false)
+	if (strpos($mail_url,'__PROPERTYID__') != false)
 	{
 		$mail_url = str_replace('__PROPERTYID__',$property->id,$mail_url);
 	}	
@@ -81,7 +85,7 @@ $single_property .= '
 		<div class="ldgxPropBadgeTitle">
 			' .  $property->description . $property_area . '
 			<div class="ldgxPropBadgeRooms">
-				' . $bedrooms . ' | ' . $property->bathrooms .' Bathroom | ' . $property->proptype . $property_city . '
+				' . $bedrooms . ' | ' . $property->bathrooms .' ' . __('Bathrooms',$this->localizationDomain) . ' | ' . $property->proptype . $property_city . '
 			</div>
 		</div>
 		<div class="ldgxPropBadgeRates">
@@ -92,7 +96,7 @@ $single_property .= '
 	<hr>
 	<div class="ldgxPropBadgeLine">
 		<div class="ldgxPropBadgeIconsLeft">
-			<a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' .  $p_plugin_path  . 'images/map_50.png"></a>' . $video_icon . $virtual_tour_icon . $mail_icon . '
+			<a title="'.__('Display Google Map',$this->localizationDomain) .'" href="' . $permalink . '#map_canvas"><img src="' .  $p_plugin_path  . 'images/map_50.png"></a>' . $video_icon . $virtual_tour_icon . $mail_icon . '
 		</div>
 		<div class="ldgxPropBadgeIconsRight">
 			<img id="lodgix_no_pets_icon" src="' .  $p_plugin_path  . 'images/no_pets.png" style="' . $pets . '"><img id="lodgix_no_smoke_icon" src="' .  $p_plugin_path  . 'images/no_smoke.png" style="' . $smoking . '">
@@ -105,7 +109,7 @@ $single_property .= '
 $beds_text = "";
 if ($property->beds_text != "")
 {
-	$beds_text = ' This property has ' . $property->beds_text . '.';
+	$beds_text = ' ' . _('This property has',$this->localizationDomain) . ' ' . $property->beds_text . '.';
 }
 
 $single_property .= '<br><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
@@ -122,30 +126,30 @@ foreach($photos as $photo)
 
 $single_property .= '</ul></div><p style="text-align:center;"><br/>';
 if ($property->really_available && $property->allow_booking) {
-	$single_property .= '<a title="Book Now" href="' . $property->booklink .
+	$single_property .= '<a title="' .__('Book Now',$this->localizationDomain) . '" href="' . $property->booklink .
 	'"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
 } else {
-	$single_property .= '<a title="Check Availability" href="' . $permalink .
+	$single_property .= '<a title="' .__('Check Availability',$this->localizationDomain) . '" href="' . $permalink .
 	'#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a>';
 }
 $single_property .= '</p></center>';
 
-$single_property .= '<div id="lodgix_property_description"><p><h2>Property Description</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->description_long) . '</div>';
-$single_property .= '<div id="lodgix_property_details"><p><h2>Property Details</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->details) . $beds_text . '</div>';
+$single_property .= '<div id="lodgix_property_description"><p><h2>' .__('Property Description',$this->localizationDomain) . '</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->description_long) . '</div>';
+$single_property .= '<div id="lodgix_property_details"><p><h2>' .__('Property Details',$this->localizationDomain) . '</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->details) . $beds_text . '</div>';
 
 if (count($amenities) >= 1)
 { 
- $single_property .= '<br><br><div id="lodgix_property_amenities"><h2>Amenities</h2><br><ul class="amenities">';
+ $single_property .= '<br><br><div id="lodgix_property_amenities"><h2>' .__('Amenities',$this->localizationDomain) . '</h2><br><ul class="amenities">';
  foreach($amenities as $amenity)
  {
-  $single_property .= '<li>' . $amenity->description . '</li>';
+  $single_property .= '<li>' . __(trim($amenity_name),$this->localizationDomain). '</li>';
  }
  $single_property .= '</ul></div><br><br>';
 } 
 
 if (count($reviews) >= 1)
 { 
- $single_property .= '<br><br><div id="lodgix_property_reviews"><h2>Guest Reviews</h2><br>';
+ $single_property .= '<br><br><div id="lodgix_property_reviews"><h2>' .__('Guest Reviews',$this->localizationDomain) . '</h2><br>';
  $counter = 0;
  foreach($reviews as $review)
  {
@@ -174,24 +178,22 @@ $high_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(defaul
 $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
 $high_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
 
-$single_property .= '<div id="lodgix_property_rates"><h2>Rates</h2>';
+$single_property .= '<div id="lodgix_property_rates"><h2>' .__('Rates',$this->localizationDomain) . '</h2>';
 
 if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates)) {
 	if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0)
-		$single_property .= 'Daily Rate:	' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' per night<br/>';
+		$single_property .= __('Daily Rate:',$this->localizationDomain) . ' ' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' per night<br/>';
 	if ($low_weekly_rate > 0)	
-		$single_property .= 'Weekly Rate:	' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' per week<br/>';
+		$single_property .= __('Weekly Rate:',$this->localizationDomain) . ' ' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' per week<br/>';
 	if ($low_monthly_rate > 0)		
-		$single_property .= 'Monthly Rate:	' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate  . ' per month<br/>';
+		$single_property .= __('Monthly Rate:',$this->localizationDomain) . ' ' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate  . ' per month<br/>';
 }
 else {
     include "merged_rates.php";
 }
 
-
-
-$single_property .= '- Rate varies due to seasonality and holidays.<br/>';
-$single_property .= '- Please select your dates on our online booking calendar for an exact quote.<br/>';
+$single_property .= __('- Rate varies due to seasonality and holidays.',$this->localizationDomain) . '<br/>';
+$single_property .= __('- Please select your dates on our online booking calendar for an exact quote.',$this->localizationDomain) . '<br/>';
 $single_property .= '</div>';
 
 
@@ -207,11 +209,11 @@ $deposits = $wpdb->get_results("SELECT * FROM " . $deposits_table . " WHERE prop
  
 if ($policies || $taxes || $fees || $deposits)
 {
- $single_property .= "<div id='property_policies'><h2>Policies</h2><table width='98%'>";
+ $single_property .= "<div id='property_policies'><h2>" . __('Policies',$this->localizationDomain) . "</h2><table width='98%'>";
 
  if ($taxes)
  {
-  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>Taxes</b><br><br>";  
+  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Taxes',$this->localizationDomain) . "</b><br><br>";  
   foreach($taxes as $tax)
   {
    $single_property .= $tax->title . ' - ';
@@ -220,11 +222,11 @@ if ($policies || $taxes || $fees || $deposits)
     $single_property .= $property->currency_code . number_format($tax->value,2);   
     if ($tax->frequency == 'ONETIME')
     {
-     $single_property .= ' - One Time';
+     $single_property .= ' - ' . __('One Time',$this->localizationDomain);
     }
     else
     {
-     $single_property .= ' - Daily';
+     $single_property .= ' - ' . __('Daily',$this->localizationDomain);
     }
    }
    else
@@ -240,7 +242,7 @@ if ($policies || $taxes || $fees || $deposits)
  
  if ($fees)
  {
-  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>Fees</b><br><br>";  
+  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Fees',$this->localizationDomain) . "</b><br><br>";  
   foreach($fees as $fee)
   {
    $single_property .= $fee->title . ' - ';
@@ -254,7 +256,7 @@ if ($policies || $taxes || $fees || $deposits)
    }
    if ($fee->tax_exempt == 1)
    {
-    $single_property .= ' - Tax Exempt';   
+    $single_property .= ' - ' . __('Tax Exempt',$this->localizationDomain);  
    }
    $single_property .= "<br>";
   }   
@@ -265,7 +267,7 @@ if ($policies || $taxes || $fees || $deposits)
 
  if ($deposits)
  {
-  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>Deposits</b><br><br>";  
+  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Deposits',$this->localizationDomain) . "</b><br><br>";  
   foreach($deposits as $deposit)
   {
    $single_property .= $deposit->title . ' - ';

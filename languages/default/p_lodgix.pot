@@ -186,3 +186,66 @@ msgstr ""
 
 msgid "Workout Facilities"
 msgstr ""
+
+msgid "This property has"
+msgstr ""
+
+msgid "Display Google Map"
+msgstr ""
+
+msgid "Book Now"
+msgstr ""
+
+msgid "Check Availability"
+msgstr ""
+
+msgid "Property Description"
+msgstr ""
+
+msgid "Property Details"
+msgstr ""
+
+msgid "Amenities"
+msgstr ""
+
+msgid "Guest Reviews"
+msgstr ""
+
+msgid "Rates"
+msgstr ""
+
+msgid "Rate varies due to seasonality and holidays."
+msgstr ""
+
+msgid "Please select your dates on our online booking calendar for an exact quote."
+msgstr ""
+
+msgid "Taxes"
+msgstr ""
+
+msgid "One Time"
+msgstr ""
+
+msgid "Daily"
+msgstr ""
+
+msgid "Policies"
+msgstr ""
+
+msgid "Fees"
+msgstr ""
+
+msgid "Tax Exempt"
+msgstr ""
+
+msgid "Deposits"
+msgstr ""
+
+
+
+
+
+
+
+
+

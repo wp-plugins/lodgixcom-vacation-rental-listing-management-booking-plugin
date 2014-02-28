@@ -417,21 +417,7 @@ if (!class_exists('p_lodgix')) {
                 $locale = 'de_DE';
             }
         }
-        global $wpdb;
-		$lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";        
         
-        $sql = "SELECT * from " . $lang_amenities_table;
-        $wpdb->query($sql);
-        $pictures = $wpdb->get_results($sql);
-			
-        foreach($pictures as $pic)
-        {
-            print "\r\n";
-            print 'msgid "' . $pic->description.'"';
-            print "\r\n";
-            print 'msgstr "' . $pic->description_de.'"';
-            print "\r\n";
-        }
         
         $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/default/" .$locale.".mo";
         
@@ -4858,42 +4844,42 @@ if (!class_exists('p_lodgix')) {
                     $this->update_owner($owner);                  
                     $this->saveAdminOptions();  
 
-										$ownerAmenities = @$owner['Results']['Amenities']['Amenity'];
-										$searchableAmenities = array();
-										if (!empty($ownerAmenities)) {
-											foreach ($ownerAmenities as $ownerAmenity) {
-												$searchableAmenities[$ownerAmenity['Name']] = 1;
-											}
-										}
+                    $ownerAmenities = @$owner['Results']['Amenities']['Amenity'];
+                    $searchableAmenities = array();
+                    if (!empty($ownerAmenities)) {
+                        foreach ($ownerAmenities as $ownerAmenity) {
+                            $searchableAmenities[$ownerAmenity['Name']] = 1;
+                        }
+                    }
                                      
                                
-          					$r = new LogidxHTTPRequest($fetch_url);
-										$xml = $r->DownloadToString();                     
+          			$r = new LogidxHTTPRequest($fetch_url);
+					$xml = $r->DownloadToString();                     
                     if ($xml)
                     {
-                      $root = new DOMDocument();  
-                      $root->loadXML($xml);
-                      $properties_array = $this->domToArray($root);
-                      $properties = $properties_array["Results"]["Properties"];
-                      if ($properties_array['Results']['Properties']['Property'][0])
-                          $properties = $properties_array['Results']['Properties']['Property'];   
-                      $active_properties = array(-1,-2,-3); 
-                      $counter = 0;                  
-        							$sql = "DELETE FROM " . $lang_amenities_table;
-        							$wpdb->query($sql);
-                      foreach ($properties as $property)
-                      { 
-                        if (($property['ServingStatus'] == "ACTIVE" ) && ($property['WordpressStatus'] == "ACTIVE" ))
-                          $active_properties[] = $property['ID'];
-                        $this->update_tables($property, $counter, $searchableAmenities);
-                        $counter++;
-                      }
-                      $active_properties = join(",", $active_properties);
-                      $this->clean_properties($active_properties);        
-                      $this->build_individual_pages();
-                      
-                      $this->build_areas_pages();
-                      $this->set_page_options(); 
+                        $root = new DOMDocument();  
+                        $root->loadXML($xml);
+                        $properties_array = $this->domToArray($root);
+                        $properties = $properties_array["Results"]["Properties"];
+                        if ($properties_array['Results']['Properties']['Property'][0])
+                            $properties = $properties_array['Results']['Properties']['Property'];   
+                        $active_properties = array(-1,-2,-3); 
+                        $counter = 0;                  
+                        $sql = "DELETE FROM " . $lang_amenities_table;
+                        $wpdb->query($sql);
+                        foreach ($properties as $property)
+                        { 
+                          if (($property['ServingStatus'] == "ACTIVE" ) && ($property['WordpressStatus'] == "ACTIVE" ))
+                            $active_properties[] = $property['ID'];
+                          $this->update_tables($property, $counter, $searchableAmenities);
+                          $counter++;
+                        }
+                        $active_properties = join(",", $active_properties);
+                        $this->clean_properties($active_properties);        
+                        $this->build_individual_pages();
+                        
+                        $this->build_areas_pages();
+                        $this->set_page_options(); 
                   
                     }
                    

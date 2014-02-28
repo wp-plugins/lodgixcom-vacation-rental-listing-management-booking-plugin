@@ -197,19 +197,19 @@ $single_property .= '</div>
         <div id="lodgix_tabbed_content-4">
             <div id="lodgix_tabbed_lodgix_property_amenities">
                 <h2>Annehmlichkeiten</h2>
-                <ul class="lodgix_tabbed_amenities">';  
-								if (count($amenities) >= 1)
-								{ 
- 									foreach($amenities as $amenity)
-									{
+                <ul class="lodgix_tabbed_amenities">';
+					echo __('Daily Rate',$this->localizationDomain);
+					if (count($amenities) >= 1)
+					{ 
+						foreach($amenities as $amenity)
+						{	
+							$amenity_name = $wpdb->get_var("select description_de from " . $lang_amenities_table . " WHERE description='" . $amenity->description . "';"); 
+							if ($amenity_name != "")
+								$single_property .= '<li>' . __(trim($amenity_name),$this->localizationDomain) . '</li>';
+						}
 	
-	  								$amenity_name = $wpdb->get_var("select description_de from " . $lang_amenities_table . " WHERE description='" . $amenity->description . "';"); 
-  									if ($amenity_name != "")
-  										$single_property .= '<li>' . $amenity_name . '</li>';
- 									}
-
-								} 
-								$single_property .= '<span class="lodgix_tabbed_content_clear"></span></ul>
+					} 
+					$single_property .= '<span class="lodgix_tabbed_content_clear"></span></ul>
             </div>
         </div>
         <div id="lodgix_tabbed_content-5">';

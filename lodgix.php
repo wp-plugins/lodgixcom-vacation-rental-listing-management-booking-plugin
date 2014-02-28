@@ -3057,14 +3057,19 @@ if (!class_exists('p_lodgix')) {
             if ($this->locale == 'en_US')
             {
                 $is_german = False;
+                $permalink = get_permalink($property->post_id);
             }
             else
             {                              
                 $is_german = True;
                 $sql = "SELECT * FROM " . $lang_properties_table . " WHERE id=" . $property->id;
-                $property = $wpdb->get_results($sql);
-                $property = $german_details[0];
-                $post_id = $wpdb->get_var("select page_id from " . $lang_pages_table . " WHERE property_id=" . $property->id . ";");                 
+                $german_details = $wpdb->get_results($sql);
+                $german_details = $german_details[0];
+                $property->description = $german_details->description;
+                $property->description_long = $german_details->description_long;
+                $property->details = $german_details->details;
+                $post_id = $wpdb->get_var("select page_id from " . $lang_pages_table . " WHERE property_id=" . $property->id . ";");
+                $permalink = get_permalink($post_id);
                 
             }
 

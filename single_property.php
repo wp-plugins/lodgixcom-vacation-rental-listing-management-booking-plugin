@@ -1,9 +1,6 @@
 <?php
-$permalink = get_permalink($property->post_id);
 $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );  
 
-$sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='en' AND property_id=" . $property->id . ' ORDER BY date DESC';
-$reviews = $wpdb->get_results($sql);   
 
 $sql = "SELECT * FROM " . $pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';
 $photos = $wpdb->get_results($sql);

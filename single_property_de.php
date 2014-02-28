@@ -1,4 +1,14 @@
 <?php
+$is_german = True;
+$sql = "SELECT * FROM " . $lang_properties_table . " WHERE id=" . $property->id;
+$german_details = $wpdb->get_results($sql);
+$german_details = $german_details[0];
+$post_id_de = $wpdb->get_var("select page_id from " . $lang_pages_table . " WHERE property_id=" . $property->id . ";"); 
+$permalink = get_permalink($post_id_de);
+
+$sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='de' AND property_id=" . $property->id . ' ORDER BY date DESC';
+$reviews = $wpdb->get_results($sql);
+
 
 $sql = "SELECT * FROM " . $pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';
 $photos = $wpdb->get_results($sql);

@@ -17,8 +17,14 @@ msgstr "Ergebnisse sortieren nach"
 msgid "None"
 msgstr "Keine"
 
+msgid "Bedroom"
+msgstr "Schlafzimmer"
+
 msgid "Bedrooms"
 msgstr "Schlafzimmer"
+
+msgid "Bathroom"
+msgstr "Badezimmer"
 
 msgid "Bathrooms"
 msgstr "Badezimmer"
@@ -184,3 +190,61 @@ msgstr "Wireless Internet"
 
 msgid "Workout Facilities"
 msgstr "Sportstudio"
+
+msgid "This property has"
+msgstr ""
+
+msgid "Display Google Map"
+msgstr ""
+
+msgid "Book Now"
+msgstr ""
+
+msgid "Check Availability"
+msgstr ""
+
+msgid "Property Description"
+msgstr ""
+
+msgid "Property Details"
+msgstr ""
+
+msgid "Amenities"
+msgstr ""
+
+msgid "Guest Reviews"
+msgstr ""
+
+msgid "Rates"
+msgstr "Kurs"
+
+msgid "Rate varies due to seasonality and holidays."
+msgstr ""
+"Bitte w&auml;hlen Sie die exakten Daten Ihrer Anreise und Abreise im online "
+"Buchungskalender um ein Preisangebot zu erhalten."
+
+msgid ""
+"Please select your dates on our online booking calendar for an exact quote."
+msgstr ""
+
+msgid "Taxes"
+msgstr ""
+
+msgid "One Time"
+msgstr ""
+
+#, fuzzy
+msgid "Daily"
+msgstr "Tageskurs"
+
+msgid "Policies"
+msgstr ""
+
+msgid "Fees"
+msgstr ""
+
+msgid "Tax Exempt"
+msgstr ""
+
+msgid "Deposits"
+msgstr ""

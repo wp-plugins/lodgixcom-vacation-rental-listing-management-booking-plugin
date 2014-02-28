@@ -19,7 +19,13 @@ msgstr ""
 msgid "None"
 msgstr ""
 
+msgid "Bedroom"
+msgstr ""
+
 msgid "Bedrooms"
+msgstr ""
+
+msgid "Bathroom"
 msgstr ""
 
 msgid "Bathrooms"

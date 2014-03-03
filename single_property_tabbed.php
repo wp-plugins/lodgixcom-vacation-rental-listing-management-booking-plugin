@@ -200,13 +200,13 @@ $single_property .= '</div>
             <div id="lodgix_tabbed_lodgix_property_amenities">
                 <h2>' . __('Amenities',$this->localizationDomain) . '</h2>
                 <ul class="lodgix_tabbed_amenities">';  
-								if (count($amenities) >= 1)
+								if (count($amenities_list) >= 1)
 								{ 
 									$counter = 0;
- 									foreach($amenities as $amenity)
+ 									foreach($amenities_list as $amenity)
 									{
 	
-  									$single_property .= '<li>' . $amenity->description . '</li>';
+  									$single_property .= '<li>' . __($amenity,$this->localizationDomain) . '</li>';
   									$counter++;
  									}
 
@@ -257,11 +257,11 @@ if ($policies || $taxes || $fees || $deposits)
     $single_property .= $property->currency_code . number_format($tax->value,2);   
     if ($tax->frequency == 'ONETIME')
     {
-     $single_property .= ' - One Time';
+     $single_property .= ' - ' . __('One Time',$this->localizationDomain);
     }
     else
     {
-     $single_property .= ' - Daily';
+     $single_property .= ' - ' . __('Daily',$this->localizationDomain);
     }
    }
    else
@@ -291,7 +291,7 @@ if ($policies || $taxes || $fees || $deposits)
    }
    if ($fee->tax_exempt == 1)
    {
-    $single_property .= ' - Tax Exempt';   
+    $single_property .= ' - ' . __('Tax Exempt',$this->localizationDomain);  
    }
    $single_property .= "<br>";
   }   

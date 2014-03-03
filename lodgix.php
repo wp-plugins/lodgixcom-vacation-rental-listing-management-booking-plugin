@@ -3048,6 +3048,16 @@ if (!class_exists('p_lodgix')) {
 				}
   			
         	$amenities = $wpdb->get_results('SELECT * FROM ' . $amenities_table . " WHERE property_id=" . $property->id);
+            $amenities_list = array();
+            if (count($amenities) >= 1)
+			{ 
+				$counter = 0;
+ 				foreach($amenities as $amenity)
+				{
+                     array_push($amenities_list,$amenity->description);
+                }
+            }
+            
             $merged_rates =  $wpdb->get_results('SELECT * FROM ' . $merged_rates_table . " WHERE property_id=" . $property->id . " ORDER BY from_date,to_date");
     
             if ($this->locale == 'en_US')

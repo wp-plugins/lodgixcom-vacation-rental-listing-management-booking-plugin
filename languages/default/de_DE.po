@@ -192,16 +192,16 @@ msgid "Workout Facilities"
 msgstr "Sportstudio"
 
 msgid "This property has"
-msgstr ""
+msgstr "Diese Eigenschaft hat"
 
 msgid "Display Google Map"
-msgstr ""
+msgstr "Google Map anzeigen"
 
 msgid "Book Now"
-msgstr ""
+msgstr "Jetzt buchen"
 
 msgid "Check Availability"
-msgstr ""
+msgstr "Verfügbarkeit prüfen"
 
 msgid "Property Description"
 msgstr "Kurzbeschreibung"
@@ -237,7 +237,7 @@ msgid "One Time"
 msgstr ""
 
 msgid "Daily"
-msgstr ""
+msgstr "Täglich"
 
 msgid "Policies"
 msgstr "Kurs"
@@ -246,7 +246,7 @@ msgid "Fees"
 msgstr "Geb&uuml;hren"
 
 msgid "Tax Exempt"
-msgstr ""
+msgstr "Steuerbefreite"
 
 msgid "Deposits"
 msgstr "Kaution"
@@ -283,3 +283,13 @@ msgstr "Online Buchungs Instruktionen"
 
 msgid "Reviews"
 msgstr "Bewertungen"
+
+msgid "Vacation Rentals"
+msgstr "Ferienvillen &Uuml;bersicht"
+
+msgid "Availability"
+msgstr "Verf&uuml;gbarkeit"
+
+msgid "Search Rentals"
+msgstr "Vermietungen"
+

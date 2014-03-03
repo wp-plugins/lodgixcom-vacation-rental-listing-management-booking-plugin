@@ -32,8 +32,8 @@ if ($property->smoking)
 	
 $mail_icon = '';
 $contact_var_name = $contact_var_name;
-if ($sufix != '') {
-	$contact_var_name = 'p_lodgix_contact_url_' . $sufix;
+if ($this->sufix != '') {
+	$contact_var_name = 'p_lodgix_contact_url_' . $this->sufix;
 }
 
 if ($this->options[$contact_var_name] != "")

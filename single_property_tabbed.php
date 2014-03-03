@@ -204,10 +204,9 @@ $single_property .= '</div>
 								{ 
 									$counter = 0;
  									foreach($amenities_list as $amenity)
-									{
-	
-  									$single_property .= '<li>' . $amenity . '</li>';
-  									$counter++;
+									{		
+										$single_property .= '<li>' . $amenity . '</li>';
+										$counter++;
  									}
 
 								} 
@@ -323,7 +322,7 @@ if ($policies || $taxes || $fees || $deposits)
     }
     if ($policy->deposit_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>" . __('Deposit Policy',$this->localizationDomain) . "</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>', $policy->deposit_policy) . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><br><b>" . __('Deposit Policy',$this->localizationDomain) . "</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>', $policy->deposit_policy) . "</td></td></tr>";
     } 
     if ($policy->single_unit_helptext)
     {

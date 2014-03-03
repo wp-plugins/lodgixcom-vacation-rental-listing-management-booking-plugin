@@ -290,6 +290,7 @@ if (!class_exists('p_lodgix')) {
     var $urlpath = '';
     
     var $locale = 'en_US';
+    var $sufix = '';
 
 
     var $properties_array = array(
@@ -420,6 +421,15 @@ if (!class_exists('p_lodgix')) {
             }
             
         }
+        
+        if ($this->locale == 'en_US')
+        {
+            $this->sufix = '';
+        }
+        else {
+            $this->sufix = substr($this->locale,0,2);
+        }
+                
         
         
         $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/default/" .$this->locale.".mo";
@@ -570,8 +580,10 @@ if (!class_exists('p_lodgix')) {
 		  $p_lodgix_display_single_instructions = $atts[4];
 		  $p_lodgix_language = $atts[5];
 		  
-		  $policies_table = $wpdb->prefix . "lodgix_policies"; 
-		  $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $p_lodgix_language . "'");
+		  $policies_table = $wpdb->prefix . "lodgix_policies";
+          
+     
+		$policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $this->sufix . "'");
             
 		  $policy = $policies[0];
             $single_unit_helptext = '';
@@ -1473,7 +1485,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_use_property_hyperlinks' => '1', 
                                   'p_lodgix_title_size' => '24',
                                   'p_lodgix_vr_title' => 'Vacation Rentals',
-                                  'p_lodgix_vr_title_de' => 'Ferienvillen &Uuml;bersicht',
+                                  'p_lodgix_vr_title_de' => __('Vacation Rentals',$this->localizationDomain),
                                   'p_lodgix_vr_meta_description' => NULL,
                                   'p_lodgix_vr_meta_description_de' => NULL,
                                   'p_lodgix_vr_meta_keywords' => NULL,
@@ -1541,7 +1553,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_use_property_hyperlinks' => '1', 
                               'p_lodgix_title_size' => '24', 
                               'p_lodgix_vr_title' => 'Vacation Rentals',
-                              'p_lodgix_vr_title_de' => 'Ferienvillen &Uuml;bersicht',
+                              'p_lodgix_vr_title_de' => __('Vacation Rentals',$this->localizationDomain),
                               'p_lodgix_vr_meta_description' => NULL,
                               'p_lodgix_vr_meta_description_de' => NULL,
                               'p_lodgix_vr_meta_keywords' => NULL,
@@ -3057,7 +3069,7 @@ if (!class_exists('p_lodgix')) {
                     $aux = __(trim($amenity->description),$this->localizationDomain);
                     $amenity_name = $wpdb->get_var("select description_de from " . $lang_amenities_table . " WHERE description='" . $amenity->description . "';"); 
 					if ($amenity_name != "")
-						$aux = __(trim($amenity_name),$this->localizationDomain);
+						$aux = $amenity_name;
 
                      array_push($amenities_list,$aux);
                 }
@@ -3067,17 +3079,17 @@ if (!class_exists('p_lodgix')) {
     
             if ($this->locale == 'en_US')
             {
-                $sufix = '';
+                $this->sufix = '';
             }
             else {
-                $sufix = substr($this->locale,0,2);
+                $this->sufix = substr($this->locale,0,2);
             }
 
-            $sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='" . $sufix ."' AND property_id=" . $property->id . ' ORDER BY date DESC';
+            $sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='" . $this->sufix ."' AND property_id=" . $property->id . ' ORDER BY date DESC';
             $reviews = $wpdb->get_results($sql);
             
             $policies_table = $wpdb->prefix . "lodgix_policies"; 
-            $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $sufix . "'");
+            $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $this->sufix . "'");
             
 
             
@@ -4722,7 +4734,7 @@ if (!class_exists('p_lodgix')) {
                   }                  
 
                   $post = array();
-                  $post['post_title'] = 'Ferienvillen &Uuml;bersicht'; 
+                  $post['post_title'] = __('Vacation Rentals',$this->localizationDomain); 
                   $post['menu_order'] = 1;
                   $post['post_status'] = 'publish';                        
                   $post['post_content'] = '[lodgix_vacation_rentals_de]';  
@@ -4812,7 +4824,7 @@ if (!class_exists('p_lodgix')) {
                   {
                       if ($this->options['p_lodgix_generate_german'])
                       {
-                        $post['post_title'] = 'Verf&uuml;gbarkeit';
+                        $post['post_title'] = __('Availability',$this->localizationDomain);
                         $post['post_content'] = '[lodgix_availability_de]';  
                         $post_de_id = wp_insert_post( $post );               
                         if ($post_de_id != 0)
@@ -4847,7 +4859,7 @@ if (!class_exists('p_lodgix')) {
                       if ($this->options['p_lodgix_generate_german'])
                       {
                                         	
-                        $post['post_title'] = 'Vermietungen';
+                        $post['post_title'] = __('Search Rentals',$this->localizationDomain);
                         $post['post_content'] = '[lodgix_search_rentals_de]';  
                         $post_de_id = wp_insert_post( $post,true );               
             
@@ -4870,8 +4882,8 @@ if (!class_exists('p_lodgix')) {
                   
                   $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
  
-          	  $r = new LogidxHTTPRequest($owner_fetch_url);
-		  $xml = $r->DownloadToString(); 
+                $r = new LogidxHTTPRequest($owner_fetch_url);
+                $xml = $r->DownloadToString(); 
                   
                 
                   $ROOT_HEIGHT = 84;

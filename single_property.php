@@ -62,7 +62,7 @@ if ($property->virtual_tour_url != '')
 {
 	$virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url  . '"><img title="Display Virtual Tour" src="' .  $p_plugin_path  . '/images/virtual_tour.png"></a>';
 }
-$bedrooms = $property->bedrooms .' Bedroom';
+$bedrooms = $property->bedrooms .' ' . __('Bedrooms',$this->localizationDomain);
 if ($property->bedrooms == 0)
 {
    $bedrooms = 'Studio';

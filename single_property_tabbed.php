@@ -184,21 +184,21 @@ $single_property .= '</div>
 
             <div class="lodgix_tabbed_clearFix"></div>
         </div>
-        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'2\',this)">Booking Calendar</div>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'2\',this)">' . __('Booking Calendar',$this->localizationDomain) . '</div>
         <div id="lodgix_tabbed_content-2">';
 $single_property .= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";        
 $single_property .= '</div>        
-        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'3\',this)">Location</div>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'3\',this)">' . __('Location',$this->localizationDomain) . '</div>
         <div id="lodgix_tabbed_content-3">
             <div id="lodgix_tabbed_lodgix_property_location">
-                <h2>Property Location</h2>
+                <h2>' . __('Property Location',$this->localizationDomain) . '</h2>
                 <div id="lodgix_tabbed_map_canvas" style="width: 100%; height: 500px"></div>                          
             </div>
         </div>
-        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'4\',this)">Amenities</div>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'4\',this)">' . __('Amenities',$this->localizationDomain) . '</div>
         <div id="lodgix_tabbed_content-4">
             <div id="lodgix_tabbed_lodgix_property_amenities">
-                <h2>Amenities</h2>
+                <h2>' . __('Amenities',$this->localizationDomain) . '</h2>
                 <ul class="lodgix_tabbed_amenities">';  
 								if (count($amenities) >= 1)
 								{ 
@@ -215,25 +215,25 @@ $single_property .= '</div>
 								
             </div>
         </div>
-        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'5\',this)">Policies</div>
         <div id="lodgix_tabbed_content-5">';
         
-$single_property .= '<h2>Policies</h2>';
+$single_property .= '<h2>' . __('Policies',$this->localizationDomain) . '</h2>';
 if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates)) {
 	if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0)
-		$single_property .= 'Daily Rate:	' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' per night<br/>';
+		$single_property .= __('Daily Rate',$this->localizationDomain) . ': ' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' '. __('per night',$this->localizationDomain) .'<br/>';
 	if ($low_weekly_rate > 0)	
-		$single_property .= 'Weekly Rate:	' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' per week<br/>';
+		$single_property .= __('Weekly Rate',$this->localizationDomain) . ': ' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' ' . __('per week',$this->localizationDomain) .'<br/>';
 	if ($low_monthly_rate > 0)		
-		$single_property .= 'Monthly Rate:	' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate  . ' per month<br/>';
+		$single_property .= __('Monthly Rate',$this->localizationDomain) . ': ' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate . ' ' . __('per month',$this->localizationDomain) .'<br/>';
 }
 else {
     include "merged_rates.php";
 }
 
 
-$single_property .= '- Rate varies due to seasonality and holidays.<br/>';
-$single_property .= '- Please select your dates on our online booking calendar for an exact quote.<br/>';
+
+$single_property .= '- ' . __('Rate varies due to seasonality and holidays.',$this->localizationDomain)  . '<br/>';
+$single_property .= '- ' . __('Please select your dates on our online booking calendar for an exact quote.',$this->localizationDomain)  . '<br/>';
 $single_property .= '';        
 
 $policies_table = $wpdb->prefix . "lodgix_policies"; 
@@ -248,7 +248,7 @@ if ($policies || $taxes || $fees || $deposits)
 
  if ($taxes)
  {
-  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>Taxes</b><br><br>";  
+  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Taxes',$this->localizationDomain) . "</b><br><br>";  
   foreach($taxes as $tax)
   {
    $single_property .= $tax->title . ' - ';
@@ -277,7 +277,7 @@ if ($policies || $taxes || $fees || $deposits)
  
  if ($fees)
  {
-  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>Fees</b><br><br>";  
+  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Fees',$this->localizationDomain) . "</b><br><br>";  
   foreach($fees as $fee)
   {
    $single_property .= $fee->title . ' - ';
@@ -302,7 +302,7 @@ if ($policies || $taxes || $fees || $deposits)
 
  if ($deposits)
  {
-  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>Deposits</b><br><br>";  
+  $single_property .= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Deposits',$this->localizationDomain) . "</b><br><br>";  
   foreach($deposits as $deposit)
   {
    $single_property .= $deposit->title . ' - ';
@@ -319,11 +319,11 @@ if ($policies || $taxes || $fees || $deposits)
    {
     if ($policy->cancellation_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" .  str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>" . __('Cancellation Policy',$this->localizationDomain) . "</b><br><br>" .  str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
     }
     if ($policy->deposit_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>', $policy->deposit_policy) . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>" . __('Deposit Policy',$this->localizationDomain) . "</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>', $policy->deposit_policy) . "</td></td></tr>";
     } 
     if ($policy->single_unit_helptext)
     {
@@ -342,10 +342,10 @@ if ($policies || $taxes || $fees || $deposits)
 }
           
 $single_property .= '</div>
-        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'6\',this)">Reviews</div>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'6\',this)">' . __('Reviews',$this->localizationDomain) . '</div>
         <div id="lodgix_tabbed_content-6">
             <div id="lodgix_tabbed_lodgix_property_reviews">
-                <h2>Guest Reviews</h2>';
+                <h2>' . __('Guest Reviews',$this->localizationDomain) . '</h2>';
 
 if (count($reviews) >= 1)
 { 

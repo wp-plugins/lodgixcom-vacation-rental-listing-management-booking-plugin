@@ -279,18 +279,19 @@ if ($policies || $taxes || $fees || $deposits)
   $single_property .="<tr><td>&nbsp;</td></tr>";
  } 
  
+
  if ($policies)
  {
    foreach($policies as $policy)
    {
     if ($policy->cancellation_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Cancellation Policy</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>" . __('Cancellation Policy',$this->localizationDomain) . "</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->cancellation_policy)  . "</td></td></tr>";
       $single_property .= "<tr><td>&nbsp;</td></tr>";
     }
     if ($policy->deposit_policy)
     {
-      $single_property .= "<tr><td class='lodgix_policies'><b>Deposit Policy</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->deposit_policy)  . "</td></td></tr>";
+      $single_property .= "<tr><td class='lodgix_policies'><b>" . __('Deposit Policy',$this->localizationDomain) . "</b><br><br>" . str_replace(array("\r\n", "\n", "\r"),'<br>',$policy->deposit_policy)  . "</td></td></tr>";
       $single_property .= "<tr><td>&nbsp;</td></tr>";
     } 
     if ($policy->single_unit_helptext)
@@ -310,17 +311,17 @@ if ($policies || $taxes || $fees || $deposits)
 
 $single_property .= '<script type="text/javascript">tb_pathToImage = "/wp-includes/js/thickbox/loadingAnimation.gif";tb_closeImage = "/wp-includes/js/thickbox/tb-close.png";</script>';
 
-$single_property .= '<div id="lodgix_property_location"><h2>Property Location</h2><div id="map_canvas" style="width: 100%; height: 300px"></div></div>';
+$single_property .= '<div id="lodgix_property_location"><h2>' . __('Property Location',$this->localizationDomain)  . '</h2><div id="map_canvas" style="width: 100%; height: 300px"></div></div>';
 
 $single_property .= '<div id="lodgix_photo"><a id="lodgix_aGallery" href="#Gallery"></a>     
                         <div id="lodgix_photo_top"></div>      
                         <div id="lodgix_photo_body">
                         <div id="lodgix_photo_zoom"></div>       
-                        <div align="center" style="width:100%;">
+                        <div align="left" style="width:100%;">
                         <table class="lodgix_gallery" cellpadding="0" cellspacing="12">';
 $counter = 0;         
 $num_pics = 2;
-$single_property .= '<h2>Property Images</h2>';
+$single_property .= '<h2>' . __('Property Images',$this->localizationDomain)  . '</h2>';
 //if (get_current_theme() == "Thesis")              
 //  $num_pics = 3;
 foreach($photos as $photo)

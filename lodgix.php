@@ -571,13 +571,14 @@ if (!class_exists('p_lodgix')) {
 		  $p_lodgix_language = $atts[5];
 		  
 		  $policies_table = $wpdb->prefix . "lodgix_policies"; 
-			$policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $p_lodgix_language . "'"); 
+		  $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $p_lodgix_language . "'");
+            
 		  $policy = $policies[0];
-   		$single_unit_helptext = '';
-      if ($policy->multi_unit_helptext)
-      {
-        $single_unit_helptext = $policy->multi_unit_helptext;
-      }  			  
+            $single_unit_helptext = '';
+            if ($policy->multi_unit_helptext)
+            {
+              $single_unit_helptext = $policy->multi_unit_helptext;
+            }  			  
 	
             $content = '<div id="lodgix_property_booking"><h2 id="booking">' . __('Availability &amp; Booking Calendar',$this->localizationDomain) .'</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
 		
@@ -3061,7 +3062,9 @@ if (!class_exists('p_lodgix')) {
             $reviews = $wpdb->get_results($sql);
             
             $policies_table = $wpdb->prefix . "lodgix_policies"; 
-            $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $sufix . "'"); 
+            $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $sufix . "'");
+            
+
             
             
             if ($this->locale == 'en_US')

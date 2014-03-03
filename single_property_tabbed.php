@@ -143,28 +143,28 @@ $single_property .= '<div id="lodgix_tabbed_content_box">
     <div id="lodgix_tabbed_content">
         <ul class="ldgxTabs">
             <li>
-                <a href="#lodgix_tabbed_content-1">Details</a>
+                <a href="#lodgix_tabbed_content-1">' . __('Details',$this->localizationDomain) . '</a>
             </li>
             <li>
-                <a href="#lodgix_tabbed_content-2">Booking Calendar</a>
+                <a href="#lodgix_tabbed_content-2">' . __('Booking Calendar',$this->localizationDomain) . '</a>
             </li>            
             <li>
-                <a href="#lodgix_tabbed_content-3">Location</a>
+                <a href="#lodgix_tabbed_content-3">' . __('Location',$this->localizationDomain) . '</a>
             </li>
             <li>
-                <a href="#lodgix_tabbed_content-4">Amenities</a>
+                <a href="#lodgix_tabbed_content-4">' . __('Amenities',$this->localizationDomain) . '</a>
             </li>
             <li>
-                <a href="#lodgix_tabbed_content-5">Policies</a>
+                <a href="#lodgix_tabbed_content-5">' . __('Policies',$this->localizationDomain) . '</a>
             </li>
             <li>
-                <a href="#lodgix_tabbed_content-6">Reviews</a>
+                <a href="#lodgix_tabbed_content-6">' . __('Reviews',$this->localizationDomain) . '</a>
             </li>
         </ul>
-        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'1\',this)">Details</div>
+        <div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'1\',this)">' . __('Details',$this->localizationDomain) . '</div>
         <div id="lodgix_tabbed_content-1">
             <div id="lodgix_tabbed_lodgix_property_details">
-                <h2>Property Details</h2>';
+                <h2>' . __('Property Details',$this->localizationDomain)  . '</h2>';
 
 $single_property .= '<br><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
 foreach($photos as $photo)

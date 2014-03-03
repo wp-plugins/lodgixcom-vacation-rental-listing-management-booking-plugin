@@ -206,6 +206,9 @@ msgstr ""
 msgid "Property Description"
 msgstr "Kurzbeschreibung"
 
+msgid "Details"
+msgstr "Beschreibung"
+
 msgid "Property Details"
 msgstr "Ausf&uuml;hrliche Beschreibung"
 
@@ -251,11 +254,32 @@ msgstr "Kaution"
 msgid "Availability &amp; Booking Calendar"
 msgstr "Verf&uuml;gbarkeit"
 
+msgid "Booking Calendar"
+msgstr "Verf&uuml;gbarkeit"
+
 msgid "per night"
 msgstr "pro nacht"
 
 msgid "per month"
 msgstr ""
 
-msgid "Stornierungsbedingungen"
-msgstr ""
+msgid "Cancellation Policy"
+msgstr "Stornierungsbedingungen"
+
+msgid "Deposit Policy"
+msgstr "Kautionsbedingungen"
+
+msgid "Property Location"
+msgstr "Lage"
+
+msgid "Location"
+msgstr "Lage"
+
+msgid "Property Images"
+msgstr "Bilder"
+
+msgid "Online Booking Instructions"
+msgstr "Online Buchungs Instruktionen"
+
+msgid "Reviews"
+msgstr "Bewertungen"

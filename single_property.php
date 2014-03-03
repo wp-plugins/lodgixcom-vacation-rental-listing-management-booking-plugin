@@ -131,6 +131,12 @@ if ($property->really_available && $property->allow_booking) {
 }
 $single_property .= '</p></center>';
 
+//global $l10n;
+//print_r($l10n);
+//
+//echo (__('Property Description',$this->localizationDomain));
+//die();
+
 $single_property .= '<div id="lodgix_property_description"><p><h2>' .__('Property Description',$this->localizationDomain) . '</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->description_long) . '</div>';
 $single_property .= '<div id="lodgix_property_details"><p><h2>' .__('Property Details',$this->localizationDomain) . '</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->details) . $beds_text . '</div>';
 

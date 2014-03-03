@@ -192,28 +192,28 @@ msgid "Workout Facilities"
 msgstr "Sportstudio"
 
 msgid "This property has"
-msgstr ""
+msgstr "1"
 
 msgid "Display Google Map"
-msgstr ""
+msgstr "1"
 
 msgid "Book Now"
-msgstr ""
+msgstr "1"
 
 msgid "Check Availability"
-msgstr ""
+msgstr "1"
 
 msgid "Property Description"
-msgstr ""
+msgstr "Kurzbeschreibung"
 
 msgid "Property Details"
-msgstr ""
+msgstr "Ausf&uuml;hrliche Beschreibung"
 
 msgid "Amenities"
-msgstr ""
+msgstr "1"
 
 msgid "Guest Reviews"
-msgstr ""
+msgstr "1"
 
 msgid "Rates"
 msgstr "Kurs"
@@ -225,26 +225,25 @@ msgstr ""
 
 msgid ""
 "Please select your dates on our online booking calendar for an exact quote."
-msgstr ""
+msgstr "1"
 
 msgid "Taxes"
-msgstr ""
+msgstr "1"
 
 msgid "One Time"
-msgstr ""
+msgstr "1"
 
-#, fuzzy
 msgid "Daily"
-msgstr "Tageskurs"
+msgstr "1"
 
 msgid "Policies"
-msgstr ""
+msgstr "1"
 
 msgid "Fees"
-msgstr ""
+msgstr "1"
 
 msgid "Tax Exempt"
-msgstr ""
+msgstr "1"
 
 msgid "Deposits"
-msgstr ""
+msgstr "1"

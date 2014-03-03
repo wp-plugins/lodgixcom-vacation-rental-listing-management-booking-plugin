@@ -415,15 +415,21 @@ if (!class_exists('p_lodgix')) {
             if ($this->locale == 'en') {
                 $this->locale = 'en_US';
             }
-            else if ($locale == 'de') {
+            else if ($this->locale == 'de') {
                 $this->locale = 'de_DE';
             }
+            
         }
         
         
         $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/default/" .$this->locale.".mo";
         
-        load_textdomain($this->localizationDomain, $mo);
+        if (!load_textdomain($this->localizationDomain, $mo))
+        {
+            print($mo);
+            die();
+        }
+        
 
       //"Constants" setup
       $this->url = plugins_url(basename(__FILE__), __FILE__);

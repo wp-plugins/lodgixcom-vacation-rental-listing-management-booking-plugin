@@ -140,12 +140,12 @@ $single_property .= '</p></center>';
 $single_property .= '<div id="lodgix_property_description"><p><h2>' .__('Property Description',$this->localizationDomain) . '</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->description_long) . '</div>';
 $single_property .= '<div id="lodgix_property_details"><p><h2>' .__('Property Details',$this->localizationDomain) . '</h2></p>' . str_replace(array("\r\n", "\n", "\r"),'<br>',$property->details) . $beds_text . '</div>';
 
-if (count($amenities) >= 1)
+if (count($amenities_list) >= 1)
 { 
  $single_property .= '<br><br><div id="lodgix_property_amenities"><h2>' .__('Amenities',$this->localizationDomain) . '</h2><br><ul class="amenities">';
- foreach($amenities as $amenity)
+ foreach($amenities_list as $amenity)
  {
-  $single_property .= '<li>' . __(trim($amenity_name),$this->localizationDomain). '</li>';
+  $single_property .= '<li>' . $amenity . '</li>';
  }
  $single_property .= '</ul></div><br><br>';
 } 

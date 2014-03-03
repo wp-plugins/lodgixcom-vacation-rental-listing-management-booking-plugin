@@ -1683,7 +1683,7 @@ if (!class_exists('p_lodgix')) {
         $fees_table = $wpdb->prefix . "lodgix_fees";   
         $deposits_table = $wpdb->prefix . "lodgix_deposits";   
         $reviews_table = $wpdb->prefix . "lodgix_reviews";   
-				$lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";        
+		$lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";        
         
         $sql = "DELETE FROM " . $properties_table;
         $wpdb->query($sql);
@@ -3054,7 +3054,12 @@ if (!class_exists('p_lodgix')) {
 				$counter = 0;
  				foreach($amenities as $amenity)
 				{
-                     array_push($amenities_list,$amenity->description);
+                    $aux = __(trim($amenity->description),$this->localizationDomain);
+                    $amenity_name = $wpdb->get_var("select description_de from " . $lang_amenities_table . " WHERE description='" . $amenity->description . "';"); 
+					if ($amenity_name != "")
+						$aux = __(trim($amenity_name),$this->localizationDomain);
+
+                     array_push($amenities_list,$aux);
                 }
             }
             
@@ -4268,6 +4273,7 @@ if (!class_exists('p_lodgix')) {
         $pages_table = $wpdb->prefix . "lodgix_pages";
         $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
         $properties_lang_table = $wpdb->prefix . "lodgix_lang_properties";
+        $lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";  
         
         $sql = "DELETE FROM " . $properties_table . " WHERE id not in (" . $active_properties . ")";
         $wpdb->query($sql);
@@ -4286,7 +4292,7 @@ if (!class_exists('p_lodgix')) {
         $sql = "DELETE FROM " . $lang_pages_table . " WHERE property_id not in (" . $active_properties . ")";
         $wpdb->query($sql);         
         $sql = "DELETE FROM " . $properties_lang_table . " WHERE id not in (" . $active_properties . ")";
-        $wpdb->query($sql);                              
+        $wpdb->query($sql);
       }      
       
       function update_owner($owner)

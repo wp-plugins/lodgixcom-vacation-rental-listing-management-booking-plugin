@@ -206,7 +206,7 @@ $single_property .= '</div>
  									foreach($amenities_list as $amenity)
 									{
 	
-  									$single_property .= '<li>' . __($amenity,$this->localizationDomain) . '</li>';
+  									$single_property .= '<li>' . $amenity . '</li>';
   									$counter++;
  									}
 

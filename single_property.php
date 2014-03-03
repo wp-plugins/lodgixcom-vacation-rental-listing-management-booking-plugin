@@ -185,18 +185,18 @@ $single_property .= '<div id="lodgix_property_rates"><h2>' .__('Rates',$this->lo
 
 if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates)) {
 	if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0)
-		$single_property .= __('Daily Rate:',$this->localizationDomain) . ' ' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' per night<br/>';
+		$single_property .= __('Daily Rate',$this->localizationDomain) . ': ' . $property->currency_symbol . $low_daily_rate  . ' -  ' . $property->currency_symbol .  $high_daily_rate . ' '. __('per night',$this->localizationDomain) .'<br/>';
 	if ($low_weekly_rate > 0)	
-		$single_property .= __('Weekly Rate:',$this->localizationDomain) . ' ' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' per week<br/>';
+		$single_property .= __('Weekly Rate',$this->localizationDomain) . ': ' . $property->currency_symbol . $low_weekly_rate  . ' - ' . $property->currency_symbol . $high_weekly_rate . ' ' . __('per week',$this->localizationDomain) .'<br/>';
 	if ($low_monthly_rate > 0)		
-		$single_property .= __('Monthly Rate:',$this->localizationDomain) . ' ' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate  . ' per month<br/>';
+		$single_property .= __('Monthly Rate',$this->localizationDomain) . ': ' . $property->currency_symbol . $low_monthly_rate  . ' - ' . $property->currency_symbol  . $high_monthly_rate . ' ' . __('per month',$this->localizationDomain) .'<br/>';
 }
 else {
     include "merged_rates.php";
 }
 
-$single_property .= __('- Rate varies due to seasonality and holidays.',$this->localizationDomain) . '<br/>';
-$single_property .= __('- Please select your dates on our online booking calendar for an exact quote.',$this->localizationDomain) . '<br/>';
+$single_property .= '- ' . __('Rate varies due to seasonality and holidays.',$this->localizationDomain) . '<br/>';
+$single_property .= '- ' . __('Please select your dates on our online booking calendar for an exact quote.',$this->localizationDomain) . '<br/>';
 $single_property .= '</div>';
 
 
@@ -204,8 +204,6 @@ $single_property .= '</div>';
 $single_property .= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";
 
 
-$policies_table = $wpdb->prefix . "lodgix_policies"; 
-$policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='en'"); 
 $taxes = $wpdb->get_results("SELECT * FROM " . $taxes_table . " WHERE property_id=" . $property->id);
 $fees = $wpdb->get_results("SELECT * FROM " . $fees_table . " WHERE property_id=" . $property->id);
 $deposits = $wpdb->get_results("SELECT * FROM " . $deposits_table . " WHERE property_id=" . $property->id);

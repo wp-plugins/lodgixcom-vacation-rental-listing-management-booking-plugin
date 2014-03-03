@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Lodgix\n"
-"POT-Creation-Date: 2014-02-27 17:38-0000\n"
+"POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: de_DE\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
 "X-Generator: Poedit 1.6.4\n"
 
 msgid "Sort Results by"
@@ -192,16 +192,16 @@ msgid "Workout Facilities"
 msgstr "Sportstudio"
 
 msgid "This property has"
-msgstr "1"
+msgstr ""
 
 msgid "Display Google Map"
-msgstr "1"
+msgstr ""
 
 msgid "Book Now"
-msgstr "1"
+msgstr ""
 
 msgid "Check Availability"
-msgstr "1"
+msgstr ""
 
 msgid "Property Description"
 msgstr "Kurzbeschreibung"
@@ -210,40 +210,52 @@ msgid "Property Details"
 msgstr "Ausf&uuml;hrliche Beschreibung"
 
 msgid "Amenities"
-msgstr "1"
+msgstr "Annehmlichkeiten"
 
 msgid "Guest Reviews"
-msgstr "1"
+msgstr "Bewertungen"
 
 msgid "Rates"
 msgstr "Kurs"
 
 msgid "Rate varies due to seasonality and holidays."
+msgstr "Die Preise unterscheiden sich saisonbedingt."
+
+msgid ""
+"Please select your dates on our online booking calendar for an exact quote."
 msgstr ""
 "Bitte w&auml;hlen Sie die exakten Daten Ihrer Anreise und Abreise im online "
 "Buchungskalender um ein Preisangebot zu erhalten."
 
-msgid ""
-"Please select your dates on our online booking calendar for an exact quote."
-msgstr "1"
-
 msgid "Taxes"
-msgstr "1"
+msgstr "Steuern"
 
 msgid "One Time"
-msgstr "1"
+msgstr ""
 
 msgid "Daily"
-msgstr "1"
+msgstr ""
 
 msgid "Policies"
-msgstr "1"
+msgstr "Kurs"
 
 msgid "Fees"
-msgstr "1"
+msgstr "Geb&uuml;hren"
 
 msgid "Tax Exempt"
-msgstr "1"
+msgstr ""
 
 msgid "Deposits"
-msgstr "1"
+msgstr "Kaution"
+
+msgid "Availability &amp; Booking Calendar"
+msgstr "Verf&uuml;gbarkeit"
+
+msgid "per night"
+msgstr "pro nacht"
+
+msgid "per month"
+msgstr ""
+
+msgid "Stornierungsbedingungen"
+msgstr ""

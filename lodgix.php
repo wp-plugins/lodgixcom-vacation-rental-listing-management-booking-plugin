@@ -579,7 +579,7 @@ if (!class_exists('p_lodgix')) {
         $single_unit_helptext = $policy->multi_unit_helptext;
       }  			  
 	
-            $content = '<div id="lodgix_property_booking"><h2 id="booking">' . __('Availability & Booking Calendar',$this->localizationDomain) .'</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
+            $content = '<div id="lodgix_property_booking"><h2 id="booking">' . __('Availability &amp; Booking Calendar',$this->localizationDomain) .'</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
 		
 
 			if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1))
@@ -3059,6 +3059,10 @@ if (!class_exists('p_lodgix')) {
 
             $sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='" . $sufix ."' AND property_id=" . $property->id . ' ORDER BY date DESC';
             $reviews = $wpdb->get_results($sql);
+            
+            $policies_table = $wpdb->prefix . "lodgix_policies"; 
+            $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $sufix . "'"); 
+            
             
             if ($this->locale == 'en_US')
             {

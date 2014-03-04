@@ -69,7 +69,7 @@ $vacation_rentals = '
 			<td class="ldgxListingFeatCell">' . $property->proptype . '</td>
 		</tr>
 		<tr class="ldgxListingFeatCellPets">
-			<th width="80" altwidth="40" alt="Pets" class="ldgxListingFeatCell">' . __('Pet Friendly',$this->localizationDomain) . '</th>
+			<th width="80" altwidth="40" alt="Pets" class="ldgxListingFeatCell">' . __('Pet Friendly',$this->localizationDomain) . '?</th>
 			<td class="ldgxListingFeatCell"><div class="ldgxPets' . ($property->pets == 1 ? __('Yes',$this->localizationDomain) : __('No',$this->localizationDomain) ) . '"></div></td>
 		</tr>
 		<tr>

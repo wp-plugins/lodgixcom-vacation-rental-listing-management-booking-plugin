@@ -293,3 +293,5 @@ msgstr "Verf&uuml;gbarkeit"
 msgid "Search Rentals"
 msgstr "Vermietungen"
 
+msgid "Pet Friendly"
+msgstr "Haustiere"

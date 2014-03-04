@@ -3460,13 +3460,13 @@ if (!class_exists('p_lodgix')) {
 	        			<table>
 	        			  <tr>
 	        			  <td>
-	        					<div>Arriving:</div> 			
+	        					<div>'.__('Arriving',$this->localizationDomain).':</div> 			
 	        					<div style="vertical-align:bottom;"><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:117px;" onchange="p_lodgix_search_properties()" readonly></div>
 	        				</td>
 	        				<td>&nbsp;
 	        				</td>
 	        				<td>
-	        				<div>Nights:</div>
+	        				<div>'.__('Nights',$this->localizationDomain).':</div>
 	        				<div><select id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:54px;" onchange="p_lodgix_search_properties()">';
 	        				
 	        for ($i = 1 ; $i < 100 ; $i++)				
@@ -3478,9 +3478,9 @@ if (!class_exists('p_lodgix')) {
 	        				</td>
 	        				</tr>
 	        			</table>
-	       				<div>Location:</div> 
+	       				<div>'.__('Location',$this->localizationDomain).':</div> 
 	       				<div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="p_lodgix_search_properties()">
-	       				<option value="ALL_AREAS">All Areas</option>';       	
+	       				<option value="ALL_AREAS">'.__('All Areas',$this->localizationDomain).'</option>';       	
 	
 					foreach($areas as $area)       				
 					{
@@ -3492,7 +3492,7 @@ if (!class_exists('p_lodgix')) {
 					}
 	  			
 	       	echo	'</select></div>
-	       				<div>Bedrooms:</div> 
+	       				<div>'.__('Bedrooms',$this->localizationDomain) .':</div> 
 	       				<div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="p_lodgix_search_properties()">
 	       				<option value="ANY">Any</option> 
 	       				<option value="0">Studio</option>';
@@ -3508,7 +3508,7 @@ if (!class_exists('p_lodgix')) {
 	       	echo '</select></div>';
 	
 			if ($options['amenities']) {
-				echo '<div class="lodgix-custom-search-amenities-list">Amenities:';
+				echo '<div class="lodgix-custom-search-amenities-list">'.__('Amenities',$this->localizationDomain) .':';
 				$amenities = $wpdb->get_results('SELECT DISTINCT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities WHERE searchable=1');
 				$a = 0;
 				foreach($amenities as $amenity) {
@@ -3518,13 +3518,13 @@ if (!class_exists('p_lodgix')) {
 				echo '</div>';
 			}
 	
-	       	echo '<div>Search by Property Name or ID:</div> 
+	       	echo '<div>'.__('Search by Property Name or ID',$this->localizationDomain) .':</div> 
 	       				<div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="p_lodgix_search_properties()" value="' . $id_post .  '"></div>
 	       				<div id="lodgix-custom-search-results" align="center">
 	       				<div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
 	       				<div id="search_results">
 	       				</div>
-	       				<input type="submit" value="Display Results" id="lodgix-custom-search-button">
+	       				<input type="submit" value="'.__('Display Results',$this->localizationDomain) .'" id="lodgix-custom-search-button">
 	       				</div>
 	              </div>';               
 	        echo '</div></form>';
@@ -3571,7 +3571,7 @@ if (!class_exists('p_lodgix')) {
 	        //Set the default options for the widget here
 	        if ( !is_array($options) )
 	          $options = array(
-	          	'title' => 'Rentals Search',
+	          	'title' => __('Rentals Search',$this->localizationDomain),
 	          	'amenities' => false
 	          );
 	    

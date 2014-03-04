@@ -92,6 +92,8 @@ vacation rental website in a couple hours.
 
 
 == Changelog ==
+= 1.1.44 = 
+* Localization - part III
 = 1.1.43 = 
 * Localization - part II
 = 1.1.42 = 

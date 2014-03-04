@@ -12,7 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
-v1.1.43: Localization - part I - fix
+v1.1.43: Localization - part II
 v1.1.42: Localization - part I
 v1.1.41: Changed datepicker z-index
 v1.1.40: Fixed Widget header width

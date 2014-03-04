@@ -237,10 +237,10 @@ msgid "One Time"
 msgstr ""
 
 msgid "Daily"
-msgstr "Täglich"
+msgstr "T&auml;glich"
 
 msgid "Policies"
-msgstr "Kurs"
+msgstr ""
 
 msgid "Fees"
 msgstr "Geb&uuml;hren"
@@ -295,3 +295,12 @@ msgstr "Vermietungen"
 
 msgid "Pet Friendly"
 msgstr "Haustiere"
+
+msgid "Search by Property Name or ID"
+msgstr "Suchen Sie nach Objekt Name oder ID"
+
+msgid "Arriving"
+msgstr "Anreise"
+
+msgid "Nights"
+msgstr "N&auml;chte"

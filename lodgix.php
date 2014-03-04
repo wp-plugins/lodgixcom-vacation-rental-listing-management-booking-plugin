@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.41
+Version: 1.1.42
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.42: Localization - part I
 v1.1.41: Changed datepicker z-index
 v1.1.40: Fixed Widget header width
 v1.1.39: Fixed Amenities UL
@@ -2441,7 +2442,8 @@ if (!class_exists('p_lodgix')) {
         $link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";  
         $rates_table = $wpdb->prefix . "lodgix_rates";        
         $merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";
-        $lang_properties_table = $wpdb->prefix . "lodgix_lang_properties";   
+        $lang_properties_table = $wpdb->prefix . "lodgix_lang_properties";
+        $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
         
         $sort_sql = '';
         $direction = '';
@@ -2524,7 +2526,7 @@ if (!class_exists('p_lodgix')) {
 						$owner_id = $this->options['p_lodgix_owner_id'];
 						if ($owner_id == 2) {
 							$owner_id = 'rosewoodpointe';
-						} elseif ($owner_id == 13) {
+						} else if ($owner_id == 13) {
 							$owner_id = 'demo_booking_calendar';
 						}
          				$property->bookdates = $arrival . ',' . $departure;
@@ -2563,9 +2565,8 @@ if (!class_exists('p_lodgix')) {
                 $property->description = $german_details->description;
                 $property->description_long = $german_details->description_long;
                 $property->details = $german_details->details;
-                $post_id = $wpdb->get_var("select page_id from " . $lang_pages_table . " WHERE property_id=" . $property->id . ";");
-                $permalink = get_permalink($post_id);
-                
+                $post_id_de = $wpdb->get_var("select page_id from " . $lang_pages_table . " WHERE property_id=" . $property->id . ";"); 
+                $permalink = get_permalink($post_id_de);
             }
             include('vacation_rentals.php');
             $content .= $vacation_rentals;          
@@ -2746,7 +2747,7 @@ if (!class_exists('p_lodgix')) {
 
 		$amenities = $_POST['lodgix-custom-search-amenities'];
 
-      	$content .= $this->get_vacation_rentals_html_de($sort,$area,$bedrooms,$id,$arrival,$nights,$amenities);      
+      	$content .= $this->get_vacation_rentals_html($sort,$area,$bedrooms,$id,$arrival,$nights,$amenities);      
 
         $content .= '</div>';
   
@@ -3460,13 +3461,13 @@ if (!class_exists('p_lodgix')) {
 	        			<table>
 	        			  <tr>
 	        			  <td>
-	        					<div>'.__('Arriving',$this->localizationDomain).':</div> 			
+	        					<div>'.__('Arriving','p_lodgix').':</div> 			
 	        					<div style="vertical-align:bottom;"><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:117px;" onchange="p_lodgix_search_properties()" readonly></div>
 	        				</td>
 	        				<td>&nbsp;
 	        				</td>
 	        				<td>
-	        				<div>'.__('Nights',$this->localizationDomain).':</div>
+	        				<div>'.__('Nights','p_lodgix').':</div>
 	        				<div><select id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:54px;" onchange="p_lodgix_search_properties()">';
 	        				
 	        for ($i = 1 ; $i < 100 ; $i++)				
@@ -3478,9 +3479,9 @@ if (!class_exists('p_lodgix')) {
 	        				</td>
 	        				</tr>
 	        			</table>
-	       				<div>'.__('Location',$this->localizationDomain).':</div> 
+	       				<div>'.__('Location','p_lodgix').':</div> 
 	       				<div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="p_lodgix_search_properties()">
-	       				<option value="ALL_AREAS">'.__('All Areas',$this->localizationDomain).'</option>';       	
+	       				<option value="ALL_AREAS">'.__('All Areas','p_lodgix').'</option>';       	
 	
 					foreach($areas as $area)       				
 					{
@@ -3492,7 +3493,7 @@ if (!class_exists('p_lodgix')) {
 					}
 	  			
 	       	echo	'</select></div>
-	       				<div>'.__('Bedrooms',$this->localizationDomain) .':</div> 
+	       				<div>'.__('Bedrooms','p_lodgix') .':</div> 
 	       				<div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="p_lodgix_search_properties()">
 	       				<option value="ANY">Any</option> 
 	       				<option value="0">Studio</option>';
@@ -3508,7 +3509,7 @@ if (!class_exists('p_lodgix')) {
 	       	echo '</select></div>';
 	
 			if ($options['amenities']) {
-				echo '<div class="lodgix-custom-search-amenities-list">'.__('Amenities',$this->localizationDomain) .':';
+				echo '<div class="lodgix-custom-search-amenities-list">'.__('Amenities','p_lodgix') .':';
 				$amenities = $wpdb->get_results('SELECT DISTINCT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities WHERE searchable=1');
 				$a = 0;
 				foreach($amenities as $amenity) {
@@ -3518,13 +3519,13 @@ if (!class_exists('p_lodgix')) {
 				echo '</div>';
 			}
 	
-	       	echo '<div>'.__('Search by Property Name or ID',$this->localizationDomain) .':</div> 
+	       	echo '<div>'.__('Search by Property Name or ID','p_lodgix') .':</div> 
 	       				<div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="p_lodgix_search_properties()" value="' . $id_post .  '"></div>
 	       				<div id="lodgix-custom-search-results" align="center">
 	       				<div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
 	       				<div id="search_results">
 	       				</div>
-	       				<input type="submit" value="'.__('Display Results',$this->localizationDomain) .'" id="lodgix-custom-search-button">
+	       				<input type="submit" value="'.__('Display Results','p_lodgix') .'" id="lodgix-custom-search-button">
 	       				</div>
 	              </div>';               
 	        echo '</div></form>';
@@ -3564,14 +3565,14 @@ if (!class_exists('p_lodgix')) {
 	      // This is the function that outputs the form to let the users edit
 	      // the widget's title. It's an optional feature that users cry for.
 	      function widget_lodgix_custom_search_control() {
-	    
+
 	        // Get our options and see if we're handling a form submission.
 	        $options = get_option('widget_lodgix_custom_search');
 	    
 	        //Set the default options for the widget here
 	        if ( !is_array($options) )
 	          $options = array(
-	          	'title' => __('Rentals Search',$this->localizationDomain),
+	          	'title' => __('Rentals Search','p_lodgix'),
 	          	'amenities' => false
 	          );
 	    

@@ -1,6 +1,5 @@
 <?php
-$is_german = False;
-$permalink = get_permalink($property->post_id);
+
 $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );   
 
 $sql = "SELECT * FROM " . $reviews_table . " WHERE language_code='en' AND property_id=" . $property->id . ' ORDER BY date DESC';
@@ -235,8 +234,6 @@ $single_property .= '- ' . __('Rate varies due to seasonality and holidays.',$th
 $single_property .= '- ' . __('Please select your dates on our online booking calendar for an exact quote.',$this->localizationDomain)  . '<br/>';
 $single_property .= '';        
 
-$policies_table = $wpdb->prefix . "lodgix_policies"; 
-$policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='en'"); 
 $taxes = $wpdb->get_results("SELECT * FROM " . $taxes_table . " WHERE property_id=" . $property->id);
 $fees = $wpdb->get_results("SELECT * FROM " . $fees_table . " WHERE property_id=" . $property->id);
 $deposits = $wpdb->get_results("SELECT * FROM " . $deposits_table . " WHERE property_id=" . $property->id);

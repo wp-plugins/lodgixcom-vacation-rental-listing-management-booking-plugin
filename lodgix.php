@@ -1485,7 +1485,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_use_property_hyperlinks' => '1', 
                                   'p_lodgix_title_size' => '24',
                                   'p_lodgix_vr_title' => 'Vacation Rentals',
-                                  'p_lodgix_vr_title_de' => __('Vacation Rentals',$this->localizationDomain),
+                                  'p_lodgix_vr_title_de' => 'Ferienvillen &Uuml;bersicht',
                                   'p_lodgix_vr_meta_description' => NULL,
                                   'p_lodgix_vr_meta_description_de' => NULL,
                                   'p_lodgix_vr_meta_keywords' => NULL,
@@ -1553,7 +1553,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_use_property_hyperlinks' => '1', 
                               'p_lodgix_title_size' => '24', 
                               'p_lodgix_vr_title' => 'Vacation Rentals',
-                              'p_lodgix_vr_title_de' => __('Vacation Rentals',$this->localizationDomain),
+                              'p_lodgix_vr_title_de' => 'Ferienvillen &Uuml;bersicht',
                               'p_lodgix_vr_meta_description' => NULL,
                               'p_lodgix_vr_meta_description_de' => NULL,
                               'p_lodgix_vr_meta_keywords' => NULL,
@@ -2718,28 +2718,28 @@ if (!class_exists('p_lodgix')) {
         $post_id = (int)$this->options['p_lodgix_availability_page'];
         if ($post_id > 0)
         {
-           $post = array();
-           $post['ID'] = $post_id;
-           $content = '
-              <div id="content_lodgix">
-           ';
-           $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table); 
+            $post = array();
+            $post['ID'] = $post_id;
+            $content = '
+               <div id="content_lodgix">
+            ';
+            $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table); 
                          
-           if ($properties)
-           {
-            $number_properties = count($properties); 
-            $multi_unit_helptext = $wpdb->get_var("SELECT multi_unit_helptext FROM " . $policies_table . " WHERE language_code='" . $lang_code . "'");
-            
-            if ($number_properties >= 1)
+            if ($properties)
             {
-              $allow_booking = $properties[0]->allow_booking;
-              $owner_id = $properties[0]->owner_id;
-           		$owner_id_multiple =  $this->options['p_lodgix_owner_id'];
-              $property_id = $properties[0]->id;
-              include('availability.php');
-              $content .= $availability;
-            } 
-           }
+             $number_properties = count($properties); 
+             $multi_unit_helptext = $wpdb->get_var("SELECT multi_unit_helptext FROM " . $policies_table . " WHERE language_code='" . $this->sufix . "'");
+             
+             if ($number_properties >= 1)
+             {
+               $allow_booking = $properties[0]->allow_booking;
+               $owner_id = $properties[0]->owner_id;
+                 $owner_id_multiple =  $this->options['p_lodgix_owner_id'];
+               $property_id = $properties[0]->id;
+               include('availability.php');
+               $content .= $availability;
+             } 
+            }
            $content .= '</div>';
            $post['post_content'] = $content;
            wp_update_post($post);
@@ -2914,11 +2914,11 @@ if (!class_exists('p_lodgix')) {
       }      
       
 
-      /*
-        Get vacation rentals page content
-      */
-      function get_vacation_rentals_content($lang_code)
-      {
+    /*
+      Get vacation rentals page content
+    */
+    function get_vacation_rentals_content($lang_code)
+    {
 			  global $wpdb;
 			  $loptions = get_option('p_lodgix_options');
 
@@ -4285,7 +4285,18 @@ if (!class_exists('p_lodgix')) {
         $pages_table = $wpdb->prefix . "lodgix_pages";
         $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
         $properties_lang_table = $wpdb->prefix . "lodgix_lang_properties";
-        $lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";  
+        $lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";
+        
+        $properties = $wpdb->get_results('SELECT * FROM ' . $properties_table . '  WHERE id not in (' . $active_properties . ')'); 
+        if ($properties)
+        {
+          foreach($properties as $property)    	
+          {
+            wp_delete_post((int)$property->post_id,$force_delete = true);
+          }
+        }
+        
+        $sql = "SELECT FROM " . $properties_table . " WHERE id not in (" . $active_properties . ")";
         
         $sql = "DELETE FROM " . $properties_table . " WHERE id not in (" . $active_properties . ")";
         $wpdb->query($sql);
@@ -4734,7 +4745,7 @@ if (!class_exists('p_lodgix')) {
                   }                  
 
                   $post = array();
-                  $post['post_title'] = __('Vacation Rentals',$this->localizationDomain); 
+                  $post['post_title'] = 'Ferienvillen &Uuml;bersicht'; 
                   $post['menu_order'] = 1;
                   $post['post_status'] = 'publish';                        
                   $post['post_content'] = '[lodgix_vacation_rentals_de]';  
@@ -4824,7 +4835,7 @@ if (!class_exists('p_lodgix')) {
                   {
                       if ($this->options['p_lodgix_generate_german'])
                       {
-                        $post['post_title'] = __('Availability',$this->localizationDomain);
+                        $post['post_title'] = 'Verf&uuml;gbarkeit';
                         $post['post_content'] = '[lodgix_availability_de]';  
                         $post_de_id = wp_insert_post( $post );               
                         if ($post_de_id != 0)
@@ -4859,7 +4870,7 @@ if (!class_exists('p_lodgix')) {
                       if ($this->options['p_lodgix_generate_german'])
                       {
                                         	
-                        $post['post_title'] = __('Search Rentals',$this->localizationDomain);
+                        $post['post_title'] = 'Vermietungen';
                         $post['post_content'] = '[lodgix_search_rentals_de]';  
                         $post_de_id = wp_insert_post( $post,true );               
             

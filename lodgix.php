@@ -1927,15 +1927,15 @@ if (!class_exists('p_lodgix')) {
               	$sql = $this->get_insert_sql_from_array($lang_amenities_table,$alrarray);
               	$wpdb->query($sql);                    	
               }
-              else {
-              	$alrarray = array();
-              	$alrarray['description'] = $amenity['Name'];
-              	$alrarray['description_de'] = $amenity['Name'];
-              	$alrarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
-              	$sql = $this->get_insert_sql_from_array($lang_amenities_table,$alrarray);
-              	$wpdb->query($sql);                    	
-              	
-            	}
+            //  else {
+            //  	$alrarray = array();
+            //  	$alrarray['description'] = $amenity['Name'];
+            //  	$alrarray['description_de'] = $amenity['Name'];
+            //  	$alrarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
+            //  	$sql = $this->get_insert_sql_from_array($lang_amenities_table,$alrarray);
+            //  	$wpdb->query($sql);                    	
+            //  	
+            //	}
             }
           }     
         }               

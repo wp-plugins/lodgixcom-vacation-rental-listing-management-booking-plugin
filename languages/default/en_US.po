@@ -1,0 +1,188 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lodgix\n"
+"POT-Creation-Date: 2014-02-27 17:38-0000\n"
+"PO-Revision-Date: 2014-02-27 18:11-0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Sort Results by"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Bedrooms"
+msgstr ""
+
+msgid "Bathrooms"
+msgstr ""
+
+msgid "Rental Type"
+msgstr ""
+
+msgid "Pets Allowed"
+msgstr ""
+
+msgid "Daily Rate"
+msgstr ""
+
+msgid "Weekly Rate"
+msgstr ""
+
+msgid "Monthly Rate"
+msgstr ""
+
+msgid "Balcony"
+msgstr ""
+
+msgid "Bed Linens"
+msgstr ""
+
+msgid "Bicycles"
+msgstr ""
+
+msgid "Bike Rentals"
+msgstr ""
+
+msgid "Biking"
+msgstr ""
+
+msgid "Blu-ray Player"
+msgstr ""
+
+msgid "Cable Television"
+msgstr ""
+
+msgid "Central A/C"
+msgstr ""
+
+msgid "Central Heat"
+msgstr ""
+
+msgid "Coffee Maker"
+msgstr ""
+
+msgid "Communal Pool"
+msgstr ""
+
+msgid "Cookware"
+msgstr ""
+
+msgid "Dishwasher"
+msgstr ""
+
+msgid "Dock"
+msgstr ""
+
+msgid "DVD"
+msgstr ""
+
+msgid "Fax"
+msgstr ""
+
+msgid "Fishing"
+msgstr ""
+
+msgid "Game Console"
+msgstr ""
+
+msgid "Gas Grill"
+msgstr ""
+
+msgid "Golfing"
+msgstr ""
+
+msgid "Hair Dryer"
+msgstr ""
+
+msgid "Handicap Accessible"
+msgstr ""
+
+msgid "Hi Speed Internet"
+msgstr ""
+
+msgid "Hiking"
+msgstr ""
+
+msgid "Iron"
+msgstr ""
+
+msgid "Kayak"
+msgstr ""
+
+msgid "Kitchen"
+msgstr ""
+
+msgid "Lakefront"
+msgstr ""
+
+msgid "Microwave"
+msgstr ""
+
+msgid "Oven"
+msgstr ""
+
+msgid "Parking"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Pool Baby Fence"
+msgstr ""
+
+msgid "Pool Heating: Electric"
+msgstr ""
+
+msgid "Pool Heating: Solar"
+msgstr ""
+
+msgid "Pool Heating: Solar and Electric"
+msgstr ""
+
+msgid "Premium Cable Channels"
+msgstr ""
+
+msgid "Restaurant"
+msgstr ""
+
+msgid "Saltwater Pool"
+msgstr ""
+
+msgid "Shopping"
+msgstr ""
+
+msgid "Shower"
+msgstr ""
+
+msgid "Spa"
+msgstr ""
+
+msgid "Swimming"
+msgstr ""
+
+msgid "Tennis"
+msgstr ""
+
+msgid "Towels"
+msgstr ""
+
+msgid "Volleyball"
+msgstr ""
+
+msgid "Washer and Dryer"
+msgstr ""
+
+msgid "Wireless Internet"
+msgstr ""
+
+msgid "Workout Facilities"
+msgstr ""

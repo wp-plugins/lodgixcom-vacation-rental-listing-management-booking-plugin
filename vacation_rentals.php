@@ -2,7 +2,6 @@
 
 $lodgixoptions = get_option('p_lodgix_options');
 
-$permalink = get_permalink($property->post_id);
 if ($differentiate && $property->really_available) {
 	$permalink = add_query_arg(array('bookdates' => $property->bookdates), $permalink);
 }
@@ -34,7 +33,7 @@ if ($property->bedrooms == 0)
 $warning = '';
 if ($differentiate && !$property->really_available)
 {  	 	
-  	$warning = '<span style="color:red;font-size:9px;text-decoration:none;">Rules may exist that prevent this booking from proceeding. Please check availability.</span><br><br>';
+  	$warning = '<span style="color:red;font-size:9px;text-decoration:none;">' . __('Rules may exist that prevent this booking from proceeding. Please check availability.'.$this->localizationDomain) . '</span><br><br>';
 }
 
 $main_image_thumb = $property->main_image_thumb;
@@ -58,31 +57,31 @@ $vacation_rentals = '
 	<div class="ldgxListingSeparator"></div>
 	<table class="ldgxFeats">
 		<tr>
-			<th width="70" altwidth="40" alt="Beds" class="ldgxListingFeatCell">Bedrooms</th>
+			<th width="70" altwidth="40" alt="Beds" class="ldgxListingFeatCell">' . __('Bedrooms',$this->localizationDomain) . '</th>
 			<td class="ldgxListingFeatCell">' . $bedrooms . '</td>
 		</tr>
 		<tr>
-			<th width="70" altwidth="40" alt="Baths" class="ldgxListingFeatCell">Bathrooms</th>
+			<th width="70" altwidth="40" alt="Baths" class="ldgxListingFeatCell">' . __('Bathrooms',$this->localizationDomain) . '</th>
 			<td class="ldgxListingFeatCell">' . $property->bathrooms . '</td>
 		</tr>
 		<tr>
-			<th width="80" altwidth="40" alt="Type" class="ldgxListingFeatCell">Rental Type</th>
+			<th width="80" altwidth="40" alt="Type" class="ldgxListingFeatCell">' . __('Rental Type',$this->localizationDomain) . '</th>
 			<td class="ldgxListingFeatCell">' . $property->proptype . '</td>
 		</tr>
 		<tr class="ldgxListingFeatCellPets">
-			<th width="80" altwidth="40" alt="Pets" class="ldgxListingFeatCell">Pet Friendly</th>
-			<td class="ldgxListingFeatCell"><div class="ldgxPets' . ($property->pets == 1 ? 'Yes' : 'No') . '"></div></td>
+			<th width="80" altwidth="40" alt="Pets" class="ldgxListingFeatCell">' . __('Pet Friendly',$this->localizationDomain) . '?</th>
+			<td class="ldgxListingFeatCell"><div class="ldgxPets' . ($property->pets == 1 ? __('Yes',$this->localizationDomain) : __('No',$this->localizationDomain) ) . '"></div></td>
 		</tr>
 		<tr>
-			<th width="80" altwidth="80" alt="Daily" class="ldgxListingFeatCell ldgxListingFeatDaily">Daily Rate</th>
+			<th width="80" altwidth="80" alt="Daily" class="ldgxListingFeatCell ldgxListingFeatDaily">' . __('Daily Rate',$this->localizationDomain) . '</th>
 			<td class="ldgxListingFeatCell ldgxListingFeatDaily">' . $low_daily_rate . ' - ' . $high_daily_rate . '</td>
 		</tr>
 		<tr>
-			<th width="100" altwidth="100" alt="Weekly" class="ldgxListingFeatCell ldgxListingFeatWeekly">Weekly Rate</th>
+			<th width="100" altwidth="100" alt="Weekly" class="ldgxListingFeatCell ldgxListingFeatWeekly">' . __('Weekly Rate',$this->localizationDomain) . '</th>
 			<td class="ldgxListingFeatCell ldgxListingFeatWeekly">' . $low_weekly_rate . ' - ' . $high_weekly_rate . '</td>
 		</tr>
 		<tr>
-			<th width="100" altwidth="100" alt="Monthly" class="ldgxListingFeatCell ldgxListingFeatMonthly">Monthly Rate</th>
+			<th width="100" altwidth="100" alt="Monthly" class="ldgxListingFeatCell ldgxListingFeatMonthly">' . __('Monthly Rate',$this->localizationDomain) . '</th>
 			<td class="ldgxListingFeatCell ldgxListingFeatMonthly">' . $low_monthly_rate . ' - ' . $high_monthly_rate . '</td>
 		</tr>
 	</table>
@@ -99,11 +98,11 @@ $vacation_rentals = '
 	  				$vacation_rentals .= '<a title="Book Now" href="' . $property->booklink .
 	  				 '"><img src="' . $p_plugin_path  . '/images/booknow.png"></a>';
 		  		} else {
- 					$vacation_rentals .= '<a title="Check Availability" href="' . $permalink .
+ 					$vacation_rentals .= '<a title="' . __('Check Availability',$this->localizationDomain) . '" href="' . $permalink .
  					 '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a>';
 				}
 			} else {
-				$vacation_rentals .= '<a title="Check Availability" href="' . $permalink .
+				$vacation_rentals .= '<a title="' . __('Check Availability',$this->localizationDomain) . '" href="' . $permalink .
 				 '#booking"><img src="' . $p_plugin_path  . '/images/Lodgix200x50.png"></a>';
 			}
 			$vacation_rentals .= '</div>';

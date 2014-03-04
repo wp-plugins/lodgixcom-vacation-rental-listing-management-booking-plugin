@@ -142,7 +142,7 @@ if (count($amenities) >= 1)
  {
   $amenity_name = $wpdb->get_var("select description_de from " . $lang_amenities_table . " WHERE description='" . $amenity->description . "';"); 
   if ($amenity_name != "")
-  	$single_property .= '<li>' . $amenity_name . '</li>';
+  	$single_property .= '<li>' . __(trim($amenity_name),$this->localizationDomain) . '</li>';
  }
  $single_property .= '</ul></div><p></p>';
 } 

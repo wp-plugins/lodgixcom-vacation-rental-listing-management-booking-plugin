@@ -155,6 +155,26 @@ global $p_lodgix_db_version;
 $p_lodgix_db_version = "1.9";
 
 
+add_action( 'activated_plugin', 'p_lodgix_reorder_plugins' );
+
+function p_lodgix_reorder_plugins() {
+    $plugins = get_option( 'active_plugins');
+    if ($plugins[count($plugins)-1] != 'lodgixcom-vacation-rental-listing-management-booking-plugin/lodgix.php') {
+        $counter = 0;
+        foreach($plugins as $plugin) {
+            if ($plugin == 'lodgixcom-vacation-rental-listing-management-booking-plugin/lodgix.php') {
+                unset($plugins[$counter]);
+            }
+            $counter = $counter + 1;
+        }
+        array_push($plugins,'lodgixcom-vacation-rental-listing-management-booking-plugin/lodgix.php');
+        $plugins = array_values($plugins);
+        
+        update_option( 'active_plugins', $plugins );
+   
+    }        
+}
+
 if (!class_exists('LogidxHTTPRequest')) {
   class LogidxHTTPRequest
   {
@@ -410,17 +430,15 @@ if (!class_exists('p_lodgix')) {
     /**
     * PHP 5 Constructor
     */        
-    function __construct(){
-       
-      $this->p_lodgix_load_locale();
-        
+    function __construct(){                     
 
-      //"Constants" setup
-      $this->url = plugins_url(basename(__FILE__), __FILE__);
+        //"Constants" setup
+        $this->url = plugins_url(basename(__FILE__), __FILE__);
       $this->urlpath = plugins_url('', __FILE__); 
-      
-      //Initialize the options
+        
+        //Initialize the options
       $this->getOptions();
+      
       
       //Admin menu
       add_action("admin_menu", array(&$this,"admin_menu_link"));
@@ -449,6 +467,8 @@ if (!class_exists('p_lodgix')) {
       register_activation_hook(__FILE__, array(&$this,'p_lodgix_activate'));
       register_deactivation_hook(__FILE__, array(&$this,'p_lodgix_deactivate'));
       add_filter( 'wp_list_pages_excludes', array(&$this,'p_lodgix_remove_pages_from_list'));
+      
+   
 
  
       // Featured widget
@@ -458,6 +478,7 @@ if (!class_exists('p_lodgix')) {
       
       // Menus
       add_filter('wp_get_nav_menu_items',array(&$this,'p_lodgix_nav_menus'),10,3);
+      add_filter( 'wp_setup_nav_menu_item',array(&$this,'p_setup_nav_menu_item'));
       
       // Content
       add_filter('the_content', array(&$this,'p_lodgix_filter_content'));
@@ -466,7 +487,7 @@ if (!class_exists('p_lodgix')) {
       add_shortcode('lodgix_vacation_rentals', array(&$this,'p_lodgix_pcode_vacation_rentals'));
       add_shortcode('lodgix_vacation_rentals_de', array(&$this,'p_lodgix_pcode_vacation_rentals_de'));
       add_shortcode('lodgix_availability', array(&$this,'p_lodgix_pcode_availability'));
-      add_shortcode('lodgix_availability_de', array(&$this,'p_lodgix_pcode_availability_de'));
+      add_shortcode('lodgix_availability_de', array(&$this,'p_lodgix_pcode_availability'));
       add_shortcode('lodgix_search_rentals', array(&$this,'p_lodgix_pcode_search_rentals'));
       add_shortcode('lodgix_search_rentals_de', array(&$this,'p_lodgix_pcode_search_rentals_de'));    
 			add_shortcode('lodgix_single_property', array(&$this,'p_lodgix_pcode_lodgix_single_property'));      
@@ -476,20 +497,10 @@ if (!class_exists('p_lodgix')) {
     }
     
     function p_lodgix_load_locale() {   
-        global $l10n;
+        global $sitepress;
         
         $this->locale = get_locale();
-        
-        if ($_REQUEST['lang'] != '') {
-            $this->locale = $_REQUEST['lang'];
-            if ($this->locale == 'en') {
-                $this->locale = 'en_US';
-            }
-            else if ($this->locale == 'de') {
-                $this->locale = 'de_DE';
-            }
-            
-        }
+      
         
         if ($this->locale == 'en_US')
         {
@@ -500,7 +511,6 @@ if (!class_exists('p_lodgix')) {
         }
                 
         
-        
         $mo =  WP_CONTENT_DIR . '/'  . "languages/" .$this->localizationDomain .'-' .$this->locale.".mo";
         
         if (!load_textdomain($this->localizationDomain, $mo))
@@ -508,12 +518,14 @@ if (!class_exists('p_lodgix')) {
             $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/" .$this->localizationDomain .'-' .$this->locale.".mo";
             load_textdomain($this->localizationDomain, $mo);
         }
-        
+        return $lang;
     }
     
+
+    
     function p_lodgix_pre_render_function($form) {
-			global $wpdb;	  		  
-			$properties_table = $wpdb->prefix . "lodgix_properties";
+		global $wpdb;	  		  
+		$properties_table = $wpdb->prefix . "lodgix_properties";
 			
 			//TODO: SELECT FORM ID
 	    //if($form["id"] != 5)
@@ -726,6 +738,12 @@ if (!class_exists('p_lodgix')) {
         return -1;           
     }
     
+    function p_setup_nav_menu_item($item) {
+        $item->title = __($item->title,$this->localizationDomain);
+        
+        return $item;    
+    }
+    
     function p_lodgix_nav_menus($items, $menu, $args)
     { 
       global $wpdb;
@@ -757,8 +775,8 @@ if (!class_exists('p_lodgix')) {
           }      
         }
   
-        if (!$_REQUEST['lang'])
-        {
+        //if ($this->locale == 'en_US')
+        //{
           if ($pos1 != '-1')
           {
             $post = get_post($this->options['p_lodgix_vacation_rentals_page']);
@@ -775,26 +793,26 @@ if (!class_exists('p_lodgix')) {
             $item->menu_order = $pos2;
             $items[] = $item;    
           } 
-        }
-        else if ($_REQUEST['lang'] == 'de')
-        {
-          if ($pos1 != '-1')
-          {
-            $post_id_de = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE property_id=-1");
-            $post = get_post($post_id_de);
-            $item = wp_setup_nav_menu_item($post);
-            $item->menu_order = $pos1;
-            $items[] = $item;
-          }
-          if ($pos2 != '-1')
-          {  
-            $post_id_de = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE property_id=-2");
-            $post = get_post($post_id_de);
-            $item = wp_setup_nav_menu_item($post);
-            $item->menu_order = $pos2;
-            $items[] = $item;   
-          }              
-        }
+        //}
+        //else if ($this->locale == 'de_DE')
+        //{
+        //  if ($pos1 != '-1')
+        //  {
+        //    $post_id_de = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE property_id=-1");
+        //    $post = get_post($post_id_de);
+        //    $item = wp_setup_nav_menu_item($post);
+        //    $item->menu_order = $pos1;
+        //    $items[] = $item;
+        //  }
+        //  if ($pos2 != '-1')
+        //  {  
+        //    $post_id_de = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE property_id=-2");
+        //    $post = get_post($post_id_de);
+        //    $item = wp_setup_nav_menu_item($post);
+        //    $item->menu_order = $pos2;
+        //    $items[] = $item;   
+        //  }              
+        //}
         
         usort( $items, array(&$this,'cmp_menu_order'));
        } 
@@ -832,7 +850,8 @@ if (!class_exists('p_lodgix')) {
     
 
     function p_lodgix_init() {
-
+        //add_filter('icl_current_language',  array(&$this,'p_lodgix_load_locale'));
+        $this->p_lodgix_load_locale();
     }
         
     function p_is_lodgix_page($id)
@@ -2851,7 +2870,8 @@ if (!class_exists('p_lodgix')) {
             }
             else if ($post->property_id == -2)
             {
-              $post_id = $this->options['p_lodgix_availability_page'];    
+              $post_id = $this->options['p_lodgix_availability_page'];
+              return;
             }       
             else if ($post->property_id == -3)
             {
@@ -4710,23 +4730,23 @@ if (!class_exists('p_lodgix')) {
                       }                                
                   }
                   
-                  $exists = get_post($this->options['p_lodgix_availability_page_de']);
-                  if (!$exists)
-                  {
-                      if ($this->options['p_lodgix_generate_german'])
-                      {
-                        $post['post_title'] = 'Verf&uuml;gbarkeit';
-                        $post['post_content'] = '[lodgix_availability_de]';  
-                        $post_de_id = wp_insert_post( $post );               
-                        if ($post_de_id != 0)
-                        {
-                            $this->options['p_lodgix_availability_page_de'] = (int)$post_de_id;
-                            $sql = "INSERT INTO " . $lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_de_id . ",-2,NULL,'de')";
-                            $wpdb->query($sql);
-                           
-                        }           
-                      }                                  
-                  } 
+                  //$exists = get_post($this->options['p_lodgix_availability_page_de']);
+                  //if (!$exists)
+                  //{
+                  //    if ($this->options['p_lodgix_generate_german'])
+                  //    {
+                  //      $post['post_title'] = 'Verf&uuml;gbarkeit';
+                  //      $post['post_content'] = '[lodgix_availability_de]';  
+                  //      $post_de_id = wp_insert_post( $post );               
+                  //      if ($post_de_id != 0)
+                  //      {
+                  //          $this->options['p_lodgix_availability_page_de'] = (int)$post_de_id;
+                  //          $sql = "INSERT INTO " . $lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_de_id . ",-2,NULL,'de')";
+                  //          $wpdb->query($sql);
+                  //         
+                  //      }           
+                  //    }                                  
+                  //} 
                   
                   $post = array();
                   $post['post_title'] = 'Search Rentals';

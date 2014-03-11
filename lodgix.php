@@ -739,8 +739,13 @@ if (!class_exists('p_lodgix')) {
     }
     
     function p_setup_nav_menu_item($item) {
+        global $sitepress;
         $item->title = __($item->title,$this->localizationDomain);
         
+        if ($sitepress && ($item->ID == $this->options['p_lodgix_availability_page'] || $item->ID == $this->options['p_lodgix_vacation_rentals_page'])) {
+            $item->url = get_permalink(icl_object_id($item->ID, 'page', true));
+        }
+
         return $item;    
     }
     

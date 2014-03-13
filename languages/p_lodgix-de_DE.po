@@ -3,12 +3,12 @@ msgstr ""
 "Project-Id-Version: Lodgix\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Bluetelligence LLC <bluetelligence@gmail.com>\n"
 "Language-Team: \n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de_DE\n"
 "X-Generator: Poedit 1.6.4\n"
 
 msgid "Sort Results by"
@@ -36,7 +36,7 @@ msgid "Pets Allowed"
 msgstr "Haustiere erlaubt"
 
 msgid "Daily Rate"
-msgstr "Tageskurs"
+msgstr "Tagespreis"
 
 msgid "Weekly Rate"
 msgstr "Wochenpreis"
@@ -102,19 +102,19 @@ msgid "Gas Grill"
 msgstr "Gasgrill"
 
 msgid "Golfing"
-msgstr "Haarf&ouml;n"
+msgstr "Golfen"
 
 msgid "Hair Dryer"
-msgstr "Behindertengerecht"
+msgstr "Fön"
 
 msgid "Handicap Accessible"
-msgstr "HDTV/Blu-ray"
+msgstr "Behindertengerecht"
 
 msgid "Hi Speed Internet"
-msgstr "Wandern"
+msgstr "Hi Speed Internet"
 
 msgid "Hiking"
-msgstr "Hi Speed Internet"
+msgstr "Wandern"
 
 msgid "Iron"
 msgstr "B&uuml;geleisen"
@@ -186,13 +186,13 @@ msgid "Washer and Dryer"
 msgstr "Waschmaschine und Trockner"
 
 msgid "Wireless Internet"
-msgstr "Wireless Internet"
+msgstr "Drahtloses Internet"
 
 msgid "Workout Facilities"
 msgstr "Sportstudio"
 
 msgid "This property has"
-msgstr "Diese Eigenschaft hat"
+msgstr "Diese Immobilie hat"
 
 msgid "Display Google Map"
 msgstr "Google Map anzeigen"
@@ -204,22 +204,22 @@ msgid "Check Availability"
 msgstr "Verfügbarkeit prüfen"
 
 msgid "Property Description"
-msgstr "Kurzbeschreibung"
+msgstr "Beschreibung"
 
 msgid "Details"
 msgstr "Beschreibung"
 
 msgid "Property Details"
-msgstr "Ausf&uuml;hrliche Beschreibung"
+msgstr "Ausf&uuml;ehrliche Beschreibung"
 
 msgid "Amenities"
-msgstr "Annehmlichkeiten"
+msgstr "Zusatzleistungen"
 
 msgid "Guest Reviews"
 msgstr "Bewertungen"
 
 msgid "Rates"
-msgstr "Kurs"
+msgstr "Preis"
 
 msgid "Rate varies due to seasonality and holidays."
 msgstr "Die Preise unterscheiden sich saisonbedingt."
@@ -227,20 +227,20 @@ msgstr "Die Preise unterscheiden sich saisonbedingt."
 msgid ""
 "Please select your dates on our online booking calendar for an exact quote."
 msgstr ""
-"Bitte w&auml;hlen Sie die exakten Daten Ihrer Anreise und Abreise im online "
+"Bitte w&auml;holen Sie die exakten Daten Ihrer Anreise und Abreise im online "
 "Buchungskalender um ein Preisangebot zu erhalten."
 
 msgid "Taxes"
 msgstr "Steuern"
 
 msgid "One Time"
-msgstr ""
+msgstr "Einmalig"
 
 msgid "Daily"
 msgstr "T&auml;glich"
 
 msgid "Policies"
-msgstr ""
+msgstr "Vereinbarungen"
 
 msgid "Fees"
 msgstr "Geb&uuml;hren"
@@ -258,10 +258,10 @@ msgid "Booking Calendar"
 msgstr "Verf&uuml;gbarkeit"
 
 msgid "per night"
-msgstr "pro nacht"
+msgstr "pro Nacht"
 
 msgid "per month"
-msgstr ""
+msgstr "pro Monat"
 
 msgid "Cancellation Policy"
 msgstr "Stornierungsbedingungen"
@@ -279,24 +279,24 @@ msgid "Property Images"
 msgstr "Bilder"
 
 msgid "Online Booking Instructions"
-msgstr "Online Buchungs Instruktionen"
+msgstr "Online Buchungs-Info"
 
 msgid "Reviews"
 msgstr "Bewertungen"
 
 msgid "Vacation Rentals"
-msgstr "Ferienvillen &Uuml;bersicht"
+msgstr "Ferienvillen &Uuml;Bericht"
 
 msgid "Availability"
 msgstr "Verf&uuml;gbarkeit"
 
 msgid "Search Rentals"
-msgstr "Vermietungen"
+msgstr "Suche"
 
 msgid "Pet Friendly"
 msgstr "Haustiere"
 
-msgid "Search by Property Name or ID"
+msgid "PSearch by Property Name or ID:"
 msgstr "Suchen Sie nach Objekt Name oder ID"
 
 msgid "Arriving"

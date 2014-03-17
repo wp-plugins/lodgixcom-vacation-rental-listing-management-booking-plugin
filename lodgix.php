@@ -316,7 +316,7 @@ if (!class_exists('p_lodgix')) {
     var $urlpath = '';
     
     var $locale = 'en_US';
-    var $sufix = '';
+    var $sufix = 'en';
     
     var $properties_array = array(
             'id'=> NULL,
@@ -503,15 +503,8 @@ if (!class_exists('p_lodgix')) {
         global $sitepress;
         
         $this->locale = get_locale();
-        
-        if ($this->locale == 'en_US')
-        {
-            $this->sufix = '';
-        }
-        else {
-            $this->sufix = substr($this->locale,0,2);
-        }
-                
+
+        $this->sufix = substr($this->locale,0,2);                        
         
         $mo =  WP_CONTENT_DIR . '/'  . "languages/" .$this->localizationDomain .'-' .$this->locale.".mo";
         
@@ -523,7 +516,8 @@ if (!class_exists('p_lodgix')) {
         return $lang;
     }
     
-    function p_lodgix_set_tables() {    
+    function p_lodgix_set_tables() {
+        global $wpdb;
     
         $this->properties_table = $wpdb->prefix . "lodgix_properties";
         $this->amenities_table = $wpdb->prefix . "lodgix_amenities";
@@ -540,7 +534,7 @@ if (!class_exists('p_lodgix')) {
         $this->fees_table = $wpdb->prefix . "lodgix_fees";   
         $this->deposits_table = $wpdb->prefix . "lodgix_deposits";     
         $this->reviews_table = $wpdb->prefix . "lodgix_reviews";      
-    
+        $this->languages_table = $wpdb->prefix . "lodgix_languages";      
     }
 
     
@@ -2380,14 +2374,14 @@ if (!class_exists('p_lodgix')) {
       }
       
       
-    function get_sort_content($lang_code,$page) {
+    function get_sort_content($page) {
         $area = '';
         if ($page) {
             $area = $page->area;
         }
         $content = '<div id="content_lodgix_wrapper">
                     <div id="lodgix_sort_div">
-                     <b>'.__('Sort Results by',$this->localizationDomain).':</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\''.$lang_code.'\',\'' . $area .  '\');">
+                     <b>'.__('Sort Results by',$this->localizationDomain).':</b>&nbsp;<SELECT name="lodgix_sort" id="lodgix_sort" onchange="javascript:p_lodgix_sort_vr(\''.$this->sufix.'\',\'' . $area .  '\');">
                         <OPTION VALUE="">'.__('None').'</OPTION>
                         <OPTION VALUE="bedrooms">'.__('Bedrooms',$this->localizationDomain).'</OPTION>
                         <OPTION VALUE="bathrooms">'.__('Bathrooms',$this->localizationDomain).'</OPTION>
@@ -2534,22 +2528,19 @@ if (!class_exists('p_lodgix')) {
     /*
       Get vacation rentals page content
     */
-    function get_vacation_rentals_content($lang_code)
+    function get_vacation_rentals_content()
     {
         $content = "";
 		global $wpdb;
 		$loptions = get_option('p_lodgix_options');
 
-		$variable = 'p_lodgix_vacation_rentals_page';
-        if ($sufix != '') {
-            $variable = 'p_lodgix_vacation_rentals_page_' . $sufix;
-        }
+        $variable = 'p_lodgix_vacation_rentals_page_' . $this->sufix;
     
         $post_id = (int)$loptions[$variable];  					
      
         if ($post_id > 0)
         {
-          $content = $this->get_sort_content($lang_code,false);
+          $content = $this->get_sort_content(false);
           $content .= $this->get_vacation_rentals_html();
           $content .= '</div></div>';
         }
@@ -4333,7 +4324,13 @@ if (!class_exists('p_lodgix')) {
         if ($old_db_version < 1.9) {
             $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_lang_amenities ADD COLUMN searchable tinyint(1) NOT NULL default 0;");     
         }                
-         
+
+        if ($old_db_version < 2.0) {
+            $this->options['p_lodgix_contact_url_en'] = $this->options['p_lodgix_contact_url'];
+            $this->saveAdminOptions();          
+        }                
+        
+        
     }               
       
       
@@ -4564,7 +4561,8 @@ if (!class_exists('p_lodgix')) {
         $this->lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
         $this->lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";    
         $link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";    
-          
+        
+    
           
         if (get_option('p_lodgix_db_version'))
         {
@@ -4658,7 +4656,7 @@ if (!class_exists('p_lodgix')) {
                 $this->options['p_lodgix_vr_title'] = "Vacation Rentals";
                 $this->saveAdminOptions();
                                                     
-                               $this->options['p_lodgix_display_featured_horizontally'] = (int)$_POST['p_lodgix_display_featured_horizontally'];                                         
+                $this->options['p_lodgix_display_featured_horizontally'] = (int)$_POST['p_lodgix_display_featured_horizontally'];                                         
                 $this->options['p_lodgix_owner_id'] = $_POST['p_lodgix_owner_id'];  
                 $this->options['p_lodgix_api_key'] = $_POST['p_lodgix_api_key'];           
                 $this->options['p_google_maps_api'] = $_POST['p_google_maps_api']; 
@@ -4676,9 +4674,18 @@ if (!class_exists('p_lodgix')) {
                 $this->options['p_lodgix_custom_page_template'] = $_POST['p_lodgix_custom_page_template'];   
                 $this->options['p_lodgix_thesis_2_template'] = $_POST['p_lodgix_thesis_2_template'];   
                                         
-                $this->options['p_lodgix_contact_url'] = $_POST['p_lodgix_contact_url'];    
-                $this->options['p_lodgix_contact_url_de'] = $_POST['p_lodgix_contact_url_de'];    
-                                   
+
+                $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
+                if ($languages)
+                {
+                    foreach ($languages as $l) {
+                        $this->options['p_lodgix_contact_url_' . $l->code] = $_POST['p_lodgix_contact_url_' . $l->code];
+            
+                    }
+                    
+                }
+                
+                $this->saveAdminOptions();  
                    
                 
                 $post['post_title'] = 'Vacation Rentals';
@@ -4751,8 +4758,6 @@ if (!class_exists('p_lodgix')) {
                     }
                 }
 
-                //die($this->options['p_lodgix_vacation_rentals_page_de']);
-                //die($);
                 $this->saveAdminOptions();            
                   
                 if ($this->options['p_lodgix_thesis_compatibility'] || $this->options['p_lodgix_thesis_2_compatibility'])
@@ -5191,34 +5196,43 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						</select>
 					</td> 
 				</tr>     
-			</table><br>                    
+			</table><br>
+            
+			<p><b><?php _e('Language Options', $this->localizationDomain); ?></b></p>
+
+			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
+				<tr valign="top">
+					<th width="33%" scope="row">
+						<?php _e('Generate German:', $this->localizationDomain); ?>
+					</th>
+					<td>
+						<input name="p_lodgix_generate_german" type="checkbox" id="p_lodgix_generate_german" <?php if ($this->options['p_lodgix_generate_german']) echo "CHECKED"; ?>/>
+					</td>
+				</tr>
+			</table><br>            
 
 			<p><b><?php _e('Contact Options', $this->localizationDomain); ?></b></p>
 
 			<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-				<tr valign="top"> 
-					<th width="33%" scope="row">
-						<?php _e('Contact URL:', $this->localizationDomain); ?>
-					</th>
-					<td>
-						<input name="p_lodgix_contact_url" style="width:430px;" type="text" id="p_lodgix_contact_url" value="<?php echo $this->options['p_lodgix_contact_url']; ?>" maxlength="255" />
-					</td> 
-				</tr>
-                <?
-                    foreach ($languages as $l) {
-                    $language = 1;
-                        ?>
-                            <tr valign="top"> 
-                            <th width="33%" scope="row">
-                            <?php _e($language . ' Contact URL:', $this->localizationDomain); ?>
-                            </th>
-                            <td>
-                            <input name="p_lodgix_contact_url_de" style="width:430px;" type="text" id="p_lodgix_contact_url_de" value="<?php echo $this->options['p_lodgix_contact_url_de']; ?>" maxlength="255" />
-                            </td>
-                            </tr>
+                <?php
+                
+                    $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
+                    if ($languages)
+                    {
+                        foreach ($languages as $l) {
+                            ?>
+                                <tr valign="top"> 
+                                <th width="33%" scope="row">
+                                <?php _e($l->name . ' Contact URL:', $this->localizationDomain); ?>
+                                </th>
+                                <td>
+                                <input name="p_lodgix_contact_url_<?php echo $l->code; ?>" style="width:430px;" type="text" id="p_lodgix_contact_url_<?php echo $l->code; ?>"" value="<?php echo $this->options['p_lodgix_contact_url_' . $l->code]; ?>" maxlength="255" />
+                                </td>
+                                </tr>
                             <?php
-                    }
-                    ?>
+                        }
+                        
+                    }?>
 			</table><br>                    
 
 			<p><b><?php _e('Vacation Rentals Page Options', $this->localizationDomain); ?></b></p>
@@ -5290,18 +5304,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 				</tr>
 			</table><br>
 
-			<p><b><?php _e('Language Options', $this->localizationDomain); ?></b></p>
 
-			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
-				<tr valign="top">
-					<th width="33%" scope="row">
-						<?php _e('Generate German:', $this->localizationDomain); ?>
-					</th>
-					<td>
-						<input name="p_lodgix_generate_german" type="checkbox" id="p_lodgix_generate_german" <?php if ($this->options['p_lodgix_generate_german']) echo "CHECKED"; ?>/>
-					</td>
-				</tr>
-			</table><br>
 				 
 			<p><b><?php _e('Property Display Settings', $this->localizationDomain); ?></b></p>
 

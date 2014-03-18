@@ -933,8 +933,8 @@ if (!class_exists('p_lodgix')) {
                 $current_theme = get_current_theme();
                 if ($this->options['p_lodgix_thesis_compatibility'])
                 {        	
-                  include('thesis_no_sidebars.php');
-                  die();
+                    include('thesis_no_sidebars.php');
+                    die();
                 }
                 else if ($this->options['p_lodgix_thesis_2_compatibility'])
                 {
@@ -946,13 +946,13 @@ if (!class_exists('p_lodgix')) {
                 }        
                 else if ($current_theme  == "pureVISION")
                 {        
-                  include('purevision_page_template.php');
-                  die();        	
+                    include('purevision_page_template.php');
+                    die();        	
                 }        
                 else
                 {
-                  include('lodgix_page_template.php');
-                  die();
+                    include('lodgix_page_template.php');
+                    die();
                 }
             }
         }
@@ -1343,32 +1343,30 @@ if (!class_exists('p_lodgix')) {
               }
           }
       
-          $group = array();      
-          for($i = 0; $i < $children->length; $i++)
-          {
-              $child = $children->item($i);
+        $group = array();      
+        for($i = 0; $i < $children->length; $i++)
+        {
+            $child = $children->item($i);
       
-              if (!isset($result[$child->nodeName]))
-              {
-                  $result[$child->nodeName] = $this->domToArray($child);
-              }
-              else
-              {
-                  if (!isset($group[$child->nodeName]))
-                  {
-                      $tmp = $result[$child->nodeName];
-                      $result[$child->nodeName] = array($tmp);
-                      
-                      $group[$child->nodeName] = 1;
-                  }
+            if (!isset($result[$child->nodeName]))
+            {
+                $result[$child->nodeName] = $this->domToArray($child);
+            }
+            else
+            {
+                if (!isset($group[$child->nodeName]))
+                {
+                    $tmp = $result[$child->nodeName];
+                    $result[$child->nodeName] = array($tmp);
+                        
+                    $group[$child->nodeName] = 1;
+                }
       
-                  $result[$child->nodeName][] = $this->domToArray($child);
-                  
-       
-              }
-          }
+                $result[$child->nodeName][] = $this->domToArray($child);       
+            }
+        }
           
-          return $result;
+        return $result;
       }
 
       /**
@@ -1401,7 +1399,7 @@ if (!class_exists('p_lodgix')) {
         $this->pictures_table = $wpdb->prefix . "lodgix_pictures";    
         $this->pages_table = $wpdb->prefix . "lodgix_pages";
         $this->lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
-        $properties_lang_table = $wpdb->prefix . "lodgix_lang_properties";
+        $this->properties_lang_table = $wpdb->prefix . "lodgix_lang_properties";
         $policies_table = $wpdb->prefix . "lodgix_policies";   
         $this->taxes_table = $wpdb->prefix . "lodgix_taxes";   
         $this->fees_table = $wpdb->prefix . "lodgix_fees";   
@@ -1425,7 +1423,7 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql); 
         $sql = "DELETE FROM " . $this->lang_pages_table;
         $wpdb->query($sql);         
-        $sql = "DELETE FROM " . $properties_lang_table;
+        $sql = "DELETE FROM " . $this->properties_lang_table;
         $wpdb->query($sql);        
         $sql = "DELETE FROM " . $policies_table;
         $wpdb->query($sql);                     
@@ -1570,14 +1568,14 @@ if (!class_exists('p_lodgix')) {
         $beds_text = '';      
         if ($beds)
         {
-          foreach ($beds as $bed)
-          { 
-        		$beds_text .= $bed['Quantity'] . ' ' . $bed['Type'] . '(s), ';             	
-          }     
-          if (strlen($beds_text) > 0)
-          {
-          	$beds_text = substr($beds_text,0,strlen($beds_text)-2); 
-          }
+            foreach ($beds as $bed)
+            { 
+                $beds_text .= $bed['Quantity'] . ' ' . $bed['Type'] . '(s), ';             	
+            }     
+            if (strlen($beds_text) > 0)
+            {
+                $beds_text = substr($beds_text,0,strlen($beds_text)-2); 
+            }
         }      
         $parray['beds_text'] = $beds_text;        
              
@@ -1616,34 +1614,25 @@ if (!class_exists('p_lodgix')) {
         $amarray = $amenities_array;
         if ($amenities)
         {
-          foreach ($amenities as $amenity)
-          { 
-            if ($amenity['Value'] == 'Available')
-            {
-              $amarray['property_id'] = $parray['id'];
-              $amarray['description'] = $amenity['Name'];
-              $sql = $this->get_insert_sql_from_array($this->amenities_table,$amarray);
-              $wpdb->query($sql);        
-              if ($amenity['AmenityDE'])
-              {
-              	$alrarray = array();
-              	$alrarray['description'] = $amenity['Name'];
-              	$alrarray['description_de'] = $amenity['AmenityDE'];
-              	$alrarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
-              	$sql = $this->get_insert_sql_from_array($this->lang_amenities_table,$alrarray);
-              	$wpdb->query($sql);                    	
-              }
-            //  else {
-            //  	$alrarray = array();
-            //  	$alrarray['description'] = $amenity['Name'];
-            //  	$alrarray['description_de'] = $amenity['Name'];
-            //  	$alrarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
-            //  	$sql = $this->get_insert_sql_from_array($this->lang_amenities_table,$alrarray);
-            //  	$wpdb->query($sql);                    	
-            //  	
-            //	}
-            }
-          }     
+            foreach ($amenities as $amenity)
+            { 
+                if ($amenity['Value'] == 'Available')
+                {
+                    $amarray['property_id'] = $parray['id'];
+                    $amarray['description'] = $amenity['Name'];
+                    $sql = $this->get_insert_sql_from_array($this->amenities_table,$amarray);
+                    $wpdb->query($sql);        
+                    if ($amenity['AmenityDE'])
+                    {
+                      $alrarray = array();
+                      $alrarray['description'] = $amenity['Name'];
+                      $alrarray['description_de'] = $amenity['AmenityDE'];
+                      $alrarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
+                      $sql = $this->get_insert_sql_from_array($this->lang_amenities_table,$alrarray);
+                      $wpdb->query($sql);                    	
+                    }
+                }
+            }     
         }               
         
         $rates = $property['Rates'];
@@ -1657,17 +1646,17 @@ if (!class_exists('p_lodgix')) {
             $ratearray['from_date'] = $rate['StartDate'];
             $ratearray['to_date'] = $rate['EndDate'];
             if ($rate['SundayRate'] != 'None')
-              $ratearray['sunday_rate'] = $rate['SundayRate'];
+                $ratearray['sunday_rate'] = $rate['SundayRate'];
             else
-              $ratearray['sunday_rate'] = 'NULL';
+                $ratearray['sunday_rate'] = 'NULL';
             if ($rate['MondayRate'] != 'None')
-              $ratearray['monday_rate'] = $rate['MondayRate'];
+                $ratearray['monday_rate'] = $rate['MondayRate'];
             else
-              $ratearray['monday_rate'] = 'NULL';
+                $ratearray['monday_rate'] = 'NULL';
             if ($rate['TuesdayRate'] != 'None')
-              $ratearray['tuesday_rate'] = $rate['TuesdayRate'];
+                $ratearray['tuesday_rate'] = $rate['TuesdayRate'];
             else
-              $ratearray['tuesday_rate'] = 'NULL';              
+                $ratearray['tuesday_rate'] = 'NULL';              
             if ($rate['WednesdayRate'] != 'None')
               $ratearray['wednesday_rate'] = $rate['WednesdayRate'];
             else
@@ -1730,10 +1719,10 @@ if (!class_exists('p_lodgix')) {
             $mrates = $rate['Rates'];
             if ($mrates)
             {
-	        if ($rate['Rates']['Rate'][0])
+                if ($rate['Rates']['Rate'][0])
                     $mrates = $rate['Rates']['Rate'];
 			
-		foreach ($mrates as $mr)            
+                foreach ($mrates as $mr)            
                 {
                     $mergedratesarray['rate_type'] = $mr['RateType'];
                     if ($mr['RateType'] == 'NIGHTLY_WEEKDAY')
@@ -1777,8 +1766,6 @@ if (!class_exists('p_lodgix')) {
         $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 30 AND property_id = " . $parray['id'] . ";",null));
         $sql = 'UPDATE ' . $this->properties_table .' SET min_daily_rate=' . $low_daily_rate . ',min_weekly_rate=' . $low_weekly_rate . ',min_monthly_rate=' . $low_monthly_rate . ' WHERE id=' . $parray['id'];
         $wpdb->query($sql);        
-
-        
 
         $remote_languages = $property['Languages'];
         if ($property['Languages']['Language'][0])
@@ -1890,7 +1877,6 @@ if (!class_exists('p_lodgix')) {
         
         foreach ($all_languages as $l) {
             $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-            $counter = 0;
             if (is_array($translated_areas_pages) && count($translated_areas_pages) > 0) {
                 foreach($translated_areas_pages as $key => $page)
                 {
@@ -2001,7 +1987,6 @@ if (!class_exists('p_lodgix')) {
                 $this->options['p_lodgix_areas_pages_' . $l->code] = serialize($translated_areas_pages);
             }
         }
-        
         $this->link_translated_pages();
         
     }
@@ -2404,6 +2389,7 @@ if (!class_exists('p_lodgix')) {
       {
         global $sitepress,$wpdb;        
         $this->translation_table =  $wpdb->prefix . "icl_translations";
+        $areas_pages = unserialize($this->options['p_lodgix_areas_pages_en']);
         
         $languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
         if ($languages)
@@ -2436,7 +2422,7 @@ if (!class_exists('p_lodgix')) {
                 
                 $this->translation_table =  $wpdb->prefix . "icl_translations";			
                 $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-                if ($translated_areas_pages) {
+                if (is_array($translated_areas_pages) && is_array($areas_pages)) {
                     foreach($translated_areas_pages as $translated_page)	
                     {
                         foreach($areas_pages as $page)	
@@ -3321,10 +3307,11 @@ if (!class_exists('p_lodgix')) {
         $this->clear_tables();
     }
     
-    function clean_languages()
+    function clean_languages($active_languages)
     {
         global $wpdb;
-        $languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE code <> 'en'");
+        $languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE code NOT IN (" . $active_languages . ")");
+
         $posts = $wpdb->get_results('SELECT * FROM ' . $this->lang_pages_table);
         foreach($posts_de as $post)
         {
@@ -3415,32 +3402,29 @@ if (!class_exists('p_lodgix')) {
     }
 
       
-      function p_lodgix_geturls() {      		
-      	  header("Content-type: text/xml");
-      		global $wpdb;
-      		ini_set('max_execution_time', 0);
-    		  $this->pages_table = $wpdb->prefix . "lodgix_pages";    
-    		  $this->lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";					
-      		$posts = $wpdb->get_results('SELECT * FROM ' . $this->pages_table);   
-      		print "<Properties>";
-      		foreach($posts as $post)        
-      		{
-      			print "<Property>";
-      			print "<ID>" . $post->property_id . "</ID>";
-	          print '<URL>' .  htmlentities(urlencode(get_permalink($post->page_id))) . '</URL>';
+    function p_lodgix_geturls() {      		
+      	header("Content-type: text/xml");
+      	global $wpdb;
+      	ini_set('max_execution_time', 0);
+        $posts = $wpdb->get_results('SELECT * FROM ' . $this->pages_table);   
+      	print "<Properties>";
+      	foreach($posts as $post)        
+      	{
+            print "<Property>";
+      		print "<ID>" . $post->property_id . "</ID>";
+	        print '<URL>' .  htmlentities(urlencode(get_permalink($post->page_id))) . '</URL>';
      
             $lposts = $wpdb->get_results('SELECT * FROM ' . $this->lang_pages_table . ' WHERE property_id=' . $post->property_id);   
             foreach($lposts as $lpost)
             {
-		          print '<URL' . strtoupper($lpost->language_code) . '>' . htmlentities(urlencode(get_permalink($lpost->page_id))) . '</URL' . strtoupper($lpost->language_code) . '>';
+		        print '<URL' . strtoupper($lpost->language_code) . '>' . htmlentities(urlencode(get_permalink($lpost->page_id))) . '</URL' . strtoupper($lpost->language_code) . '>';
             }	          
-	          print "</Property>";
-  				}
-  				print "</Properties>";
+	        print "</Property>";
+  		}
+        print "</Properties>";
   					      		
-          die("");
-        
-      }      
+        die("");    
+    }      
       
       
  	function p_lodgix_check() {
@@ -3496,9 +3480,6 @@ if (!class_exists('p_lodgix')) {
     
         }
         
-      
-    
-    
         $this->pages_table = $wpdb->prefix . "lodgix_pages";
         $pages = $wpdb->get_results('SELECT * FROM ' . $this->pages_table);
         foreach($pages as $page)
@@ -3594,7 +3575,7 @@ if (!class_exists('p_lodgix')) {
         $this->pictures_table = $wpdb->prefix . "lodgix_pictures";    
         $this->pages_table = $wpdb->prefix . "lodgix_pages";
         $this->lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
-        $properties_lang_table = $wpdb->prefix . "lodgix_lang_properties";
+        $this->properties_lang_table = $wpdb->prefix . "lodgix_lang_properties";
         $this->lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";
         
         $properties = $wpdb->get_results('SELECT * FROM ' . $this->properties_table . '  WHERE id not in (' . $active_properties . ')'); 
@@ -3624,7 +3605,7 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql); 
         $sql = "DELETE FROM " . $this->lang_pages_table . " WHERE property_id not in (" . $active_properties . ")";
         $wpdb->query($sql);         
-        $sql = "DELETE FROM " . $properties_lang_table . " WHERE id not in (" . $active_properties . ")";
+        $sql = "DELETE FROM " . $this->properties_lang_table . " WHERE id not in (" . $active_properties . ")";
         $wpdb->query($sql);
     }      
       
@@ -4266,7 +4247,7 @@ if (!class_exists('p_lodgix')) {
         $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1");
         foreach($active_languages as $l) {
             $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-            if (count($areas_pages) > 0) {
+            if ((count($areas_pages) > 0) && (is_array($areas_pages))) {
                 foreach($areas_pages as $page) {
                     $sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $page->page_id;
                     $wpdb->query($sql);          	
@@ -4283,6 +4264,8 @@ if (!class_exists('p_lodgix')) {
         global $wpdb;
         $table_name = $wpdb->prefix . "lodgix_properties";
         $this->p_lodgix_build();
+        
+        $old_db_version = 1.9;
   
         if (get_option('p_lodgix_db_version'))
         {
@@ -4295,9 +4278,9 @@ if (!class_exists('p_lodgix')) {
         }
         update_option('p_lodgix_db_version',$p_lodgix_db_version);
 
+        
           
         if($_POST['p_lodgix_save']) {
-            
             
             
             ini_set('max_execution_time', 0);
@@ -4346,16 +4329,6 @@ if (!class_exists('p_lodgix')) {
             else
                 $this->options['p_lodgix_full_size_thumbnails'] = false;                      
                 
-            $old_generate_german_value = $this->options['p_lodgix_generate_german'];
-            if ($_POST['p_lodgix_generate_german'] == "on")
-                $this->options['p_lodgix_generate_german'] = true;
-            else
-                $this->options['p_lodgix_generate_german'] = false;
-                
-            if ((!$this->options['p_lodgix_generate_german']) && ($old_generate_german_value))
-            {
-                $this->clean_languages();
-            }
             
             
       
@@ -4392,6 +4365,8 @@ if (!class_exists('p_lodgix')) {
                 
                 $wpdb->query("UPDATE " . $this->languages_table . " SET enabled = 0 WHERE code NOT IN (" . $active_languages . ")");
                 $wpdb->query("UPDATE " . $this->languages_table . " SET enabled = 1 WHERE code IN (" . $active_languages . ")");
+                
+                $this->clean_languages($active_languages);
             }
             
             $this->saveAdminOptions();              

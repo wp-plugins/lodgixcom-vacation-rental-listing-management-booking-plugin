@@ -5203,10 +5203,18 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 
 			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
                 <?php                
-                    $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);
+                    $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' order by case when name = \'English\' then 0 else 1 end, name');
                     if ($languages)
                     {
-                   
+                        echo '<tr valign="top"><td>';                                                        
+                        echo '<ul style="list-style:none outside none;">';
+                        foreach ($languages as $l) {
+                            echo '<li style="width:190px; float:left;"><input name="p_lodgix_generate_' . $l->code .'" type="checkbox" id="p_lodgix_generate_' . $l->code .'"';
+                            if ($this->options["p_lodgix_generate_" . $l->code]) echo "CHECKED";
+                            echo '/> ' . _($l->name, $this->localizationDomain);
+                            echo '</li>';
+                        }
+                        echo '</ul></td></tr>';
                         
                     }
                 ?>                

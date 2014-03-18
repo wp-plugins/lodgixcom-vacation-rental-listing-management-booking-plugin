@@ -5202,14 +5202,14 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 			<p><b><?php _e('Language Options', $this->localizationDomain); ?></b></p>
 
 			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
-				<tr valign="top">
-					<th width="33%" scope="row">
-						<?php _e('Generate German:', $this->localizationDomain); ?>
-					</th>
-					<td>
-						<input name="p_lodgix_generate_german" type="checkbox" id="p_lodgix_generate_german" <?php if ($this->options['p_lodgix_generate_german']) echo "CHECKED"; ?>/>
-					</td>
-				</tr>
+                <?php                
+                    $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);
+                    if ($languages)
+                    {
+                   
+                        
+                    }
+                ?>                
 			</table><br>            
 
 			<p><b><?php _e('Contact Options', $this->localizationDomain); ?></b></p>
@@ -5227,7 +5227,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
                                 <?php _e($l->name . ' Contact URL:', $this->localizationDomain); ?>
                                 </th>
                                 <td>
-                                <input name="p_lodgix_contact_url_<?php echo $l->code; ?>" style="width:430px;" type="text" id="p_lodgix_contact_url_<?php echo $l->code; ?>"" value="<?php echo $this->options['p_lodgix_contact_url_' . $l->code]; ?>" maxlength="255" />
+                                <input name="p_lodgix_contact_url_<?php echo $l->code; ?>" style="width:430px;" type="text" id="p_lodgix_contact_url_<?php echo $l->code; ?>" value="<?php echo $this->options['p_lodgix_contact_url_' . $l->code]; ?>" maxlength="255" />
                                 </td>
                                 </tr>
                             <?php

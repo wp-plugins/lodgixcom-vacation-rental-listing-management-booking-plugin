@@ -1986,14 +1986,13 @@ if (!class_exists('p_lodgix')) {
             $this->options['p_lodgix_areas_pages_' . $l->code] = serialize($translated_areas_pages);
         }
         $this->saveAdminOptions();
-    ;
         
         if ($active_languages)
         {
             foreach ($active_languages as $l)
             {
                 $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-                if (count($translated_areas_pages) > 0)
+                if (count($translated_areas_pages) > 0 && is_array($translated_areas_pages))
                 {
                     $counter = 0;
                     foreach($translated_areas_pages as $key => $page)

@@ -2991,7 +2991,9 @@ if (!class_exists('p_lodgix')) {
 				$amenities = $wpdb->get_results('SELECT DISTINCT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities WHERE searchable=1');
 				$a = 0;
 				foreach($amenities as $amenity) {
-					echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ' . ($lang_code == 'de' ? $amenity->description_de : $amenity->description) . '</div>';
+					echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ';
+                    echo ($this->sufix == 'de' ? $amenity->description_de : $amenity->description) . '</div>';
+                    //XXXXXXXXXXXXXXXXXXXXXXXXXXX Fix ABove
 					$a++;
 				}
 				echo '</div>';
@@ -3273,27 +3275,30 @@ if (!class_exists('p_lodgix')) {
         $languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE code NOT IN (" . $active_languages . ")");
 
         $posts = $wpdb->get_results('SELECT * FROM ' . $this->lang_pages_table);
-        foreach($posts_de as $post)
+        
+        foreach($posts as $post)
         {
-            wp_delete_post($post->page_id, $force_delete = true);
+            wp_delete_post($post->page_id, $force_delete = true);            
         }
         
-        foreach ($languages as $l){
+        if (is_array($languages)) {
+            foreach ($languages as $l){
     
-            wp_delete_post((int)$this->options['p_lodgix_vacation_rentals_page_' . $l->code], $force_delete = true);
-            wp_delete_post((int)$this->options['p_lodgix_availability_page_' . $l->code], $force_delete = true);
-            wp_delete_post((int)$this->options['p_lodgix_search_rentals_page_' . $l->code], $force_delete = true);
-            $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-            if (count($areas_pages) > 0)
-            {
-                foreach($areas_pages as $page)
+                wp_delete_post((int)$this->options['p_lodgix_vacation_rentals_page_' . $l->code], $force_delete = true);
+                wp_delete_post((int)$this->options['p_lodgix_availability_page_' . $l->code], $force_delete = true);
+                wp_delete_post((int)$this->options['p_lodgix_search_rentals_page_' . $l->code], $force_delete = true);
+                $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
+                if (count($areas_pages) > 0)
                 {
-                    wp_delete_post((int)$page->page_id, $force_delete = true);
+                    foreach($areas_pages as $page)
+                    {
+                        wp_delete_post((int)$page->page_id, $force_delete = true);
+                    }
                 }
+            
+                $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
+                $this->saveAdminOptions();
             }
-        
-            $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
-            $this->saveAdminOptions();
         }
     }
     
@@ -4256,9 +4261,9 @@ if (!class_exists('p_lodgix')) {
             
             $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);
             
-            foreach ($active_languages as $l) {        
+            foreach ($languages as $l) {        
                 $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-                if (!is_array($areas_pages_de))
+                if (!is_array($areas_pages))
                     $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
                 $this->saveAdminOptions();
             }
@@ -4354,108 +4359,78 @@ if (!class_exists('p_lodgix')) {
             $this->options['p_lodgix_vr_meta_keywords'] = $_POST['p_lodgix_vr_meta_keywords'];   
             $this->options['p_lodgix_custom_page_template'] = $_POST['p_lodgix_custom_page_template'];   
             $this->options['p_lodgix_thesis_2_template'] = $_POST['p_lodgix_thesis_2_template'];   
-                                    
+                  
+            $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
+            if ($languages)
+            {
+                foreach ($languages as $l) {                  
 
-                   
-                
-                $post['post_title'] = 'Vacation Rentals';
-                $post['menu_order'] = 1;
-                $post['post_status'] = 'publish';
-                $post['post_content'] = '[lodgix_vacation_rentals]'; 
-                $post['post_author'] = 1;
-                $post['post_type'] = "page";
-                $exists = get_post($this->options['p_lodgix_vacation_rentals_page_en']);
-                
-                                
-                if (!$exists)                 
-                {
-                    $post_id = wp_insert_post( $post, true );               
-                    if ($post_id != 0)
-                    {
-                        $this->options['p_lodgix_vacation_rentals_page_en'] = (int)$post_id;
-                    }    
                     $post = array();
-                }
-                else 
-                {
+                    $post['post_title'] = __('Vacation Rentals',$this->localizationDomain);
+                    if ($l->code == 'en') {
+                        $post['post_title'] = $this->options['p_lodgix_vr_title'];
+                    }
+                    $post['menu_order'] = 1;
+                    $post['post_status'] = 'publish';                        
+                    $post['post_content'] = '[lodgix_vacation_rentals]';  
+                    $post['post_author'] = 1;
+                    $post['post_type'] = "page";                  
+                    $exists = get_post($this->options['p_lodgix_vacation_rentals_page_' . $l->code]);              
                     
-                    $post = array();                  	
-                    $post['post_content'] = '[lodgix_vacation_rentals]'; 
-                    $post['ID'] = $this->options['p_lodgix_vacation_rentals_page_en'];
-                    
-                    $post_id = wp_update_post($post);
-                    $posts_table = $wpdb->prefix . "posts";
-                    $sql = "UPDATE " . $posts_table . " SET post_content='[lodgix_vacation_rentals]' WHERE id=" . $post_id;
-                    $wpdb->query($sql);  
-                }
-                
-                  
-                $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
-                if ($languages)
-                {
-                    foreach ($languages as $l) {                  
-    
-                        $post = array();
-                        $post['post_title'] = __('Vacation Rentals',$this->localizationDomain); 
-                        $post['menu_order'] = 1;
-                        $post['post_status'] = 'publish';                        
-                        $post['post_content'] = '[lodgix_vacation_rentals]';  
-                        $post['post_author'] = 1;
-                        $post['post_type'] = "page";                  
-                        $exists = get_post($this->options['p_lodgix_vacation_rentals_page_' . $l->code]);              
-                        
-                        if (!$exists)                 
-                        {                          
-                            $post_de_id = wp_insert_post( $post );   
-                            if ($post_de_id != 0)
-                            {
-                                $this->options['p_lodgix_vacation_rentals_page_' . $l->code] = (int)$post_de_id;
-                                $sql = "INSERT INTO " . $this->lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_de_id . ",-1,NULL,'de')";
-                                $wpdb->query($sql);                                
-                            }         
-                        }
-                        else 
+                    if (!$exists)                 
+                    {                          
+                        $post_de_id = wp_insert_post( $post );   
+                        if ($post_de_id != 0)
                         {
-                            $post = array();                  	
-                            $post['post_content'] = '[lodgix_vacation_rentals]'; 
-                            $post['ID'] = $this->options['p_lodgix_vacation_rentals_page_' . $l->code];
-                            $post_id = wp_update_post($post);        
-                            $posts_table = $wpdb->prefix . "posts";
-                            $sql = "UPDATE " . $posts_table . " SET post_content='[lodgix_vacation_rentals]' WHERE id=" . $post_id;
-                                $wpdb->query($sql);  
-                        }
+                            $this->options['p_lodgix_vacation_rentals_page_' . $l->code] = (int)$post_de_id;
+                            $sql = "INSERT INTO " . $this->lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_de_id . ",-1,NULL,'de')";
+                            $wpdb->query($sql);                                
+                        }         
                     }
-                }
-
-                $this->saveAdminOptions();            
-                  
-                if ($this->options['p_lodgix_thesis_compatibility'] || $this->options['p_lodgix_thesis_2_compatibility'])
-                {
-                    if (($this->options['p_lodgix_vr_title']) && ($this->options['p_lodgix_vr_title'] != ""))
+                    else 
                     {
-                      add_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_title', $this->options['p_lodgix_vr_title'], true); 
-                      update_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_title', $this->options['p_lodgix_vr_title']);
+                        $post = array();                  	
+                        $post['post_content'] = '[lodgix_vacation_rentals]'; 
+                        $post['ID'] = $this->options['p_lodgix_vacation_rentals_page_' . $l->code];
+                        $post_id = wp_update_post($post);        
+                        $posts_table = $wpdb->prefix . "posts";
+                        $sql = "UPDATE " . $posts_table . " SET post_content='[lodgix_vacation_rentals]' WHERE id=" . $post_id;
+                            $wpdb->query($sql);  
                     }
-                    else
-                      delete_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_title');
-                    
-                    if (($this->options['p_lodgix_vr_meta_description']) && ($this->options['p_lodgix_vr_meta_description'] != ""))
-                    {                       
-                        add_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_description', $this->options['p_lodgix_vr_meta_description'], true); 
-                        update_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_description', $this->options['p_lodgix_vr_meta_description']);
-                    }
-                    else
-                        delete_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_description');
-                    
-                    if (($this->options['p_lodgix_vr_meta_keywords']) && ($this->options['p_lodgix_vr_meta_keywords'] != ""))
-                    {                        
-                        add_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_keywords', $this->options['p_lodgix_vr_meta_keywords'], true); 
-                        update_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_keywords', $this->options['p_lodgix_vr_meta_keywords']);
-                    }
-                    else
-                        delete_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_keywords');                        
-                    
                 }
+            }
+            
+            die();
+
+            $this->saveAdminOptions();            
+              
+            if ($this->options['p_lodgix_thesis_compatibility'] || $this->options['p_lodgix_thesis_2_compatibility'])
+            {
+                if (($this->options['p_lodgix_vr_title']) && ($this->options['p_lodgix_vr_title'] != ""))
+                {
+                  add_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_title', $this->options['p_lodgix_vr_title'], true); 
+                  update_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_title', $this->options['p_lodgix_vr_title']);
+                }
+                else
+                  delete_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_title');
+                
+                if (($this->options['p_lodgix_vr_meta_description']) && ($this->options['p_lodgix_vr_meta_description'] != ""))
+                {                       
+                    add_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_description', $this->options['p_lodgix_vr_meta_description'], true); 
+                    update_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_description', $this->options['p_lodgix_vr_meta_description']);
+                }
+                else
+                    delete_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_description');
+                
+                if (($this->options['p_lodgix_vr_meta_keywords']) && ($this->options['p_lodgix_vr_meta_keywords'] != ""))
+                {                        
+                    add_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_keywords', $this->options['p_lodgix_vr_meta_keywords'], true); 
+                    update_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_keywords', $this->options['p_lodgix_vr_meta_keywords']);
+                }
+                else
+                    delete_post_meta($this->options['p_lodgix_vacation_rentals_page_en'], 'thesis_keywords');                        
+                
+            }
             
             $post = array();
             $post['post_title'] = 'Availability';

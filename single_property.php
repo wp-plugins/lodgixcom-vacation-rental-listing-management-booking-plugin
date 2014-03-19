@@ -345,7 +345,7 @@ $single_property.= '<div class="ldgxPowered">' . $link . ' by Lodgix.com</div></
 $single_property.= '<script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>';
 $single_property.= '<script type="text/javascript">        
 
-//<![CDATA[
+// <![CDATA[
 
 function lodgix_gmap_initialize() {    
     var lodgixLatLng = new google.maps.LatLng(' . $property->latitude . ', ' . $property->longitude . ');
@@ -366,7 +366,7 @@ function lodgix_gmap_initialize() {
 
 window.onload = lodgix_gmap_initialize;
 
-//]]>
+// ]]>
 
 </script>';
 ?>

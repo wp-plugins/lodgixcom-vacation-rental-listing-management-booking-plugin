@@ -2387,7 +2387,6 @@ if (!class_exists('p_lodgix')) {
       function link_translated_pages()
       {
         global $sitepress,$wpdb;        
-        $this->translation_table =  $wpdb->prefix . "icl_translations";
         $areas_pages = unserialize($this->options['p_lodgix_areas_pages_en']);
         
         $languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
@@ -2419,7 +2418,6 @@ if (!class_exists('p_lodgix')) {
                 }          
                 
                 
-                $this->translation_table =  $wpdb->prefix . "icl_translations";			
                 $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
                 if (is_array($translated_areas_pages) && is_array($areas_pages)) {
                     foreach($translated_areas_pages as $translated_page)	
@@ -2695,7 +2693,7 @@ if (!class_exists('p_lodgix')) {
                         $post['post_status'] = 'publish';       
                         $post['post_content'] = htmlspecialchars($single_property);  
                         $post_id = wp_update_post($post);                      
-                        $sql = "UPDATE " . $this->translation_table . " SET trid=" . $trid . ", language_code='" . $l-code . "' WHERE element_id=" . $post_id;
+                        $sql = "UPDATE " . $translation_table . " SET trid=" . $trid . ", language_code='" . $l->code . "' WHERE element_id=" . $post_id;
                         $wpdb->query($sql);           
                         $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id;                  
                         $wpdb->query($sql);                    

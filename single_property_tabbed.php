@@ -142,86 +142,50 @@ id="lodgix_no_smoke_icon" src="' . $p_plugin_path . 'images/no_smoke.png" style=
 ';
 $single_property.= '<link rel="stylesheet" href="' . $p_plugin_path . 'css/jquery-ui-1.8.17.custom.css" type="text/css" />';
 $single_property.= '<script>
+	jQueryLodgix(document).ready(function(){
+		jQueryLodgix("#lodgix_tabbed_content").tabs();
 
-jQueryLodgix(document).ready(function(){
+		if(document.location.hash == "#booking") {
+			window.scrollTo(0,0);
+			jQueryLodgix("#lodgix_tabbed_content").tabs("select",1);
+	    }
 
-jQueryLodgix("#lodgix_tabbed_content"
-).tabs();
-
-if(document.location.hash
-== "#booking") {
-
-
-
-window.scrollTo(0,0);
-
-jQueryLodgix("#lodgix_tabbed_content").tabs("select",1);
-
-
-
-  }
-
-if(document.location.hash
-== "#map_canvas") {
-
-jQueryLodgix("#lodgix_tabbed_content").tabs("select",2);
-
-  }
-
+		if(document.location.hash == "#map_canvas") {
+			jQueryLodgix("#lodgix_tabbed_content").tabs("select",2);
+		}
 });
 
-  </script>';
+</script>';
+
 $single_property.= '<div id="lodgix_tabbed_content_box">
+						<div id="lodgix_tabbed_content">
+							<ul class="ldgxTabs">
+								<li>
+									<a href="#lodgix_tabbed_content-1">' . __('Details', $this->localizationDomain) . '</a>
+								</li>
+								<li>
+									<a href="#lodgix_tabbed_content-2">' . __('Booking Calendar', $this->localizationDomain) . '</a>
+								</li>
+								<li>
+									<a href="#lodgix_tabbed_content-3">' . __('Location', $this->localizationDomain) . '</a>
+								</li>
+								<li>
+									<a href="#lodgix_tabbed_content-4">' . __('Amenities', $this->localizationDomain) . '</a>
+								</li>
+								<li>		
+									<a href="#lodgix_tabbed_content-5">' . __('Policies', $this->localizationDomain) . '</a>
+								</li>
+								<li>
+									<a href="#lodgix_tabbed_content-6">' . __('Reviews', $this->localizationDomain) . '</a>
+								</li>
+							</ul>
+							
+	<div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'1\',this)">' . __('Details', $this->localizationDomain) . '</div>
+		<div id="lodgix_tabbed_content-1">
+			<div id="lodgix_tabbed_lodgix_property_details">
+				<h2>' . __('Property Details', $this->localizationDomain) . '</h2>';
 
-<div id="lodgix_tabbed_content">
-
-<ul class="ldgxTabs">
-
-<li>
-
-<a href="#lodgix_tabbed_content-1">' . __('Details', $this->localizationDomain) . '</a>
-
-</li>
-
-<li>
-
-<a href="#lodgix_tabbed_content-2">' . __('Booking
-Calendar', $this->localizationDomain) . '</a>
-
-</li>
-
-<li>
-
-<a href="#lodgix_tabbed_content-3">' . __('Location', $this->localizationDomain) . '</a>
-
-</li>
-
-<li>
-
-<a href="#lodgix_tabbed_content-4">' . __('Amenities', $this->localizationDomain) . '</a>
-
-</li>
-
-<li>
-
-<a href="#lodgix_tabbed_content-5">' . __('Policies', $this->localizationDomain) . '</a>
-
-</li>
-
-<li>
-
-<a href="#lodgix_tabbed_content-6">' . __('Reviews', $this->localizationDomain) . '</a>
-
-</li>
-
-</ul>
-
-<div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'1\',this)">' . __('Details', $this->localizationDomain) . '</div>
-	<div id="lodgix_tabbed_content-1">
-		<div id="lodgix_tabbed_lodgix_property_details">
-			<h2>' . __('Property Details', $this->localizationDomain) . '</h2>';
-$single_property.= '<br /><center><div id="lodgix-image-gallery"
-class="royalSlider default"><ul class="royalSlidesContainer dragme">';
+$single_property.= '<br /><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
 foreach($photos as $photo)
 {
     $photo_url = str_replace('media/gallery', 'photo/0/gallery', $photo->url);
@@ -232,32 +196,21 @@ foreach($photos as $photo)
     }
     $single_property.= '</li>';
 }
-$single_property.= '</ul></div></center><br /><p>' . str_replace(array(
-    "\r\n",
-    "\n",
-    "\r"
-) , '<br />', $property->description_long) . '<br />' . str_replace(array(
-    "\r\n",
-    "\n",
-    "\r"
-) , '<br />', $property->details) . $beds_text . '</p>';
+
+$single_property.= '</ul></div></center><br /><p>' . str_replace(array("\r\n","\n","\r"), '<br />', $property->description_long) . '<br />'
+. str_replace(array("\r\n","\n","\r") , '<br />', $property->details) . $beds_text . '</p>';
+
 $single_property.= '</div>
+					<div class="lodgix_tabbed_clearFix"></div>
+					</div>
 
+					<div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'2\',this)">' . __('Booking Calendar', $this->localizationDomain) . '</div>
 
+					<div id="lodgix_tabbed_content-2">';
+						$single_property.= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";
+						$single_property.= '</div>
 
-<div class="lodgix_tabbed_clearFix"></div>
-
-</div>
-
-<div class="ldgxMobileTab"
-onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'2\',this)">' . __('Booking Calendar', $this->localizationDomain) . '</div>
-
-<div id="lodgix_tabbed_content-2">';
-$single_property.= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";
-$single_property.= '</div>
-
-<div class="ldgxMobileTab"
-onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'3\',this)">' . __('Location', $this->localizationDomain) . '</div>
+					<div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'3\',this)">' . __('Location', $this->localizationDomain) . '</div>
 
 <div id="lodgix_tabbed_content-3">
 

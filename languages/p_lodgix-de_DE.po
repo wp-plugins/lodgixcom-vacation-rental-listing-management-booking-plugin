@@ -213,7 +213,7 @@ msgid "Property Details"
 msgstr "Ausf&uuml;ehrliche Beschreibung"
 
 msgid "Amenities"
-msgstr "Zusatzleistungen"
+msgstr "Annehmlichkeiten"
 
 msgid "Guest Reviews"
 msgstr "Bewertungen"

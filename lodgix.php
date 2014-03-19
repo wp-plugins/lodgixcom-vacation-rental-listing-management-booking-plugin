@@ -2594,8 +2594,6 @@ if (!class_exists('p_lodgix')) {
         global $sitepress;
         $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );
         
-     
-                
         
         $properties = $wpdb->get_results('SELECT * FROM ' . $this->properties_table . ' ORDER BY `order`'); 
         if ($properties)
@@ -2604,51 +2602,54 @@ if (!class_exists('p_lodgix')) {
             {
               $exists = get_post($property->post_id);
               
-              if (!$exists)
-              {         
-                  $post = array();
-                  $post['post_title'] = $property->description;
-                  $post['post_parent'] = (int)$this->options['p_lodgix_vacation_rentals_page_en'];
-                  $post['post_status'] = 'pending';
-                  $post['post_author'] = 1;
-                  $post['post_type'] = "page";
-                  if ($this->options['p_lodgix_vacation_rentals_page_en'] != NULL)
-                  {
-                      $post_id = wp_insert_post( $post );  
-                      $sql = "UPDATE " . $this->properties_table . " SET post_id=" . $post_id . " WHERE id=" . $property->id;
-                      $wpdb->query($sql);
-                      $sql = "INSERT INTO " . $this->pages_table . "(page_id,property_id,parent_page_id) VALUES(" . $post_id . "," . $property->id."," . $post['post_parent'] . ")";
-                      $wpdb->query($sql);
+                if (!$exists)
+                {         
+                    $post = array();
+                    $post['post_title'] = $property->description;
+                    $post['post_parent'] = (int)$this->options['p_lodgix_vacation_rentals_page_en'];
+                    $post['post_status'] = 'pending';
+                    $post['post_author'] = 1;
+                    $post['post_type'] = "page";
+                    if ($this->options['p_lodgix_vacation_rentals_page_en'] != NULL)
+                    {
+                        $post_id = wp_insert_post( $post );  
+                        $sql = "UPDATE " . $this->properties_table . " SET post_id=" . $post_id . " WHERE id=" . $property->id;
+                        $wpdb->query($sql);
+                        $sql = "INSERT INTO " . $this->pages_table . "(page_id,property_id,parent_page_id) VALUES(" . $post_id . "," . $property->id."," . $post['post_parent'] . ")";
+                        $wpdb->query($sql);
+  
+                    }     
+                }
+                
+                $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
 
-                  }     
-              }   
-              $post_id_de = $wpdb->get_var("SELECT page_id FROM " . $this->lang_pages_table . " WHERE property_id=" . $property->id);
-              $exists = get_post($post_id_de);
-              if (!$exists)
-              {         
-                  $post = array();
-                  $post['post_title'] = $property->description;
-                  $post['post_parent'] = (int)$this->options['p_lodgix_vacation_rentals_page_de'];
-                  $post['post_status'] = 'pending';
-                  $post['post_author'] = 1;
-                  $post['post_type'] = "page";
-                  
-                  if ($this->options['p_lodgix_vacation_rentals_page_de'] != NULL)
-                  {
-                  	 
-                      if ($this->options['p_lodgix_generate_german'])
-                      {
-                        $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT post_id FROM " . $this->properties_table . " WHERE id=" . $property->id . ";",null));
-                        $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $this->translation_table . " WHERE element_id=" . $post_id . " AND language_code='en';",null));
-                        $post['post_parent'] = (int)$this->options['p_lodgix_vacation_rentals_page_de'];
-                        $post_id_de = wp_insert_post( $post );   
-                        $sql = "INSERT INTO " . $this->lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_id_de . "," . $property->id."," . $post_id   . ",'de')";
+                foreach ($active_languages as $l) {    
+
+                    $post_id = $wpdb->get_var("SELECT page_id FROM " . $this->lang_pages_table . " WHERE property_id=" . $property->id . " AND language_code='" . $l->code . "'");
+                    $exists = get_post($post_id);
+                    if (!$exists)
+                    {         
+                        $post = array();
+                        $post['post_title'] = $property->description;
+                        $post['post_parent'] = (int)$this->options['p_lodgix_vacation_rentals_page_' . $l->code];
+                        $post['post_status'] = 'pending';
+                        $post['post_author'] = 1;
+                        $post['post_type'] = "page";
                         
-                        $wpdb->query($sql);                  
-                        update_post_meta($post_id_de, '_icl_translation', 1);     
-                     }
-                  }     
-              }                  
+                        if ($this->options['p_lodgix_vacation_rentals_page_' . $l->code] != NULL)
+                        {
+                           
+                            $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT post_id FROM " . $this->properties_table . " WHERE id=" . $property->id . ";",null));
+                            $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $this->translation_table . " WHERE element_id=" . $post_id . " AND language_code='en';",null));
+                            $post['post_parent'] = (int)$this->options['p_lodgix_vacation_rentals_page_' . $l->code];
+                            $post_id = wp_insert_post( $post );   
+                            $sql = "INSERT INTO " . $this->lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_id . "," . $property->id."," . $post_id   . ",'" . $l->code . "')";                              
+                            $wpdb->query($sql);                  
+                            update_post_meta($post_id, '_icl_translation', 1);     
+                           
+                        }     
+                    }
+                }
             }
          }
          
@@ -2658,50 +2659,50 @@ if (!class_exists('p_lodgix')) {
          {
             foreach($properties as $property)
             {
-              if ($property->post_id != NULL)
-              {                
-                
-                $post = array();
-                $post['ID'] = $property->post_id;
-                $post['post_title'] = $property->description;
-                $single_property = '[lodgix_single_property ' . $property->id . ']';                
-                $post['post_status'] = 'publish';
-                $post_id = wp_update_post($post); 
-                $posts_table = $wpdb->prefix . "posts";
-                $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id;
-                $wpdb->query($sql);
-                add_post_meta($post_id, 'thesis_description', trim(wptexturize($this->truncate_text($property->description_long,150))), true); 
-                update_post_meta($post_id , 'thesis_description', trim(wptexturize($this->truncate_text($property->description_long,150))));
-  					  	$keywords = $property->description . ', vacation rental, vacation home, vacation, homes, rentals, cottages, condos, holiday';
-  					  	if ($property->city != "")
-  					  			$keywords .= ', ' . $property->city;                
-                add_post_meta($post_id, 'thesis_keywords', trim(wptexturize($keywords)), true); 
-                update_post_meta($post_id , 'thesis_keywords', trim(wptexturize($keywords)));  		
-                			  			
-                if ($this->options['p_lodgix_generate_german'])
-                {
-                	
-                  $post_id_de = $wpdb->get_var("SELECT page_id FROM " . $this->lang_pages_table . " WHERE property_id=" . $property->id);
-                  $post = array();
-                  $post['ID'] = $post_id_de;
-                  $post['post_title'] = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE property_id=" . $property->id);
-                  if ($post['post_title'] == '')
+                if ($property->post_id != NULL)
+                {                
+                    
+                    $post = array();
+                    $post['ID'] = $property->post_id;
                     $post['post_title'] = $property->description;
-                  $single_property = '[lodgix_single_property_de ' . $property->id . ']';                
-                  $post['post_status'] = 'publish';       
-                  $post['post_content'] = htmlspecialchars($single_property);  
-                  $post_id_de = wp_update_post($post);                      
-                  $sql = "UPDATE " . $this->translation_table . " SET trid=" . $trid . ", language_code='de' WHERE element_id=" . $post_id_de;
-                  $wpdb->query($sql);           
-                  $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id_de;                  
-                  $wpdb->query($sql);                    
-           
-        
-                }
-              }
-              
+                    $single_property = '[lodgix_single_property ' . $property->id . ']';                
+                    $post['post_status'] = 'publish';
+                    $post_id = wp_update_post($post); 
+                    $posts_table = $wpdb->prefix . "posts";
+                    $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id;
+                    $wpdb->query($sql);
+                    add_post_meta($post_id, 'thesis_description', trim(wptexturize($this->truncate_text($property->description_long,150))), true); 
+                    update_post_meta($post_id , 'thesis_description', trim(wptexturize($this->truncate_text($property->description_long,150))));
+                    $keywords = $property->description . ', vacation rental, vacation home, vacation, homes, rentals, cottages, condos, holiday';
+                    if ($property->city != "")
+                    $keywords .= ', ' . $property->city;                
+                    add_post_meta($post_id, 'thesis_keywords', trim(wptexturize($keywords)), true); 
+                    update_post_meta($post_id , 'thesis_keywords', trim(wptexturize($keywords)));  		
+                                          
+    
+                    $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
+    
+                    foreach ($active_languages as $l) {    
+    
+                        $post_id = $wpdb->get_var("SELECT page_id FROM " . $this->lang_pages_table . " WHERE property_id=" . $property->id . " AND language_code='" . $l->code . "'");
+                      
+                        $post = array();
+                        $post['ID'] = $post_id;
+                        $post['post_title'] = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE property_id=" . $property->id . " AND language_code='" . $l->code. "'");
+                        if ($post['post_title'] == '')
+                          $post['post_title'] = $property->description;
+                        $single_property = '[lodgix_single_property ' . $property->id . ']';                
+                        $post['post_status'] = 'publish';       
+                        $post['post_content'] = htmlspecialchars($single_property);  
+                        $post_id = wp_update_post($post);                      
+                        $sql = "UPDATE " . $this->translation_table . " SET trid=" . $trid . ", language_code='" . $l-code . "' WHERE element_id=" . $post_id;
+                        $wpdb->query($sql);           
+                        $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id;                  
+                        $wpdb->query($sql);                    
+                    }
+                }              
             }
-         }
+        }
          
    
         $this->link_translated_pages();
@@ -4513,19 +4514,14 @@ if (!class_exists('p_lodgix')) {
                             $this->options['p_lodgix_search_rentals_page_' . $l->code] = (int)$post_de_id;
                             if ($l->code != 'en')
                             {
-                                $sql = "INSERT INTO " . $this->lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_de_id . ",-3,NULL,'de')";
+                                $sql = "INSERT INTO " . $this->lang_pages_table . "(page_id,property_id,source_page_id,language_code) VALUES(" . $post_de_id . ",-3,NULL,'" . $l->code . "')";
                                 $wpdb->query($sql);
                             }
-                        }           
-                                                  
+                        }                                                             
                     }
                 }
             }
-              
-            die();
-                                
-              
-                                       
+                                                     
             $this->saveAdminOptions();       									
             $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&IncludeRotators=Yes&IncludeAmenities=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];                  
             $fetch_url = 'http://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    

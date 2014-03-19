@@ -1,7 +1,7 @@
 <?php
 $p_plugin_path = trailingslashit(plugin_dir_url(__FILE__));
-$sql = "SELECT * FROM " . $this->reviews_table . " WHERE language_code='en' AND
-property_id=" . $property->id . ' ORDER BY date DESC';
+$sql = "SELECT * FROM " . $this->reviews_table . " WHERE language_code='" . $this->sufix . "' AND property_id=" . $property->id . ' ORDER BY date DESC';
+
 $reviews = $wpdb->get_results($sql);
 $sql = "SELECT * FROM " . $this->pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';
 $photos = $wpdb->get_results($sql);

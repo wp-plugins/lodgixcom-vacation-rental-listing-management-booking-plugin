@@ -535,7 +535,8 @@ if (!class_exists('p_lodgix')) {
         $this->deposits_table = $wpdb->prefix . "lodgix_deposits";     
         $this->reviews_table = $wpdb->prefix . "lodgix_reviews";      
         $this->languages_table = $wpdb->prefix . "lodgix_languages";
-        $this->link_rotators_table = $wpdb->prefix . "lodgix_link_rotators"; 
+        $this->link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";
+        $this->policies_table = $wpdb->prefix . "lodgix_policies";
     }
 
     
@@ -604,7 +605,7 @@ if (!class_exists('p_lodgix')) {
 		$p_lodgix_display_single_instructions = $atts[4];
 		$p_lodgix_language = $atts[5];
      
-		$policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $this->sufix . "'");
+		$policies = $wpdb->get_results("SELECT * FROM " . $this->policies_table . " WHERE language_code='" . $this->sufix . "'");
             
 		$policy = $policies[0];
         $single_unit_helptext = '';
@@ -1377,7 +1378,7 @@ if (!class_exists('p_lodgix')) {
         $this->pages_table = $wpdb->prefix . "lodgix_pages";
         $this->lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
         $this->properties_lang_table = $wpdb->prefix . "lodgix_lang_properties";
-        $policies_table = $wpdb->prefix . "lodgix_policies";   
+        $this->policies_table = $wpdb->prefix . "lodgix_policies";   
         $this->taxes_table = $wpdb->prefix . "lodgix_taxes";   
         $this->fees_table = $wpdb->prefix . "lodgix_fees";   
         $this->deposits_table = $wpdb->prefix . "lodgix_deposits";   
@@ -1402,7 +1403,7 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql);         
         $sql = "DELETE FROM " . $this->properties_lang_table;
         $wpdb->query($sql);        
-        $sql = "DELETE FROM " . $policies_table;
+        $sql = "DELETE FROM " . $this->policies_table;
         $wpdb->query($sql);                     
         $sql = "DELETE FROM " . $this->taxes_table;
         $wpdb->query($sql);         
@@ -2177,7 +2178,7 @@ if (!class_exists('p_lodgix')) {
             if ($properties)
             {
              $number_properties = count($properties); 
-             $multi_unit_helptext = $wpdb->get_var("SELECT multi_unit_helptext FROM " . $policies_table . " WHERE language_code='" . $this->sufix . "'");
+             $multi_unit_helptext = $wpdb->get_var("SELECT multi_unit_helptext FROM " . $this->policies_table . " WHERE language_code='" . $this->sufix . "'");
              
              if ($number_properties >= 1)
              {
@@ -2307,7 +2308,7 @@ if (!class_exists('p_lodgix')) {
       {
         global $wpdb;
         $this->properties_table = $wpdb->prefix . "lodgix_properties";
-        $policies_table = $wpdb->prefix . "lodgix_policies";
+        $this->policies_table = $wpdb->prefix . "lodgix_policies";
         $content = '
            <div id="content_lodgix">
         ';
@@ -2319,7 +2320,7 @@ if (!class_exists('p_lodgix')) {
          
          if ($number_properties >= 1)
          {
-           $multi_unit_helptext = $wpdb->get_var("SELECT multi_unit_helptext FROM " . $policies_table . " WHERE language_code='" . $this->sufix . "'");
+           $multi_unit_helptext = $wpdb->get_var("SELECT multi_unit_helptext FROM " . $this->policies_table . " WHERE language_code='" . $this->sufix . "'");
            $allow_booking = $properties[0]->allow_booking;
            $owner_id = $properties[0]->owner_id;
            $owner_id_multiple =  $this->options['p_lodgix_owner_id'];
@@ -2466,19 +2467,12 @@ if (!class_exists('p_lodgix')) {
             
             $merged_rates =  $wpdb->get_results('SELECT * FROM ' . $this->merged_rates_table . " WHERE property_id=" . $property->id . " ORDER BY from_date,to_date");
     
-            if ($this->locale == 'en_US')
-            {
-                $this->sufix = '';
-            }
-            else {
-                $this->sufix = substr($this->locale,0,2);
-            }
 
             $sql = "SELECT * FROM " . $this->reviews_table . " WHERE language_code='" . $this->sufix ."' AND property_id=" . $property->id . ' ORDER BY date DESC';
             $reviews = $wpdb->get_results($sql);
             
-            $policies_table = $wpdb->prefix . "lodgix_policies"; 
-            $policies = $wpdb->get_results("SELECT * FROM " . $policies_table . " WHERE language_code='" . $this->sufix . "'");
+            $this->policies_table = $wpdb->prefix . "lodgix_policies"; 
+            $policies = $wpdb->get_results("SELECT * FROM " . $this->policies_table . " WHERE language_code='" . $this->sufix . "'");
             
             if ($this->locale == 'en_US')
             {
@@ -2498,10 +2492,9 @@ if (!class_exists('p_lodgix')) {
                 $permalink = get_permalink($post_id);
                 
             }
-
+         
         	if ($this->options['p_lodgix_single_page_design'] == 1)
         	{
-                
                 include('single_property_tabbed.php');
         	}
         	else
@@ -4064,9 +4057,9 @@ if (!class_exists('p_lodgix')) {
             $this->options['p_lodgix_title_size'] = $owner["Results"]['MultiWidgetSettings']['TitleSize'];      
             
            
-            $policies_table = $wpdb->prefix . "lodgix_policies";   
+            $this->policies_table = $wpdb->prefix . "lodgix_policies";   
             $this->link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";   
-            $sql = "DELETE FROM " . $policies_table;
+            $sql = "DELETE FROM " . $this->policies_table;
             $wpdb->query($sql);
                       $sql = "DELETE FROM " . $this->link_rotators_table;
                   $wpdb->query($sql);
@@ -4078,7 +4071,7 @@ if (!class_exists('p_lodgix')) {
             $policies['multi_unit_helptext'] = $owner["Results"]['Website']['HTML5MultiCalendarHelpText'];
           
             $policies['language_code'] = 'en';    
-            $sql = $this->get_insert_sql_from_array($policies_table,$policies);      
+            $sql = $this->get_insert_sql_from_array($this->policies_table,$policies);      
             $wpdb->query($sql);          
   
             $languages = $owner["Results"]['Languages'];        
@@ -4097,7 +4090,7 @@ if (!class_exists('p_lodgix')) {
                     $langarray['single_unit_helptext'] = $language['CalendarHelpText'];  
                     $langarray['multi_unit_helptext'] = $language['HTML5MultiCalendarHelpText'];  
                     
-                    $sql = $this->get_insert_sql_from_array($policies_table,$langarray);
+                    $sql = $this->get_insert_sql_from_array($this->policies_table,$langarray);
                     $wpdb->query($sql);     
                 }
             }

@@ -870,11 +870,12 @@ if (!class_exists('p_lodgix')) {
           
         foreach ($active_languages as $l) {
             $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-        
-            foreach($areas_pages as $key => $page)
-            {
-                if ($page->page_id == $id)
-                  return true;
+            if (is_array($areas_pages)) {
+                foreach($areas_pages as $key => $page)
+                {
+                    if ($page->page_id == $id)
+                      return true;
+                }
             }
         }
     	
@@ -4017,6 +4018,15 @@ if (!class_exists('p_lodgix')) {
             {
                 $wpdb->query("UPDATE " . $this->languages_table . " SET enabled=1 WHERE code = 'de'");
             }
+            
+            $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);
+            
+            foreach ($languages as $l) {        
+                $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
+                if (!is_array($areas_pages))
+                    $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
+            }
+            
             $this->saveAdminOptions();          
         }                
         
@@ -4229,9 +4239,7 @@ if (!class_exists('p_lodgix')) {
         global $wpdb;
         $table_name = $wpdb->prefix . "lodgix_properties";
         $this->p_lodgix_build();
-        
-        $old_db_version = 1.9;
-  
+          
         if (get_option('p_lodgix_db_version'))
         {
           $old_db_version = ((float)get_option('p_lodgix_db_version'));

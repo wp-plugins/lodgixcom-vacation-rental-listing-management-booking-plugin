@@ -497,8 +497,8 @@ if (!class_exists('p_lodgix')) {
         add_shortcode('lodgix_search_rentals_de', array(&$this,'p_lodgix_pcode_search_rentals'));    
     	add_shortcode('lodgix_single_property', array(&$this,'p_lodgix_pcode_lodgix_single_property'));      
 		add_shortcode('lodgix_single_property_de', array(&$this,'p_lodgix_pcode_lodgix_single_property'));    
-          add_filter("gform_pre_render", array(&$this,'p_lodgix_pre_render_function'));
-          add_filter("gform_admin_pre_render", array(&$this,'p_lodgix_pre_render_function'));
+        add_filter("gform_pre_render", array(&$this,'p_lodgix_pre_render_function'));
+        add_filter("gform_admin_pre_render", array(&$this,'p_lodgix_pre_render_function'));
     }
     
     function p_lodgix_set_page_titles() {
@@ -3079,96 +3079,11 @@ if (!class_exists('p_lodgix')) {
     }    
       
 
-    function widget_lodgix_featured_init()
+    // This is the function that outputs the form to let the users edit
+    // the widget's title. It's an optional feature that users cry for.
+    function widget_lodgix_featured_control()
     {
-    
-        // Check for the required plugin functions. This will prevent fatal
-        // errors occurring when you deactivate the dynamic-sidebar plugin.
-        if ( !function_exists('register_sidebar_widget') )
-          return;
-
-		if(!function_exists('widget_lodgix_featured'))
-		{
-            // This is the function that outputs our widget_lodgix_featured.
-            function widget_lodgix_featured($args) {
-            global $wpdb;
-            $p_plugin_path = plugin_dir_url(plugin_basename(__FILE__));
-            extract($args);
-    
-            // Each widget can store its own options. We keep strings here.
-            $options = get_option('widget_lodgix_featured');
-            $loptions = get_option('p_lodgix_options');
-            $title = apply_filters('widget_title', empty($options['title']) ? __('Featured Rentals') : $options['title']);
- 
-
-            echo $before_widget . $before_title . $title . $after_title;
-            echo '<div class="lodgix-featured-properties" align="center">';
-
-            $sql = 'SELECT ' . $properties_table . '.id,property_id,description,enabled,featured,main_image_thumb,bedrooms,bathrooms,proptype,city,post_id,area FROM ' . $properties_table . ' LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id WHERE featured=1 order by rand()';
-            $properties = $wpdb->get_results($sql);
-            foreach($properties as $property)
-            {
-                //$page_id = $wpdb->get_var("SELECT page_id FROM " . $pages_table . " WHERE property_id=" . $page_id);
-                $permalink = get_permalink($property->post_id);
-                $location = $property->city;
-                if ($property->city != "")
-                    $location = '<span class="price"> in <strong>' . $location . '</strong></span>';
-                else
-                    $location = '<span class="price"><strong>' . $location . '</strong></span>';
-                if (($loptions['p_lodgix_display_featured'] == 'area') && ($property->area != ""))
-                    $location = $property->area;
-                $location = '<span class="price"><strong>' . $location . '</strong></span>';
-                if ($_REQUEST['lang'] == "de")
-                {
-                    $page_id = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE property_id=" . $property->id);
-                    $permalink = get_permalink($page_id);
-                }
-              
-                
-                $proptype = ', ' . $property->proptype;
-                if ($proptype == ', Room type')
-                    $proptype = '';
-                
-                $position = '';
-                if ($loptions['p_lodgix_display_featured_horizontally'] == 1)
-                    $position = "float:left; margin-left:5px;";
-                else if ($loptions['p_lodgix_display_featured_horizontally'] == 2)
-                    $position = "float:right; margin-right:5px;";
-                  
-                $bedrooms = $property->bedrooms . ' Bedrm, ';
-                if ($property->bedrooms == 0)
-                {
-                    $bedrooms = 'Studio, ';
-                }
-              
-              
-                echo '<div class="lodgix-featured-listing" style="-moz-border-radius: 5px 5px 5px 5px;' . $position . '">
-                    <div class="imgset">
-                        <a href="' . $permalink . '">
-                            <img alt="View listing" src="' . $property->main_image_thumb . '">
-                            <span class="featured-flag"></span>
-                        </a>
-                    </div>
-                    <a class="address-link" href="' . $permalink . '">' . $property->description . '</a>
-                    <div class="featured-details">' . $bedrooms . $property->bathrooms . ' Bath' . $proptype . ''
-                      . $location . '
-                    </div>    
-                  </div>'; 
-            }
-            echo '</div>';
-            echo $after_widget;
-        }
-    }
-      
-      
-    
-	if(!function_exists('widget_lodgix_featured_control'))
-	{
-      // This is the function that outputs the form to let the users edit
-      // the widget's title. It's an optional feature that users cry for.
-      function widget_lodgix_featured_control()
-      {
-    
+        
         // Get our options and see if we're handling a form submission.
         $options = get_option('widget_lodgix_featured');
     
@@ -3189,17 +3104,114 @@ if (!class_exists('p_lodgix')) {
         // complete form. This will be embedded into the existing form.
         echo '<p style="text-align:left;"><label for="widget_lodgix_featured-title">' . __('Title:') . ' <input style="width: 200px;" id="widget_lodgix_featured-title" name="widget_lodgix_featured-title" type="text" value="'.$title.'" /></label></p>';
         echo '<input type="hidden" id="widget_lodgix_featured-submit" name="widget_lodgix_featured-submit" value="1" />';
-    } 
-    
-    // This registers our widget so it appears with the other available
-    // widgets and can be dragged and dropped into any active sidebars.
-    register_sidebar_widget(array('Featured Rentals', 'widgets'), 'widget_lodgix_featured');
-    
-      // This registers our optional widget control form. Because of this
-      // our widget will have a button that reveals a 300x100 pixel form.
-      register_widget_control(array('Featured Rentals', 'widgets'), 'widget_lodgix_featured_control');
     }
-}
+            
+    // This is the function that outputs our widget_lodgix_featured.
+    function widget_lodgix_featured($args)    
+    {
+        
+        global $wpdb;
+        $p_plugin_path = plugin_dir_url(plugin_basename(__FILE__));
+        extract($args);
+
+        // Each widget can store its own options. We keep strings here.
+        $options = get_option('widget_lodgix_featured');
+        $loptions = get_option('p_lodgix_options');
+        $title = apply_filters('widget_title', empty($options['title']) ? __('Featured Rentals') : $options['title']);
+
+
+        echo $before_widget . $before_title . $title . $after_title;
+        echo '<div class="lodgix-featured-properties" align="center">';
+        
+        $sql = 'SELECT ' . $this->properties_table . '.id,property_id,description,enabled,featured,main_image_thumb,bedrooms,bathrooms,proptype,city,post_id,area FROM ' . $this->properties_table . ' LEFT JOIN ' . $this->pages_table .  ' ON ' . $this->properties_table . '.id = ' . $this->pages_table .  '.property_id WHERE featured=1 order by rand()';
+        $properties = $wpdb->get_results($sql);
+        foreach($properties as $property)
+        {
+            //$page_id = $wpdb->get_var("SELECT page_id FROM " .$this->pages_table . " WHERE property_id=" . $page_id);
+            $permalink = get_permalink($property->post_id);
+            $location = $property->city;
+            if ($property->city != "")
+                $location = '<span class="price"> in <strong>' . $location . '</strong></span>';
+            else
+                $location = '<span class="price"><strong>' . $location . '</strong></span>';
+            if (($loptions['p_lodgix_display_featured'] == 'area') && ($property->area != ""))
+                $location = $property->area;
+            $location = '<span class="price"><strong>' . $location . '</strong></span>';
+            if ($_REQUEST['lang'] == "de")
+            {
+                $page_id = $wpdb->get_var("SELECT page_id FROM " . $this->lang_pages_table . " WHERE property_id=" . $property->id);
+                $permalink = get_permalink($page_id);
+            }
+      
+        
+            $proptype = ', ' . $property->proptype;
+            if ($proptype == ', Room type')
+                $proptype = '';
+            
+            $position = '';
+            if ($loptions['p_lodgix_display_featured_horizontally'] == 1)
+                $position = "float:left; margin-left:5px;";
+            else if ($loptions['p_lodgix_display_featured_horizontally'] == 2)
+                $position = "float:right; margin-right:5px;";
+              
+            $bedrooms = $property->bedrooms . ' Bedrm, ';
+            if ($property->bedrooms == 0)
+            {
+                $bedrooms = 'Studio, ';
+            }
+            
+            
+            echo '<div class="lodgix-featured-listing" style="-moz-border-radius: 5px 5px 5px 5px;' . $position . '">
+                  <div class="imgset">
+                      <a href="' . $permalink . '">
+                          <img alt="View listing" src="' . $property->main_image_thumb . '">
+                          <span class="featured-flag"></span>
+                      </a>
+                  </div>
+                  <a class="address-link" href="' . $permalink . '">' . $property->description . '</a>
+                  <div class="featured-details">' . $bedrooms . $property->bathrooms . ' Bath' . $proptype . ''
+                    . $location . '
+                  </div>    
+                </div>'; 
+        }
+        
+        echo '</div>';
+        echo $after_widget;
+    }            
+      
+    function widget_lodgix_featured_init()
+    {
+        
+        
+        // Check for the required plugin functions. This will prevent fatal
+        // errors occurring when you deactivate the dynamic-sidebar plugin.
+        if ( !function_exists('register_sidebar_widget') )
+            return;
+
+		if(!function_exists('widget_lodgix_featured'))
+		{
+           
+        }
+      
+      
+    
+        if(!function_exists('widget_lodgix_featured_control'))
+        {
+            
+            
+            
+    
+        
+        }
+        
+    // This registers our widget so it appears with the other available
+            // widgets and can be dragged and dropped into any active sidebars.
+            register_sidebar_widget(array('Featured Rentals', 'widgets'), array(&$this,'widget_lodgix_featured'));
+          
+            // This registers our optional widget control form. Because of this
+            // our widget will have a button that reveals a 300x100 pixel form.
+            register_widget_control(array('Featured Rentals', 'widgets'), array(&$this,'widget_lodgix_featured_control'));        
+    }
       
     function clean_all()
     {

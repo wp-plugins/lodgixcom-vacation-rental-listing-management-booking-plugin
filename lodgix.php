@@ -514,11 +514,23 @@ if (!class_exists('p_lodgix')) {
                 $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/" .$this->localizationDomain .'-' .$l->locale.".mo";
                 load_textdomain($this->localizationDomain, $mo);
             }
-
+            
+            $vacation_rentals =  __('Vacation Rentals',$this->localizationDomain);
+            if ($vacation_rentals == 'Vacation Rentals' && $l->code != 'en')
+                $vacation_rentals = $vacation_rentals . $l->name;
+            
+            $availability =  __('Availability',$this->localizationDomain);
+            if ($availability == 'Availability' && $l->code != 'en')
+                $availability = $availability . $l->name;
+            
+            $search = __('Search Rentals',$this->localizationDomain);
+            if ($search == 'Search Rentals' && $l->code != 'en')
+                $search = $search . $l->name;
+                
             $this->page_titles[$l->code] = array(
-                'vacation_rentals' => __('Vacation Rentals',$this->localizationDomain),
-                'availability' => __('Availability',$this->localizationDomain),
-                'search' => __('Search Rentals',$this->localizationDomain),
+                'vacation_rentals' => $vacation_rentals,
+                'availability' => $availability,
+                'search' => $search
             );
        }
         
@@ -4576,7 +4588,7 @@ if (!class_exists('p_lodgix')) {
                     $active_properties = join(",", $active_properties);
                     $this->clean_properties($active_properties);        
                     $this->build_individual_pages();
-                    
+                    die();
                     $this->build_areas_pages();
                     $this->set_page_options(); 
               

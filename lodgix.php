@@ -3393,7 +3393,6 @@ if (!class_exists('p_lodgix')) {
     
         }
         
-        $this->pages_table = $wpdb->prefix . "lodgix_pages";
         $pages = $wpdb->get_results('SELECT * FROM ' . $this->pages_table);
         foreach($pages as $page)
         {
@@ -3430,9 +3429,8 @@ if (!class_exists('p_lodgix')) {
         
         $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
         foreach ($active_languages as $l) {    
-            $pages_lang_table = $wpdb->prefix . "lodgix_lang_pages";
-            $pages_de = $wpdb->get_results("SELECT * FROM " . $pages_lang_table . " WHERE lang_code='" . $l->code . "'");
-            foreach($pages_de as $page)
+            $pages = $wpdb->get_results("SELECT * FROM " . $pages_lang_table . " WHERE lang_code='" . $l->code . "'");
+            foreach($pages as $page)
             {
                 $post_id = $page->page_id;
                 $post = array();
@@ -3480,24 +3478,13 @@ if (!class_exists('p_lodgix')) {
     {
         global $wpdb;
         
-        $this->properties_table = $wpdb->prefix . "lodgix_properties";
-        $this->amenities_table = $wpdb->prefix . "lodgix_amenities";
-        $this->rates_table = $wpdb->prefix . "lodgix_rates";      
-        $this->merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
-        $this->rules_table = $wpdb->prefix . "lodgix_rules";           
-        $this->pictures_table = $wpdb->prefix . "lodgix_pictures";    
-        $this->pages_table = $wpdb->prefix . "lodgix_pages";
-        $this->lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
-        $this->properties_lang_table = $wpdb->prefix . "lodgix_lang_properties";
-        $this->lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";
-        
         $properties = $wpdb->get_results('SELECT * FROM ' . $this->properties_table . '  WHERE id not in (' . $active_properties . ')'); 
         if ($properties)
         {
-          foreach($properties as $property)    	
-          {
-            wp_delete_post((int)$property->post_id,$force_delete = true);
-          }
+            foreach($properties as $property)    	
+            {
+                wp_delete_post((int)$property->post_id,$force_delete = true);
+            }
         }
         
         $sql = "SELECT FROM " . $this->properties_table . " WHERE id not in (" . $active_properties . ")";
@@ -3526,7 +3513,6 @@ if (!class_exists('p_lodgix')) {
         global $wpdb;
         global $p_lodgix_db_version;
         
-        $table_name = $wpdb->prefix . "lodgix_properties";
         if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
             
          $sql = "CREATE TABLE " . $table_name . " (
@@ -3893,12 +3879,7 @@ if (!class_exists('p_lodgix')) {
     function update_db($old_db_version) {
         global $wpdb;
         global $p_lodgix_db_version;
-        $this->properties_table = $wpdb->prefix . "lodgix_properties";
-        $this->amenities_table = $wpdb->prefix . "lodgix_amenities";
-        $this->rates_table = $wpdb->prefix . "lodgix_rates";      
-        $this->merged_rates_table = $wpdb->prefix . "lodgix_merged_rates";              
-        $this->rules_table = $wpdb->prefix . "lodgix_rules";           
-        $this->pictures_table = $wpdb->prefix . "lodgix_pictures";
+
 
         
         if ($old_db_version < 1.2)
@@ -4013,8 +3994,6 @@ if (!class_exists('p_lodgix')) {
             $this->options['p_lodgix_title_size'] = $owner["Results"]['MultiWidgetSettings']['TitleSize'];      
             
            
-            $this->policies_table = $wpdb->prefix . "lodgix_policies";   
-            $this->link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";   
             $sql = "DELETE FROM " . $this->policies_table;
             $wpdb->query($sql);
                       $sql = "DELETE FROM " . $this->link_rotators_table;
@@ -4131,7 +4110,6 @@ if (!class_exists('p_lodgix')) {
         }          
          
 					 
-        $this->pages_table = $wpdb->prefix . "lodgix_pages";  
         $posts = $wpdb->get_results('SELECT * FROM ' . $this->pages_table);   
         foreach($posts as $post)
         {
@@ -4159,7 +4137,6 @@ if (!class_exists('p_lodgix')) {
 		    }          
 					 
 					 
-            $this->lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";					
             $posts = $wpdb->get_results("SELECT * FROM " . $this->lang_pages_table . " WHERE lang_code = '" . $l->code . "'" );   
             foreach($posts as $post)
             {
@@ -4186,7 +4163,6 @@ if (!class_exists('p_lodgix')) {
     function admin_options_page() { 
         global $p_lodgix_db_version;
         global $wpdb;
-        $table_name = $wpdb->prefix . "lodgix_properties";
         $this->p_lodgix_build();
           
         if (get_option('p_lodgix_db_version'))

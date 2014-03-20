@@ -518,15 +518,15 @@ if (!class_exists('p_lodgix')) {
             
             $vacation_rentals =  __('Vacation Rentals',$this->localizationDomain);
             if ($vacation_rentals == 'Vacation Rentals' && $l->code != 'en')
-                $vacation_rentals = $vacation_rentals . $l->name;
+                $vacation_rentals = $vacation_rentals . ' ' . $l->name;
             
             $availability =  __('Availability',$this->localizationDomain);
             if ($availability == 'Availability' && $l->code != 'en')
-                $availability = $availability . $l->name;
+                $availability = $availability . ' ' . $l->name;
             
             $search = __('Search Rentals',$this->localizationDomain);
             if ($search == 'Search Rentals' && $l->code != 'en')
-                $search = $search . $l->name;
+                $search = $search . ' ' . $l->name;
                 
             $this->page_titles[$l->code] = array(
                 'vacation_rentals' => $vacation_rentals,
@@ -1602,15 +1602,21 @@ if (!class_exists('p_lodgix')) {
                     $amarray['property_id'] = $parray['id'];
                     $amarray['description'] = $amenity['Name'];
                     $sql = $this->get_insert_sql_from_array($this->amenities_table,$amarray);
-                    $wpdb->query($sql);        
-                    if ($amenity['AmenityDE'])
-                    {
-                      $alrarray = array();
-                      $alrarray['description'] = $amenity['Name'];
-                      $alrarray['description_de'] = $amenity['AmenityDE'];
-                      $alrarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
-                      $sql = $this->get_insert_sql_from_array($this->lang_amenities_table,$alrarray);
-                      $wpdb->query($sql);                    	
+                    $wpdb->query($sql);
+                    
+                    $active_languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
+                    foreach($active_languages as $l)
+                    {                    
+                        if ($amenity['Amenity' . strtoupper($l->code)])
+                        {
+                          $alrarray = array();
+                          $alrarray['description'] = $amenity['Name'];
+                          $alrarray['description_translated'] = $amenity['Amenity' . strtoupper($l->code)];
+                          $alrarray['language_code'] = $l->code;
+                          $alrarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
+                          $sql = $this->get_insert_sql_from_array($this->lang_amenities_table,$alrarray);
+                          $wpdb->query($sql);                    	
+                        }
                     }
                 }
             }     
@@ -2447,7 +2453,7 @@ if (!class_exists('p_lodgix')) {
  				foreach($amenities as $amenity)
 				{
                     $aux = __(trim($amenity->description),$this->localizationDomain);
-                    $amenity_name = $wpdb->get_var("select description_de from " . $this->lang_amenities_table . " WHERE description='" . $amenity->description . "';"); 
+                    $amenity_name = $wpdb->get_var("select description_translated from " . $this->lang_amenities_table . " WHERE description='" . $amenity->description . "' AND language_code='" . $this->sufix . "';"); 
 					if ($amenity_name != "")
 						$aux = $amenity_name;
 
@@ -2972,11 +2978,11 @@ if (!class_exists('p_lodgix')) {
 
         if ($options['amenities']) {
             echo '<div class="lodgix-custom-search-amenities-list">'.__('Amenities','p_lodgix') .':';
-            $amenities = $wpdb->get_results('SELECT DISTINCT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities WHERE searchable=1');
+            $amenities = $wpdb->get_results("SELECT DISTINCT * FROM " . $wpdb->prefix . "lodgix_lang_amenities WHERE searchable=1 AND language_code='" . $this->sufix . "'");
             $a = 0;
             foreach($amenities as $amenity) {
                 echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ';
-                echo ($this->sufix == 'de' ? $amenity->description_de : $amenity->description) . '</div>';
+                echo __($amenity->description_translated.$this->localizationDomain) . '</div>';
                 //XXXXXXXXXXXXXXXXXXXXXXXXXXX Fix ABove
                 $a++;
             }
@@ -3698,7 +3704,8 @@ if (!class_exists('p_lodgix')) {
         if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
          $sql = "CREATE TABLE " . $table_name . " (
           `description` varchar(255) NOT NULL DEFAULT '',
-          `description_de` varchar(255) DEFAULT NULL,
+          `description_translated` varchar(255) DEFAULT NULL,
+          `language_code` varchar(2),
           `searchable` tinyint(1) NOT NULL default 0,
           PRIMARY KEY (`description`)
          ) DEFAULT CHARSET=utf8;";
@@ -4474,15 +4481,14 @@ if (!class_exists('p_lodgix')) {
                     $wpdb->query($sql);
                     foreach ($properties as $property)
                     { 
-                      if (($property['ServingStatus'] == "ACTIVE" ) && ($property['WordpressStatus'] == "ACTIVE" ))
-                        $active_properties[] = $property['ID'];
-                      $this->update_tables($property, $counter, $searchableAmenities);
-                      $counter++;
+                        if (($property['ServingStatus'] == "ACTIVE" ) && ($property['WordpressStatus'] == "ACTIVE" ))
+                          $active_properties[] = $property['ID'];
+                        $this->update_tables($property, $counter, $searchableAmenities);
+                        $counter++;
                     }
                     $active_properties = join(",", $active_properties);
                     $this->clean_properties($active_properties);        
                     $this->build_individual_pages();
-                    die();
                     $this->build_areas_pages();
                     $this->set_page_options(); 
               
@@ -4768,8 +4774,18 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 			<p><b><?php _e('Language Options', $this->localizationDomain); ?></b></p>
 
 			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
-                <?php                
-                    $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' order by case when name = \'English\' then 0 else 1 end, name');
+                <tr>
+                    <td>To select other languages, please enable it within WPML setup first.</td>
+                </tr>
+                <?php
+                    $wpml_lang_table = $wpdb->prefix . 'icl_languages';
+                    $sql = "SELECT * FROM " . $this->languages_table . " WHERE code = 'en' OR code IN (SELECT code FROM " . $wpml_lang_table . " WHERE active = 1) order by case when code = 'en' then 0 else 1 end, name";
+   
+                    $languages = $wpdb->get_results($sql);
+                    if (!$languages)
+                    {
+                        $languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE code = 'en'");
+                    }
                     if ($languages)
                     {
                         echo '<tr valign="top"><td>';                                                        
@@ -4781,8 +4797,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
                             echo '/> ' . _($l->name, $this->localizationDomain);
                             echo '</li>';
                         }
-                        echo '</ul></td></tr>';
-                        
+                        echo '</ul></td></tr>';                        
                     }
                 ?>                
 			</table><br>            

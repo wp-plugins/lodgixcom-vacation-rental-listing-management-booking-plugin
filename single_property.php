@@ -1,4 +1,3 @@
-
 <?php
 
 $sql = "SELECT * FROM " . $this->pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';

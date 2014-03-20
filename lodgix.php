@@ -3961,6 +3961,10 @@ if (!class_exists('p_lodgix')) {
                     $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
             }
             
+            $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_lang_amenities ADD COLUMN `language_code` varchar(2);");
+            $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_lang_amenities CHANGE COLUMN `description_de` `description_translated` varchar(255) DEFAULT NULL;");
+            $wpdb->query("UPDATE " . $wpdb->prefix . "lodgix_lang_amenities SET language_code = 'de';");
+            
             $this->saveAdminOptions();
             wp_redirect($_SERVER["REQUEST_URI"]);
         }                

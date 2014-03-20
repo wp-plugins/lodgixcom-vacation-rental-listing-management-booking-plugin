@@ -1,5 +1,4 @@
 <?php
-$p_plugin_path = trailingslashit(plugin_dir_url(__FILE__));
 $sql = "SELECT * FROM " . $this->reviews_table . " WHERE language_code='" . $this->sufix . "' AND property_id=" . $property->id . ' ORDER BY date DESC';
 
 $reviews = $wpdb->get_results($sql);
@@ -29,19 +28,19 @@ if ($this->options['p_lodgix_contact_url'] != "")
     {
         $mail_url = str_replace('__PROPERTYID__', $property->id, $mail_url);
     }
-    $mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url . '"><img src="' . $p_plugin_path . 'images/mail_50.png"></a>';
+    $mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url . '"><img src="' . $this->p_plugin_path . 'images/mail_50.png"></a>';
 }
 $video_icon = '';
 if ($property->video_url != '')
 {
-    $video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url . '"><img title="Display Video" src="' . $p_plugin_path . 'images/video_icon.png"></a></span>';
+    $video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url . '"><img title="Display Video" src="' . $this->p_plugin_path . 'images/video_icon.png"></a></span>';
 }
 $virtual_tour_icon = '';
 if ($property->virtual_tour_url != '')
 {
     $virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;"
 href="' . $property->virtual_tour_url . '"><img title="Display Virtual Tour"
-src="' . $p_plugin_path . 'images/virtual_tour.png"></a>';
+src="' . $this->p_plugin_path . 'images/virtual_tour.png"></a>';
 }
 $bedrooms = $property->bedrooms . ' ' . __('Bedrooms', $this->localizationDomain);
 if ($property->bedrooms == 0)
@@ -128,8 +127,8 @@ $single_property.= '
 
 <div class="ldgxPropBadgeIconsRight">
 
-<img id="lodgix_no_pets_icon" src="' . $p_plugin_path . 'images/no_pets.png" style="' . $pets . '"><img
-id="lodgix_no_smoke_icon" src="' . $p_plugin_path . 'images/no_smoke.png" style="' . $smoking . '">
+<img id="lodgix_no_pets_icon" src="' . $this->p_plugin_path . 'images/no_pets.png" style="' . $pets . '"><img
+id="lodgix_no_smoke_icon" src="' . $this->p_plugin_path . 'images/no_smoke.png" style="' . $smoking . '">
 
 </div>
 
@@ -140,7 +139,7 @@ id="lodgix_no_smoke_icon" src="' . $p_plugin_path . 'images/no_smoke.png" style=
 </div>
 
 ';
-$single_property.= '<link rel="stylesheet" href="' . $p_plugin_path . 'css/jquery-ui-1.8.17.custom.css" type="text/css" />';
+$single_property.= '<link rel="stylesheet" href="' . $this->p_plugin_path . 'css/jquery-ui-1.8.17.custom.css" type="text/css" />';
 $single_property.= '<script>
 	jQueryLodgix(document).ready(function(){
 		jQueryLodgix("#lodgix_tabbed_content").tabs();
@@ -402,7 +401,7 @@ if (count($reviews) >= 1)
             "\r"
         ) , '<br />', $review->description) . '</i><br />' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
         $counter++;
-        if ($counter != count($reviews)) $single_property.= '<center><img src="' . $p_plugin_path . 'images/post_separator.png"><br /><br /></center>';
+        if ($counter != count($reviews)) $single_property.= '<center><img src="' . $this->p_plugin_path . 'images/post_separator.png"><br /><br /></center>';
     }
 }
 $single_property.= '

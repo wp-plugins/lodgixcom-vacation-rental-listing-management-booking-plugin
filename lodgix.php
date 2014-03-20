@@ -314,6 +314,7 @@ if (!class_exists('p_lodgix')) {
     * @var string $urlpath The path to this plugin
     */
     var $urlpath = '';
+    var $p_plugin_path = NULL;
     
     var $locale = 'en_US';
     var $sufix = 'en';
@@ -874,6 +875,7 @@ if (!class_exists('p_lodgix')) {
     
 
     function p_lodgix_init() {
+        $this->p_plugin_path = plugin_dir_url(plugin_basename(__FILE__));	
         $this->p_lodgix_load_locale();
     }
         
@@ -923,28 +925,27 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_template_redirect()
     {
     	global $wp_query;
-        $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );       	
-        wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');
-        wp_enqueue_script('p_lodgix_jqueryui',$p_plugin_path . 'js/jquery-ui-lodgix.min.js');        	
-        wp_enqueue_style('p_lodgix_jqueryui_css',$p_plugin_path . 'css/jquery-ui-1.8.17.custom.css');      
+        wp_enqueue_script('p_lodgix_jquery',$this->p_plugin_path . 'js/jquery_lodgix.js');
+        wp_enqueue_script('p_lodgix_jqueryui',$this->p_plugin_path . 'js/jquery-ui-lodgix.min.js');        	
+        wp_enqueue_style('p_lodgix_jqueryui_css',$this->p_plugin_path . 'css/jquery-ui-1.8.17.custom.css');      
                 
         wp_enqueue_script('jquery');
         wp_enqueue_script('thickbox');
         wp_enqueue_style('thickbox');      
         
-        wp_enqueue_style('p_lodgix_royalslider',$p_plugin_path . 'gallery/css/lodgixroyalslider.css');
-        wp_enqueue_style('p_lodgix_royalslider_skins_default',$p_plugin_path . 'gallery/royalslider-skins/default/default.css');      
-        wp_enqueue_style('p_lodgix_royalslider_skins_iskin',$p_plugin_path . 'gallery/royalslider-skins/iskin/iskin.css');      
-        wp_enqueue_script('p_lodgix_easing',$p_plugin_path . 'gallery/js/jquerylodgix.easing.min.js');
-        wp_enqueue_script('p_lodgix_royal',$p_plugin_path . 'gallery/js/lodgixroyal-slider.min.js');
+        wp_enqueue_style('p_lodgix_royalslider',$this->p_plugin_path . 'gallery/css/lodgixroyalslider.css');
+        wp_enqueue_style('p_lodgix_royalslider_skins_default',$this->p_plugin_path . 'gallery/royalslider-skins/default/default.css');      
+        wp_enqueue_style('p_lodgix_royalslider_skins_iskin',$this->p_plugin_path . 'gallery/royalslider-skins/iskin/iskin.css');      
+        wp_enqueue_script('p_lodgix_easing',$this->p_plugin_path . 'gallery/js/jquerylodgix.easing.min.js');
+        wp_enqueue_script('p_lodgix_royal',$this->p_plugin_path . 'gallery/js/lodgixroyal-slider.min.js');
                     
-        wp_enqueue_script('p_lodgix_fancybox',$p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
-        wp_enqueue_script('p_lodgix_jquery_corner',$p_plugin_path . 'js/jquery.corner.js');          	  
-        wp_enqueue_script('p_lodgix_jquery_swf_object',$p_plugin_path . 'js/jquery.swfobject.js');            	    
-        wp_enqueue_script('p_lodgix_jquery_ceebox',$p_plugin_path . 'js/jquery.ceebox.js');        
+        wp_enqueue_script('p_lodgix_fancybox',$this->p_plugin_path . 'gallery/jquery.fancybox-1.3.4.pack.js');
+        wp_enqueue_script('p_lodgix_jquery_corner',$this->p_plugin_path . 'js/jquery.corner.js');          	  
+        wp_enqueue_script('p_lodgix_jquery_swf_object',$this->p_plugin_path . 'js/jquery.swfobject.js');            	    
+        wp_enqueue_script('p_lodgix_jquery_ceebox',$this->p_plugin_path . 'js/jquery.ceebox.js');        
 
-        wp_enqueue_script('p_lodgix_jquery_responsive_table_js',$p_plugin_path . 'js/jquery.lodgix-responsive-table.js');
-        wp_enqueue_script('p_lodgix_jquery_text_expander_js',$p_plugin_path . 'js/jquery.lodgix-text-expander.js');
+        wp_enqueue_script('p_lodgix_jquery_responsive_table_js',$this->p_plugin_path . 'js/jquery.lodgix-responsive-table.js');
+        wp_enqueue_script('p_lodgix_jquery_text_expander_js',$this->p_plugin_path . 'js/jquery.lodgix-text-expander.js');
 
     	if ($this->p_is_lodgix_page($wp_query->post->ID))
         {	        	
@@ -988,7 +989,6 @@ if (!class_exists('p_lodgix')) {
 
     function p_lodgix_header_code() {            
         global $post;
-        $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__))); 
         global $wpdb;
                         
         $post_id = $post->ID;
@@ -1018,12 +1018,9 @@ if (!class_exists('p_lodgix')) {
   					  		echo '<meta name="keywords" content="' . trim(wptexturize($keywords)) . '" />';
   					  	}
   					  }
-					  }
-					  if (strpos(strtolower($p_plugin_path),'http') === false)
-					  {
-					  	 $p_plugin_path = home_url() . $p_plugin_path;
-					  }
-            echo '<link type="text/css" rel="stylesheet" href="' . $p_plugin_path  . 'css/directory.php" />' . "\n";            
+					}
+    
+            echo '<link type="text/css" rel="stylesheet" href="' . $this->p_plugin_path  . 'css/directory.php" />' . "\n";            
             $css_path = WP_CONTENT_DIR;
             if (file_exists($css_path  . '/lodgix-custom.css'))
         		{
@@ -1167,10 +1164,9 @@ if (!class_exists('p_lodgix')) {
 
     function p_lodgix_script() {
       if (is_admin()){ 
-        $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );
-        wp_enqueue_script('p_lodgix_jquery',$p_plugin_path . 'js/jquery_lodgix.js');      	
+        wp_enqueue_script('p_lodgix_jquery',$this->p_plugin_path . 'js/jquery_lodgix.js');      	
         wp_enqueue_script('jquery'); 
-       	wp_enqueue_script('jquery-validate',$p_plugin_path . 'js/jquery.validate.min.js');        
+       	wp_enqueue_script('jquery-validate',$this->p_plugin_path . 'js/jquery.validate.min.js');        
         wp_enqueue_script('p_lodgix_script', $this->url.'?p_lodgix_javascript'); 
         wp_localize_script( 'p_lodgix_script', 'p_lodgix_lang', array(
           'required' => __('Field is required.', $this->localizationDomain),
@@ -2413,9 +2409,7 @@ if (!class_exists('p_lodgix')) {
     {      	
         global $wpdb;
         global $sitepress;
-        $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) ); 
         
-
         $link = '<a href="http://www.lodgix.com">Vacation Rental Software</a>';
         $sql = 'SELECT url,title FROM `' . $this->link_rotators_table . '` ORDER BY RAND() LIMIT 1';
         $rotators = $wpdb->get_results($sql);           
@@ -2560,7 +2554,7 @@ if (!class_exists('p_lodgix')) {
     function build_individual_pages() {
         global $wpdb;
         global $sitepress;
-        $p_plugin_path = trailingslashit( plugin_dir_url( __FILE__ ) );
+       
         
         
         $properties = $wpdb->get_results('SELECT * FROM ' . $this->properties_table . ' ORDER BY `order`'); 
@@ -2817,265 +2811,251 @@ if (!class_exists('p_lodgix')) {
         die($content);
     }      
       
+      
+            // This is the function that outputs the form to let the users edit
+    // the widget's title. It's an optional feature that users cry for.
+    function widget_lodgix_custom_search_control_2() {
+
+        // Get our options and see if we're handling a form submission.
+        $options = get_option('widget_lodgix_custom_search_2');
+    
+        //Set the default options for the widget here
+        if ( !is_array($options) )
+            $options = array('title' => 'Rentals Search', 'amenities' => false);
+    
+        if ( $_POST['widget_lodgix_custom_search-submit'] ) {
+            // Remember to sanitize and format use input appropriately.
+            $options['title'] = strip_tags(stripslashes($_POST['widget_lodgix_custom_search-title']));
+            $options['amenities'] = $_POST['widget_lodgix_custom_search-amenities'] == 't' ? true : false;
+            update_option('widget_lodgix_custom_search_2', $options);
+        }
+    
+        $this->widget_lodgix_custom_search_control_common($options);
+    }       
   
+    // This is the function that outputs our widget_lodgix_custom_search.
+	function widget_lodgix_custom_search_common($args,$options) {
+        global $wpdb;
+        
+
+        extract($args);
+            
+        $loptions = get_option('p_lodgix_options');
+        $title = apply_filters('widget_title', empty($options['title']) ? __('Rentals Search') : $options['title']);
+ 
+        $area_post = $_POST['lodgix-custom-search-area'];
+        $bedrooms_post = $_POST['lodgix-custom-search-bedrooms'];
+        $id_post = $_POST['lodgix-custom-search-id'];	
+
+        echo $before_widget . $before_title . $title . $after_title;
+        echo '<div class="lodgix-search-properties" align="center">';
+
+        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $this->properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');  
+        
+        $date_format = $loptions['p_lodgix_date_format'];
+        
+        if ($date_format == '%m/%d/%Y')
+           $date_format = 'mm/dd/yy';
+        else if ($date_format == '%d/%m/%Y')
+           $date_format = 'dd/mm/yy';
+        else if ($date_format == '%m-%d-%Y')
+                $date_format = 'mm-dd-yy';
+        else if ($date_format == '%d-%m-%Y')
+                $date_format = 'dd-mm-yy';                
+        else if ($date_format == '%d %b %Y')
+                $date_format = 'dd M yy';
+        
+        echo '<script type="text/javascript">
+                         var P_LODGIX_SEARCH_RESULTS = 0;
+                 function p_lodgix_search_properties() {
+                    var amenities = [];
+                    var checked = jQueryLodgix(".lodgix-custom-search-amenities:checked");
+                    var len = checked.length;
+                    if (len) {
+                        for (var i = 0; i < len; i++) {
+                            amenities.push(checked[i].value);
+                        }
+                        amenities = "&amenity[]=" + amenities.join("&amenity[]=");
+                    }
+                    jQueryLodgix(\'#search_results\').html(\'\');
+                        jQueryLodgix("#lodgix_search_spinner").show();
+                                        jQueryLodgix.ajax({
+                      type: "POST",
+                      url: "' .  get_bloginfo('wpurl') . '/wp-admin/admin-ajax.php",
+                      data: "action=p_lodgix_custom_search&area=" + jQueryLodgix(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQueryLodgix(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQueryLodgix(\'#lodgix-custom-search-id\').val() + "&arrival=" + jQueryLodgix.datepicker.formatDate("yy-mm-dd",jQueryLodgix(\'#lodgix-custom-search-arrival\').datepicker("getDate")) + "&nights=" + jQueryLodgix(\'#lodgix-custom-search-nights\').val() + amenities,
+                      success: function(response){
+                        //response_array = response.split(" ");
+                        //P_LODGIX_SEARCH_RESULTS = parseInt(response_array[0]);
+                        jQueryLodgix(\'#search_results\').html(response);
+                        jQueryLodgix("#lodgix_search_spinner").hide();
+                      },
+                      failure: function(response){
+                        jQueryLodgix("#lodgix_search_spinner").hide();
+                      }
+                   });                 	
+                    
+                 }
+                 
+                                 
+
+                               jQueryLodgix(document).ready(function() {
+                    jQueryLodgix( "#lodgix-custom-search-arrival" ).datepicker({
+                                            showOn: "both",
+                                            buttonImage: "' . $this->p_plugin_path . 'images/calendar.png",
+                                            buttonImageOnly: true,
+                                            dateFormat: "' . $date_format . '",
+                                            minDate: 0,
+                                            beforeShow: function() {
+                                                setTimeout(function(){
+                                                    jQueryLodgix("#lodgix-datepicker-div").css("z-index", 99999999999999);
+                                                }, 0);
+                                            }                                                
+                                    });
+                                 });
+              </script>';
+        
+        $post_id = (int)$loptions['p_lodgix_search_rentals_page_' . $this->sufix];
+            
+        $post_url = get_permalink($post_id);
+        echo '<form name="lodgix_search_form" method="POST" action="' . $post_url .'">
+                    <div class="lodgix-custom-search-listing" align="left" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">    
+                    <table>
+                      <tr>
+                      <td>
+                            <div>'.__('Arriving','p_lodgix').':</div> 			
+                            <div style="vertical-align:bottom;"><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:117px;" onchange="p_lodgix_search_properties()" readonly></div>
+                        </td>
+                        <td>&nbsp;
+                        </td>
+                        <td>
+                        <div>'.__('Nights','p_lodgix').':</div>
+                        <div><select id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:54px;" onchange="p_lodgix_search_properties()">';
+                        
+        for ($i = 1 ; $i < 100 ; $i++)				
+        {
+            echo "<option value='" . $i . "'>" . $i . "</option>";
+        }
+        
+        echo '</select>
+                        </div>
+                        </td>
+                        </tr>
+                    </table>
+                    <div>'.__('Location','p_lodgix').':</div> 
+                    <div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="p_lodgix_search_properties()">
+                    <option value="ALL_AREAS">'.__('All Areas','p_lodgix').'</option>';       	
+
+        foreach($areas as $area)       				
+        {
+            if ($area->area == $area_post)
+                echo '<option selected value="'.$area->area.'">'.$area->area.'</option>';
+            else
+                echo '<option value="'.$area->area.'">'.$area->area.'</option>';
+
+        }
+            
+        echo	'</select></div>
+                    <div>'.__('Bedrooms','p_lodgix') .':</div> 
+                    <div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="p_lodgix_search_properties()">
+                    <option value="ANY">Any</option> 
+                    <option value="0">Studio</option>';
+        $max_rooms = (int)$wpdb->get_var("SELECT MAX(bedrooms) FROM " . $this->properties_table);
+        for($i = 1 ; $i < ($max_rooms+1) ; $i++)
+        {
+            
+            if ($i == $bedrooms_post)
+                echo '<option selected value="'.$i.'">'.$i.'</option>';
+            else
+                echo '<option value="'.$i.'">'.$i.'</option>';
+        }
+        echo '</select></div>';
+
+        if ($options['amenities']) {
+            echo '<div class="lodgix-custom-search-amenities-list">'.__('Amenities','p_lodgix') .':';
+            $amenities = $wpdb->get_results('SELECT DISTINCT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities WHERE searchable=1');
+            $a = 0;
+            foreach($amenities as $amenity) {
+                echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ';
+                echo ($this->sufix == 'de' ? $amenity->description_de : $amenity->description) . '</div>';
+                //XXXXXXXXXXXXXXXXXXXXXXXXXXX Fix ABove
+                $a++;
+            }
+            echo '</div>';
+        }
+
+        echo '<div>'.__('Search by Property Name or ID','p_lodgix') .':</div> 
+                    <div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="p_lodgix_search_properties()" value="' . $id_post .  '"></div>
+                    <div id="lodgix-custom-search-results" align="center">
+                    <div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
+                    <div id="search_results">
+                    </div>
+                    <input type="submit" value="'.__('Display Results','p_lodgix') .'" id="lodgix-custom-search-button">
+                    </div>
+              </div>';               
+        echo '</div></form>';
+        echo $after_widget;
+	}
+    
+    function widget_lodgix_custom_search($args) {
+        $options = get_option('widget_lodgix_custom_search');
+        $this->widget_lodgix_custom_search_common($args,$options);
+    }
+    
+    function widget_lodgix_custom_search_2($args) {
+        $options = get_option('widget_lodgix_custom_search_2');
+        $this->widget_lodgix_custom_search_common($args,$options);
+    }
+    
+    function widget_lodgix_custom_search_control_common($options) {
+        // Be sure you format your options to be valid HTML attributes.
+        $title = htmlspecialchars($options['title'], ENT_QUOTES);
+        $amenities = $options['amenities'] ? 'checked="checked"' : '';
+        // Here is our little form segment. Notice that we don't need a
+        // complete form. This will be embedded into the existing form.
+        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-title">' . __('Title:') . ' <input style="width: 200px;" id="widget_lodgix_custom_search-title" name="widget_lodgix_custom_search-title" type="text" value="'.$title.'" /></label></p>';
+        echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-amenities">' . __('Amenities:') . ' <input id="widget_lodgix_custom_search-amenities" name="widget_lodgix_custom_search-amenities" type="checkbox" value="t" ' . $amenities . '/></label></p>';
+        echo '<input type="hidden" id="widget_lodgix_custom_search-submit" name="widget_lodgix_custom_search-submit" value="1" />';    	
+    
+    }
+    
+    // This is the function that outputs the form to let the users edit
+    // the widget's title. It's an optional feature that users cry for.
+    function widget_lodgix_custom_search_control() {
+
+        // Get our options and see if we're handling a form submission.
+        $options = get_option('widget_lodgix_custom_search');
+    
+        //Set the default options for the widget here
+        if ( !is_array($options) )
+          $options = array(
+            'title' => __('Rentals Search','p_lodgix'),
+            'amenities' => false
+          );
+    
+        if ( $_POST['widget_lodgix_custom_search-submit'] ) {
+          // Remember to sanitize and format use input appropriately.
+          $options['title'] = strip_tags(stripslashes($_POST['widget_lodgix_custom_search-title']));
+          $options['amenities'] = $_POST['widget_lodgix_custom_search-amenities'] == 't' ? true : false;
+          update_option('widget_lodgix_custom_search', $options);
+        }
+
+        $this->widget_lodgix_custom_search_control_common($options);
+    } 
+	    
       
     function widget_lodgix_custom_search_init()
     {
         // Check for the required plugin functions. This will prevent fatal
         // errors occurring when you deactivate the dynamic-sidebar plugin.
         if ( !function_exists('register_sidebar_widget') )
-          return;
+            return;
     
-    
-	    		
-	    // This is the function that outputs our widget_lodgix_custom_search.
-	    function widget_lodgix_custom_search_common($args,$options) {
-	        global $wpdb;
-	        $p_plugin_path = plugin_dir_url(plugin_basename(__FILE__));	
-	
-	        extract($args);
-	        	
-	        $loptions = get_option('p_lodgix_options');
-	        $title = apply_filters('widget_title', empty($options['title']) ? __('Rentals Search') : $options['title']);
-	 
-	      	$area_post = $_POST['lodgix-custom-search-area'];
-	      	$bedrooms_post = $_POST['lodgix-custom-search-bedrooms'];
-	      	$id_post = $_POST['lodgix-custom-search-id'];	
-	
-	        echo $before_widget . $before_title . $title . $after_title;
-	        echo '<div class="lodgix-search-properties" align="center">';
-	
-	        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $this->properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');  
-	        
-	        $date_format = $loptions['p_lodgix_date_format'];
-	        
-	        if ($date_format == '%m/%d/%Y')
-	           $date_format = 'mm/dd/yy';
-	        else if ($date_format == '%d/%m/%Y')
-	           $date_format = 'dd/mm/yy';
-	        else if ($date_format == '%m-%d-%Y')
-	                $date_format = 'mm-dd-yy';
-	        else if ($date_format == '%d-%m-%Y')
-	                $date_format = 'dd-mm-yy';                
-	        else if ($date_format == '%d %b %Y')
-	                $date_format = 'dd M yy';
-	        
-	        echo '<script type="text/javascript">
-	        				 var P_LODGIX_SEARCH_RESULTS = 0;
-	                 function p_lodgix_search_properties() {
-	                 	var amenities = [];
-	                 	var checked = jQueryLodgix(".lodgix-custom-search-amenities:checked");
-	                 	var len = checked.length;
-	                 	if (len) {
-							for (var i = 0; i < len; i++) {
-								amenities.push(checked[i].value);
-							}
-							amenities = "&amenity[]=" + amenities.join("&amenity[]=");
-						}
-	                    jQueryLodgix(\'#search_results\').html(\'\');
-	                 		jQueryLodgix("#lodgix_search_spinner").show();
-											jQueryLodgix.ajax({
-	                      type: "POST",
-	                      url: "' .  get_bloginfo('wpurl') . '/wp-admin/admin-ajax.php",
-	                      data: "action=p_lodgix_custom_search&area=" + jQueryLodgix(\'#lodgix-custom-search-area\').val() + "&bedrooms=" + jQueryLodgix(\'#lodgix-custom-search-bedrooms\').val() + "&id=" + jQueryLodgix(\'#lodgix-custom-search-id\').val() + "&arrival=" + jQueryLodgix.datepicker.formatDate("yy-mm-dd",jQueryLodgix(\'#lodgix-custom-search-arrival\').datepicker("getDate")) + "&nights=" + jQueryLodgix(\'#lodgix-custom-search-nights\').val() + amenities,
-	                      success: function(response){
-	                        //response_array = response.split(" ");
-	                        //P_LODGIX_SEARCH_RESULTS = parseInt(response_array[0]);
-	                        jQueryLodgix(\'#search_results\').html(response);
-	                        jQueryLodgix("#lodgix_search_spinner").hide();
-	                      },
-	                      failure: function(response){
-	                        jQueryLodgix("#lodgix_search_spinner").hide();
-	                      }
-	                   });                 	
-	                 	
-	                 }
-	                 
-	                                 
-	
-								   jQueryLodgix(document).ready(function() {
-	                 	jQueryLodgix( "#lodgix-custom-search-arrival" ).datepicker({
-												showOn: "both",
-												buttonImage: "' . $p_plugin_path . 'images/calendar.png",
-												buttonImageOnly: true,
-												dateFormat: "' . $date_format . '",
-												minDate: 0,
-                                                beforeShow: function() {
-                                                    setTimeout(function(){
-                                                        jQueryLodgix("#lodgix-datepicker-div").css("z-index", 99999999999999);
-                                                    }, 0);
-                                                }                                                
-									 	});
-									 });
-	              </script>';
-	        
-	        $post_id = (int)$loptions['p_lodgix_search_rentals_page_' . $this->sufix];
-	        	
-	        $post_url = get_permalink($post_id);
-	        echo '<form name="lodgix_search_form" method="POST" action="' . $post_url .'">
-	        			<div class="lodgix-custom-search-listing" align="left" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">    
-	        			<table>
-	        			  <tr>
-	        			  <td>
-	        					<div>'.__('Arriving','p_lodgix').':</div> 			
-	        					<div style="vertical-align:bottom;"><input id="lodgix-custom-search-arrival" name="lodgix-custom-search-arrival" style="width:117px;" onchange="p_lodgix_search_properties()" readonly></div>
-	        				</td>
-	        				<td>&nbsp;
-	        				</td>
-	        				<td>
-	        				<div>'.__('Nights','p_lodgix').':</div>
-	        				<div><select id="lodgix-custom-search-nights" name="lodgix-custom-search-nights" style="width:54px;" onchange="p_lodgix_search_properties()">';
-	        				
-	        for ($i = 1 ; $i < 100 ; $i++)				
-	        {
-	        	echo "<option value='" . $i . "'>" . $i . "</option>";
-	        }
-	        echo '</select>
-	        				</div>
-	        				</td>
-	        				</tr>
-	        			</table>
-	       				<div>'.__('Location','p_lodgix').':</div> 
-	       				<div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="p_lodgix_search_properties()">
-	       				<option value="ALL_AREAS">'.__('All Areas','p_lodgix').'</option>';       	
-	
-					foreach($areas as $area)       				
-					{
-						if ($area->area == $area_post)
-							echo '<option selected value="'.$area->area.'">'.$area->area.'</option>';
-						else
-							echo '<option value="'.$area->area.'">'.$area->area.'</option>';
-		
-					}
-	  			
-	       	echo	'</select></div>
-	       				<div>'.__('Bedrooms','p_lodgix') .':</div> 
-	       				<div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="p_lodgix_search_properties()">
-	       				<option value="ANY">Any</option> 
-	       				<option value="0">Studio</option>';
-	       	$max_rooms = (int)$wpdb->get_var("SELECT MAX(bedrooms) FROM " . $this->properties_table);
-	        for($i = 1 ; $i < ($max_rooms+1) ; $i++)
-	        {
-	        	
-	        	if ($i == $bedrooms_post)
-	        		echo '<option selected value="'.$i.'">'.$i.'</option>';
-	        	else
-	        		echo '<option value="'.$i.'">'.$i.'</option>';
-	        }
-	       	echo '</select></div>';
-	
-			if ($options['amenities']) {
-				echo '<div class="lodgix-custom-search-amenities-list">'.__('Amenities','p_lodgix') .':';
-				$amenities = $wpdb->get_results('SELECT DISTINCT * FROM ' . $wpdb->prefix . 'lodgix_lang_amenities WHERE searchable=1');
-				$a = 0;
-				foreach($amenities as $amenity) {
-					echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ';
-                    echo ($this->sufix == 'de' ? $amenity->description_de : $amenity->description) . '</div>';
-                    //XXXXXXXXXXXXXXXXXXXXXXXXXXX Fix ABove
-					$a++;
-				}
-				echo '</div>';
-			}
-	
-	       	echo '<div>'.__('Search by Property Name or ID','p_lodgix') .':</div> 
-	       				<div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="p_lodgix_search_properties()" value="' . $id_post .  '"></div>
-	       				<div id="lodgix-custom-search-results" align="center">
-	       				<div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
-	       				<div id="search_results">
-	       				</div>
-	       				<input type="submit" value="'.__('Display Results','p_lodgix') .'" id="lodgix-custom-search-button">
-	       				</div>
-	              </div>';               
-	        echo '</div></form>';
-	        echo $after_widget;
-	    }
-	      
-   		if(!function_exists('widget_lodgix_custom_search'))
-	    {	      
-            function widget_lodgix_custom_search($args) {
-                $options = get_option('widget_lodgix_custom_search');
-                widget_lodgix_custom_search_common($args,$options);
-            }
-	    }
-
-   		if(!function_exists('widget_lodgix_custom_search_2'))
-	    {	      
-	    	function widget_lodgix_custom_search_2($args) {
-                $options = get_option('widget_lodgix_custom_search_2');
-	    		widget_lodgix_custom_search_common($args,$options);
-	    	}
-	    }
-	      
-		function widget_lodgix_custom_search_control_common($options) {
-		   	// Be sure you format your options to be valid HTML attributes.
-			$title = htmlspecialchars($options['title'], ENT_QUOTES);
-			$amenities = $options['amenities'] ? 'checked="checked"' : '';
-            // Here is our little form segment. Notice that we don't need a
-            // complete form. This will be embedded into the existing form.
-            echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-title">' . __('Title:') . ' <input style="width: 200px;" id="widget_lodgix_custom_search-title" name="widget_lodgix_custom_search-title" type="text" value="'.$title.'" /></label></p>';
-            echo '<p style="text-align:left;"><label for="widget_lodgix_custom_search-amenities">' . __('Amenities:') . ' <input id="widget_lodgix_custom_search-amenities" name="widget_lodgix_custom_search-amenities" type="checkbox" value="t" ' . $amenities . '/></label></p>';
-            echo '<input type="hidden" id="widget_lodgix_custom_search-submit" name="widget_lodgix_custom_search-submit" value="1" />';    	
-        
-		    }	      
-	      
-	    if(!function_exists('widget_lodgix_custom_search_control'))
-	    {
-            // This is the function that outputs the form to let the users edit
-            // the widget's title. It's an optional feature that users cry for.
-            function widget_lodgix_custom_search_control() {
-
-                // Get our options and see if we're handling a form submission.
-                $options = get_option('widget_lodgix_custom_search');
-            
-                //Set the default options for the widget here
-                if ( !is_array($options) )
-                  $options = array(
-                    'title' => __('Rentals Search','p_lodgix'),
-                    'amenities' => false
-                  );
-            
-                if ( $_POST['widget_lodgix_custom_search-submit'] ) {
-                  // Remember to sanitize and format use input appropriately.
-                  $options['title'] = strip_tags(stripslashes($_POST['widget_lodgix_custom_search-title']));
-                  $options['amenities'] = $_POST['widget_lodgix_custom_search-amenities'] == 't' ? true : false;
-                  update_option('widget_lodgix_custom_search', $options);
-                }
+        register_sidebar_widget(array('Rentals Search', 'widgets'), array(&$this,'widget_lodgix_custom_search'));
+        register_widget_control(array('Rentals Search', 'widgets'), array(&$this,'widget_lodgix_custom_search_control'));
 	    
-                widget_lodgix_custom_search_control_common($options);
-            } 
-	
-            register_sidebar_widget(array('Rentals Search', 'widgets'), 'widget_lodgix_custom_search');
-            register_widget_control(array('Rentals Search', 'widgets'), 'widget_lodgix_custom_search_control');
-	    }      
-      
-  
-      
-        if(!function_exists('widget_lodgix_custom_search_control_2'))
-	    {
-            // This is the function that outputs the form to let the users edit
-            // the widget's title. It's an optional feature that users cry for.
-            function widget_lodgix_custom_search_control_2() {
-	    
-                // Get our options and see if we're handling a form submission.
-                $options = get_option('widget_lodgix_custom_search_2');
-            
-                //Set the default options for the widget here
-                if ( !is_array($options) )
-                    $options = array('title' => 'Rentals Search', 'amenities' => false);
-            
-                if ( $_POST['widget_lodgix_custom_search-submit'] ) {
-                    // Remember to sanitize and format use input appropriately.
-                    $options['title'] = strip_tags(stripslashes($_POST['widget_lodgix_custom_search-title']));
-                    $options['amenities'] = $_POST['widget_lodgix_custom_search-amenities'] == 't' ? true : false;
-                    update_option('widget_lodgix_custom_search_2', $options);
-                }
-            
-                widget_lodgix_custom_search_control_common($options);
-            } 
-	
-            register_sidebar_widget(array('Rentals Search 2', 'widgets'), 'widget_lodgix_custom_search_2');
-            register_widget_control(array('Rentals Search 2', 'widgets'), 'widget_lodgix_custom_search_control_2');
-	    }      
+        register_sidebar_widget(array('Rentals Search 2', 'widgets'), array(&$this,'widget_lodgix_custom_search_2'));
+        register_widget_control(array('Rentals Search 2', 'widgets'), array(&$this,'widget_lodgix_custom_search_control_2'));
+	      
     }    
       
 
@@ -3111,7 +3091,6 @@ if (!class_exists('p_lodgix')) {
     {
         
         global $wpdb;
-        $p_plugin_path = plugin_dir_url(plugin_basename(__FILE__));
         extract($args);
 
         // Each widget can store its own options. We keep strings here.
@@ -3188,29 +3167,15 @@ if (!class_exists('p_lodgix')) {
         if ( !function_exists('register_sidebar_widget') )
             return;
 
-		if(!function_exists('widget_lodgix_featured'))
-		{
-           
-        }
-      
-      
-    
-        if(!function_exists('widget_lodgix_featured_control'))
-        {
-            
-            
-            
-    
+
         
-        }
-        
-    // This registers our widget so it appears with the other available
-            // widgets and can be dragged and dropped into any active sidebars.
-            register_sidebar_widget(array('Featured Rentals', 'widgets'), array(&$this,'widget_lodgix_featured'));
-          
-            // This registers our optional widget control form. Because of this
-            // our widget will have a button that reveals a 300x100 pixel form.
-            register_widget_control(array('Featured Rentals', 'widgets'), array(&$this,'widget_lodgix_featured_control'));        
+        // This registers our widget so it appears with the other available
+        // widgets and can be dragged and dropped into any active sidebars.
+        register_sidebar_widget(array('Featured Rentals', 'widgets'), array(&$this,'widget_lodgix_featured'));
+      
+        // This registers our optional widget control form. Because of this
+        // our widget will have a button that reveals a 300x100 pixel form.
+        register_widget_control(array('Featured Rentals', 'widgets'), array(&$this,'widget_lodgix_featured_control'));        
     }
       
     function clean_all()

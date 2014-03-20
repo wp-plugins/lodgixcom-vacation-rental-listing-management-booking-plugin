@@ -6,8 +6,8 @@ if ($differentiate && $property->really_available)
         'bookdates' => $property->bookdates
     ) , $permalink);
 }
-// $p_plugin_path = str_replace(home_url(),'',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));
-$p_plugin_path = WP_PLUGIN_URL . '/' . str_replace(basename(__FILE__) , "", plugin_basename(__FILE__));
+
+
 $mail_url = '';
 if ($lodgixoptions['p_lodgix_contact_url_' . $this->sufix] != "")
 {
@@ -90,25 +90,25 @@ if ($lodgixoptions['p_lodgix_display_availability_icon'] || $lodgixoptions['p_lo
         {
             if ($property->really_available && $property->allow_booking)
             {
-                $vacation_rentals.= '<a title="Book Now" href="' . $property->booklink . '"><img src="' . $p_plugin_path . '/images/booknow.png"></a>';
+                $vacation_rentals.= '<a title="Book Now" href="' . $property->booklink . '"><img src="' . $this->p_plugin_path . '/images/booknow.png"></a>';
             }
             else
             {
-                $vacation_rentals.= '<a title="' . __('Check Availability', $this->localizationDomain) . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path . '/images/Lodgix200x50.png"></a>';
+                $vacation_rentals.= '<a title="' . __('Check Availability', $this->localizationDomain) . '" href="' . $permalink . '#booking"><img src="' . $this->p_plugin_path . '/images/Lodgix200x50.png"></a>';
             }
         }
         else
         {
-            $vacation_rentals.= '<a title="' . __('Check Availability', $this->localizationDomain) . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path . '/images/Lodgix200x50.png"></a>';
+            $vacation_rentals.= '<a title="' . __('Check Availability', $this->localizationDomain) . '" href="' . $permalink . '#booking"><img src="' . $this->p_plugin_path . '/images/Lodgix200x50.png"></a>';
         }
         $vacation_rentals.= '</div>';
     }
     if ($lodgixoptions['p_lodgix_display_icons'])
     {
         $vacation_rentals.= '<div class="ldgxListingButsBlock2">
-			<a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path . '/images/map_50.png"></a>
-			<a title="Contact Us" href="' . $mail_url . '"><img src="' . $p_plugin_path . '/images/mail_50.png"></a>
-			<a title="Details" href="' . $permalink . '"><img src="' . $p_plugin_path . '/images/kappfinder_50.png"></a>
+			<a title="Display Google Map" href="' . $permalink . '#map_canvas"><img src="' . $this->p_plugin_path . '/images/map_50.png"></a>
+			<a title="Contact Us" href="' . $mail_url . '"><img src="' . $this->p_plugin_path . '/images/mail_50.png"></a>
+			<a title="Details" href="' . $permalink . '"><img src="' . $this->p_plugin_path . '/images/kappfinder_50.png"></a>
 			</div>';
     }
     $vacation_rentals.= '</div>';

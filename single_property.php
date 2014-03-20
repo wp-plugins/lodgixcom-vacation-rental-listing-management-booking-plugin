@@ -1,6 +1,6 @@
 
 <?php
-$p_plugin_path = trailingslashit(plugin_dir_url(__FILE__));
+
 $sql = "SELECT * FROM " . $this->pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';
 $photos = $wpdb->get_results($sql);
 $property_area = "";
@@ -29,17 +29,17 @@ if ($this->options[$contact_var_name] != "")
     {
         $mail_url = str_replace('__PROPERTYID__', $property->id, $mail_url);
     }
-    $mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url . '"><img src="' . $p_plugin_path . '/images/mail_50.png"></a>';
+    $mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url . '"><img src="' . $this->p_plugin_path . '/images/mail_50.png"></a>';
 }
 $video_icon = '';
 if ($property->video_url != '')
 {
-    $video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url . '"><img title="Display Video" src="' . $p_plugin_path . '/images/video_icon.png"></a></span>';
+    $video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url . '"><img title="Display Video" src="' . $this->p_plugin_path . '/images/video_icon.png"></a></span>';
 }
 $virtual_tour_icon = '';
 if ($property->virtual_tour_url != '')
 {
-    $virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url . '"><img title="Display Virtual Tour" src="' . $p_plugin_path . '/images/virtual_tour.png"></a>';
+    $virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url . '"><img title="Display Virtual Tour" src="' . $this->p_plugin_path . '/images/virtual_tour.png"></a>';
 }
 $bedrooms = $property->bedrooms . ' ' . __('Bedrooms', $this->localizationDomain);
 if ($property->bedrooms == 0)
@@ -90,13 +90,13 @@ $single_property.= '
 
 <div class="ldgxPropBadgeIconsLeft">
 
-<a title="' . __('Display Google Map', $this->localizationDomain) . '" href="' . $permalink . '#map_canvas"><img src="' . $p_plugin_path . 'images/map_50.png"></a>' . $video_icon . $virtual_tour_icon . $mail_icon . '
+<a title="' . __('Display Google Map', $this->localizationDomain) . '" href="' . $permalink . '#map_canvas"><img src="' . $this->p_plugin_path . 'images/map_50.png"></a>' . $video_icon . $virtual_tour_icon . $mail_icon . '
 
 </div>
 
 <div class="ldgxPropBadgeIconsRight">
 
-<img id="lodgix_no_pets_icon" src="' . $p_plugin_path . 'images/no_pets.png" style="' . $pets . '"><img id="lodgix_no_smoke_icon" src="' . $p_plugin_path . 'images/no_smoke.png" style="' . $smoking . '">
+<img id="lodgix_no_pets_icon" src="' . $this->p_plugin_path . 'images/no_pets.png" style="' . $pets . '"><img id="lodgix_no_smoke_icon" src="' . $this->p_plugin_path . 'images/no_smoke.png" style="' . $smoking . '">
 
 </div>
 
@@ -126,11 +126,11 @@ foreach($photos as $photo)
 $single_property.= '</ul></div><p style="text-align:center;"><br/>';
 if ($property->really_available && $property->allow_booking)
 {
-    $single_property.= '<a title="' . __('Book Now', $this->localizationDomain) . '" href="' . $property->booklink . '"><img src="' . $p_plugin_path . '/images/booknow.png"></a>';
+    $single_property.= '<a title="' . __('Book Now', $this->localizationDomain) . '" href="' . $property->booklink . '"><img src="' . $this->p_plugin_path . '/images/booknow.png"></a>';
 }
 else
 {
-    $single_property.= '<a title="' . __('Check Availability', $this->localizationDomain) . '" href="' . $permalink . '#booking"><img src="' . $p_plugin_path . '/images/Lodgix200x50.png"></a>';
+    $single_property.= '<a title="' . __('Check Availability', $this->localizationDomain) . '" href="' . $permalink . '#booking"><img src="' . $this->p_plugin_path . '/images/Lodgix200x50.png"></a>';
 }
 $single_property.= '</p></center>';
 // global $l10n;
@@ -173,7 +173,7 @@ if (count($reviews) >= 1)
             "\r"
         ) , '<br />', $review->description) . '</i></p><p>' . $this->format_date($review->date) . ', ' . $review->name . '</p>';
         $counter++;
-        if ($counter != count($reviews)) $single_property.= '<center><img src="' . $p_plugin_path . 'images/post_separator.png"></center>';
+        if ($counter != count($reviews)) $single_property.= '<center><img src="' . $this->p_plugin_path . 'images/post_separator.png"></center>';
     }
     $single_property.= '</div><br /><br />';
 }
@@ -333,7 +333,7 @@ foreach($photos as $photo)
     }
     $single_property.= '<td valign="top" align="center" style="border-bottom: 0;">';
     $single_property.= '<a href="' . $photo_url . '" class="thickbox"  rel="gallery-images">
-			<img src="' . $photo->thumb_url . '" height="150" width="200"  style="cursor:url(' . $p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
+			<img src="' . $photo->thumb_url . '" height="150" width="200"  style="cursor:url(' . $this->p_plugin_path . 'images/zoomin.cur), pointer" border=0 title="' . $photo->caption . '"></a>
             <div class="image_desc"></div> 
             </td>
                <div style="align:left"></div>

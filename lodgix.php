@@ -2368,13 +2368,15 @@ if (!class_exists('p_lodgix')) {
         
         if ($languages)
         {
-         
+           
             foreach ($languages as $l)
             {
-                die();
-                $posts = $wpdb->get_results('SELECT * FROM ' . $this->lang_pages_table . ' WHERE lang_code = ' . $l->code);   
+                $sql = "SELECT * FROM " . $this->lang_pages_table . " WHERE language_code = '" . $l->code . "'";
+      
+                $posts = $wpdb->get_results($sql);
+           
                 foreach($posts as $post)
-                { 
+                {
                     if ($post->property_id == -1)
                     {
                         $post_id = $this->options['p_lodgix_vacation_rentals_page_en'];
@@ -2391,12 +2393,7 @@ if (!class_exists('p_lodgix')) {
                     {              
                         $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT page_id FROM " . $this->pages_table . " WHERE property_id=" . $post->property_id . ";",null));
                     }
-                    print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-                    print('<BR>');
-                    print($post_id);
-                    print('<BR>');
-                    print($l->code);
-                    print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+
                     $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $this->translation_table . " WHERE element_id=" . $post_id . " AND language_code='en';",null));
                     $sitepress->set_element_language_details($post->page_id,'post_page',$trid,$l->code,'en');            
                 }          
@@ -3443,7 +3440,7 @@ if (!class_exists('p_lodgix')) {
         
         $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
         foreach ($active_languages as $l) {    
-            $pages = $wpdb->get_results("SELECT * FROM " . $pages_lang_table . " WHERE lang_code='" . $l->code . "'");
+            $pages = $wpdb->get_results("SELECT * FROM " . $pages_lang_table . " WHERE language_code='" . $l->code . "'");
             foreach($pages as $page)
             {
                 $post_id = $page->page_id;
@@ -4158,7 +4155,7 @@ if (!class_exists('p_lodgix')) {
 		    }          
 					 
 					 
-            $posts = $wpdb->get_results("SELECT * FROM " . $this->lang_pages_table . " WHERE lang_code = '" . $l->code . "'" );   
+            $posts = $wpdb->get_results("SELECT * FROM " . $this->lang_pages_table . " WHERE language_code = '" . $l->code . "'" );   
             foreach($posts as $post)
             {
                 $sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $post->page_id;
@@ -4184,6 +4181,10 @@ if (!class_exists('p_lodgix')) {
     function admin_options_page() { 
         global $p_lodgix_db_version;
         global $wpdb;
+        
+        $this->link_translated_pages();
+        die();
+        
         $this->p_lodgix_build();
           
         if (get_option('p_lodgix_db_version'))

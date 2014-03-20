@@ -2359,16 +2359,19 @@ if (!class_exists('p_lodgix')) {
       
       
       
-      function link_translated_pages()
-      {
+    function link_translated_pages()
+    {
         global $sitepress,$wpdb;        
         $areas_pages = unserialize($this->options['p_lodgix_areas_pages_en']);
         
         $languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
+        
         if ($languages)
         {
+         
             foreach ($languages as $l)
-            {                                  
+            {
+                die();
                 $posts = $wpdb->get_results('SELECT * FROM ' . $this->lang_pages_table . ' WHERE lang_code = ' . $l->code);   
                 foreach($posts as $post)
                 { 
@@ -2388,6 +2391,12 @@ if (!class_exists('p_lodgix')) {
                     {              
                         $post_id = (int)$wpdb->get_var($wpdb->prepare("SELECT page_id FROM " . $this->pages_table . " WHERE property_id=" . $post->property_id . ";",null));
                     }
+                    print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+                    print('<BR>');
+                    print($post_id);
+                    print('<BR>');
+                    print($l->code);
+                    print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
                     $trid = (int)$wpdb->get_var($wpdb->prepare("SELECT trid FROM " . $this->translation_table . " WHERE element_id=" . $post_id . " AND language_code='en';",null));
                     $sitepress->set_element_language_details($post->page_id,'post_page',$trid,$l->code,'en');            
                 }          
@@ -3406,7 +3415,8 @@ if (!class_exists('p_lodgix')) {
             $exists = get_post($post_id);
             if ($exists)
             {
-                if ($this->options['p_lodgix_allow_comments']) $post['comment_status'] = 'open';
+                if ($this->options['p_lodgix_allow_comments'])
+                    $post['comment_status'] = 'open';
                 else $post['comment_status'] = 'closed';
                 if ($this->options['p_lodgix_allow_pingback']) $post['ping_status'] = 'open';
                 else $post['ping_status'] = 'closed';
@@ -3451,19 +3461,21 @@ if (!class_exists('p_lodgix')) {
             }
     
             $areas_pages = unserialize($this->options['p_lodgix_areas_pages_'] . $l->code);
-            foreach($areas_pages as $page)
-            {
-                $post_id = $page->page_id;
-                $post = array();
-                $post['ID'] = $post_id;
-                $exists = get_post($post_id);
-                if ($exists)
+            if (is_array($areas_pages)) {
+                foreach($areas_pages as $page)
                 {
-                    if ($this->options['p_lodgix_allow_comments']) $post['comment_status'] = 'open';
-                    else $post['comment_status'] = 'closed';
-                    if ($this->options['p_lodgix_allow_pingback']) $post['ping_status'] = 'open';
-                    else $post['ping_status'] = 'closed';
-                    wp_update_post($post);
+                    $post_id = $page->page_id;
+                    $post = array();
+                    $post['ID'] = $post_id;
+                    $exists = get_post($post_id);
+                    if ($exists)
+                    {
+                        if ($this->options['p_lodgix_allow_comments']) $post['comment_status'] = 'open';
+                        else $post['comment_status'] = 'closed';
+                        if ($this->options['p_lodgix_allow_pingback']) $post['ping_status'] = 'open';
+                        else $post['ping_status'] = 'closed';
+                        wp_update_post($post);
+                    }
                 }
             }
     
@@ -4185,6 +4197,15 @@ if (!class_exists('p_lodgix')) {
         }
         update_option('p_lodgix_db_version',$p_lodgix_db_version);
 
+        $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);
+            
+        foreach ($languages as $l) {        
+            $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
+            if (!is_array($areas_pages))
+                $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
+                
+        }
+        $this->saveAdminOptions();        
         
           
         if($_POST['p_lodgix_save']) {
@@ -4201,14 +4222,7 @@ if (!class_exists('p_lodgix')) {
             }
             
             
-            $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);
-            
-            foreach ($languages as $l) {        
-                $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-                if (!is_array($areas_pages))
-                    $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
-                $this->saveAdminOptions();
-            }
+       
                                                 
             $this->clear_revisions();
             

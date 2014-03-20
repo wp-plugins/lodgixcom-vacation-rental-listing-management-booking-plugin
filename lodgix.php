@@ -2471,12 +2471,10 @@ if (!class_exists('p_lodgix')) {
             
             if ($this->locale == 'en_US')
             {
-                $is_german = false;
                 $permalink = get_permalink($property->post_id);
             }
             else
             {                              
-                $is_german = true;
                 $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE id=" . $property->id;
                 $german_details = $wpdb->get_results($sql);
                 $german_details = $german_details[0];

@@ -154,141 +154,10 @@ define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 global $p_lodgix_db_version;
 $p_lodgix_db_version = "2.0";
 
-//require_once('inc/functions.php');
+require_once('functions.php');
+require_once('translator.php');
+require_once('request.php');
 
-
-add_action( 'activated_plugin', 'p_lodgix_reorder_plugins' );
-
-function p_lodgix_reorder_plugins() {
-    $plugins = get_option( 'active_plugins');
-    if ($plugins[count($plugins)-1] != 'lodgixcom-vacation-rental-listing-management-booking-plugin/lodgix.php') {
-        $counter = 0;
-        foreach($plugins as $plugin) {
-            if ($plugin == 'lodgixcom-vacation-rental-listing-management-booking-plugin/lodgix.php') {
-                unset($plugins[$counter]);
-            }
-            $counter = $counter + 1;
-        }
-        array_push($plugins,'lodgixcom-vacation-rental-listing-management-booking-plugin/lodgix.php');
-        $plugins = array_values($plugins);
-        
-        update_option( 'active_plugins', $plugins );
-   
-    }        
-}
-
-if (!class_exists('LogidxHTTPRequest')) {
-    class LogidxHTTPRequest
-    {
-        var $_fp;        // HTTP socket
-        var $_url;        // full URL
-        var $_host;        // HTTP host
-        var $_protocol;    // protocol (HTTP/HTTPS)
-        var $_uri;        // request URI
-        var $_port;        // port
-     
-        // scan url
-        function _scan_url()
-        {
-            $req = $this->_url;
-           
-            $pos = strpos($req, '://');
-            $this->_protocol = strtolower(substr($req, 0, $pos));
-           
-            $req = substr($req, $pos+3);
-            $pos = strpos($req, '/');
-            if($pos === false)
-                $pos = strlen($req);
-            $host = substr($req, 0, $pos);
-           
-            if(strpos($host, ':') !== false)
-            {
-                list($this->_host, $this->_port) = explode(':', $host);
-            }
-            else
-            {
-                $this->_host = $host;
-                $this->_port = ($this->_protocol == 'https') ? 443 : 80;
-            }
-           
-            $this->_uri = substr($req, $pos);
-            if($this->_uri == '')
-                $this->_uri = '/';
-        }
-       
-        // constructor
-        function LogidxHTTPRequest($url)
-        {
-            $this->_url = $url;
-            $this->_scan_url();
-        }
-     
-        function RawResponse()
-        {
-            $crlf = "\r\n";
-           
-            // generate request
-            $req = 'GET ' . $this->_uri . ' HTTP/1.0' . $crlf
-                .    'Host: ' . $this->_host . $crlf
-                .    $crlf;
-                
-            $response = NULL;
-           
-            // fetch
-            $this->_fp = fsockopen(($this->_protocol == 'https' ? 'ssl://' : '') . $this->_host, $this->_port);
-            fwrite($this->_fp, $req);
-            while(is_resource($this->_fp) && $this->_fp && !feof($this->_fp))
-                $response .= fread($this->_fp, 1024);
-            fclose($this->_fp);
-            
-            return $response;
-        }
-      
-        // download URL to string
-        function DownloadToString()
-        {
-            $crlf = "\r\n";
-           
-            // generate request
-            $req = 'GET ' . $this->_uri . ' HTTP/1.0' . $crlf
-                .    'Host: ' . $this->_host . $crlf
-                .    $crlf;
-           
-            // fetch
-            $this->_fp = fsockopen(($this->_protocol == 'https' ? 'ssl://' : '') . $this->_host, $this->_port);
-            stream_set_timeout($this->_fp, 360);
-            fwrite($this->_fp, $req);          
-            while(is_resource($this->_fp) && $this->_fp && !feof($this->_fp))
-                $response .= fread($this->_fp, 1024);
-            fclose($this->_fp);
-           
-            // split header and body
-            $pos = strpos($response, $crlf . $crlf);
-            if($pos === false)
-                return($response);
-            $header = substr($response, 0, $pos);
-            $body = substr($response, $pos + 2 * strlen($crlf));
-           
-            // parse headers
-            $headers = array();
-            $lines = explode($crlf, $header);
-            foreach($lines as $line)
-                if(($pos = strpos($line, ':')) !== false)
-                    $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1));
-           
-            // redirection?
-            if(isset($headers['location']))
-            {
-                $http = new LogidxHTTPRequest($headers['location']);
-                return($http->DownloadToString($http));
-            }
-            else
-            {
-                return($body);
-            }
-        }
-    } 
-}
 
 if (!class_exists('p_lodgix')) {
     class p_lodgix {
@@ -320,6 +189,8 @@ if (!class_exists('p_lodgix')) {
     var $sufix = 'en';
     
     var $page_titles = array();
+    
+    var $translator = NULL;
     
     var $properties_array = array(
             'id'=> NULL,
@@ -877,6 +748,9 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_init() {
         $this->p_plugin_path = plugin_dir_url(plugin_basename(__FILE__));	
         $this->p_lodgix_load_locale();
+        if ($this->options['p_lodgix_bing_translator_key']) {
+            $this->translator = new LodgixTranslator($this->options['p_lodgix_bing_translator_key']);
+        }
     }
         
     function p_is_lodgix_page($id)
@@ -1778,63 +1652,55 @@ if (!class_exists('p_lodgix')) {
         }
         
         $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
-        if ($active_languages) {
+        if ($active_languages && $this->options['p_lodgix_bing_translator_key']) {
+            $this->translator = new LodgixTranslator($this->options['p_lodgix_bing_translator_key']);
             foreach($active_languages as $l) {
+                
+                $description_en = $wpdb->get_var("SELECT description FROM " . $this->properties_table . " WHERE id=" . $parray['id']);
+                $description_long_en = $wpdb->get_var("SELECT description_long FROM " . $this->properties_table . " WHERE id=" . $parray['id']);
+                $details_en = $wpdb->get_var("SELECT details FROM " . $this->properties_table . " WHERE id=" . $parray['id']);
+                
                 
                 $langarray = array();
                 $langarray['id'] = $parray['id'];
-                $langarray['language_code'] = strtolower($l->code); 
+                $langarray['language_code'] = strtolower($l->code);            
+                $langarray['description'] = $description_en;
+                $langarray['description_long'] = $description_long_en;
+                $langarray['details'] = $details_en;
                 $sql = $this->get_insert_sql_from_array($this->lang_properties_table,$langarray);
                 $wpdb->query($sql);     
                 
-                $description = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                    
+                $description = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");
                 
                 if (!$description) {
-                                        
-                    $description_en = $wpdb->get_var("SELECT description FROM " . $this->properties_table . " WHERE property_id=" . $parray['id']);
+                    
+                    die($sql);
 
-                    $r = new LogidxHTTPRequest("https://www.googleapis.com/language/translate/v2?key=KEY8&source=en&target=" .  $l->code  . "&q=" . htmlentities(urlencode($description_en)));
-                    $data = $r->DownloadToString();
-                    $data = json_decode($data);
-                    $translated = $data->translations->translatedText;
-                    
-                    
-                    $sql = "UPDATE " . $this->lang_properties_table . " SET description = '" . $translated . "' WHERE id=" . $parray['id'] . ";";
+                    $translated = $this->translator->translate('en',$l->code,$description_en);                    
+                                        
+                    $sql = "UPDATE " . $this->lang_properties_table . " SET description = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
                     $wpdb->query($sql); 
                 }
                 
                 $description_long = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                    
 
-                if (!$description_long) {
-                                        
-                    $description_long_en = $wpdb->get_var("SELECT description_long FROM " . $this->properties_table . " WHERE property_id=" . $parray['id']);
-
-                    $r = new LogidxHTTPRequest("https://www.googleapis.com/language/translate/v2?key=KEY8&source=en&target=" .  $l->code  . "&q=" . htmlentities(urlencode($description_long_en)));
-                    $data = $r->DownloadToString();
-                    $data = json_decode($data);
-                    $translated = $data->translations->translatedText;
+                if (!$description_long) {                                        
                     
+                    $translated = $this->translator->translate('en',$l->code,$description_long_en);                    
                     
-                    $sql = "UPDATE " . $this->lang_properties_table . " SET description_long = '" . $translated . "' WHERE id=" . $parray['id'] . ";";
+                    $sql = "UPDATE " . $this->lang_properties_table . " SET description_long = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
+                    die($sql);
                     $wpdb->query($sql); 
                 }
                 
-                $description_long = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");
-                
+                $details = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                
                 if (!$details) {
-                                        
-                    $details_en = $wpdb->get_var("SELECT details FROM " . $this->properties_table . " WHERE property_id=" . $parray['id']);
 
-                    $r = new LogidxHTTPRequest("https://www.googleapis.com/language/translate/v2?key=KEY8&source=en&target=" .  $l->code  . "&q=" . htmlentities(urlencode($details_en)));
-                    $data = $r->DownloadToString();
-                    $data = json_decode($data);
-                    $translated = $data->translations->translatedText;
-                    
-                    
-                    $sql = "UPDATE " . $this->lang_properties_table . " SET details = '" . $translated . "' WHERE id=" . $parray['id'] . ";";
+                    $translated = $this->translator ->translate('en',$l->code,$details_en);                    
+                                        
+                    $sql = "UPDATE " . $this->lang_properties_table . " SET details = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
                     $wpdb->query($sql); 
                 }                
-                
                 
             }
         }
@@ -3656,7 +3522,7 @@ if (!class_exists('p_lodgix')) {
               `description_long` text,
               `details` text,
                `language_code` varchar(2) NOT NULL,
-               PRIMARY KEY  (`id`)
+               PRIMARY KEY (`id`,`language_code`)
          ) DEFAULT CHARSET=utf8;";
          $wpdb->query($sql);
         }                 
@@ -4038,6 +3904,8 @@ if (!class_exists('p_lodgix')) {
             $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_lang_amenities CHANGE COLUMN `description_de` `description_translated` varchar(255) DEFAULT NULL;");
             $wpdb->query("UPDATE " . $wpdb->prefix . "lodgix_lang_amenities SET language_code = 'de';");
             
+            $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_lang_properties DROP PRIMARY KEY, ADD PRIMARY KEY(`id`,`language_code`);");
+            
             $this->saveAdminOptions();
             wp_redirect($_SERVER["REQUEST_URI"]);
         }                
@@ -4360,6 +4228,8 @@ if (!class_exists('p_lodgix')) {
             if ((!$this->options['p_lodgix_vr_title']) || ($this->options['p_lodgix_vr_title'] == '')) {
                 $this->options['p_lodgix_vr_title'] = "Vacation Rentals";    
             }
+            
+            $this->options['p_lodgix_bing_translator_key'] = $_POST['p_lodgix_bing_translator_key'];
             
             $this->saveAdminOptions();
                                                 
@@ -4855,8 +4725,14 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 			<p><b><?php _e('Language Options', $this->localizationDomain); ?></b></p>
 
 			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
+                <tr valign="top"> 
+					<th width="33%" scope="row"><?php _e('Bing Translator API Key:', $this->localizationDomain); ?></th> 
+					<td>
+						<input name="p_lodgix_bing_translator_key" style="width:430px;" type="text" id="p_lodgix_bing_translator_key" value="<?php echo $this->options['p_lodgix_bing_translator_key']; ?>" maxlength="100" />
+					</td> 
+				</tr>                            
                 <tr>
-                    <td>To select other languages, please enable it within WPML setup first.</td>
+                    <td colspan="2">To select other languages, please enable it within WPML setup first.</td>
                 </tr>
                 <?php
                     $wpml_lang_table = $wpdb->prefix . 'icl_languages';
@@ -4869,7 +4745,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
                     }
                     if ($languages)
                     {
-                        echo '<tr valign="top"><td>';                                                        
+                        echo '<tr valign="top"><td colspan="2">';                                                        
                         echo '<ul style="list-style:none outside none;">';
                         foreach ($languages as $l) {
                             echo '<li style="width:190px; float:left;"><input name="p_lodgix_generate_' . $l->code .'" type="checkbox" id="p_lodgix_generate_' . $l->code .'"';

@@ -1672,10 +1672,8 @@ if (!class_exists('p_lodgix')) {
                 
                 $description = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");
                 
-                if (!$description) {
+                if (!$description || $description == $description_en) {
                     
-                    die($sql);
-
                     $translated = $this->translator->translate('en',$l->code,$description_en);                    
                                         
                     $sql = "UPDATE " . $this->lang_properties_table . " SET description = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
@@ -1684,7 +1682,7 @@ if (!class_exists('p_lodgix')) {
                 
                 $description_long = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                    
 
-                if (!$description_long) {                                        
+                if (!$description_long || $description_long == $description_long_en) {                                        
                     
                     $translated = $this->translator->translate('en',$l->code,$description_long_en);                    
                     
@@ -1694,7 +1692,7 @@ if (!class_exists('p_lodgix')) {
                 }
                 
                 $details = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                
-                if (!$details) {
+                if (!$details || $details == $details_en) {
 
                     $translated = $this->translator ->translate('en',$l->code,$details_en);                    
                                         

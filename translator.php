@@ -16,7 +16,7 @@ if (!class_exists('LodgixTranslator'))
 	
 		function translate($from,$to,$text) {
 			$data = 'https://api.datamarket.azure.com/Bing/MicrosoftTranslator/v1/Translate?Text=%27'.$text.'%27&From=%27'.$from.'%27&To=%27'.$to.'%27';
-		
+			print_r($data);
 			$ch = curl_init($data);
 			curl_setopt($ch, CURLOPT_USERPWD, $this->key.':'.$this->key);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -28,7 +28,7 @@ if (!class_exists('LodgixTranslator'))
 			$result = explode('</d:Text>', $result[1]);
 			$result = $result[0];
 				
-
+			
 			return $result;
 		}
 	}

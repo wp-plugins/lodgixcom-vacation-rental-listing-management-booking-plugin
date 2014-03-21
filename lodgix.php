@@ -517,16 +517,16 @@ if (!class_exists('p_lodgix')) {
             }
             
             $vacation_rentals =  __('Vacation Rentals',$this->localizationDomain);
-            if ($vacation_rentals == 'Vacation Rentals' && $l->code != 'en')
-                $vacation_rentals = $vacation_rentals . ' ' . $l->name;
+            //if ($vacation_rentals == 'Vacation Rentals' && $l->code != 'en')
+            //    $vacation_rentals = $vacation_rentals . ' ' . $l->name;
             
             $availability =  __('Availability',$this->localizationDomain);
-            if ($availability == 'Availability' && $l->code != 'en')
-                $availability = $availability . ' ' . $l->name;
-            
+            //if ($availability == 'Availability' && $l->code != 'en')
+            //    $availability = $availability . ' ' . $l->name;
+            //
             $search = __('Search Rentals',$this->localizationDomain);
-            if ($search == 'Search Rentals' && $l->code != 'en')
-                $search = $search . ' ' . $l->name;
+            //if ($search == 'Search Rentals' && $l->code != 'en')
+            //    $search = $search . ' ' . $l->name;
                 
             $this->page_titles[$l->code] = array(
                 'vacation_rentals' => $vacation_rentals,
@@ -1762,20 +1762,84 @@ if (!class_exists('p_lodgix')) {
         {
             foreach ($remote_languages as $rlanguage)
             {    
-  
-              $langarray = array();
-              $langarray['id'] = $parray['id'];
-              $langarray['language_code'] = strtolower($rlanguage['LanguageCode']); 
-              if ($this->options['p_lodgix_display_title'] == 'name')
-                $langarray['description'] = $rlanguage['Name'];
-              else
-                $langarray['description'] = $rlanguage['MarketingTitle'];             
-              $langarray['description_long'] = $rlanguage['MarketingTeaser']['_value']; 
-              $langarray['details'] = $rlanguage['Description']['_value']; 
-              $sql = $this->get_insert_sql_from_array($this->lang_properties_table,$langarray);
-              $wpdb->query($sql);     
+
+                $langarray = array();
+                $langarray['id'] = $parray['id'];
+                $langarray['language_code'] = strtolower($rlanguage['LanguageCode']); 
+                if ($this->options['p_lodgix_display_title'] == 'name')
+                  $langarray['description'] = $rlanguage['Name'];
+                else
+                  $langarray['description'] = $rlanguage['MarketingTitle'];             
+                $langarray['description_long'] = $rlanguage['MarketingTeaser']['_value']; 
+                $langarray['details'] = $rlanguage['Description']['_value']; 
+                $sql = $this->get_insert_sql_from_array($this->lang_properties_table,$langarray);
+                $wpdb->query($sql);     
             }
         }
+        
+        $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
+        if ($active_languages) {
+            foreach($active_languages as $l) {
+                
+                $langarray = array();
+                $langarray['id'] = $parray['id'];
+                $langarray['language_code'] = strtolower($l->code); 
+                $sql = $this->get_insert_sql_from_array($this->lang_properties_table,$langarray);
+                $wpdb->query($sql);     
+                
+                $description = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                    
+                
+                if (!$description) {
+                                        
+                    $description_en = $wpdb->get_var("SELECT description FROM " . $this->properties_table . " WHERE property_id=" . $parray['id']);
+
+                    $r = new LogidxHTTPRequest("https://www.googleapis.com/language/translate/v2?key=KEY8&source=en&target=" .  $l->code  . "&q=" . htmlentities(urlencode($description_en)));
+                    $data = $r->DownloadToString();
+                    $data = json_decode($data);
+                    $translated = $data->translations->translatedText;
+                    
+                    
+                    $sql = "UPDATE " . $this->lang_properties_table . " SET description = '" . $translated . "' WHERE id=" . $parray['id'] . ";";
+                    $wpdb->query($sql); 
+                }
+                
+                $description_long = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                    
+
+                if (!$description_long) {
+                                        
+                    $description_long_en = $wpdb->get_var("SELECT description_long FROM " . $this->properties_table . " WHERE property_id=" . $parray['id']);
+
+                    $r = new LogidxHTTPRequest("https://www.googleapis.com/language/translate/v2?key=KEY8&source=en&target=" .  $l->code  . "&q=" . htmlentities(urlencode($description_long_en)));
+                    $data = $r->DownloadToString();
+                    $data = json_decode($data);
+                    $translated = $data->translations->translatedText;
+                    
+                    
+                    $sql = "UPDATE " . $this->lang_properties_table . " SET description_long = '" . $translated . "' WHERE id=" . $parray['id'] . ";";
+                    $wpdb->query($sql); 
+                }
+                
+                $description_long = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");
+                
+                if (!$details) {
+                                        
+                    $details_en = $wpdb->get_var("SELECT details FROM " . $this->properties_table . " WHERE property_id=" . $parray['id']);
+
+                    $r = new LogidxHTTPRequest("https://www.googleapis.com/language/translate/v2?key=KEY8&source=en&target=" .  $l->code  . "&q=" . htmlentities(urlencode($details_en)));
+                    $data = $r->DownloadToString();
+                    $data = json_decode($data);
+                    $translated = $data->translations->translatedText;
+                    
+                    
+                    $sql = "UPDATE " . $this->lang_properties_table . " SET details = '" . $translated . "' WHERE id=" . $parray['id'] . ";";
+                    $wpdb->query($sql); 
+                }                
+                
+                
+            }
+        }
+        
+        
          
         $taxes = $property['TaxesFeesDeposits']['Taxes'];
         if ($property['TaxesFeesDeposits']['Taxes']['Tax'][0])
@@ -2120,7 +2184,7 @@ if (!class_exists('p_lodgix')) {
               }
               else
               {                              
-                  $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE id=" . $property->id;
+                  $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE language_code='" . $this->sufix . "' AND id=" . $property->id;
                   $german_details = $wpdb->get_results($sql);
                   $german_details = $german_details[0];
                   $property->description = $german_details->description;
@@ -2660,7 +2724,7 @@ if (!class_exists('p_lodgix')) {
                       
                         $post = array();
                         $post['ID'] = $post_id;
-                        $post['post_title'] = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE property_id=" . $property->id . " AND language_code='" . $l->code. "'");
+                        $post['post_title'] = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE id =" . $property->id . " AND language_code='" . $l->code. "'");
                         if ($post['post_title'] == '')
                           $post['post_title'] = $property->description;
                         $single_property = '[lodgix_single_property ' . $property->id . ']';                
@@ -4182,8 +4246,8 @@ if (!class_exists('p_lodgix')) {
         global $p_lodgix_db_version;
         global $wpdb;
         
-        $this->link_translated_pages();
-        die();
+        //$this->link_translated_pages();
+        //die();
         
         $this->p_lodgix_build();
           

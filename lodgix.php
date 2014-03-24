@@ -380,6 +380,7 @@ if (!class_exists('p_lodgix')) {
        
         $active_languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
         foreach ($active_languages as $l) {
+            unload_textdomain($this->localizationDomain);
             $mo =  WP_CONTENT_DIR . '/'  . "languages/" .$this->localizationDomain .'-' .$l->locale.".mo";            
             if (!load_textdomain($this->localizationDomain, $mo))
             {
@@ -691,6 +692,7 @@ if (!class_exists('p_lodgix')) {
         }
         else
         {
+   
             if ($pos1 != '-1')
             {
                 $post_id = $wpdb->get_var("SELECT page_id FROM " . $this->lang_pages_table . " WHERE property_id=-1 AND language_code='" . $this->sufix. "'");
@@ -701,8 +703,8 @@ if (!class_exists('p_lodgix')) {
             }
             if ($pos2 != '-1')
             {  
-                $post_id = $wpdb->get_var("SELECT page_id FROM " . $this->lang_pages_table . " WHERE property_id=-2 AND language_code='" . $this->sufix. "'");$post_id_de = $wpdb->get_var("SELECT page_id FROM " . $this->lang_pages_table . " WHERE property_id=-2");
-                $post = get_post($post_id_de);
+                $post_id = $wpdb->get_var("SELECT page_id FROM " . $this->lang_pages_table . " WHERE property_id=-2 AND language_code='" . $this->sufix. "'");
+                $post = get_post($post_id);
                 $item = wp_setup_nav_menu_item($post);
                 $item->menu_order = $pos2;
                 $items[] = $item;   
@@ -748,9 +750,9 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_init() {
         $this->p_plugin_path = plugin_dir_url(plugin_basename(__FILE__));	
         $this->p_lodgix_load_locale();
-        if ($this->options['p_lodgix_bing_translator_key']) {
-            $this->translator = new LodgixTranslator($this->options['p_lodgix_bing_translator_key']);
-        }
+        //if ($this->options['p_lodgix_bing_translator_key']) {
+        //    $this->translator = new LodgixTranslator($this->options['p_lodgix_bing_translator_key']);
+        //}
     }
         
     function p_is_lodgix_page($id)
@@ -1652,8 +1654,9 @@ if (!class_exists('p_lodgix')) {
         }
         
         $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
-        if ($active_languages && $this->options['p_lodgix_bing_translator_key']) {
-            $this->translator = new LodgixTranslator($this->options['p_lodgix_bing_translator_key']);
+        //if ($active_languages && $this->options['p_lodgix_bing_translator_key']) {
+        if ($active_languages) {
+            //$this->translator = new LodgixTranslator($this->options['p_lodgix_bing_translator_key']);
             foreach($active_languages as $l) {
                 
                 $description_en = $wpdb->get_var("SELECT description FROM " . $this->properties_table . " WHERE id=" . $parray['id']);
@@ -1670,35 +1673,35 @@ if (!class_exists('p_lodgix')) {
                 $sql = $this->get_insert_sql_from_array($this->lang_properties_table,$langarray);
                 $wpdb->query($sql);     
                 
-                $description = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");
-                
-                if (!$description || $description == $description_en) {
-                    
-                    $translated = $this->translator->translate('en',$l->code,$description_en);                    
-                                        
-                    $sql = "UPDATE " . $this->lang_properties_table . " SET description = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
-                    $wpdb->query($sql); 
-                }
-                
-                $description_long = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                    
-
-                if (!$description_long || $description_long == $description_long_en) {                                        
-                    
-                    $translated = $this->translator->translate('en',$l->code,$description_long_en);                    
-                    
-                    $sql = "UPDATE " . $this->lang_properties_table . " SET description_long = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
-                    die($sql);
-                    $wpdb->query($sql); 
-                }
-                
-                $details = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                
-                if (!$details || $details == $details_en) {
-
-                    $translated = $this->translator ->translate('en',$l->code,$details_en);                    
-                                        
-                    $sql = "UPDATE " . $this->lang_properties_table . " SET details = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
-                    $wpdb->query($sql); 
-                }                
+                //$description = $wpdb->get_var("SELECT description FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");
+                //
+                //if (!$description || $description == $description_en) {
+                //    
+                //    $translated = $this->translator->translate('en',$l->code,$description_en);                    
+                //                        
+                //    $sql = "UPDATE " . $this->lang_properties_table . " SET description = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
+                //    $wpdb->query($sql); 
+                //}
+                //
+                //$description_long = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                    
+                //
+                //if (!$description_long || $description_long == $description_long_en) {                                        
+                //    
+                //    $translated = $this->translator->translate('en',$l->code,$description_long_en);                    
+                //    
+                //    $sql = "UPDATE " . $this->lang_properties_table . " SET description_long = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
+                //    die($sql);
+                //    $wpdb->query($sql); 
+                //}
+                //
+                //$details = $wpdb->get_var("SELECT description_long FROM " . $this->lang_properties_table . " WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "'");                
+                //if (!$details || $details == $details_en) {
+                //
+                //    $translated = $this->translator ->translate('en',$l->code,$details_en);                    
+                //                        
+                //    $sql = "UPDATE " . $this->lang_properties_table . " SET details = '" . $translated . "' WHERE id=" . $parray['id'] . " AND language_code='" . $l->code. "';";
+                //    $wpdb->query($sql); 
+                //}                
                 
             }
         }

@@ -296,7 +296,7 @@ msgstr ""
 msgid "Pet Friendly"
 msgstr ""
 
-msgid "PSearch by Property Name or ID:"
+msgid "Search by Property Name or ID:"
 msgstr ""
 
 msgid "Arriving"

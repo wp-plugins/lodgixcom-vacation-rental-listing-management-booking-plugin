@@ -84,7 +84,7 @@ else
 {
     $booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('select','2')";
     $booklink = '<a href="javascript:void(0);" onclick="' . $booklink . '"
-class="ldgxBookNow">Book Now</a>';
+class="ldgxBookNow">' . __('Book Now', $this->localizationDomain) . '</a>';
 }
 $single_property.= '<div id="content_lodgix_wrapper">';
 $single_property.= '

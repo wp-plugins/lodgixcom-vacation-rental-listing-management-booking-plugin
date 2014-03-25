@@ -3748,10 +3748,10 @@ if (!class_exists('p_lodgix')) {
             $wpdb->query($sql);
          
 
-            $wpdb->query("INSERT INTO " . $table_name . " VALUES ('1', 'en', 'English', '1', 'en_US');");
-            $wpdb->query("INSERT INTO " . $table_name . " VALUES ('2', 'es', 'Spanish', '0', 'es_ES');");
-            $wpdb->query("INSERT INTO " . $table_name . " VALUES ('3', 'de', 'German', '1', 'de_DE');");
-            $wpdb->query("INSERT INTO " . $table_name . " VALUES ('4', 'fr', 'French', '0', 'fr_FR');");
+            $wpdb->query("INSERT INTO " . $table_name . " VALUES ('1', 'en', 'English', '1', 'en_US');");            
+            $wpdb->query("INSERT INTO " . $table_name . " VALUES ('2', 'de', 'German', '1', 'de_DE');");
+            $wpdb->query("INSERT INTO " . $table_name . " VALUES ('3', 'fr', 'French', '0', 'fr_FR');");
+            $wpdb->query("INSERT INTO " . $table_name . " VALUES ('4', 'es', 'Spanish', '0', 'es_ES');");
             $wpdb->query("INSERT INTO " . $table_name . " VALUES ('5', 'ar', 'Arabic', '0', 'ar');");
             $wpdb->query("INSERT INTO " . $table_name . " VALUES ('6', 'bs', 'Bosnian', '0', '');");
             $wpdb->query("INSERT INTO " . $table_name . " VALUES ('7', 'bg', 'Bulgarian', '0', 'bg_BG');");

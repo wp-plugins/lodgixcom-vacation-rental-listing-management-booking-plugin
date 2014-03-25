@@ -1789,9 +1789,9 @@ if (!class_exists('p_lodgix')) {
     function build_areas_pages()
     {
         global $sitepress, $wpdb;
-        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $this->properties_table); 
+        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $this->properties_table . ' WHERE area is not NULL'); 
         $active_languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
-        $all_languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);
+        $all_languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);  
         
         foreach ($all_languages as $l) {
             $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
@@ -1799,28 +1799,30 @@ if (!class_exists('p_lodgix')) {
                 foreach($translated_areas_pages as $key => $page)
                 {
                     if (!get_post($page->page_id)) unset($translated_areas_pages[$key]);
-                    $counter++;
-                }
-                $this->options['p_lodgix_areas_pages_' . $l->code] = serialize($translated_areas_pages);
-            }
         
+                }
+                
+            }
+            $this->options['p_lodgix_areas_pages_' . $l->code] = serialize($translated_areas_pages);        
         }                    
         
         $this->saveAdminOptions();        
     
         foreach ($all_languages as $l) {
             $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);    
-            if ((count($translated_areas_pages) > 0) && (count($areas) > 0) && is_array($translated_areas_pages))
+            if ((count($translated_areas_pages) > 0) && is_array($translated_areas_pages))
             {
                 foreach($translated_areas_pages as $key => $page)
                 {
                     $found = false;
-                    foreach($areas as $area)
-                    {
-                        if ($page->area == $area->area)
+                    if (count($areas) > 0)  {
+                        foreach($areas as $area)
                         {
-                            $found = true;
-                            break;
+                            if ($page->area == $area->area)
+                            {
+                                $found = true;
+                                break;
+                            }
                         }
                     }
         
@@ -1829,82 +1831,82 @@ if (!class_exists('p_lodgix')) {
                         wp_delete_post($translated_areas_pages[$key]->page_id);
                         unset($translated_areas_pages[$key]);
                     }
-        
-                    $counter++;
                 }
                 
             }
             $this->options['p_lodgix_areas_pages_' . $l->code] = serialize($translated_areas_pages);
         }
         $this->saveAdminOptions();
-        
-        if ($active_languages)
+
+        foreach ($active_languages as $l)
         {
-            foreach ($active_languages as $l)
+            $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);    
+            if (count($areas) > 0)
             {
-                $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);    
-                if (count($areas) > 0 && count($translated_areas_pages) > 0 && is_array($translated_areas_pages))
+                foreach($areas as $area)
                 {
-                    foreach($areas as $area)
+                    $found = false;
+                    if (count($translated_areas_pages) > 0)
                     {
-                        $found = false;
-                        if (count($translated_areas_pages) > 0)
+                        foreach($translated_areas_pages as $page)
                         {
-                            foreach($translated_areas_pages as $page)
+                            if ($page->area == $area->area)
                             {
-                                if ($page->area == $area->area)
-                                {
-                                    $found = true;
-                                    break;
-                                }
+                                $found = true;
+                                break;
                             }
                         }
+                    }
+    
+                    if (!$found)
+                    {
+                        $obj = (object)array(
+                            'area' => $area->area,
+                            'page_id' => NULL
+                        );
+                        $translated_areas_pages[] = $obj;
+                    }
+                }
+            }
+            
+            $this->options['p_lodgix_areas_pages_' . $l->code] = serialize($translated_areas_pages);
+        }
+     
         
-                        if (!$found)
+        $this->saveAdminOptions();            
+        foreach ($active_languages as $l)
+        {
+                
+            $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
+            
+            if (count($translated_areas_pages) > 0 && is_array($translated_areas_pages))
+            {
+                $counter = 0;
+                foreach($translated_areas_pages as $key => $page)
+                {
+                    $post = array();
+                    $post['post_title'] = $page->area;
+                    $post['post_status'] = 'publish';
+                    $post['post_author'] = 1;
+                    $post['post_type'] = "page";
+                    if ($page->page_id == NULL)
+                    {
+                        $post_id = wp_insert_post($post);
+                        if ($post_id != 0)
                         {
-                            $obj = (object)array(
-                                'area' => $area->area,
-                                'page_id' => NULL
-                            );
-                            $translated_areas_pages[] = $obj;
+                            $translated_areas_pages[$key]->page_id = (int)$post_id;
                         }
                     }
+    
+                    $counter++;
                 }
             }
             $this->options['p_lodgix_areas_pages_' . $l->code] = serialize($translated_areas_pages);
         }
+        
+      
         $this->saveAdminOptions();
         
-        if ($active_languages)
-        {
-            foreach ($active_languages as $l)
-            {
-                $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-                if (count($translated_areas_pages) > 0 && is_array($translated_areas_pages))
-                {
-                    $counter = 0;
-                    foreach($translated_areas_pages as $key => $page)
-                    {
-                        $post = array();
-                        $post['post_title'] = $page->area;
-                        $post['post_status'] = 'publish';
-                        $post['post_author'] = 1;
-                        $post['post_type'] = "page";
-                        if ($page->page_id == NULL)
-                        {
-                            $post_id = wp_insert_post($post);
-                            if ($post_id != 0)
-                            {
-                                $translated_areas_pages[$key]->page_id = (int)$post_id;
-                            }
-                        }
-        
-                        $counter++;
-                    }
-                }
-                $this->options['p_lodgix_areas_pages_' . $l->code] = serialize($translated_areas_pages);
-            }
-        }
         $this->link_translated_pages();
         
     }
@@ -3355,25 +3357,9 @@ if (!class_exists('p_lodgix')) {
                 wp_update_post($post);
             }
         }
-    
-        $areas_pages = unserialize($this->options['p_lodgix_areas_pages_en']);
-        foreach($areas_pages as $page)
-        {
-            $post_id = $page->page_id;
-            $post = array();
-            $post['ID'] = $post_id;
-            $exists = get_post($post_id);
-            if ($exists)
-            {
-                if ($this->options['p_lodgix_allow_comments']) $post['comment_status'] = 'open';
-                else $post['comment_status'] = 'closed';
-                if ($this->options['p_lodgix_allow_pingback']) $post['ping_status'] = 'open';
-                else $post['ping_status'] = 'closed';
-                wp_update_post($post);
-            }
-        }
+
         
-        $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1 and code <> 'en'");
+        $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1");
         foreach ($active_languages as $l) {    
             $pages = $wpdb->get_results("SELECT * FROM " . $pages_lang_table . " WHERE language_code='" . $l->code . "'");
             foreach($pages as $page)

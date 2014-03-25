@@ -3163,12 +3163,16 @@ if (!class_exists('p_lodgix')) {
     {
         global $wpdb;        
 
-        $posts = $wpdb->get_results("SELECT * FROM " . $this->lang_pages_table . "WHERE language_code NOT IN (" . $active_languages . ")");        
+        $sql = "SELECT * FROM " . $this->lang_pages_table . " WHERE language_code NOT IN (" . $active_languages . ")";
+        $posts = $wpdb->get_results($sql);
+ 
         foreach($posts as $post)
         {
-            wp_delete_post($post->page_id, $force_delete = true);            
+            wp_delete_post($post->page_id, $force_delete = true);
         }
         
+        $wpdb->query("DELETE FROM " . $this->lang_pages_table . " WHERE language_code NOT IN (" . $active_languages . ")");  
+
         $languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE code NOT IN (" . $active_languages . ")");
         
         if (is_array($languages)) {

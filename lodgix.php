@@ -2052,13 +2052,13 @@ if (!class_exists('p_lodgix')) {
               else
               {                              
                   $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE language_code='" . $this->sufix . "' AND id=" . $property->id;
-                  $german_details = $wpdb->get_results($sql);
-                  $german_details = $german_details[0];
-                  $property->description = $german_details->description;
-                  $property->description_long = $german_details->description_long;
-                  $property->details = $german_details->details;
-                  $post_id_de = $wpdb->get_var("select page_id from " . $this->lang_pages_table . " WHERE property_id=" . $property->id . ";"); 
-                  $permalink = get_permalink($post_id_de);
+                  $translated_details = $wpdb->get_results($sql);
+                  $translated_details = $translated_details[0];
+                  $property->description = $translated_details->description;
+                  $property->description_long = $translated_details->description_long;
+                  $property->details = $translated_details->details;
+                  $post_id = $wpdb->get_var("select page_id from " . $this->lang_pages_table . " WHERE property_id=" . $property->id . " AND language_code='" . $this->sufix. "';");                  
+                  $permalink = get_permalink($post_id);
               }
               include('vacation_rentals.php');
               $content .= $vacation_rentals;          
@@ -2413,11 +2413,11 @@ if (!class_exists('p_lodgix')) {
             else
             {                              
                 $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE id=" . $property->id;
-                $german_details = $wpdb->get_results($sql);
-                $german_details = $german_details[0];
-                $property->description = $german_details->description;
-                $property->description_long = $german_details->description_long;
-                $property->details = $german_details->details;
+                $translated_details = $wpdb->get_results($sql);
+                $translated_details = $translated_details[0];
+                $property->description = $translated_details->description;
+                $property->description_long = $translated_details->description_long;
+                $property->details = $translated_details->details;
                 $post_id = $wpdb->get_var("select page_id from " . $this->lang_pages_table . " WHERE property_id=" . $property->id . ";");
                 $permalink = get_permalink($post_id);
                 
@@ -4139,7 +4139,10 @@ if (!class_exists('p_lodgix')) {
                 $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
                 
         }
-        $this->saveAdminOptions();        
+        $this->saveAdminOptions();
+
+           
+                   
         
           
         if($_POST['p_lodgix_save']) {
@@ -4230,7 +4233,7 @@ if (!class_exists('p_lodgix')) {
                 $this->options['p_lodgix_vr_title'] = "Vacation Rentals";    
             }
             
-            $this->options['p_lodgix_bing_translator_key'] = $_POST['p_lodgix_bing_translator_key'];
+      
             
             $this->saveAdminOptions();
                                                 
@@ -4253,7 +4256,7 @@ if (!class_exists('p_lodgix')) {
             $this->options['p_lodgix_thesis_2_template'] = $_POST['p_lodgix_thesis_2_template'];
             
             $this->p_lodgix_set_page_titles();
-                  
+                 
             $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
             if ($languages)
             {
@@ -4261,9 +4264,9 @@ if (!class_exists('p_lodgix')) {
 
                     $post = array();
                     $post['post_title'] = $this->page_titles[$l->code]['vacation_rentals'];
-                    if ($l->code == 'en') {
-                        $post['post_title'] = $this->options['p_lodgix_vr_title'];
-                    }
+                    //if ($l->code == 'en') {
+                    //    $post['post_title'] = $this->options['p_lodgix_vr_title'];
+                    //}
                     $post['menu_order'] = 1;
                     $post['post_status'] = 'publish';                        
                     $post['post_content'] = '[lodgix_vacation_rentals]';  
@@ -4286,7 +4289,12 @@ if (!class_exists('p_lodgix')) {
                     }
                     else 
                     {
-                        $post = array();                  	
+                        $post = array();
+                        $post['post_title'] = $this->page_titles[$l->code]['vacation_rentals'];
+                        //if ($l->code == 'en') {
+                        //    $post['post_title'] = $this->options['p_lodgix_vr_title'];
+                        //}
+                        $post['post_name'] = sanitize_title($post['post_title']);
                         $post['post_content'] = '[lodgix_vacation_rentals]'; 
                         $post['ID'] = $this->options['p_lodgix_vacation_rentals_page_' . $l->code];
                         $post_id = wp_update_post($post);        
@@ -4296,8 +4304,7 @@ if (!class_exists('p_lodgix')) {
                     }
                 }
             }
-            
-           
+  
             $this->saveAdminOptions();            
               
             if ($this->options['p_lodgix_thesis_compatibility'] || $this->options['p_lodgix_thesis_2_compatibility'])
@@ -4353,6 +4360,18 @@ if (!class_exists('p_lodgix')) {
                             }                           
                         }           
                     }
+                    else 
+                    {
+                        $post = array();
+                        $post['post_title'] =  $this->page_titles[$l->code]['availability'];
+                        $post['post_name'] = '';
+                        $post['post_content'] = '[lodgix_availability]'; 
+                        $post['ID'] = $this->options['p_lodgix_availability_page_' . $l->code];
+                        $post_id = wp_update_post($post);        
+                        $posts_table = $wpdb->prefix . "posts";
+                        $sql = "UPDATE " . $posts_table . " SET post_content='[lodgix_availability]' WHERE id=" . $post_id;
+                        $wpdb->query($sql);  
+                    }                    
                 }
             }
             
@@ -4382,8 +4401,22 @@ if (!class_exists('p_lodgix')) {
                             }
                         }                                                             
                     }
+                    else 
+                    {
+                        $post = array();
+                        $post['post_title'] =  $this->page_titles[$l->code]['search'];
+                        $post['post_name'] = '';
+                        $post['post_content'] = '[lodgix_search_rentals]'; 
+                        $post['ID'] = $this->options['p_lodgix_search_rentals_page_' . $l->code];
+                        $post_id = wp_update_post($post);        
+                        $posts_table = $wpdb->prefix . "posts";
+                        $sql = "UPDATE " . $posts_table . " SET post_content='[lodgix_search_rentals]' WHERE id=" . $post_id;
+                        $wpdb->query($sql);  
+                    }                         
                 }
             }
+            
+      
                                                      
             $this->saveAdminOptions();       									
             $owner_fetch_url = 'http://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&IncludeRotators=Yes&IncludeAmenities=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];                  
@@ -4726,12 +4759,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 			<p><b><?php _e('Language Options', $this->localizationDomain); ?></b></p>
 
 			<table width="100%" cellspacing="2" cellpadding="5" class="form-table">
-                <tr valign="top"> 
-					<th width="33%" scope="row"><?php _e('Bing Translator API Key:', $this->localizationDomain); ?></th> 
-					<td>
-						<input name="p_lodgix_bing_translator_key" style="width:430px;" type="text" id="p_lodgix_bing_translator_key" value="<?php echo $this->options['p_lodgix_bing_translator_key']; ?>" maxlength="100" />
-					</td> 
-				</tr>                            
+                    
                 <tr>
                     <td colspan="2">To select other languages, please enable it within WPML setup first.</td>
                 </tr>

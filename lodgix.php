@@ -3315,7 +3315,7 @@ if (!class_exists('p_lodgix')) {
     function set_page_options()
     {
         global $wpdb;
-        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxc TODO
+        
         $active_languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
         foreach ($active_languages as $l) {
                         
@@ -3397,9 +3397,11 @@ if (!class_exists('p_lodgix')) {
                     wp_update_post($post);
                 }
             }
-    
-            $areas_pages = unserialize($this->options['p_lodgix_areas_pages_'] . $l->code);
+      
+            $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
+
             if (is_array($areas_pages)) {
+               
                 foreach($areas_pages as $page)
                 {
                     $post_id = $page->page_id;
@@ -3408,10 +3410,14 @@ if (!class_exists('p_lodgix')) {
                     $exists = get_post($post_id);
                     if ($exists)
                     {
-                        if ($this->options['p_lodgix_allow_comments']) $post['comment_status'] = 'open';
-                        else $post['comment_status'] = 'closed';
-                        if ($this->options['p_lodgix_allow_pingback']) $post['ping_status'] = 'open';
-                        else $post['ping_status'] = 'closed';
+                        if ($this->options['p_lodgix_allow_comments'])
+                            $post['comment_status'] = 'open';
+                        else
+                            $post['comment_status'] = 'closed';
+                        if ($this->options['p_lodgix_allow_pingback'])
+                            $post['ping_status'] = 'open';
+                        else
+                            $post['ping_status'] = 'closed';
                         wp_update_post($post);
                     }
                 }

@@ -2414,13 +2414,13 @@ if (!class_exists('p_lodgix')) {
             }
             else
             {                              
-                $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE id=" . $property->id;
+                $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE id=" . $property->id . " AND language_code='" . $this->sufix. "'";
                 $translated_details = $wpdb->get_results($sql);
                 $translated_details = $translated_details[0];
                 $property->description = $translated_details->description;
                 $property->description_long = $translated_details->description_long;
                 $property->details = $translated_details->details;
-                $post_id = $wpdb->get_var("select page_id from " . $this->lang_pages_table . " WHERE property_id=" . $property->id . ";");
+                $post_id = $wpdb->get_var("select page_id from " . $this->lang_pages_table . " WHERE property_id=" . $property->id . " AND language_code='" . $this->sufix. "';");
                 $permalink = get_permalink($post_id);
                 
             }
@@ -3295,7 +3295,7 @@ if (!class_exists('p_lodgix')) {
     function set_page_options()
     {
         global $wpdb;
-        
+        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxc TODO
         $active_languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table . ' WHERE enabled = 1');
         foreach ($active_languages as $l) {
                         

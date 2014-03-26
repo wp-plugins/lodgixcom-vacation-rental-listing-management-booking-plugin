@@ -1874,9 +1874,9 @@ if (!class_exists('p_lodgix')) {
      
         
         $this->saveAdminOptions();            
+        
         foreach ($active_languages as $l)
-        {
-                
+        {                
             $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
             
             if (count($translated_areas_pages) > 0 && is_array($translated_areas_pages))
@@ -1908,6 +1908,26 @@ if (!class_exists('p_lodgix')) {
         $this->saveAdminOptions();
         
         $this->link_translated_pages();
+        
+        foreach ($active_languages as $l)
+        {                
+            $translated_areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
+            
+            if (count($translated_areas_pages) > 0 && is_array($translated_areas_pages))
+            {
+                $counter = 0;
+                foreach($translated_areas_pages as $key => $page)
+                {
+                    if ($translated_areas_pages[$key]->page_id) {
+                        $wpost = array();
+                        $wpost['ID'] = $translated_areas_pages[$key]->page_id;
+                        $wpost['post_content'] = '[lodgix area ' . $translated_areas_pages[$key]->page_id . ']';
+                        $post_id = wp_update_post($wpost);                                                 
+                    }
+                }
+            }
+            
+        }
         
     }
     

@@ -76,7 +76,7 @@ property_id = " . $property->id . ";", null));
 if ($property->really_available && $property->allow_booking)
 {
     $booklink = $property->booklink;
-    $booklink = '<a href="' . $booklink . '" class="ldgxBookNow">Book Now</a>';
+    $booklink = '<a href="' . $booklink . '" class="ldgxBookNow">' . __('Book Now', $this->localizationDomain) . '</a>';
 }
 else
 {

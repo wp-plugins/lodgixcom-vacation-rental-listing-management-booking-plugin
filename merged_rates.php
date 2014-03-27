@@ -40,11 +40,11 @@
             $single_property .= '<tr class="merged_rates_table-odd">';
 
         $single_property .= '<td class="lodgix_left lodgix_dates">';
-        $single_property .= '<b>' . $mr->name . '</b><br>';
+        $single_property .= '<b>' . __($mr->name,$this->localizationDomain) . '</b><br>';
         $single_property .= '' . strftime($this->options['p_lodgix_date_format'], strtotime($mr->from_date)) . ' - ' . strftime($this->options['p_lodgix_date_format'], strtotime($mr->to_date));
 
         if ($mr->min_stay > 1)
-            $single_property .= '<br>' . $mr->min_stay . ' nights min stay';
+            $single_property .= '<br>' . $mr->min_stay . ' ' . __('nights min stay',$this->localizationDomain);
 
         $single_property .= '</td>';        
 

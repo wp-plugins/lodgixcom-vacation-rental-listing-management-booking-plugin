@@ -2592,7 +2592,8 @@ if (!class_exists('p_lodgix')) {
                     $post['post_title'] = $property->description;
                     $single_property = '[lodgix_single_property ' . $property->id . ']';                
                     $post['post_status'] = 'publish';
-                    $post_id = wp_update_post($post); 
+                    $post_id = wp_update_post($post);
+
                     $posts_table = $wpdb->prefix . "posts";
                     $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id;
                     $wpdb->query($sql);
@@ -2932,14 +2933,15 @@ if (!class_exists('p_lodgix')) {
                 echo '<option value="'.$i.'">'.$i.'</option>';
         }
         echo '</select></div>';
+        
 
         if ($options['amenities']) {
-            echo '<div class="lodgix-custom-search-amenities-list">'.__('Amenities','p_lodgix') .':';
+            echo '<div class="lodgix-custom-search-amenities-list">'.__('Amenities',$this->localizationDomain) .':';
             $amenities = $wpdb->get_results("SELECT DISTINCT * FROM " . $wpdb->prefix . "lodgix_lang_amenities WHERE searchable=1 AND language_code='" . $this->sufix . "'");
             $a = 0;
             foreach($amenities as $amenity) {
                 echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ';
-                echo __($amenity->description_translated.$this->localizationDomain) . '</div>';
+                echo __($amenity->description_translated,$this->localizationDomain) . '</div>';
                 //XXXXXXXXXXXXXXXXXXXXXXXXXXX Fix ABove
                 $a++;
             }

@@ -7,9 +7,9 @@ if ($property->area != "") $property_area = " at " . $property->area;
 $property_city = "";
 if ($property->city != "") $property_city = " in " . $property->city;
 $min_weekly_rate = "";
-if ($property->min_weekly_rate > 0) $min_weekly_rate = 'from ' . $property->currency_symbol . $property->min_weekly_rate . ' per /wk<br />';
+if ($property->min_weekly_rate > 0) $min_weekly_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_weekly_rate . ' ' . __('per /wk', $this->localizationDomain) . '<br />';
 $min_daily_rate = "";
-if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates']) $min_daily_rate = 'from ' . $property->currency_symbol . $property->min_daily_rate . ' per /nt<br />';
+if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates']) $min_daily_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_daily_rate . __('per /nt', $this->localizationDomain) . '<br />';
 $pets = "";
 if ($property->pets) $pets = "display:none;";
 $smoking = "";
@@ -28,17 +28,17 @@ if ($this->options[$contact_var_name] != "")
     {
         $mail_url = str_replace('__PROPERTYID__', $property->id, $mail_url);
     }
-    $mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url . '"><img src="' . $this->p_plugin_path . '/images/mail_50.png"></a>';
+    $mail_icon = '<a title="Contact Us" style="margin-left:5px;" href="' . $mail_url . '" class="lodgix_email_icon"></a>';
 }
 $video_icon = '';
 if ($property->video_url != '')
 {
-    $video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url . '"><img title="Display Video" src="' . $this->p_plugin_path . '/images/video_icon.png"></a></span>';
+    $video_icon = '<span class="ceebox"><a style="margin-left:5px;" href="' . $property->video_url . '" class="lodgix_video_icon"></a></span>';
 }
 $virtual_tour_icon = '';
 if ($property->virtual_tour_url != '')
 {
-    $virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url . '"><img title="Display Virtual Tour" src="' . $this->p_plugin_path . '/images/virtual_tour.png"></a>';
+    $virtual_tour_icon = '<a title="" target="_blank" style="margin-left:5px;" href="' . $property->virtual_tour_url . '" class="lodgix_virtual_tour_icon"></a>';
 }
 $bedrooms = $property->bedrooms . ' ' . __('Bedrooms', $this->localizationDomain);
 if ($property->bedrooms == 0)
@@ -95,7 +95,7 @@ $single_property.= '
 
 <div class="ldgxPropBadgeIconsRight">
 
-<img id="lodgix_no_pets_icon" src="' . $this->p_plugin_path . 'images/no_pets.png" style="' . $pets . '"><img id="lodgix_no_smoke_icon" src="' . $this->p_plugin_path . 'images/no_smoke.png" style="' . $smoking . '">
+<span id="lodgix_no_pets_icon"  style="' . $pets . '"></span><span id="lodgix_no_smoke_icon" style="' . $smoking . '"></span>
 
 </div>
 
@@ -214,7 +214,7 @@ if ($policies || $taxes || $fees || $deposits)
         $single_property.= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Taxes', $this->localizationDomain) . "</b><br /><br />";
         foreach($taxes as $tax)
         {
-            $single_property.= $tax->title . ' - ';
+            $single_property.= __($tax->title, $this->localizationDomain). ' - ';
             if ($tax->is_flat == 1)
             {
                 $single_property.= $property->currency_code . number_format($tax->value, 2);
@@ -241,7 +241,7 @@ if ($policies || $taxes || $fees || $deposits)
         $single_property.= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Fees', $this->localizationDomain) . "</b><br /><br />";
         foreach($fees as $fee)
         {
-            $single_property.= $fee->title . ' - ';
+            $single_property.= __($fee->title, $this->localizationDomain) . ' - ';
             if ($fee->is_flat == 1)
             {
                 $single_property.= $property->currency_code . number_format($fee->value, 2);
@@ -264,7 +264,7 @@ if ($policies || $taxes || $fees || $deposits)
         $single_property.= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Deposits', $this->localizationDomain) . "</b><br /><br />";
         foreach($deposits as $deposit)
         {
-            $single_property.= $deposit->title . ' - ';
+            $single_property.= __($deposit->title, $this->localizationDomain) . ' - ';
             $single_property.= $property->currency_code . number_format($deposit->value, 2);
             $single_property.= "<br />";
         }

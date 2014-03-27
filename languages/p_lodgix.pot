@@ -304,3 +304,17 @@ msgstr ""
 
 msgid "Nights"
 msgstr ""
+
+msgid "nights min stay"
+msgstr ""
+
+msgid "from"
+msgstr ""
+
+msgid "per /wk"
+msgstr ""
+
+msgid "per /nt"
+msgstr ""
+
+

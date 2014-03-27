@@ -2,14 +2,24 @@
 
 $sql = "SELECT * FROM " . $this->pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';
 $photos = $wpdb->get_results($sql);
+
 $property_area = "";
-if ($property->area != "") $property_area = " at " . $property->area;
+if ($property->area != "")
+	$property_area = " at " . $property->area;
+
 $property_city = "";
-if ($property->city != "") $property_city = " in " . $property->city;
+if ($property->city != "")
+	$property_city = " in " . $property->city;
+
 $min_weekly_rate = "";
-if ($property->min_weekly_rate > 0) $min_weekly_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_weekly_rate . ' ' . __('per /wk', $this->localizationDomain) . '<br />';
+if ($property->min_weekly_rate > 0)
+	$min_weekly_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_weekly_rate . ' ' . __('per /wk', $this->localizationDomain) . '<br />';
+
 $min_daily_rate = "";
-if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates']) $min_daily_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_daily_rate . __('per /nt', $this->localizationDomain) . '<br />';
+if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates'])
+	$min_daily_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_daily_rate . __('per /nt', $this->localizationDomain) . '<br />';
+	
+
 $pets = "";
 if ($property->pets) $pets = "display:none;";
 $smoking = "";
@@ -129,7 +139,7 @@ if ($property->really_available && $property->allow_booking)
 }
 else
 {
-    $single_property.= '<a title="' . __('Check Availability', $this->localizationDomain) . '" href="' . $permalink . '#booking"><img src="' . $this->p_plugin_path . '/images/Lodgix200x50.png"></a>';
+    $single_property.= '<a title="' . __('Check Availability', $this->localizationDomain) . '" href="' . $permalink . '#booking" class="lodgix_check_availability_icon"></a>';
 }
 $single_property.= '</p></center>';
 // global $l10n;

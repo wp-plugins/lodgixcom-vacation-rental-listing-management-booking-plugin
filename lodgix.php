@@ -3473,6 +3473,7 @@ if (!class_exists('p_lodgix')) {
         global $wpdb;
         global $p_lodgix_db_version;
         
+        $table_name = $wpdb->prefix . "lodgix_properties";
         if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
             
          $sql = "CREATE TABLE " . $table_name . " (

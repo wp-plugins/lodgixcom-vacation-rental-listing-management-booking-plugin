@@ -304,3 +304,12 @@ msgstr "Anreise"
 
 msgid "Nights"
 msgstr "N&auml;chte"
+
+msgid "All Areas"
+msgstr "Alle Bereiche"
+
+msgid "Any"
+msgstr "Jeder"
+
+msgid "Studio"
+msgstr "Studio"

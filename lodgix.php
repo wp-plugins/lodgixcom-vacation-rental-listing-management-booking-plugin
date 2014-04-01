@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.46
+Version: 1.1.47
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.47: Fixed Bug - single quote area
 v1.1.46: Localization - part V
 v1.1.45: Localization - part IV
 v1.1.44: Localization - part III
@@ -1982,7 +1983,7 @@ if (!class_exists('p_lodgix')) {
       else
       {
           if ($area != '' && $area != 'ALL_AREAS')
-              $filter .= " area='" . $wpdb->_real_escape($area) . "' AND ";
+              $filter .= " area='" . str_replace('\\\\','',$wpdb->_real_escape($area)) . "' AND ";
           if ($id != '')
               $filter .= " UPPER(description) like '%" . $wpdb->_real_escape(strtoupper($id)) . "%' AND ";
           if ($bedrooms != NULL && $bedrooms != 'ANY')
@@ -2742,7 +2743,7 @@ if (!class_exists('p_lodgix')) {
         {
             if ($area != 'ALL_AREAS')
             {
-                $sql .= "area = '" . $wpdb->_real_escape($area) . "' AND ";
+                $sql .= "area = '" . str_replace('\\\\','',$wpdb->_real_escape($area)) . "' AND ";
             }
        	
             if ($id != '')
@@ -2752,8 +2753,9 @@ if (!class_exists('p_lodgix')) {
             
             if ($bedrooms != 'ANY')
                 $sql .= "bedrooms = " . $wpdb->_real_escape($bedrooms) . ' AND ';
-        }        
-	  
+        }
+        
+      
         if ($available != 'ALL' && $available != 'null' && $available != Array())
         {
            $sql .= " id IN (" . $wpdb->_real_escape($available) . ") AND ";	  

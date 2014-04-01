@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Lodgix\n"
-"POT-Creation-Date: 2014-02-27 17:38-0000\n"
-"PO-Revision-Date: 2014-03-25 16:26-0000\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2014-04-01 15:11-0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -19,7 +19,13 @@ msgstr ""
 msgid "None"
 msgstr ""
 
+msgid "Bedroom"
+msgstr ""
+
 msgid "Bedrooms"
+msgstr ""
+
+msgid "Bathroom"
 msgstr ""
 
 msgid "Bathrooms"
@@ -185,4 +191,137 @@ msgid "Wireless Internet"
 msgstr ""
 
 msgid "Workout Facilities"
+msgstr ""
+
+msgid "This property has"
+msgstr ""
+
+msgid "Display Google Map"
+msgstr ""
+
+msgid "Book Now"
+msgstr ""
+
+msgid "Check Availability"
+msgstr ""
+
+msgid "Property Description"
+msgstr ""
+
+msgid "Details"
+msgstr ""
+
+msgid "Property Details"
+msgstr ""
+
+msgid "Amenities"
+msgstr ""
+
+msgid "Guest Reviews"
+msgstr ""
+
+msgid "Rates"
+msgstr ""
+
+msgid "Rate varies due to seasonality and holidays"
+msgstr ""
+
+msgid ""
+"Please select your dates on our online booking calendar for an exact quote"
+msgstr ""
+
+msgid "Taxes"
+msgstr ""
+
+msgid "One Time"
+msgstr ""
+
+msgid "Daily"
+msgstr ""
+
+msgid "Policies"
+msgstr ""
+
+msgid "Fees"
+msgstr ""
+
+msgid "Tax Exempt"
+msgstr ""
+
+msgid "Deposits"
+msgstr ""
+
+msgid "Availability &amp; Booking Calendar"
+msgstr ""
+
+msgid "Booking Calendar"
+msgstr ""
+
+msgid "per night"
+msgstr ""
+
+msgid "per month"
+msgstr ""
+
+msgid "Cancellation Policy"
+msgstr ""
+
+msgid "Deposit Policy"
+msgstr ""
+
+msgid "Property Location"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "Property Images"
+msgstr ""
+
+msgid "Online Booking Instructions"
+msgstr ""
+
+msgid "Reviews"
+msgstr ""
+
+msgid "Vacation Rentals"
+msgstr ""
+
+msgid "Availability"
+msgstr ""
+
+msgid "Search Rentals"
+msgstr ""
+
+msgid "Pet Friendly"
+msgstr ""
+
+msgid "Search by Property Name or ID:"
+msgstr ""
+
+msgid "Arriving"
+msgstr ""
+
+msgid "Nights"
+msgstr ""
+
+msgid "All Areas"
+msgstr ""
+
+msgid "Any"
+msgstr ""
+
+msgid "Studio"
+msgstr ""
+
+msgid "from"
+msgstr ""
+
+msgid " per /wk"
+msgstr ""
+
+msgid " per /nt"
+msgstr ""
+
+msgid "per week"
 msgstr ""

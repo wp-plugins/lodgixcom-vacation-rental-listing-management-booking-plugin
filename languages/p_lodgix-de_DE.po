@@ -221,14 +221,14 @@ msgstr "Bewertungen"
 msgid "Rates"
 msgstr "Preis"
 
-msgid "Rate varies due to seasonality and holidays."
-msgstr "Die Preise unterscheiden sich saisonbedingt."
+msgid "Rate varies due to seasonality and holidays"
+msgstr "Die Preise unterscheiden sich saisonbedingt"
 
 msgid ""
-"Please select your dates on our online booking calendar for an exact quote."
+"Please select your dates on our online booking calendar for an exact quote"
 msgstr ""
 "Bitte w&auml;holen Sie die exakten Daten Ihrer Anreise und Abreise im online "
-"Buchungskalender um ein Preisangebot zu erhalten."
+"Buchungskalender um ein Preisangebot zu erhalten"
 
 msgid "Taxes"
 msgstr "Steuern"
@@ -296,7 +296,7 @@ msgstr "Suche"
 msgid "Pet Friendly"
 msgstr "Haustiere"
 
-msgid "PSearch by Property Name or ID:"
+msgid "Search by Property Name or ID:"
 msgstr "Suchen Sie nach Objekt Name oder ID"
 
 msgid "Arriving"
@@ -313,3 +313,15 @@ msgstr "Jeder"
 
 msgid "Studio"
 msgstr "Studio"
+
+msgid "from"
+msgstr "von"
+
+msgid " per /wk"
+msgstr "/Woche"
+
+msgid " per /nt"
+msgstr "/Nacht"
+
+msgid "per week"
+msgstr "pro Woche"

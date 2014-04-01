@@ -2957,7 +2957,7 @@ if (!class_exists('p_lodgix')) {
 					$aux = $amenity_name;
 
                 echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ';
-                echo __($amenity->description_translated,$this->localizationDomain) . '</div>';
+                echo __($aux,$this->localizationDomain) . '</div>';
                 $a++;
             }
             echo '</div>';
@@ -3855,7 +3855,7 @@ if (!class_exists('p_lodgix')) {
         if($wpdb->get_var("show tables like '$table_name'") != $table_name) {          
          $sql = "CREATE TABLE " . $table_name . " (
           `id` int(11) NOT NULL auto_increment,
-          `description` varchar(255) NOT NULL DEFAULT ''
+          `description` varchar(255) NOT NULL DEFAULT '',
           PRIMARY KEY  (`id`)
          ) DEFAULT CHARSET=utf8;";      
          $wpdb->query($sql);             

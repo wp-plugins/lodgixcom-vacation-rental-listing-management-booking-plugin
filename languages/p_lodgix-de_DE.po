@@ -75,7 +75,7 @@ msgid "Coffee Maker"
 msgstr "Kaffeemaschine"
 
 msgid "Communal Pool"
-msgstr "Swimming Pool"
+msgstr "&Ouml;ffentlicher Pool"
 
 msgid "Cookware"
 msgstr "Kochutensilien"
@@ -84,7 +84,7 @@ msgid "Dishwasher"
 msgstr "Geschirrsp&uuml;lmaschine"
 
 msgid "Dock"
-msgstr "Bootsanlegestelle"
+msgstr "Bootsanleger"
 
 msgid "DVD"
 msgstr "DVD-Spieler"
@@ -105,13 +105,13 @@ msgid "Golfing"
 msgstr "Golfen"
 
 msgid "Hair Dryer"
-msgstr "Fön"
+msgstr "F&ouml;n"
 
 msgid "Handicap Accessible"
 msgstr "Behindertengerecht"
 
 msgid "Hi Speed Internet"
-msgstr "Hi Speed Internet"
+msgstr "Schnelles Internet"
 
 msgid "Hiking"
 msgstr "Wandern"
@@ -120,7 +120,7 @@ msgid "Iron"
 msgstr "B&uuml;geleisen"
 
 msgid "Kayak"
-msgstr "Kayak"
+msgstr "Kajak"
 
 msgid "Kitchen"
 msgstr "K&uuml;che"
@@ -153,7 +153,7 @@ msgid "Pool Heating: Solar and Electric"
 msgstr "Pool Heizung: Solar und Elektrisch"
 
 msgid "Premium Cable Channels"
-msgstr "Premium Kabel Kan&auml;le"
+msgstr "Premium TV Kabel Kan&auml;le"
 
 msgid "Restaurant"
 msgstr "Restaurant"
@@ -213,7 +213,7 @@ msgid "Property Details"
 msgstr "Ausf&uuml;ehrliche Beschreibung"
 
 msgid "Amenities"
-msgstr "Annehmlichkeiten"
+msgstr "Ausstattung"
 
 msgid "Guest Reviews"
 msgstr "Bewertungen"
@@ -246,7 +246,7 @@ msgid "Fees"
 msgstr "Geb&uuml;hren"
 
 msgid "Tax Exempt"
-msgstr "Steuerbefreite"
+msgstr "Steuerbefreit"
 
 msgid "Deposits"
 msgstr "Kaution"
@@ -255,7 +255,7 @@ msgid "Availability &amp; Booking Calendar"
 msgstr "Verf&uuml;gbarkeit"
 
 msgid "Booking Calendar"
-msgstr "Verf&uuml;gbarkeit"
+msgstr "Buchungskalendar"
 
 msgid "per night"
 msgstr "pro Nacht"
@@ -285,7 +285,7 @@ msgid "Reviews"
 msgstr "Bewertungen"
 
 msgid "Vacation Rentals"
-msgstr "Ferienvillen &Uuml;Bericht"
+msgstr "Ferienvillen &Uuml;bersicht"
 
 msgid "Availability"
 msgstr "Verf&uuml;gbarkeit"

@@ -209,7 +209,7 @@ else
     include "merged_rates.php";
 
 }
-$single_property.= '<br/>- ' . __('Rate varies due to seasonality and holidays', $this->localizationDomain) . '.<br/>';
+$single_property.= '- ' . __('Rate varies due to seasonality and holidays', $this->localizationDomain) . '.<br/>';
 $single_property.= '- ' . __('Please select your dates on our online booking calendar for an exact quote', $this->localizationDomain) . '.<br/>';
 $single_property.= '</div>';
 $single_property.= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";

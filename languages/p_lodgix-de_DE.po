@@ -7,7 +7,7 @@ msgstr ""
 "Language-Team: \n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.4\n"
 
@@ -201,7 +201,7 @@ msgid "Book Now"
 msgstr "Jetzt buchen"
 
 msgid "Check Availability"
-msgstr "Verfügbarkeit prüfen"
+msgstr "Verf&uuml;gbarkeit pr&uuml;fen"
 
 msgid "Property Description"
 msgstr "Beschreibung"
@@ -296,7 +296,7 @@ msgstr "Suche"
 msgid "Pet Friendly"
 msgstr "Haustiere"
 
-msgid "Search by Property Name or ID"
+msgid "Search by Property Name or ID:"
 msgstr "Suchen Sie nach Objekt Name oder ID"
 
 msgid "Arriving"

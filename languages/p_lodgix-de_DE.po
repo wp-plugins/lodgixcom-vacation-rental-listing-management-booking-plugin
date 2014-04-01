@@ -296,7 +296,7 @@ msgstr "Suche"
 msgid "Pet Friendly"
 msgstr "Haustiere"
 
-msgid "Search by Property Name or ID:"
+msgid "Search by Property Name or ID"
 msgstr "Suchen Sie nach Objekt Name oder ID"
 
 msgid "Arriving"

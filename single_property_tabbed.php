@@ -9,9 +9,9 @@ if ($property->area != "") $property_area = " at " . $property->area;
 $property_city = "";
 if ($property->city != "") $property_city = " in " . $property->city;
 $min_weekly_rate = "";
-if ($property->min_weekly_rate > 0) $min_weekly_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_weekly_rate . ' ' . __('per /wk', $this->localizationDomain) . '<br />';
+if ($property->min_weekly_rate > 0) $min_weekly_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_weekly_rate . __(' per /wk', $this->localizationDomain) . '<br />';
 $min_daily_rate = "";
-if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates']) $min_daily_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_daily_rate . __('per /nt', $this->localizationDomain) . '<br />';
+if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates']) $min_daily_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_daily_rate . __(' per /nt', $this->localizationDomain) . '<br />';
 $pets = "";
 if ($property->pets) $pets = "display:none;";
 $smoking = "";
@@ -253,22 +253,17 @@ class="lodgix_tabbed_content_clear"></span></ul>
 $single_property.= '<h2>' . __('Policies', $this->localizationDomain) . '</h2>';
 if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates))
 {
-    if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) $single_property.= __('Daily Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_daily_rate . ' - ' . $property->currency_symbol . $high_daily_rate . ' ' . __('per
-night', $this->localizationDomain) . '<br/>';
-    if ($low_weekly_rate > 0) $single_property.= __('Weekly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_weekly_rate . ' - ' . $property->currency_symbol . $high_weekly_rate . ' ' . __('per
-week', $this->localizationDomain) . '<br/>';
-    if ($low_monthly_rate > 0) $single_property.= __('Monthly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_monthly_rate . ' - ' . $property->currency_symbol . $high_monthly_rate . ' ' . __('per
-month', $this->localizationDomain) . '<br/>';
+    if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) $single_property.= __('Daily Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_daily_rate . ' - ' . $property->currency_symbol . $high_daily_rate . ' ' . __('per night', $this->localizationDomain) . '<br/>';
+    if ($low_weekly_rate > 0) $single_property.= __('Weekly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_weekly_rate . ' - ' . $property->currency_symbol . $high_weekly_rate . ' ' . __('per week', $this->localizationDomain) . '<br/>';
+    if ($low_monthly_rate > 0) $single_property.= __('Monthly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_monthly_rate . ' - ' . $property->currency_symbol . $high_monthly_rate . ' ' . __('per month', $this->localizationDomain) . '<br/>';
 }
 else
 {
     include "merged_rates.php";
 
 }
-$single_property.= '- ' . __('Rate varies due to seasonality and
-holidays.', $this->localizationDomain) . '<br/>';
-$single_property.= '- ' . __('Please select your dates on our online booking
-calendar for an exact quote.', $this->localizationDomain) . '<br/>';
+$single_property.= '<br/>- ' . __('Rate varies due to seasonality and holidays', $this->localizationDomain) . '.<br/>';
+$single_property.= '- ' . __('Please select your dates on our online booking calendar for an exact quote', $this->localizationDomain) . '.<br/>';
 $single_property.= '';
 $taxes = $wpdb->get_results("SELECT * FROM " . $this->taxes_table . " WHERE
 property_id=" . $property->id);
@@ -281,8 +276,7 @@ if ($policies || $taxes || $fees || $deposits)
     $single_property.= "<br /><table width='98%'>";
     if ($taxes)
     {
-        $single_property.= "<tr><td class='lodgix_policies'><span
-  class='lodgix_policies_span'><b>" . __('Taxes', $this->localizationDomain) . "</b><br /><br />";
+        $single_property.= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Taxes', $this->localizationDomain) . "</b><br /><br />";
         foreach($taxes as $tax)
         {
             $single_property.= __($tax->title, $this->localizationDomain) . ' - ';
@@ -309,8 +303,7 @@ if ($policies || $taxes || $fees || $deposits)
     }
     if ($fees)
     {
-        $single_property.= "<tr><td class='lodgix_policies'><span
-  class='lodgix_policies_span'><b>" . __('Fees', $this->localizationDomain) . "</b><br /><br />";
+        $single_property.= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Fees', $this->localizationDomain) . "</b><br /><br />";
         foreach($fees as $fee)
         {
             $single_property.= __($fee->title, $this->localizationDomain) . ' - ';
@@ -333,8 +326,7 @@ if ($policies || $taxes || $fees || $deposits)
     }
     if ($deposits)
     {
-        $single_property.= "<tr><td class='lodgix_policies'><span
-  class='lodgix_policies_span'><b>" . __('Deposits', $this->localizationDomain) . "</b><br /><br />";
+        $single_property.= "<tr><td class='lodgix_policies'><span class='lodgix_policies_span'><b>" . __('Deposits', $this->localizationDomain) . "</b><br /><br />";
         foreach($deposits as $deposit)
         {
             $single_property.= __($deposit->title, $this->localizationDomain) . ' - ';

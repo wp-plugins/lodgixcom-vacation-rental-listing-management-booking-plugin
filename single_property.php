@@ -13,11 +13,11 @@ if ($property->city != "")
 
 $min_weekly_rate = "";
 if ($property->min_weekly_rate > 0)
-	$min_weekly_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_weekly_rate . ' ' . __('per /wk', $this->localizationDomain) . '<br />';
+	$min_weekly_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_weekly_rate . __(' per /wk', $this->localizationDomain) . '<br />';
 
 $min_daily_rate = "";
 if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates'])
-	$min_daily_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_daily_rate . __('per /nt', $this->localizationDomain) . '<br />';
+	$min_daily_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_daily_rate . __(' per /nt', $this->localizationDomain) . '<br />';
 	
 
 $pets = "";
@@ -209,8 +209,8 @@ else
     include "merged_rates.php";
 
 }
-$single_property.= '- ' . __('Rate varies due to seasonality and holidays.', $this->localizationDomain) . '<br/>';
-$single_property.= '- ' . __('Please select your dates on our online booking calendar for an exact quote.', $this->localizationDomain) . '<br/>';
+$single_property.= '<br/>- ' . __('Rate varies due to seasonality and holidays', $this->localizationDomain) . '.<br/>';
+$single_property.= '- ' . __('Please select your dates on our online booking calendar for an exact quote', $this->localizationDomain) . '.<br/>';
 $single_property.= '</div>';
 $single_property.= "[lodgix_calendar " . $property->id . " " . $property->owner_id . " '" . $static . "' " . $property->allow_booking . " " . $this->options['p_lodgix_display_single_instructions'] . " en]";
 $taxes = $wpdb->get_results("SELECT * FROM " . $this->taxes_table . " WHERE property_id=" . $property->id);

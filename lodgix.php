@@ -447,6 +447,7 @@ if (!class_exists('p_lodgix')) {
         $this->languages_table = $wpdb->prefix . "lodgix_languages";
         $this->link_rotators_table = $wpdb->prefix . "lodgix_link_rotators";
         $this->policies_table = $wpdb->prefix . "lodgix_policies";
+        $this->searchable_amenities_table  = $wpdb->prefix . "lodgix_searchable_amenities";
     }
 
     
@@ -1477,6 +1478,7 @@ if (!class_exists('p_lodgix')) {
                 {
                     $amarray['property_id'] = $parray['id'];
                     $amarray['description'] = $amenity['Name'];
+                    $amarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
                     $sql = $this->get_insert_sql_from_array($this->amenities_table,$amarray);
                     $wpdb->query($sql);
                     
@@ -2946,9 +2948,14 @@ if (!class_exists('p_lodgix')) {
 
         if ($options['amenities']) {
             echo '<div class="lodgix-custom-search-amenities-list">'.__('Amenities',$this->localizationDomain) .':';
-            $amenities = $wpdb->get_results("SELECT DISTINCT * FROM " . $wpdb->prefix . "lodgix_lang_amenities WHERE searchable=1 AND language_code='" . $this->sufix . "'");
+            $amenities = $wpdb->get_results("SELECT DISTINCT * FROM " . $wpdb->prefix . "lodgix_searchable_amenities");
             $a = 0;
             foreach($amenities as $amenity) {
+                $aux = __(trim($amenity->description),$this->localizationDomain);
+                $amenity_name = $wpdb->get_var("select description_translated from " . $this->lang_amenities_table . " WHERE description='" . $amenity->description . "' AND language_code='" . $this->sufix . "';"); 
+				if ($amenity_name != "")
+					$aux = $amenity_name;
+
                 echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ';
                 echo __($amenity->description_translated,$this->localizationDomain) . '</div>';
                 $a++;
@@ -3240,10 +3247,17 @@ if (!class_exists('p_lodgix')) {
         $owner = $this->domToArray($root);
         $ownerAmenities = @$owner['Results']['Amenities']['Amenity'];
         $searchableAmenities = array();
+        $wpdb->query("DELETE FROM " . $this->searchable_amenities_table);
         if (!empty($ownerAmenities))
         {
             foreach($ownerAmenities as $ownerAmenity)
             {
+
+                $alrarray = array();
+                $alrarray['description'] = $ownerAmenity['Name'];
+                $sql = $this->get_insert_sql_from_array($this->searchable_amenities_table,$alrarray);
+                $wpdb->query($sql);                   
+                
                 $searchableAmenities[$ownerAmenity['Name']] = 1;
             }
         }
@@ -3835,7 +3849,17 @@ if (!class_exists('p_lodgix')) {
             $wpdb->query("INSERT INTO " . $table_name . " VALUES ('62', 'zu', 'Zulu', '0', '');");
             $wpdb->query("INSERT INTO " . $table_name . " VALUES ('63', 'zh-hant', 'Chinese (Traditional)', '0', 'zh_TW');");
             $wpdb->query("INSERT INTO " . $table_name . " VALUES ('64', 'ms', 'Malay', '0', 'ms_MY');");         
-        }            
+        }
+        
+        $table_name = $wpdb->prefix . "lodgix_searchable_amenities";
+        if($wpdb->get_var("show tables like '$table_name'") != $table_name) {          
+         $sql = "CREATE TABLE " . $table_name . " (
+          `id` int(11) NOT NULL auto_increment,
+          `description` varchar(255) NOT NULL DEFAULT ''
+          PRIMARY KEY  (`id`)
+         ) DEFAULT CHARSET=utf8;";      
+         $wpdb->query($sql);             
+        }        
            
       
         add_option("p_lodgix_db_version", $p_lodgix_db_version); 
@@ -3933,7 +3957,7 @@ if (!class_exists('p_lodgix')) {
             $wpdb->query("UPDATE " . $wpdb->prefix . "lodgix_lang_amenities SET language_code = 'de';");
             
             $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_lang_properties DROP PRIMARY KEY, ADD PRIMARY KEY(`id`,`language_code`);");
-            
+                        
             $this->saveAdminOptions();
             wp_redirect($_SERVER["REQUEST_URI"]);
         }                
@@ -4470,8 +4494,13 @@ if (!class_exists('p_lodgix')) {
 
                 $ownerAmenities = @$owner['Results']['Amenities']['Amenity'];
                 $searchableAmenities = array();
+                $wpdb->query("DELETE FROM " . $this->searchable_amenities_table);
                 if (!empty($ownerAmenities)) {
                     foreach ($ownerAmenities as $ownerAmenity) {
+                        $alrarray = array();
+                        $alrarray['description'] = $ownerAmenity['Name'];
+                        $sql = $this->get_insert_sql_from_array($this->searchable_amenities_table,$alrarray);
+                        $wpdb->query($sql);                           
                         $searchableAmenities[$ownerAmenity['Name']] = 1;
                     }
                 }
@@ -4807,7 +4836,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
                             echo '<li style="width:190px; float:left;"><input name="p_lodgix_generate_' . $l->code .'" type="checkbox" id="p_lodgix_generate_' . $l->code .'"';
                             if ($l->enabled) echo "CHECKED";
                             if ($l->code == 'en') echo " disabled='disabled' onclick='return false'";
-                            echo '/> ' . _($l->name, $this->localizationDomain);
+                            echo '/> ' . __($l->name, $this->localizationDomain);
                             echo '</li>';
                         }
                         echo '</ul></td></tr>';                        

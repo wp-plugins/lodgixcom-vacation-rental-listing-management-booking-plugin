@@ -3,12 +3,12 @@ msgstr ""
 "Project-Id-Version: Lodgix\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Bluetelligence LLC <bluetelligence@gmail.com>\n"
 "Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.4\n"
 
 msgid "Sort Results by"
@@ -36,7 +36,7 @@ msgid "Pets Allowed"
 msgstr "Haustiere erlaubt"
 
 msgid "Daily Rate"
-msgstr "Tageskurs"
+msgstr "Tagespreis"
 
 msgid "Weekly Rate"
 msgstr "Wochenpreis"
@@ -75,7 +75,7 @@ msgid "Coffee Maker"
 msgstr "Kaffeemaschine"
 
 msgid "Communal Pool"
-msgstr "Swimming Pool"
+msgstr "&Ouml;ffentlicher Pool"
 
 msgid "Cookware"
 msgstr "Kochutensilien"
@@ -84,7 +84,7 @@ msgid "Dishwasher"
 msgstr "Geschirrsp&uuml;lmaschine"
 
 msgid "Dock"
-msgstr "Bootsanlegestelle"
+msgstr "Bootsanleger"
 
 msgid "DVD"
 msgstr "DVD-Spieler"
@@ -102,25 +102,25 @@ msgid "Gas Grill"
 msgstr "Gasgrill"
 
 msgid "Golfing"
-msgstr "Haarf&ouml;n"
+msgstr "Golfen"
 
 msgid "Hair Dryer"
-msgstr "Behindertengerecht"
+msgstr "F&ouml;n"
 
 msgid "Handicap Accessible"
-msgstr "HDTV/Blu-ray"
+msgstr "Behindertengerecht"
 
 msgid "Hi Speed Internet"
-msgstr "Wandern"
+msgstr "Schnelles Internet"
 
 msgid "Hiking"
-msgstr "Hi Speed Internet"
+msgstr "Wandern"
 
 msgid "Iron"
 msgstr "B&uuml;geleisen"
 
 msgid "Kayak"
-msgstr "Kayak"
+msgstr "Kajak"
 
 msgid "Kitchen"
 msgstr "K&uuml;che"
@@ -153,7 +153,7 @@ msgid "Pool Heating: Solar and Electric"
 msgstr "Pool Heizung: Solar und Elektrisch"
 
 msgid "Premium Cable Channels"
-msgstr "Premium Kabel Kan&auml;le"
+msgstr "Premium TV Kabel Kan&auml;le"
 
 msgid "Restaurant"
 msgstr "Restaurant"
@@ -186,13 +186,13 @@ msgid "Washer and Dryer"
 msgstr "Waschmaschine und Trockner"
 
 msgid "Wireless Internet"
-msgstr "Wireless Internet"
+msgstr "Drahtloses Internet"
 
 msgid "Workout Facilities"
 msgstr "Sportstudio"
 
 msgid "This property has"
-msgstr "Diese Eigenschaft hat"
+msgstr "Diese Immobilie hat"
 
 msgid "Display Google Map"
 msgstr "Google Map anzeigen"
@@ -201,52 +201,52 @@ msgid "Book Now"
 msgstr "Jetzt buchen"
 
 msgid "Check Availability"
-msgstr "Verfügbarkeit prüfen"
+msgstr "Verf&uuml;gbarkeit pr&uuml;fen"
 
 msgid "Property Description"
-msgstr "Kurzbeschreibung"
+msgstr "Beschreibung"
 
 msgid "Details"
 msgstr "Beschreibung"
 
 msgid "Property Details"
-msgstr "Ausf&uuml;hrliche Beschreibung"
+msgstr "Ausf&uuml;ehrliche Beschreibung"
 
 msgid "Amenities"
-msgstr "Annehmlichkeiten"
+msgstr "Ausstattung"
 
 msgid "Guest Reviews"
 msgstr "Bewertungen"
 
 msgid "Rates"
-msgstr "Kurs"
+msgstr "Preis"
 
-msgid "Rate varies due to seasonality and holidays."
-msgstr "Die Preise unterscheiden sich saisonbedingt."
+msgid "Rate varies due to seasonality and holidays"
+msgstr "Die Preise unterscheiden sich saisonbedingt"
 
 msgid ""
-"Please select your dates on our online booking calendar for an exact quote."
+"Please select your dates on our online booking calendar for an exact quote"
 msgstr ""
-"Bitte w&auml;hlen Sie die exakten Daten Ihrer Anreise und Abreise im online "
-"Buchungskalender um ein Preisangebot zu erhalten."
+"Bitte w&auml;holen Sie die exakten Daten Ihrer Anreise und Abreise im online "
+"Buchungskalender um ein Preisangebot zu erhalten"
 
 msgid "Taxes"
 msgstr "Steuern"
 
 msgid "One Time"
-msgstr ""
+msgstr "Einmalig"
 
 msgid "Daily"
 msgstr "T&auml;glich"
 
 msgid "Policies"
-msgstr ""
+msgstr "Vereinbarungen"
 
 msgid "Fees"
 msgstr "Geb&uuml;hren"
 
 msgid "Tax Exempt"
-msgstr "Steuerbefreite"
+msgstr "Steuerbefreit"
 
 msgid "Deposits"
 msgstr "Kaution"
@@ -255,13 +255,13 @@ msgid "Availability &amp; Booking Calendar"
 msgstr "Verf&uuml;gbarkeit"
 
 msgid "Booking Calendar"
-msgstr "Verf&uuml;gbarkeit"
+msgstr "Buchungskalendar"
 
 msgid "per night"
-msgstr "pro nacht"
+msgstr "pro Nacht"
 
 msgid "per month"
-msgstr ""
+msgstr "pro Monat"
 
 msgid "Cancellation Policy"
 msgstr "Stornierungsbedingungen"
@@ -279,7 +279,7 @@ msgid "Property Images"
 msgstr "Bilder"
 
 msgid "Online Booking Instructions"
-msgstr "Online Buchungs Instruktionen"
+msgstr "Online Buchungs-Info"
 
 msgid "Reviews"
 msgstr "Bewertungen"
@@ -291,12 +291,12 @@ msgid "Availability"
 msgstr "Verf&uuml;gbarkeit"
 
 msgid "Search Rentals"
-msgstr "Vermietungen"
+msgstr "Suche"
 
 msgid "Pet Friendly"
 msgstr "Haustiere"
 
-msgid "Search by Property Name or ID"
+msgid "Search by Property Name or ID:"
 msgstr "Suchen Sie nach Objekt Name oder ID"
 
 msgid "Arriving"
@@ -304,3 +304,24 @@ msgstr "Anreise"
 
 msgid "Nights"
 msgstr "N&auml;chte"
+
+msgid "All Areas"
+msgstr "Alle Bereiche"
+
+msgid "Any"
+msgstr "Jeder"
+
+msgid "Studio"
+msgstr "Studio"
+
+msgid "from"
+msgstr "von"
+
+msgid " per /wk"
+msgstr "/Woche"
+
+msgid " per /nt"
+msgstr "/Nacht"
+
+msgid "per week"
+msgstr "pro Woche"

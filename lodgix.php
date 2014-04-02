@@ -2066,8 +2066,8 @@ if (!class_exists('p_lodgix')) {
               }
               else
               {
-                $low_daily_rate = $property->currency_symbol . '0';
-                $high_daily_rate = $property->currency_symbol . '0';
+                $low_daily_rate = 'N/A';
+                $high_daily_rate = 'N/A';
               }
               $low_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";",null));
               $high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";",null));

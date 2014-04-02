@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.47
+Version: 1.1.48
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.48: Fixed Bug -  rates
 v1.1.47: Fixed Bug - single quote area
 v1.1.46: Localization - part V
 v1.1.45: Localization - part IV
@@ -1283,7 +1284,7 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql);
         $sql = "DELETE FROM " . $this->amenities_table;
         $wpdb->query($sql);
-        $sql = "DELETE FROM " . $rates_table;
+        $sql = "DELETE FROM " . $this->rates_table;
         $wpdb->query($sql);
         $sql = "DELETE FROM " . $this->merged_rates_table;
         $wpdb->query($sql);        
@@ -1480,7 +1481,6 @@ if (!class_exists('p_lodgix')) {
                 {
                     $amarray['property_id'] = $parray['id'];
                     $amarray['description'] = $amenity['Name'];
-                    $amarray['searchable'] = $searchableAmenities[$amenity['Name']] ? 1 : 0;
                     $sql = $this->get_insert_sql_from_array($this->amenities_table,$amarray);
                     $wpdb->query($sql);
                     
@@ -1501,6 +1501,7 @@ if (!class_exists('p_lodgix')) {
                 }
             }     
         }               
+        
         
         $rates = $property['Rates'];
         if ($property['Rates']['Rate'][0])
@@ -1550,9 +1551,10 @@ if (!class_exists('p_lodgix')) {
             $ratearray['is_default'] = 0;
             if ($rate['IsThisDefaultRate'] == 'Yes')
                 $ratearray['is_default'] = 1;          
-            $sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
+            $sql = $this->get_insert_sql_from_array($this->rates_table,$ratearray);
             $sql = str_replace("'NULL'","NULL",$sql);
-            $wpdb->query($sql);    
+            $wpdb->query($sql);
+        
             $pprates = $rate['PerPersonRates'];
             if ($pprates)
             {
@@ -1570,6 +1572,8 @@ if (!class_exists('p_lodgix')) {
             
         }    
         
+
+                
         
         $merged_rates = $property['MergedRates'];
         if ($property['MergedRates']['RatePeriod'][0])

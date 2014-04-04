@@ -119,7 +119,7 @@ $single_property.= '
 $beds_text = "";
 if ($property->beds_text != "")
 {
-    $beds_text = ' ' . _('This property has', $this->localizationDomain) . ' ' . $property->beds_text . '.';
+    $beds_text = ' ' . __('This property has', $this->localizationDomain) . ' ' . $property->beds_text . '.';
 }
 $single_property.= '<br /><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
 foreach($photos as $photo)

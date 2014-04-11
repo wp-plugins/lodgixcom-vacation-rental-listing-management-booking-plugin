@@ -12,18 +12,8 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 			array( 'description' => __( 'Lodgix Rental Search Widget' ) )
 		);		
 
-
-		if ( is_active_widget( false, false, $this->id_base ) ) {
-			add_action( 'wp_head', array( $this, 'css' ) );
-		}
 	}
 
-	function css() {
-		?>
-		
-		
-		<?php
-	}
 
 	function form( $instance ) {
 		if ( $instance ) {
@@ -60,10 +50,8 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 	function widget( $args, $instance ) {
 		global $wpdb;
 				
-
-		
-        $this->properties_table = $wpdb->prefix . "lodgix_properties";
-        $this->lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";
+        $properties_table = $wpdb->prefix . "lodgix_properties";
+        $lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";
 		$locale = get_locale();        
 		$sufix = substr($locale,0,2);
 		$p_plugin_path = plugin_dir_url(plugin_basename(__FILE__));
@@ -82,7 +70,7 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
         echo $before_widget . $before_title . $title . $after_title;
         echo '<div class="lodgix-search-properties" align="center">';
 
-        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $this->properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');  
+        $areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');  
         
         $date_format = $loptions['p_lodgix_date_format'];
         
@@ -243,11 +231,128 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 	}
 }
 
+
+class Lodgix_Featured_Rentals_Widget extends WP_Widget {
+
+	function __construct() {
+				
+		parent::__construct(
+			'lodgix_featured',
+			__( 'Featured Rentals' ),
+			array( 'description' => __( 'Lodgix Featured Rentals Widget' ) )
+		);		
+		
+	}
+
+
+	function form( $instance ) {
+		if ( $instance ) {
+			$title = esc_attr( $instance['title'] );
+		}
+		else {
+			$title = __( 'Featured Rentals' );
+		}
+	
+		?>		
+			<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /><br>
+			</p>
+		
+		<?php 
+	}
+
+	function update( $new_instance, $old_instance ) {
+		$instance['title'] = strip_tags( $new_instance['title'] );
+		return $instance;
+	}
+
+	function widget( $args, $instance ) {
+		global $wpdb;				
+ 
+		extract($args);
+		
+        $properties_table = $wpdb->prefix . "lodgix_properties";
+        $lang_pages_table = $wpdb->prefix . "lodgix_lang_pages";
+		$pages_table = $wpdb->prefix . "lodgix_pages";
+		
+
+		// Each widget can store its own options. We keep strings here.
+		$loptions = get_option('p_lodgix_options');
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Featured Rentals') : esc_html($instance['title']));
+
+
+		echo $before_widget . $before_title . $title . $after_title;
+		echo '<div class="lodgix-featured-properties" align="center">';
+		
+		$sql = 'SELECT ' . $properties_table . '.id,property_id,description,enabled,featured,main_image_thumb,bedrooms,bathrooms,proptype,city,post_id,area FROM ' . $properties_table . ' LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id WHERE featured=1 order by rand()';
+		$properties = $wpdb->get_results($sql);
+		foreach($properties as $property)
+		{
+			
+			$permalink = get_permalink($property->post_id);
+			$location = $property->city;
+			if ($property->city != "")
+				$location = '<span class="price"> in <strong>' . $location . '</strong></span>';
+			else
+				$location = '<span class="price"><strong>' . $location . '</strong></span>';
+			if (($loptions['p_lodgix_display_featured'] == 'area') && ($property->area != ""))
+				$location = $property->area;
+			$location = '<span class="price"><strong>' . $location . '</strong></span>';
+			if ($_REQUEST['lang'] == "de")
+			{
+				$page_id = $wpdb->get_var("SELECT page_id FROM " . $lang_pages_table . " WHERE property_id=" . $property->id);
+				$permalink = get_permalink($page_id);
+			}
+	  
+		
+			$proptype = ', ' . $property->proptype;
+			if ($proptype == ', Room type')
+				$proptype = '';
+			
+			$position = '';
+			if ($loptions['p_lodgix_display_featured_horizontally'] == 1)
+				$position = "float:left; margin-left:5px;";
+			else if ($loptions['p_lodgix_display_featured_horizontally'] == 2)
+				$position = "float:right; margin-right:5px;";
+			  
+			$bedrooms = $property->bedrooms . ' Bedrm, ';
+			if ($property->bedrooms == 0)
+			{
+				$bedrooms = 'Studio, ';
+			}
+			
+			
+			echo '<div class="lodgix-featured-listing" style="-moz-border-radius: 5px 5px 5px 5px;' . $position . '">
+				  <div class="imgset">
+					  <a href="' . $permalink . '">
+						  <img alt="View listing" src="' . $property->main_image_thumb . '">
+						  <span class="featured-flag"></span>
+					  </a>
+				  </div>
+				  <a class="address-link" href="' . $permalink . '">' . $property->description . '</a>
+				  <div class="featured-details">' . $bedrooms . $property->bathrooms . ' Bath' . $proptype . ''
+					. $location . '
+				  </div>    
+				</div>'; 
+		}
+		
+		echo '</div>';
+		echo $after_widget;
+	}
+}
+
+
+
+
 function lodgix_register_widgets() {
 	register_widget( 'Lodgix_Rental_Search_Widget' );
+	register_widget( 'Lodgix_Featured_Rentals_Widget' );
 }
 
 add_action( 'widgets_init', 'lodgix_register_widgets' );
+
+
 
 ?>
 

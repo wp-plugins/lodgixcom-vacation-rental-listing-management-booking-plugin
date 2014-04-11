@@ -2782,14 +2782,6 @@ if (!class_exists('p_lodgix')) {
              $content = '0 Properties Found.';
         die($content);
     }      
-      
-  
-    // This is the function that outputs our widget_lodgix_custom_search.
-	function widget_lodgix_custom_search_common($args,$options) {
-
-        echo $after_widget;
-	}
-    
   
   
     // This is the function that outputs the form to let the users edit
@@ -3719,52 +3711,85 @@ if (!class_exists('p_lodgix')) {
         
         if ($old_db_version < 2.1) {
             
-            update_option('widget_lodgix_custom_search',array()); 
+            $old = get_option('widget_lodgix_custom_search');
+            update_option('old_widget_lodgix_custom_search',$old);
+
+            $old = get_option('widget_lodgix_custom_search_2');
+            update_option('old_widget_lodgix_custom_search_2',$old);
+
+            $old = get_option('widget_lodgix_featured');
+            update_option('old_widget_lodgix_featured',$old);
+            
+            update_option('widget_lodgix_custom_search',array());
+            update_option('widget_lodgix_custom_search_2',array());
+            update_option('widget_lodgix_featured',array());
+            
             $sidebars = get_option('sidebars_widgets');
             $counter = 20;
             foreach($sidebars as $key => $value) {
                 $widget_counter = 0;
                 if (is_array($sidebars[$key])) {
                     foreach($sidebars[$key] as $widget) {
-                        if ($widget == 'rentals-search' || $widget == 'rentals-search-2')
+                       
+                        
+                        if ($widget == 'rentals-search' || $widget == 'rentals-search-2' || $widget == 'featured-rentals')
                         {
-                         
-                            $sidebars[$key][$widget_counter] = 'lodgix_custom_search-' . $counter;
-                            
-                            
-                            $old_widget = get_option('widget_lodgix_custom_search');
-                            if ($widget == 'rentals-search-2') {
-                                $old_widget = get_option('widget_lodgix_custom_search_2');
-                            }
-                            
+                     
                             $amenities = 0;
-                            $title = 'Rental Search';
-                            if (is_array($old_widget)) {
-                                $amenities = $old_widget['amenities'];
-                                $title = $old_widget['title'];
+                            if ($widget == 'rentals-search' || $widget == 'rentals-search-2') {
+                                $sidebars[$key][$widget_counter] = 'lodgix_custom_search-' . $counter;
+                                $old_widget = get_option('old_widget_lodgix_custom_search');
+                                if ($widget == 'rentals-search-2') {
+                                    $old_widget = get_option('old_widget_lodgix_custom_search_2');
+                                }
+                                $title = 'Rental Search';
+                                if (is_array($old_widget)) {
+                                    $amenities = $old_widget['amenities'];
+                                    $title = $old_widget['title'];
+                                }
+                                
+                                $w = get_option('widget_lodgix_custom_search');
+                                $w[$counter] = array(
+                                    $counter => array(
+                                        'title' => $title,
+                                        '$amenities' =>  $amenities
+                                    ),
+                                    '_multiwidget' => 1
+                                );
+                                update_option('widget_lodgix_custom_search',$w); 
+                            }
+                            else {
+                                
+                                $sidebars[$key][$widget_counter] = 'lodgix_featured-' . $counter;
+                                $old_widget = get_option('old_widget_lodgix_featured');
+                                $title = 'Featured Rentals';
+                                if (is_array($old_widget)) {
+                                    $title = $old_widget['title'];
+                                }
+                                
+                                $w = get_option('widget_lodgix_featured');
+                                $w[$counter] = array(
+                                    $counter => array(
+                                        'title' => $title
+                                    ),
+                                    '_multiwidget' => 1
+                                );
+                                
+                                update_option('widget_lodgix_featured',$w); 
+                                                             
                             }
                             
-                            
-                            $w = get_option('widget_lodgix_custom_search');
-                            $w[$counter] = array(
-                                $counter => array(
-                                    'title' => $title,
-                                    '$amenities' =>  $amenities
-                                ),
-                                '_multiwidget' => 1
-                            );
-                      
-                            update_option('widget_lodgix_custom_search',$w); 
                             
                             $counter ++;
                         }
                         $widget_counter++;
                     }
                 }
-                wp_redirect($_SERVER["REQUEST_URI"]);
+                
             }
             
             update_option('sidebars_widgets',$sidebars);
+            wp_redirect($_SERVER["REQUEST_URI"]);
         }
         
     }               

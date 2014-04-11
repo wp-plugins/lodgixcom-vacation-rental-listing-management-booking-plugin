@@ -399,17 +399,11 @@ if (!class_exists('p_lodgix')) {
             }
             
             $vacation_rentals =  __('Vacation Rentals',$this->localizationDomain);
-            //if ($vacation_rentals == 'Vacation Rentals' && $l->code != 'en')
-            //    $vacation_rentals = $vacation_rentals . ' ' . $l->name;
-            
+           
             $availability =  __('Availability',$this->localizationDomain);
-            //if ($availability == 'Availability' && $l->code != 'en')
-            //    $availability = $availability . ' ' . $l->name;
-            //
+           
             $search = __('Search Rentals',$this->localizationDomain);
-            //if ($search == 'Search Rentals' && $l->code != 'en')
-            //    $search = $search . ' ' . $l->name;
-                
+          
             $this->page_titles[$l->code] = array(
                 'vacation_rentals' => $vacation_rentals,
                 'availability' => $availability,

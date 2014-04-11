@@ -60,7 +60,7 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 	function widget( $args, $instance ) {
 		global $wpdb;
 				
-		echo $args['before_widget'];
+
 		
         $this->properties_table = $wpdb->prefix . "lodgix_properties";
         $this->lang_amenities_table = $wpdb->prefix . "lodgix_lang_amenities";
@@ -239,7 +239,7 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
               </div>';               
         echo '</div></form>';
 		
-		echo $args['after_widget'];
+		echo $after_widget;
 	}
 }
 

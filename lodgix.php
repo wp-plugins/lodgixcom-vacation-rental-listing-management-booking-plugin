@@ -158,11 +158,12 @@ v1.0.0: Initial release
 define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "2.0";
+$p_lodgix_db_version = "2.1";
 
 require_once('functions.php');
 require_once('translator.php');
 require_once('request.php');
+include_once dirname( __FILE__ ) . '/widgets.php';
 
 
 if (!class_exists('p_lodgix')) {
@@ -311,10 +312,12 @@ if (!class_exists('p_lodgix')) {
     /**
     * PHP 5 Constructor
     */        
-    function __construct()
+    public function __construct()
     {                     
-
+        global $p_lodgix_db_version;
+        
         $this->p_lodgix_set_tables();
+        
         
         //"Constants" setup
         $this->url = plugins_url(basename(__FILE__), __FILE__);
@@ -322,7 +325,9 @@ if (!class_exists('p_lodgix')) {
         
         //Initialize the options
         $this->getOptions();
-      
+        
+ 
+
       
         //Admin menu
         add_action("admin_menu", array(&$this,"admin_menu_link"));
@@ -616,11 +621,11 @@ if (!class_exists('p_lodgix')) {
         {
             $old_db_version = ((float)get_option('p_lodgix_db_version'));
                     
-            //$old_db_version = 1.9;
             if ($old_db_version < ((float)$p_lodgix_db_version))
             {              
                 $this->update_db($old_db_version);
             }
+            
         }
         update_option('p_lodgix_db_version',$p_lodgix_db_version);
                   
@@ -3040,8 +3045,8 @@ if (!class_exists('p_lodgix')) {
         if ( !function_exists('register_sidebar_widget') )
             return;
     
-        register_sidebar_widget(array('Rentals Search', 'widgets'), array(&$this,'widget_lodgix_custom_search'));
-        register_widget_control(array('Rentals Search', 'widgets'), array(&$this,'widget_lodgix_custom_search_control'));
+        //register_sidebar_widget(array('Rentals Search', 'widgets'), array(&$this,'widget_lodgix_custom_search'));
+        //register_widget_control(array('Rentals Search', 'widgets'), array(&$this,'widget_lodgix_custom_search_control'));
 	    
         register_sidebar_widget(array('Rentals Search 2', 'widgets'), array(&$this,'widget_lodgix_custom_search_2'));
         register_widget_control(array('Rentals Search 2', 'widgets'), array(&$this,'widget_lodgix_custom_search_control_2'));
@@ -3887,7 +3892,7 @@ if (!class_exists('p_lodgix')) {
     function update_db($old_db_version) {
         global $wpdb;
         global $p_lodgix_db_version;
-
+        
 
         
         if ($old_db_version < 1.2)
@@ -3974,6 +3979,30 @@ if (!class_exists('p_lodgix')) {
             wp_redirect($_SERVER["REQUEST_URI"]);
         }                
         
+        if ($old_db_version < 2.1) {
+                   
+            $sidebars = get_option('sidebars_widgets');
+            
+            foreach($sidebars as $key => $value) {
+                $widget_counter = 0;
+                if (is_array($sidebars[$key])) {
+                    foreach($sidebars[$key] as $widget) {
+                        if ($widget == 'rentals-search' || $widget == 'rentals-search-2')
+                        {
+                         
+                            $sidebars[$key][$widget_counter] = 'XXXXXXXXXXXXXXXX';
+              
+                        }
+                        $widget_counter++;
+                    }
+                }
+                
+            }
+            print_r($sidebars);
+            update_option('sidebars_widgets',$sidebars);
+          	
+          	die();
+        }
         
     }               
       

@@ -3623,7 +3623,7 @@ if (!class_exists('p_lodgix')) {
                                 $w = get_option('widget_lodgix_custom_search');
                                 $w[$counter] = array(
                                     'title' => $title,
-                                    '$amenities' =>  $amenities
+                                    'amenities' =>  $amenities
                                 );                                
                                 update_option('widget_lodgix_custom_search',$w); 
                             }

@@ -3995,7 +3995,7 @@ if (!class_exists('p_lodgix')) {
                             
                             $old_widget = get_option('widget_lodgix_custom_search');
                             if ($widget == 'rentals-search-2') {
-                                $old_widget = get_option('widget_lodgix_custom_search');
+                                $old_widget = get_option('widget_lodgix_custom_search_2');
                             }
                             
                             $amenities = 0;

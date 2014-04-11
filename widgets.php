@@ -8,7 +8,7 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 				
 		parent::__construct(
 			'lodgix_custom_search',
-			__( 'Lodgix Rental Search Widget' ),
+			__( 'Lodgix Rental Search' ),
 			array( 'description' => __( 'Lodgix Rental Search Widget' ) )
 		);		
 
@@ -21,42 +21,6 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 	function css() {
 		?>
 		
-		<style type="text/css">
-		.a-stats {
-			width: auto;
-		}
-		.a-stats a { 
-			background: #7CA821;
-			background-image:-moz-linear-gradient(0% 100% 90deg,#5F8E14,#7CA821);
-			background-image:-webkit-gradient(linear,0% 0,0% 100%,from(#7CA821),to(#5F8E14));
-			border: 1px solid #5F8E14;
-			border-radius:3px;
-			color: #CFEA93;
-			cursor: pointer;
-			display: block;
-			font-weight: normal;
-			height: 100%;
-			-moz-border-radius:3px;
-			padding: 7px 0 8px;
-			text-align: center;
-			text-decoration: none;
-			-webkit-border-radius:3px;
-			width: 100%;
-		}
-		.a-stats a:hover { 
-			text-decoration: none;
-			background-image:-moz-linear-gradient(0% 100% 90deg,#6F9C1B,#659417);
-			background-image:-webkit-gradient(linear,0% 0,0% 100%,from(#659417),to(#6F9C1B));
-		}
-		.a-stats .count {
-			color: #FFF;
-			display: block;
-			font-size: 15px;
-			line-height: 16px;
-			padding: 0 13px;
-			white-space: nowrap;
-		}
-		</style>
 		
 		<?php
 	}
@@ -66,10 +30,9 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 			$title = esc_attr( $instance['title'] );
 		}
 		else {
-			$title = __( 'Spam Blocked' );
+			$title = __( 'Lodgix Rental Search' );
 		}
-		?>
-		
+		?>		
 				<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
@@ -93,9 +56,6 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 		}
 		?>
 		
-			<div class="a-stats">
-				<a href="http://lodgix.com" target="_blank" title=""><?php printf( _n( '<strong class="count">%1$s spam</strong> blocked by <strong>Lodgix</strong>', '<strong class="count">%1$s spam</strong> blocked by <strong>Lodgix</strong>', $count ), number_format_i18n( $count ) ); ?></a>
-			</div>
 		
 		<?php
 		

@@ -3980,9 +3980,9 @@ if (!class_exists('p_lodgix')) {
         }                
         
         if ($old_db_version < 2.1) {
-                   
-            $sidebars = get_option('sidebars_widgets');
             
+            $sidebars = get_option('sidebars_widgets');
+            $counter = 20;
             foreach($sidebars as $key => $value) {
                 $widget_counter = 0;
                 if (is_array($sidebars[$key])) {
@@ -3990,18 +3990,37 @@ if (!class_exists('p_lodgix')) {
                         if ($widget == 'rentals-search' || $widget == 'rentals-search-2')
                         {
                          
-                            $sidebars[$key][$widget_counter] = 'XXXXXXXXXXXXXXXX';
-              
+                            $sidebars[$key][$widget_counter] = 'lodgix_custom_search-' . $counter;
+                            
+                            
+                            $old_widget = get_option('widget_lodgix_custom_search');
+                            if ($widget == 'rentals-search-2') {
+                                $old_widget = get_option('widget_lodgix_custom_search');
+                            }
+                            
+                            $amenities = 0;
+                            if (is_array($old_widget)) {
+                                $amenities = $old_widget['amenities'];
+                            }
+                            
+                            update_option('widget_lodgix_custom_search', array(
+                                $counter => array(
+                                    'title' => 'Rental Search',
+                                    '$amenities' =>  $amenities
+                                ),
+                                '_multiwidget' => 1
+                            ));
+                            
+                            $w = get_option('widget_lodgix_custom_search');
+                            $counter ++;
                         }
                         $widget_counter++;
                     }
                 }
                 
             }
-            print_r($sidebars);
+            
             update_option('sidebars_widgets',$sidebars);
-          	
-          	die();
         }
         
     }               

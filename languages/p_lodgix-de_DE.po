@@ -328,3 +328,6 @@ msgstr "pro Woche"
 
 msgid "Display Results"
 msgstr "Ergebnisse anzeigen"
+
+msgid "Properties Found"
+msgstr "Immobilien Gefunden"

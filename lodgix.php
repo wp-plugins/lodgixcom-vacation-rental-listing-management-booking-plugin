@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.51
+Version: 1.1.52
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.52: Widgets updated
 v1.1.51: Non SSL support disabled
 v1.1.50: Fixed Bug - single property
 v1.1.49: Fixed Bug - single property
@@ -2097,7 +2098,7 @@ if (!class_exists('p_lodgix')) {
       if ($rotators)
       {
           foreach($rotators as $rotator)
-           $link = '<a href="' . $rotator->url . '">' . $rotator->title . '</a>';  
+           $link = '<a target="_blank" href="' . $rotator->url . '">' . $rotator->title . '</a>';  
       }
              
       $content .= '<div class="ldgxPowered">' . $link . ' by Lodgix.com</div>';
@@ -2383,7 +2384,7 @@ if (!class_exists('p_lodgix')) {
         if ($rotators)
         {
             foreach($rotators as $rotator)
-            $link = '<a href="' . $rotator->url . '">' . $rotator->title . '</a>';  
+            $link = '<a target="_blank" href="' . $rotator->url . '">' . $rotator->title . '</a>';  
         }        
         
         $single_property = '';

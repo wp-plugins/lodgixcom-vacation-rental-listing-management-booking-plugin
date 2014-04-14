@@ -296,8 +296,8 @@ msgstr "Suche"
 msgid "Pet Friendly"
 msgstr "Haustiere"
 
-msgid "Search by Property Name or ID:"
-msgstr "Suchen Sie nach Objekt Name oder ID"
+msgid "Search by Property Name or ID"
+msgstr "Suchen Sie nach Name oder ID"
 
 msgid "Arriving"
 msgstr "Anreise"
@@ -325,3 +325,6 @@ msgstr "/Nacht"
 
 msgid "per week"
 msgstr "pro Woche"
+
+msgid "Display Results"
+msgstr "Ergebnisse anzeigen"

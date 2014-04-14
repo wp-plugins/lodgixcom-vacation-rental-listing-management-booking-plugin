@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.52
+Version: 1.1.53
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.53: Widgets updated II
 v1.1.52: Widgets updated
 v1.1.51: Non SSL support disabled
 v1.1.50: Fixed Bug - single property
@@ -2698,6 +2699,8 @@ if (!class_exists('p_lodgix')) {
       
     function p_lodgix_custom_search()
     {
+        $this->p_lodgix_load_locale();
+        
 		global $wpdb;
 		$area = @mysql_real_escape_string($_POST['area']);
 		$bedrooms = @mysql_real_escape_string($_POST['bedrooms']);
@@ -2768,13 +2771,14 @@ if (!class_exists('p_lodgix')) {
         $sql .= " 1=1 ";
        
         $count = $wpdb->get_results($sql);
-        if ($language == "de")
-          $content = $count[0]->num_results . ' Properties Found.';
-        else
-          $content = $count[0]->num_results . ' Properties Found.';
- 
-        if ($content == ' Properties Found.')       
-             $content = '0 Properties Found.';
+        $num_results = $count[0]->num_results;
+        if ($count[0]->num_results == 0) {
+            $num_results = 0;
+        }
+        $content = $num_results . ' ' . __('Properties Found',$this->localizationDomain) . '.';
+
+        print_r("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            
         die($content);
     }      
   

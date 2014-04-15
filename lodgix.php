@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.54
+Version: 1.1.55
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.55: Fixed Search Bug II
 v1.1.54: Fixed Search Bug
 v1.1.53: Widgets updated II
 v1.1.52: Widgets updated
@@ -411,20 +412,25 @@ if (!class_exists('p_lodgix')) {
        $this->p_lodgix_load_locale();
     }
     
-    function p_lodgix_load_locale() {   
+    function p_lodgix_load_locale() {
+          
         global $sitepress;
                         
         $this->locale = get_locale();
-        $this->sufix = substr($this->locale,0,2);                        
+        $this->sufix = substr($this->locale,0,2);
+
         
         $mo =  WP_CONTENT_DIR . '/'  . "languages/" .$this->localizationDomain .'-' .$this->locale.".mo";
+
         
         if (!load_textdomain($this->localizationDomain, $mo))
         {
             $mo =  trailingslashit( plugin_dir_path( __FILE__ )) . "languages/" .$this->localizationDomain .'-' .$this->locale.".mo";
             load_textdomain($this->localizationDomain, $mo);
+              
+            
         }
-        return $lang;
+        
     }
     
     function p_lodgix_set_tables() {
@@ -2700,9 +2706,10 @@ if (!class_exists('p_lodgix')) {
       
     function p_lodgix_custom_search()
     {
+        global $wpdb;
         $this->p_lodgix_load_locale();
         
-		global $wpdb;
+		
 		$area = @mysql_real_escape_string($_POST['area']);
 		$bedrooms = @mysql_real_escape_string($_POST['bedrooms']);
 		$id = @mysql_real_escape_string($_POST['id']);
@@ -2731,14 +2738,14 @@ if (!class_exists('p_lodgix')) {
         if (is_numeric($id))
         {
              
-             $testsql = $sql . "id=" . $wpdb->_real_escape($id);
-             $testcount = $wpdb->get_results($testsql);
- 
-             if ($testcount[0]->num_results > 0)
-             {
-                 $found = true;
-                 $sql .= "id=" . $wpdb->_real_escape($id) . ' AND ';
-             }
+            $testsql = $sql . "id=" . $wpdb->_real_escape($id);
+            $testcount = $wpdb->get_results($testsql);
+
+            if ($testcount[0]->num_results > 0)
+            {
+                $found = true;
+                $sql .= "id=" . $wpdb->_real_escape($id) . ' AND ';
+            }
         }	      
        
         if (!$found)
@@ -2776,7 +2783,7 @@ if (!class_exists('p_lodgix')) {
         if ($count[0]->num_results == 0) {
             $num_results = 0;
         }
-        $content = $num_results . ' ' . __('Properties Found',$this->localizationDomain) . '.';
+        $content = $num_results;
 
             
         die($content);

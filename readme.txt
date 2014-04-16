@@ -92,6 +92,8 @@ vacation rental website in a couple hours.
 
 
 == Changelog ==
+= 1.1.56 = 
+* Fixed add_action bug
 = 1.1.55 = 
 * Fixed Search Bug II
 = 1.1.54 = 

@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.57
+Version: 1.1.58
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.58: Wordpress 3.9 adjustments
 v1.1.57: Fixed widgets.php bug
 v1.1.56: Fixed add_action bug
 v1.1.55: Fixed Search Bug II
@@ -1179,7 +1180,7 @@ if (!class_exists('p_lodgix')) {
       function get_insert_sql_from_array($table, $data) {
         foreach ($data as $field=>$value) {
           $fields[] = '`' . $field . '`';
-          $values[] = "'" . @mysql_real_escape_string($value) . "'";
+          $values[] = "'" . @esc_sql($value) . "'";
         }
         $field_list = join(',', $fields);
         $value_list = join(', ', $values);
@@ -1194,7 +1195,7 @@ if (!class_exists('p_lodgix')) {
       */
       function get_update_sql_from_array($table, $data, $pk) {
         foreach ($data as $field=>$value) {
-          $fields_values[] = "`" . $field . "`='" . @mysql_real_escape_string($value) . "'";
+          $fields_values[] = "`" . $field . "`='" . @esc_sql($value) . "'";
         }
         $fields_values_list = join(',', $fields_values);
         
@@ -1953,7 +1954,7 @@ if (!class_exists('p_lodgix')) {
         
 		$len = count($amenities);
 		for ($i = 0; $i < $len; $i++) {
-			$amenities[$i] = @mysql_real_escape_string($amenities[$i]);
+			$amenities[$i] = @esc_sql($amenities[$i]);
 		}
 		$propertyIds = array();
 		$properties = $wpdb->get_results('SELECT property_id, count(property_id) AS amenities FROM ' . $wpdb->prefix . "lodgix_amenities WHERE description IN ('" . join("','", $amenities) . "') GROUP BY property_id HAVING amenities=" . $len . "");
@@ -2238,13 +2239,13 @@ if (!class_exists('p_lodgix')) {
            <div id="content_lodgix">
         ';
 
-      	$sort = @mysql_real_escape_string($_POST['sort']);
-      	$language = @mysql_real_escape_string($_POST['lang']);
-      	$area = @mysql_real_escape_string($_POST['lodgix-custom-search-area']);
-      	$bedrooms = @mysql_real_escape_string($_POST['lodgix-custom-search-bedrooms']);
-      	$id = @mysql_real_escape_string($_POST['lodgix-custom-search-id']);
-      	$arrival = @mysql_real_escape_string($_POST['lodgix-custom-search-arrival']);
-      	$nights = @mysql_real_escape_string($_POST['lodgix-custom-search-nights']);
+      	$sort = @esc_sql($_POST['sort']);
+      	$language = @esc_sql($_POST['lang']);
+      	$area = @esc_sql($_POST['lodgix-custom-search-area']);
+      	$bedrooms = @esc_sql($_POST['lodgix-custom-search-bedrooms']);
+      	$id = @esc_sql($_POST['lodgix-custom-search-id']);
+      	$arrival = @esc_sql($_POST['lodgix-custom-search-arrival']);
+      	$nights = @esc_sql($_POST['lodgix-custom-search-nights']);
 
 		$amenities = $_POST['lodgix-custom-search-amenities'];
 
@@ -2262,7 +2263,7 @@ if (!class_exists('p_lodgix')) {
       function get_single_page_content($id)
       {
 
-      	$bookdates = @mysql_real_escape_string($_GET['bookdates']);
+      	$bookdates = @esc_sql($_GET['bookdates']);
 
         $content = $this->get_single_page_html($id,$bookdates);   
   
@@ -2713,11 +2714,11 @@ if (!class_exists('p_lodgix')) {
         $this->p_lodgix_load_locale();
         
 		
-		$area = @mysql_real_escape_string($_POST['area']);
-		$bedrooms = @mysql_real_escape_string($_POST['bedrooms']);
-		$id = @mysql_real_escape_string($_POST['id']);
-		$arrival = @mysql_real_escape_string($_POST['arrival']);
-		$nights = @mysql_real_escape_string($_POST['nights']);
+		$area = @esc_sql($_POST['area']);
+		$bedrooms = @esc_sql($_POST['bedrooms']);
+		$id = @esc_sql($_POST['id']);
+		$arrival = @esc_sql($_POST['arrival']);
+		$nights = @esc_sql($_POST['nights']);
        
 	    $available = 'ALL';
 	    if ((strtotime($arrival) !== false) && (is_numeric($nights)))

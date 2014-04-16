@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'activated_plugin', 'p_lodgix_reorder_plugins' );
+
 
 function p_lodgix_reorder_plugins() {
     $plugins = get_option( 'active_plugins');

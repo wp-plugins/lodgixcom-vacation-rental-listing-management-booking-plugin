@@ -355,4 +355,3 @@ add_action( 'widgets_init', 'lodgix_register_widgets' );
 
 
 ?>
-

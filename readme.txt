@@ -2,8 +2,8 @@
 Contributors: lodgix 
 Tags: vacation rentals, vacation rental, listings, website, cms, availability, calendar, booking, system, software, wordpress plugin, vacation homes,cottages, cabins, condos, holiday rentals
 Requires at least: 3.0.0
-Tested up to: 3.8.3
-Stable tag: 1.1.58
+Tested up to: 3.9.0
+Stable tag: 1.1.59
 
 Build a sophisticated vacation rental website in minutes using vacation rental software from Lodgix.com. 
 
@@ -92,7 +92,9 @@ vacation rental website in a couple hours.
 
 
 == Changelog ==
-= 1.1.58 = 
+= 1.1.59 =
+* Fixed Virtual Tour link
+= 1.1.58 =
 * Wordpress 3.9 adjustments
 = 1.1.57 = 
 * Fixed widgets.php bug

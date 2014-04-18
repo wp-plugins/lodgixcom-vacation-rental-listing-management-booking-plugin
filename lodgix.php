@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.58
+Version: 1.1.59
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.59: Fixed Virtual Tour link
 v1.1.58: Wordpress 3.9 adjustments
 v1.1.57: Fixed widgets.php bug
 v1.1.56: Fixed add_action bug
@@ -1373,6 +1374,10 @@ if (!class_exists('p_lodgix')) {
         }        
         $parray['city'] = $addr['City'];
         $parray['area'] = $addr['Area'];
+        if ($parray['area'] == Array())
+        {
+            $parray['area'] = NULL;
+        }        
         $parray['zip'] = $addr['PostalCode'];
         $parray['latitude'] = $addr['Latitude'];
         $parray['longitude'] = $addr['Longitude'];
@@ -1429,6 +1434,16 @@ if (!class_exists('p_lodgix')) {
         $parray['video_url'] = $property['VideoURL'];
         $parray['virtual_tour_url'] = $property['VirtualToursURL'];
         
+        if ($parray['video_url'] == Array())
+        {
+            $parray['video_url'] = NULL;
+        }
+
+        if ($parray['virtual_tour_url'] == Array())
+        {
+            $parray['virtual_tour_url'] = NULL;
+        }
+
         $beds = $property['Beds'];
         if ($property['Beds']['Bed'][0])
             $beds = $property['Beds']['Bed'];    

@@ -197,17 +197,18 @@ $low_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default
 $high_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";", null));
 $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";", null));
 $high_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";", null));
-$single_property.= '<div id="lodgix_property_rates"><h2>' . __('Rates', $this->localizationDomain) . '</h2>';
+$single_property.= '<div id="lodgix_property_rates"><h2><div id="lodgix_policies_rates">' . __('Rates', $this->localizationDomain) . '</h2>';
 if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates))
 {
     if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) $single_property.= __('Daily Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_daily_rate . ' -  ' . $property->currency_symbol . $high_daily_rate . ' ' . __('per night', $this->localizationDomain) . '<br/>';
     if ($low_weekly_rate > 0) $single_property.= __('Weekly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_weekly_rate . ' - ' . $property->currency_symbol . $high_weekly_rate . ' ' . __('per week', $this->localizationDomain) . '<br/>';
     if ($low_monthly_rate > 0) $single_property.= __('Monthly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_monthly_rate . ' - ' . $property->currency_symbol . $high_monthly_rate . ' ' . __('per month', $this->localizationDomain) . '<br/>';
+	$single_property.= '<br />';
 }
-else
+else if ($this->options['p_lodgix_rates_display'] == 1)
 {
     include "merged_rates.php";
-
+	$single_property.= '<br />';
 }
 $single_property.= '- ' . __('Rate varies due to seasonality and holidays', $this->localizationDomain) . '.<br/>';
 $single_property.= '- ' . __('Please select your dates on our online booking calendar for an exact quote', $this->localizationDomain) . '.<br/>';

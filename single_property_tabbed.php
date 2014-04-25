@@ -250,19 +250,21 @@ class="lodgix_tabbed_content_clear"></span></ul>
 </div>
 
 <div id="lodgix_tabbed_content-5">';
-$single_property.= '<h2>' . __('Policies', $this->localizationDomain) . '</h2>';
+$single_property.= '<h2>' . __('Policies', $this->localizationDomain) . '</h2><div id="lodgix_policies_rates">';
 if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates))
 {
     if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) $single_property.= __('Daily Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_daily_rate . ' - ' . $property->currency_symbol . $high_daily_rate . ' ' . __('per night', $this->localizationDomain) . '<br/>';
     if ($low_weekly_rate > 0) $single_property.= __('Weekly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_weekly_rate . ' - ' . $property->currency_symbol . $high_weekly_rate . ' ' . __('per week', $this->localizationDomain) . '<br/>';
     if ($low_monthly_rate > 0) $single_property.= __('Monthly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_monthly_rate . ' - ' . $property->currency_symbol . $high_monthly_rate . ' ' . __('per month', $this->localizationDomain) . '<br/>';
+	$single_property.= '<br />';
 }
-else
+else if ($this->options['p_lodgix_rates_display'] == 1)
 {
     include "merged_rates.php";
-
+	$single_property.= '<br />';
 }
-$single_property.= '<br/>- ' . __('Rate varies due to seasonality and holidays', $this->localizationDomain) . '.<br/>';
+$single_property.= '</div>';
+$single_property.= '- ' . __('Rate varies due to seasonality and holidays', $this->localizationDomain) . '.<br/>';
 $single_property.= '- ' . __('Please select your dates on our online booking calendar for an exact quote', $this->localizationDomain) . '.<br/>';
 $single_property.= '';
 $taxes = $wpdb->get_results("SELECT * FROM " . $this->taxes_table . " WHERE

@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.60
+Version: 1.1.61
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.61: Added no policies rates display option
 v1.1.60: Fixed Lodgix notify
 v1.1.59: Fixed Virtual Tour link
 v1.1.58: Wordpress 3.9 adjustments
@@ -4460,9 +4461,10 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Rates Display:', $this->localizationDomain); ?>
 					</th> 
 					<td>
-						<select name="p_lodgix_rates_display"  id="p_lodgix_rates_display" style="width:120px;">                              
+						<select name="p_lodgix_rates_display"  id="p_lodgix_rates_display" style="width:120px;">                                                        
 							<option <?php if ($this->options['p_lodgix_rates_display'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
 							<option <?php if ($this->options['p_lodgix_rates_display'] == 1) echo "SELECTED"; ?> value='1'>Merged</option>
+                            <option <?php if ($this->options['p_lodgix_rates_display'] == 2) echo "SELECTED"; ?> value='2'>None</option>
 						</select>
 					</td>                                                                                                                           
 				</tr>                                

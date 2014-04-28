@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.1.61
+Version: 1.1.62
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.1.62: Fixed property pictures captions
 v1.1.61: Added no policies rates display option
 v1.1.60: Fixed Lodgix notify
 v1.1.59: Fixed Virtual Tour link
@@ -1471,19 +1472,21 @@ if (!class_exists('p_lodgix')) {
         foreach ($photos as $photo)
         { 
         	$photo['URL'] = str_replace('media/gallery','photo/0/gallery',$photo['URL']);
-          if ($pos == 1)
-          {
-            $parray['main_image'] = $photo['URL'];
-            $parray['main_image_thumb'] = $photo['ThumbnailURL'];
-          }
-          $pharray['property_id'] = $parray['id'];
-          $pharray['url'] = $photo['URL'];
-          $pharray['thumb_url'] = $photo['ThumbnailURL'];
-          $pharray['caption'] = $photo['Title'];
-          $pharray['position'] = $pos;
-          $pos++;
-          $sql = $this->get_insert_sql_from_array($this->pictures_table,$pharray);   
-          $wpdb->query($sql);                    
+            if ($pos == 1)
+            {
+              $parray['main_image'] = $photo['URL'];
+              $parray['main_image_thumb'] = $photo['ThumbnailURL'];
+            }
+            $pharray['property_id'] = $parray['id'];
+            $pharray['url'] = $photo['URL'];
+            $pharray['thumb_url'] = $photo['ThumbnailURL'];
+            $pharray['caption'] = $photo['Title'];
+            if ($pharray['caption'] == Array()) {
+            }
+            $pharray['position'] = $pos;
+            $pos++;
+            $sql = $this->get_insert_sql_from_array($this->pictures_table,$pharray);   
+            $wpdb->query($sql);                    
         }
 
         $sql = $this->get_insert_sql_from_array($this->properties_table,$parray);

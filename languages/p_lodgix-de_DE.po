@@ -210,7 +210,7 @@ msgid "Details"
 msgstr "Beschreibung"
 
 msgid "Property Details"
-msgstr "Ausf&uuml;ehrliche Beschreibung"
+msgstr "Ausf&uuml;hrliche Beschreibung"
 
 msgid "Amenities"
 msgstr "Ausstattung"
@@ -240,7 +240,7 @@ msgid "Daily"
 msgstr "T&auml;glich"
 
 msgid "Policies"
-msgstr "Vereinbarungen"
+msgstr "Info"
 
 msgid "Fees"
 msgstr "Geb&uuml;hren"
@@ -255,7 +255,7 @@ msgid "Availability &amp; Booking Calendar"
 msgstr "Verf&uuml;gbarkeit"
 
 msgid "Booking Calendar"
-msgstr "Buchungskalendar"
+msgstr "Buchungskalender"
 
 msgid "per night"
 msgstr "pro Nacht"
@@ -328,6 +328,3 @@ msgstr "pro Woche"
 
 msgid "Display Results"
 msgstr "Ergebnisse anzeigen"
-
-msgid "Properties Found"
-msgstr "Immobilien Gefunden"

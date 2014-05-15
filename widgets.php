@@ -109,6 +109,9 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
                       success: function(response){
                         //response_array = response.split(" ");
                         //P_LODGIX_SEARCH_RESULTS = parseInt(response_array[0]);
+						if (response == "") {						
+							response = "0";
+						}
                         jQueryLodgix(\'#search_results\').html(response + \' ' .  __('Properties Found',$localizationDomain) . '.\');
                         jQueryLodgix("#lodgix_search_spinner").hide();
                       },

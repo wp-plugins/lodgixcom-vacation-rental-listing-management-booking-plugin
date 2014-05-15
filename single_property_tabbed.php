@@ -80,7 +80,7 @@ if ($property->really_available && $property->allow_booking)
 }
 else
 {
-    $booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('select','2')";
+    $booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('option','active', 2);";
     $booklink = '<a href="javascript:void(0);" onclick="' . $booklink . '"
 class="ldgxBookNow">' . __('Book Now', $this->localizationDomain) . '</a>';
 }
@@ -146,10 +146,12 @@ $single_property.= '<script>
 	
 		jQueryLodgix("#lodgix_tabbed_content").tabs({
 			activate: function( event, ui ) {
-				google.maps.event.trigger(map, "resize");
-				map.setZoom(13);			
-				var latLng = marker.getPosition(); // returns LatLng object
-				map.setCenter(latLng); // setCenter takes a LatLng object			
+				if (map != null) {
+					google.maps.event.trigger(map, "resize");
+					map.setZoom(13);			
+					var latLng = marker.getPosition(); // returns LatLng object
+					map.setCenter(latLng); // setCenter takes a LatLng object
+				}
 
 			}
 		});
@@ -158,11 +160,11 @@ $single_property.= '<script>
 
 		if(document.location.hash == "#booking") {
 			window.scrollTo(0,0);
-			jQueryLodgix("#lodgix_tabbed_content").tabs("select",1);
+			jQueryLodgix("#lodgix_tabbed_content").tabs("option","active", 1);
 	    }
 
 		if(document.location.hash == "#map_canvas") {
-			jQueryLodgix("#lodgix_tabbed_content").tabs("select",2);
+			jQueryLodgix("#lodgix_tabbed_content").tabs("option","active", 2);
 		}
 });
 
@@ -229,8 +231,7 @@ $single_property.= '</div>
 
 <h2>' . __('Property Location', $this->localizationDomain) . '</h2>
 
-<div id="lodgix_tabbed_map_canvas" style="width: 100%; height:
-500px"></div>
+<div id="lodgix_tabbed_map_canvas" style="width: 100%; height:500px"></div>
 
 </div>
 

@@ -92,6 +92,8 @@ vacation rental website in a couple hours.
 
 
 == Changelog ==
+= 1.2.5 = Fixed jQuery UI tabs calendar conflict
+* Fixed jQuery UI tabs height bug
 = 1.2.4 =
 * Fixed jQuery UI tabs height bug
 = 1.2.3 =

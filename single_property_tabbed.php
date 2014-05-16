@@ -80,7 +80,7 @@ if ($property->really_available && $property->allow_booking)
 }
 else
 {
-    $booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('option','active', 2);";
+    $booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('select','2')";
     $booklink = '<a href="javascript:void(0);" onclick="' . $booklink . '"
 class="ldgxBookNow">' . __('Book Now', $this->localizationDomain) . '</a>';
 }
@@ -137,34 +137,24 @@ $single_property.= '
 
 ';
 $single_property.= '<link rel="stylesheet" href="' . $this->p_plugin_path . 'css/jquery-ui-1.8.17.custom.css" type="text/css" />';
-$single_property.= '<script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>';
 $single_property.= '<script>
-    var map = null;
-	var marker = null;
-	
 	jQueryLodgix(document).ready(function(){
-	
 		jQueryLodgix("#lodgix_tabbed_content").tabs({
-			activate: function( event, ui ) {
-				if (map != null) {
-					google.maps.event.trigger(map, "resize");
-					map.setZoom(13);			
-					var latLng = marker.getPosition(); // returns LatLng object
-					map.setCenter(latLng); // setCenter takes a LatLng object
+			create: function( event, ui ) {
+				var el = jQueryLodgix("#merged_rates_table");
+				if (el) {
+					
 				}
-
 			}
 		});
-		
-		
 
 		if(document.location.hash == "#booking") {
 			window.scrollTo(0,0);
-			jQueryLodgix("#lodgix_tabbed_content").tabs("option","active", 1);
+			jQueryLodgix("#lodgix_tabbed_content").tabs("select",1);
 	    }
 
 		if(document.location.hash == "#map_canvas") {
-			jQueryLodgix("#lodgix_tabbed_content").tabs("option","active", 2);
+			jQueryLodgix("#lodgix_tabbed_content").tabs("select",2);
 		}
 });
 
@@ -231,7 +221,8 @@ $single_property.= '</div>
 
 <h2>' . __('Property Location', $this->localizationDomain) . '</h2>
 
-<div id="lodgix_tabbed_map_canvas" style="width: 100%; height:500px"></div>
+<div id="lodgix_tabbed_map_canvas" style="width: 100%; height:
+500px"></div>
 
 </div>
 
@@ -417,7 +408,9 @@ $single_property.= '
 
 </div></div>';
 $single_property.= '</div></div>';
-
+$single_property.= '<script
+src="https://maps.google.com/maps/api/js?sensor=true"
+type="text/javascript"></script>';
 $single_property.= '<script type="text/javascript">
 
 // <![CDATA[
@@ -430,20 +423,16 @@ function lodgix_gmap_initialize() {
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 
-	map = new google.maps.Map(document.getElementById("lodgix_tabbed_map_canvas"),lodgixMapOptions);
-	marker = new google.maps.Marker({
+	var map = new google.maps.Map(document.getElementById("lodgix_tabbed_map_canvas"),lodgixMapOptions);
+	var marker = new google.maps.Marker({
 		position: lodgixLatLng,
 		map: map
 	});
-	
 }
-
 
 window.onload = lodgix_gmap_initialize;
 
 // ]]>
 
-</script>
-
-';
+</script>';
 ?>

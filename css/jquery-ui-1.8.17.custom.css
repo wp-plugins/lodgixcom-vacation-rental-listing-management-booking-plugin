@@ -1089,7 +1089,7 @@ button.lodgix-button::-moz-focus-inner {
 }
 .lodgix-tabs .lodgix-tabs-hide {
     position: absolute;
-    top: -10000px;
+    top: -2147483647px;
     width: 100%;
 }
 .lodgix-datepicker {

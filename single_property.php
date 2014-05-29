@@ -12,7 +12,7 @@ if ($property->city != "")
 	$property_city = " in " . $property->city;
 
 $min_weekly_rate = "";
-if ($property->min_weekly_rate > 0)
+if (($property->min_weekly_rate > 0) && $this->options['p_lodgix_display_weekly_rates'])
 	$min_weekly_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_weekly_rate . __(' per /wk', $this->localizationDomain) . '<br />';
 
 $min_daily_rate = "";
@@ -201,8 +201,8 @@ $single_property.= '<div id="lodgix_property_rates"><h2><div id="lodgix_policies
 if (($this->options['p_lodgix_rates_display'] == 0) || (!$merged_rates))
 {
     if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) $single_property.= __('Daily Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_daily_rate . ' -  ' . $property->currency_symbol . $high_daily_rate . ' ' . __('per night', $this->localizationDomain) . '<br/>';
-    if ($low_weekly_rate > 0) $single_property.= __('Weekly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_weekly_rate . ' - ' . $property->currency_symbol . $high_weekly_rate . ' ' . __('per week', $this->localizationDomain) . '<br/>';
-    if ($low_monthly_rate > 0) $single_property.= __('Monthly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_monthly_rate . ' - ' . $property->currency_symbol . $high_monthly_rate . ' ' . __('per month', $this->localizationDomain) . '<br/>';
+    if ($this->options['p_lodgix_display_weekly_rates'] && $low_weekly_rate > 0) $single_property.= __('Weekly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_weekly_rate . ' - ' . $property->currency_symbol . $high_weekly_rate . ' ' . __('per week', $this->localizationDomain) . '<br/>';
+    if ($this->options['p_lodgix_display_monthly_rates'] && $low_monthly_rate > 0) $single_property.= __('Monthly Rate', $this->localizationDomain) . ': ' . $property->currency_symbol . $low_monthly_rate . ' - ' . $property->currency_symbol . $high_monthly_rate . ' ' . __('per month', $this->localizationDomain) . '<br/>';
 	$single_property.= '<br />';
 }
 else if ($this->options['p_lodgix_rates_display'] == 1)

@@ -26,8 +26,12 @@
 
     }
 
-    $single_property .= '<th class="lodgix_centered merged_rates_table_green">' . $weekly_text  .'</th>';
-    $single_property .= '<th class="lodgix_centered merged_rates_table_green">' . $monthly_text  .'</th>';        
+	if ($this->options['p_lodgix_display_weekly_rates']) {
+		$single_property .= '<th class="lodgix_centered merged_rates_table_green">' . $weekly_text  .'</th>';
+	}
+	if ($this->options['p_lodgix_display_monthly_rates']) {
+		$single_property .= '<th class="lodgix_centered merged_rates_table_green">' . $monthly_text  .'</th>';
+	}	
     $single_property .= '</tr></thead><tbody>';
 
     $even = true;
@@ -52,9 +56,12 @@
             $single_property .= '<td class="lodgix_centered">' . ((!$mr->nightly) ? "-" : ($property->currency_symbol . $mr->nightly)) . '</td>';
             $single_property .= '<td class="lodgix_centered">' . ((!$mr->nightly_weekend) ? ((!$mr->nightly) ? "-" : ($property->currency_symbol . $mr->nightly)) : ($property->currency_symbol . $mr->nightly_weekend)) . '</td>';
         }
-
-        $single_property .= '<td class="lodgix_centered">' . ((!$mr->weekly) ? "-" : ($property->currency_symbol . $mr->weekly))  . '</td>';
-        $single_property .= '<td class="lodgix_centered">' . ((!$mr->monthly) ? "-" : ($property->currency_symbol . $mr->monthly))  . '</td>';
+		if ($this->options['p_lodgix_display_weekly_rates']) {
+	        $single_property .= '<td class="lodgix_centered">' . ((!$mr->weekly) ? "-" : ($property->currency_symbol . $mr->weekly))  . '</td>';
+		}
+		if ($this->options['p_lodgix_display_monthly_rates']) {
+			$single_property .= '<td class="lodgix_centered">' . ((!$mr->monthly) ? "-" : ($property->currency_symbol . $mr->monthly))  . '</td>';
+		}
         $single_property .= '</tr>';
         $even = !$even;
 

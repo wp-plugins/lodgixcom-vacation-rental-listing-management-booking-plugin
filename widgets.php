@@ -188,8 +188,10 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
         echo	'</select></div>
                     <div>'.__('Bedrooms',$localizationDomain) .':</div> 
                     <div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="p_lodgix_search_properties()">
-                    <option value="ANY">Any</option> 
-                    <option value="0">Studio</option>';
+                    <option value="ANY">Any</option>';
+		$min_rooms = (int)$wpdb->get_var("SELECT MIN(bedrooms) FROM " . $properties_table);
+		if ($min_rooms == 0)					
+            echo '<option value="0">Studio</option>';
         $max_rooms = (int)$wpdb->get_var("SELECT MAX(bedrooms) FROM " . $properties_table);
         for($i = 1 ; $i < ($max_rooms+1) ; $i++)
         {

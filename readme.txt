@@ -3,7 +3,7 @@ Contributors: lodgix
 Tags: vacation rentals, vacation rental, listings, website, cms, availability, calendar, booking, system, software, wordpress plugin, vacation homes,cottages, cabins, condos, holiday rentals
 Requires at least: 3.0.0
 Tested up to: 3.9.1
-Stable tag: 1.2.4
+Stable tag: 1.2.6
 
 Build a sophisticated vacation rental website in minutes using vacation rental software from Lodgix.com. 
 
@@ -92,8 +92,10 @@ vacation rental website in a couple hours.
 
 
 == Changelog ==
-= 1.2.5 = Fixed jQuery UI tabs calendar conflict
-* Fixed jQuery UI tabs height bug
+= 1.2.6 =
+* Fixed german translation. Fixed Rental Search Studio option. Added option to not display weekly and monthly rates
+= 1.2.5 =
+* Fixed jQuery UI tabs calendar conflict
 = 1.2.4 =
 * Fixed jQuery UI tabs height bug
 = 1.2.3 =

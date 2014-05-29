@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.2.5
+Version: 1.2.6
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.2.6: Fixed german translation. Fixed Rental Search Studio option. Added option to not display weekly and monthly rates
 v1.2.5: Fixed jQuery UI tabs calendar conflict
 v1.2.4: Fixed jQuery UI tabs height bug
 v1.2.3: Optimized image download for a large number of properties
@@ -175,7 +176,7 @@ v1.0.0: Initial release
 define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "2.1";
+$p_lodgix_db_version = "2.2";
 
 require_once('functions.php');
 require_once('translator.php');
@@ -1094,6 +1095,8 @@ if (!class_exists('p_lodgix')) {
                                     'p_lodgix_allow_comments' => false,
                                     'p_lodgix_allow_pingback' => false,
                                     'p_lodgix_display_daily_rates' => true,
+                                    'p_lodgix_display_weekly_rates' => true,
+                                    'p_lodgix_display_monthly_rates' => true,
                                     'p_lodgix_display_featured_horizontally' => 0,
                                     'p_lodgix_display_icons' => false,
                                     'p_lodgix_display_title' => 'name',
@@ -2103,28 +2106,44 @@ if (!class_exists('p_lodgix')) {
                   }
               }
           
-              if ($this->options['p_lodgix_display_daily_rates'])
-              {
-                $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
-                $high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
-              }
-              else
-              {
-                $low_daily_rate = 'N/A';
-                $high_daily_rate = 'N/A';
-              }
+            if ($this->options['p_lodgix_display_daily_rates'])
+            {
+              $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
+              $high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
+            }
+            else
+            {
+              $low_daily_rate = 'N/A';
+              $high_daily_rate = 'N/A';
+            }
+            
+            if ($this->options['p_lodgix_display_weekly_rates'])
+            {
               $low_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";",null));
               $high_weekly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 7 AND property_id = " . $property->id . ";",null));
-              $low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
-              $high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
+            }
+            else {
+                $low_weekly_rate = 'N/A';
+                $high_weekly_rate = 'N/A';
+            }
+
+            if ($this->options['p_lodgix_display_monthly_rates'])
+            {            
+                $low_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
+                $high_monthly_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 30 AND property_id = " . $property->id . ";",null));
+            }
+            else {
+                $low_monthly_rate = 'N/A';
+                $high_monthly_rate = 'N/A';
+            }
         
 
-              if ($this->locale == 'en_US')
-              {
-                  $permalink = get_permalink($property->post_id);
-              }
-              else
-              {                              
+            if ($this->locale == 'en_US')
+            {
+                $permalink = get_permalink($property->post_id);
+            }
+            else
+            {                              
                   $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE language_code='" . $this->sufix . "' AND id=" . $property->id;
                   $translated_details = $wpdb->get_results($sql);
                   $translated_details = $translated_details[0];
@@ -2133,9 +2152,9 @@ if (!class_exists('p_lodgix')) {
                   $property->details = $translated_details->details;
                   $post_id = $wpdb->get_var("select page_id from " . $this->lang_pages_table . " WHERE property_id=" . $property->id . " AND language_code='" . $this->sufix. "';");                  
                   $permalink = get_permalink($post_id);
-              }
-              include('vacation_rentals.php');
-              $content .= $vacation_rentals;          
+            }
+            include('vacation_rentals.php');
+            $content .= $vacation_rentals;          
           }
           $content .= '<script type="text/javascript">jQueryLodgix(".ldgxFeats").LodgixResponsiveTable()</script>';
           $content .= '<script type="text/javascript">jQueryLodgix(".ldgxListingDesc").LodgixTextExpander()</script>';
@@ -3708,6 +3727,11 @@ if (!class_exists('p_lodgix')) {
             wp_redirect($_SERVER["REQUEST_URI"]);
         }
         
+    
+        if ($old_db_version < 2.2) {
+            $this->options['p_lodgix_display_weekly_rates'] = true;
+            $this->options['p_lodgix_display_monthly_rates'] = true;
+        }
     }               
       
 
@@ -3980,13 +4004,23 @@ if (!class_exists('p_lodgix')) {
             else
                 $this->options['p_lodgix_full_size_thumbnails'] = false;                      
                 
-            
-            
       
             if ($_POST['p_lodgix_display_daily_rates'] == "on")
                 $this->options['p_lodgix_display_daily_rates'] = true;
             else
-                $this->options['p_lodgix_display_daily_rates'] = false;                                  
+                $this->options['p_lodgix_display_daily_rates'] = false;
+
+            if ($_POST['p_lodgix_display_weekly_rates'] == "on")
+                $this->options['p_lodgix_display_weekly_rates'] = true;
+            else
+                $this->options['p_lodgix_display_weekly_rates'] = false;
+
+            if ($_POST['p_lodgix_display_monthly_rates'] == "on")
+                $this->options['p_lodgix_display_monthly_rates'] = true;
+            else
+                $this->options['p_lodgix_display_monthly_rates'] = false;
+                
+                
             if ($_POST['p_lodgix_display_icons'] == "on")
                 $this->options['p_lodgix_display_icons'] = true;
             else
@@ -4394,6 +4428,22 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 					</th> 
 					<td>
 						<input name="p_lodgix_display_daily_rates" type="checkbox" id="p_lodgix_display_daily_rates" <?php if ($this->options['p_lodgix_display_daily_rates']) echo "CHECKED"; ?>/>
+					</td> 
+				</tr>
+				<tr valign="top"> 
+					<th style="width:400px;" scope="row">
+						<?php _e('Display weekly rates on individual property pages?:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<input name="p_lodgix_display_weekly_rates" type="checkbox" id="p_lodgix_display_weekly_rates" <?php if ($this->options['p_lodgix_display_weekly_rates']) echo "CHECKED"; ?>/>
+					</td> 
+				</tr>
+				<tr valign="top"> 
+					<th style="width:400px;" scope="row">
+						<?php _e('Display monthly rates on individual property pages?:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<input name="p_lodgix_display_monthly_rates" type="checkbox" id="p_lodgix_display_monthly_rates" <?php if ($this->options['p_lodgix_display_monthly_rates']) echo "CHECKED"; ?>/>
 					</td> 
 				</tr>
 				<tr valign="top"> 

@@ -93,7 +93,7 @@ vacation rental website in a couple hours.
 
 == Changelog ==
 = 1.2.6 =
-* Fixed german translation. Fixed Rental Search Studio option. Added option to not display weekly and monthly rates
+* Fixed german translation. Fixed Rental Search Studio option. Added option to not display weekly and monthly rates.
 = 1.2.5 =
 * Fixed jQuery UI tabs calendar conflict
 = 1.2.4 =

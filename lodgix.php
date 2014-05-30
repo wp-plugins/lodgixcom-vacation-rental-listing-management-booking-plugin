@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.2.6
+Version: 1.2.7
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.2.7: Fixed default weekly and daily rates options
 v1.2.6: Fixed german translation. Fixed Rental Search Studio option. Added option to not display weekly and monthly rates
 v1.2.5: Fixed jQuery UI tabs calendar conflict
 v1.2.4: Fixed jQuery UI tabs height bug
@@ -3731,6 +3732,7 @@ if (!class_exists('p_lodgix')) {
         if ($old_db_version < 2.2) {
             $this->options['p_lodgix_display_weekly_rates'] = true;
             $this->options['p_lodgix_display_monthly_rates'] = true;
+            $this->saveAdminOptions();
         }
     }               
       

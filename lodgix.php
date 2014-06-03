@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.2.6
+Version: 1.2.8
 Author: Lodgix 
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,8 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.2.8: Fixed not default wpbd prefix
+v1.2.7: Fixed default weekly and daily rates options
 v1.2.6: Fixed german translation. Fixed Rental Search Studio option. Added option to not display weekly and monthly rates
 v1.2.5: Fixed jQuery UI tabs calendar conflict
 v1.2.4: Fixed jQuery UI tabs height bug
@@ -1326,7 +1328,7 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql); 
         $sql = "DELETE FROM " . $this->lang_pages_table;
         $wpdb->query($sql);         
-        $sql = "DELETE FROM " . $this->properties_lang_table;
+        $sql = "DELETE FROM " . $this->lang_properties_table;
         $wpdb->query($sql);        
         $sql = "DELETE FROM " . $this->policies_table;
         $wpdb->query($sql);                     
@@ -1490,8 +1492,21 @@ if (!class_exists('p_lodgix')) {
         $pharray = $pictures_array;
         $pos = 1;
         foreach ($photos as $photo)
-        { 
-        	$photo['URL'] = str_replace('media/gallery','photo/0/gallery',$photo['URL']);
+        {
+            $download_images = true;
+            $properties = $wpdb->get_results('SELECT * FROM ' . $this->properties_table);                          
+            if ($properties)
+            {            
+                $number_properties = count($properties);
+                if ($number_properties >= 40) {
+                   $download_images = false;
+                }
+            }
+
+            if ((strpos( $photo->url, 'http://www.lodgix.com') > 0) && $download_images) {
+                $photo['URL'] = str_replace('media/gallery','photo/0/gallery',$photo['URL']);
+            }
+        	
             if ($pos == 1)
             {
               $parray['main_image'] = $photo['URL'];
@@ -1601,7 +1616,7 @@ if (!class_exists('p_lodgix')) {
             $sql = $this->get_insert_sql_from_array($this->rates_table,$ratearray);
             $sql = str_replace("'NULL'","NULL",$sql);
             $wpdb->query($sql);
-        
+          
             $pprates = $rate['PerPersonRates'];
             if ($pprates)
             {
@@ -1611,7 +1626,7 @@ if (!class_exists('p_lodgix')) {
 		          foreach ($pprates as $ppr)            
 		        	{        		
                                 $ratearray['default_rate'] = $ppr['Amount'];
-		           	$sql = $this->get_insert_sql_from_array($rates_table,$ratearray);
+		           	$sql = $this->get_insert_sql_from_array($this->rates_table,$ratearray);
 		            	$sql = str_replace("'NULL'","NULL",$sql);
 		            	$wpdb->query($sql);            			
 		        	}
@@ -2588,8 +2603,6 @@ if (!class_exists('p_lodgix')) {
     function build_individual_pages() {
         global $wpdb;
         global $sitepress;
-       
-        
         
         $properties = $wpdb->get_results('SELECT * FROM ' . $this->properties_table . ' ORDER BY `order`'); 
         if ($properties)
@@ -3098,7 +3111,7 @@ if (!class_exists('p_lodgix')) {
         
         $active_languages = $wpdb->get_results("SELECT * FROM " . $this->languages_table . " WHERE enabled = 1");
         foreach ($active_languages as $l) {    
-            $pages = $wpdb->get_results("SELECT * FROM " . $pages_lang_table . " WHERE language_code='" . $l->code . "'");
+            $pages = $wpdb->get_results("SELECT * FROM " . $this->lang_pages_table . " WHERE language_code='" . $l->code . "'");
             foreach($pages as $page)
             {
                 $post_id = $page->page_id;
@@ -3182,7 +3195,7 @@ if (!class_exists('p_lodgix')) {
         $wpdb->query($sql); 
         $sql = "DELETE FROM " . $this->lang_pages_table . " WHERE property_id not in (" . $active_properties . ")";
         $wpdb->query($sql);         
-        $sql = "DELETE FROM " . $this->properties_lang_table . " WHERE id not in (" . $active_properties . ")";
+        $sql = "DELETE FROM " . $this->lang_properties_table . " WHERE id not in (" . $active_properties . ")";
         $wpdb->query($sql);
     }      
       
@@ -3731,6 +3744,7 @@ if (!class_exists('p_lodgix')) {
         if ($old_db_version < 2.2) {
             $this->options['p_lodgix_display_weekly_rates'] = true;
             $this->options['p_lodgix_display_monthly_rates'] = true;
+            $this->saveAdminOptions();
         }
     }               
       
@@ -3863,17 +3877,17 @@ if (!class_exists('p_lodgix')) {
 					
         if ($this->options['p_lodgix_vacation_rentals_page_en'])
         {						
-            $sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_vacation_rentals_page_en'];
+            $sql = "DELETE a,b,c FROM " . $wpdb->prefix  . "posts a LEFT JOIN " . $wpdb->prefix  . "term_relationships b ON (a.ID = b.object_id) LEFT JOIN " . $wpdb->prefix  . "postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_vacation_rentals_page_en'];
             $wpdb->query($sql);
         }
         if ($this->options['p_lodgix_availability_page_en'])
         {						
-            $sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_availability_page_en'];
+            $sql = "DELETE a,b,c FROM " . $wpdb->prefix  . "posts a LEFT JOIN " . $wpdb->prefix  . "term_relationships b ON (a.ID = b.object_id) LEFT JOIN " . $wpdb->prefix  . "postmeta  c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_availability_page_en'];
             $wpdb->query($sql);
         }          
         if ($this->options['p_lodgix_search_rentals_page_en'])
         {						
-            $sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_search_rentals_page_en'];
+            $sql = "DELETE a,b,c FROM " . $wpdb->prefix  . "posts a LEFT JOIN " . $wpdb->prefix  . "term_relationships b ON (a.ID = b.object_id) LEFT JOIN " . $wpdb->prefix  . "postmeta  c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_search_rentals_page_en'];
             $wpdb->query($sql);
         }          
          
@@ -3881,7 +3895,7 @@ if (!class_exists('p_lodgix')) {
         $posts = $wpdb->get_results('SELECT * FROM ' . $this->pages_table);   
         foreach($posts as $post)
         {
-			$sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $post->page_id;
+			$sql = "DELETE a,b,c FROM " . $wpdb->prefix  . "posts a LEFT JOIN " . $wpdb->prefix  . "term_relationships b ON (a.ID = b.object_id) LEFT JOIN " . $wpdb->prefix  . "postmeta  c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $post->page_id;
 			$wpdb->query($sql);          	
         }
         
@@ -3890,17 +3904,17 @@ if (!class_exists('p_lodgix')) {
 		{
 						
 			if ($this->options['p_lodgix_vacation_rentals_page_' . $l->code]) {						
-				$sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_vacation_rentals_page_de'];
+				$sql = "DELETE a,b,c FROM " . $wpdb->prefix  . "posts a LEFT JOIN " . $wpdb->prefix  . "term_relationships b ON (a.ID = b.object_id) LEFT JOIN " . $wpdb->prefix  . "postmeta  c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_vacation_rentals_page_de'];
 				$wpdb->query($sql);
 			}
 					 
             if ($this->options['p_lodgix_availability_page_' . $l->code]) {						
-				$sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_availability_page_de'];
+				$sql = "DELETE a,b,c FROM " . $wpdb->prefix  . "posts a LEFT JOIN " . $wpdb->prefix  . "term_relationships b ON (a.ID = b.object_id) LEFT JOIN " . $wpdb->prefix  . "postmeta  c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_availability_page_de'];
 				$wpdb->query($sql);
 			}          
 			
             if ($this->options['p_lodgix_search_rentals_page_' . $l->code]) {						
-				$sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_search_rentals_page_de'];
+				$sql = "DELETE a,b,c FROM " . $wpdb->prefix  . "posts a LEFT JOIN " . $wpdb->prefix  . "term_relationships b ON (a.ID = b.object_id) LEFT JOIN " . $wpdb->prefix  . "postmeta  c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $this->options['p_lodgix_search_rentals_page_de'];
 				$wpdb->query($sql);
 		    }          
 					 
@@ -3908,7 +3922,7 @@ if (!class_exists('p_lodgix')) {
             $posts = $wpdb->get_results("SELECT * FROM " . $this->lang_pages_table . " WHERE language_code = '" . $l->code . "'" );   
             foreach($posts as $post)
             {
-                $sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $post->page_id;
+                $sql = "DELETE a,b,c FROM " . $wpdb->prefix  . "posts a LEFT JOIN " . $wpdb->prefix  . "term_relationships b ON (a.ID = b.object_id) LEFT JOIN " . $wpdb->prefix  . "postmeta  c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $post->page_id;
 				$wpdb->query($sql);          	
             }
         }
@@ -3918,7 +3932,7 @@ if (!class_exists('p_lodgix')) {
             $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
             if ((count($areas_pages) > 0) && (is_array($areas_pages))) {
                 foreach($areas_pages as $page) {
-                    $sql = "DELETE a,b,c FROM wp_posts a LEFT JOIN wp_term_relationships b ON (a.ID = b.object_id) LEFT JOIN wp_postmeta c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $page->page_id;
+                    $sql = "DELETE a,b,c FROM " . $wpdb->prefix  . "posts a LEFT JOIN " . $wpdb->prefix  . "term_relationships b ON (a.ID = b.object_id) LEFT JOIN " . $wpdb->prefix  . "postmeta  c ON (a.ID = c.post_id) WHERE a.post_type = 'revision' AND a.post_parent=" . $page->page_id;
                     $wpdb->query($sql);          	
                 }
             }

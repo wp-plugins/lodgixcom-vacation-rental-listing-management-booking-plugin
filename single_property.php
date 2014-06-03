@@ -124,7 +124,12 @@ if ($property->beds_text != "")
 $single_property.= '<br /><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
 foreach($photos as $photo)
 {
-    $photo_url = str_replace('media/gallery', 'photo/0/gallery', $photo->url);
+	if (strpos( $photo->url, 'http://www.lodgix.com') > 0) {
+		$photo_url = str_replace('media/gallery', 'photo/0/gallery', $photo->url);
+	}
+	else {
+		$photo_url = $photo->url;
+	}
     $single_property.= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
     if ($photo->caption != '')
     {
@@ -336,7 +341,12 @@ $single_property.= '<h2>' . __('Property Images', $this->localizationDomain) . '
 //  $num_pics = 3;
 foreach($photos as $photo)
 {
-    $photo_url = str_replace('media/gallery', 'photo/0/gallery', $photo->url);
+	if (strpos( $photo->url, 'http://www.lodgix.com') > 0) {
+		$photo_url = str_replace('media/gallery', 'photo/0/gallery', $photo->url);
+	}
+	else {
+		$photo_url = $photo->url;
+	}
     if (($counter % $num_pics == 0) && ($counter != 0))
     {
         $single_property.= "<tr>";

@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.2.9
+Version: 1.2.10
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.2.10: Fixed rental search localization filter
 v1.2.9: Changed image source to CDN
 v1.2.8: Fixed not default wpbd prefix
 v1.2.7: Fixed default weekly and daily rates options
@@ -2067,11 +2068,9 @@ if (!class_exists('p_lodgix')) {
       if ((strtotime($arrival) !== false) && (is_numeric($nights)))
       {
           $differentiate = true;
-          if (strpos('%m',$this->options['p_lodgix_date_format']) == 1)
-              $arrival = str_replace('-','/');
-          $arrival = date("Y-m-d", strtotime($arrival));
           $departure = $this->p_lodgix_add_days($arrival,$nights);
           $fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+     
           $r = new LogidxHTTPRequest($fetch_url);
           $xml = $r->DownloadToString(); 
           if ($xml)
@@ -2321,7 +2320,7 @@ if (!class_exists('p_lodgix')) {
       	$area = @esc_sql($_POST['lodgix-custom-search-area']);
       	$bedrooms = @esc_sql($_POST['lodgix-custom-search-bedrooms']);
       	$id = @esc_sql($_POST['lodgix-custom-search-id']);
-      	$arrival = @esc_sql($_POST['lodgix-custom-search-arrival']);
+      	$arrival = @esc_sql($_POST['lodgix-custom-search-arrival-real']);
       	$nights = @esc_sql($_POST['lodgix-custom-search-nights']);
 
 		$amenities = $_POST['lodgix-custom-search-amenities'];

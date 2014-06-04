@@ -89,7 +89,7 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
             echo '<script type="text/javascript" src="' . $p_plugin_path . 'js/i18n/datepicker-' . $sufix. '.js"></script>';
         
         echo '<script type="text/javascript">
-                         var P_LODGIX_SEARCH_RESULTS = 0;
+                var P_LODGIX_SEARCH_RESULTS = 0;
                  function p_lodgix_search_properties() {
                     var amenities = [];
                     var checked = jQueryLodgix(".lodgix-custom-search-amenities:checked");
@@ -121,23 +121,29 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
                    });                 	
                     
                  }
+				 
+	
+				 function lodgix_search_before_submit() {
+				    var real_date = jQueryLodgix("#lodgix-custom-search-arrival").datepicker("getDate");
+					real_date = jQueryLodgix.datepicker.formatDate("yy-mm-dd", real_date);
+					jQueryLodgix("#lodgix-custom-search-arrival-real").val(real_date);
+				 }
                  
                                  
 
-                               jQueryLodgix(document).ready(function() {
-                                    jQueryLodgix( "#lodgix-custom-search-arrival" ).datepicker({
-                                            showOn: "both",
-                                            buttonImage: "' . $p_plugin_path . 'images/calendar.png",
-                                            buttonImageOnly: true,
-                                            dateFormat: "' . $date_format . '",
-                                            minDate: 0,
-                                            beforeShow: function() {
-                                                setTimeout(function(){
-                                                    jQueryLodgix("#lodgix-datepicker-div").css("z-index", 99999999999999);
-                                                }, 0);
-                                            }
-                                                    
-                                    }';
+				jQueryLodgix(document).ready(function() {
+					 jQueryLodgix( "#lodgix-custom-search-arrival" ).datepicker({
+							 showOn: "both",
+							 buttonImage: "' . $p_plugin_path . 'images/calendar.png",
+							 buttonImageOnly: true,
+							 dateFormat: "' . $date_format . '",
+							 minDate: 0,
+							 beforeShow: function() {
+								 setTimeout(function(){
+									 jQueryLodgix("#lodgix-datepicker-div").css("z-index", 99999999999999);
+								 }, 0);
+							 }	 
+					 }';
                                     
         if ($sufix!= 'en')
             echo ', jQueryLodgix.datepicker.regional["' . $sufix. '"]';
@@ -148,7 +154,7 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
         $post_id = (int)$loptions['p_lodgix_search_rentals_page_' . $sufix];
             
         $post_url = get_permalink($post_id);
-        echo '<form name="lodgix_search_form" method="POST" action="' . $post_url .'">
+        echo '<form name="lodgix_search_form" method="POST" action="' . $post_url .'" onsubmit="javascript:lodgix_search_before_submit();">
                     <div class="lodgix-custom-search-listing" align="left" style="-moz-border-radius: 5px 5px 5px 5px;line-height:20px;">    
                     <table>
                       <tr>
@@ -173,7 +179,7 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
                         </tr>
                     </table>
                     <div>'.__('Location',$localizationDomain).':</div> 
-                    <div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="p_lodgix_search_properties()">
+                    <div><select id="lodgix-custom-search-area" style="width:95%" name="lodgix-custom-search-area" onchange="javascript:p_lodgix_search_properties();">
                     <option value="ALL_AREAS">'.__('All Areas',$localizationDomain).'</option>';       	
 
         foreach($areas as $area)       				
@@ -187,7 +193,7 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
             
         echo	'</select></div>
                     <div>'.__('Bedrooms',$localizationDomain) .':</div> 
-                    <div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="p_lodgix_search_properties()">
+                    <div><select id="lodgix-custom-search-bedrooms" name="lodgix-custom-search-bedrooms" onchange="javascript:p_lodgix_search_properties();">
                     <option value="ANY">Any</option>';
 		$min_rooms = (int)$wpdb->get_var("SELECT MIN(bedrooms) FROM " . $properties_table);
 		if ($min_rooms == 0)					
@@ -214,7 +220,7 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 				if ($amenity_name != "")
 					$aux = $amenity_name;
 
-                echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="p_lodgix_search_properties()"/> ';
+                echo '<div><input type="checkbox" class="lodgix-custom-search-amenities" name="lodgix-custom-search-amenities[' . $a . ']" value="' . $amenity->description . '" onclick="javascript:p_lodgix_search_properties();"/> ';
                 echo __($aux,$localizationDomain) . '</div>';
                 $a++;
             }
@@ -222,11 +228,12 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
         }
 
         echo '<div>'.__('Search by Property Name or ID',$localizationDomain) .':</div> 
-                    <div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="p_lodgix_search_properties()" value="' . $id_post .  '"></div>
+                    <div><input id="lodgix-custom-search-id" name="lodgix-custom-search-id" style="width:95%" onkeyup="javascript:p_lodgix_search_properties();" value="' . $id_post .  '"></div>
                     <div id="lodgix-custom-search-results" align="center">
                     <div id="lodgix_search_spinner" style="display:none;"><img src="/wp-admin/images/wpspin_light.gif"></div>
                     <div id="search_results">
                     </div>
+					<input type="hidden" id="lodgix-custom-search-arrival-real" name="lodgix-custom-search-arrival-real" value="">
                     <input type="submit" value="'.__('Display Results',$localizationDomain) .'" id="lodgix-custom-search-button">
                     </div>
               </div>';               

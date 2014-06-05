@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.2.11
+Version: 1.2.12
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.2.12: Added plugin DB version to notify
 v1.2.11: Added plugin DB version to query string
 v1.2.10: Fixed rental search localization filter
 v1.2.9: Changed image source to CDN
@@ -2748,6 +2749,7 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_custom_search_get_details()
     {
         global $wpdb;
+        global $p_lodgix_db_version;
        
      	$areas = $wpdb->get_results('SELECT DISTINCT area FROM ' . $this->properties_table . ' WHERE area <> \'\' AND area IS NOT NULL');  
         $loptions = get_option('p_lodgix_options'); 
@@ -2948,6 +2950,8 @@ if (!class_exists('p_lodgix')) {
     function p_lodgix_notify()
     {
         global $wpdb;
+        global $p_lodgix_db_version;
+        
         ini_set('max_execution_time', 0);
         $owner_fetch_url = 'https://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeLanguages=No&IncludeRotators=No&IncludeAmenities=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
         $r = new LogidxHTTPRequest($owner_fetch_url);
@@ -2971,6 +2975,7 @@ if (!class_exists('p_lodgix')) {
                 $searchableAmenities[$ownerAmenity['Name']] = 1;
             }
         }
+
     
         $fetch_url = 'https://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'] . '&Version=' . $p_lodgix_db_version;
         $r = new LogidxHTTPRequest($fetch_url);

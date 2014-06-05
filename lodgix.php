@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.2.10
+Version: 1.2.11
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.2.11: Added plugin DB version to query string
 v1.2.10: Fixed rental search localization filter
 v1.2.9: Changed image source to CDN
 v1.2.8: Fixed not default wpbd prefix
@@ -180,7 +181,7 @@ v1.0.0: Initial release
 define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "2.2";
+$p_lodgix_db_version = "2.3";
 
 require_once('functions.php');
 require_once('translator.php');
@@ -2069,7 +2070,7 @@ if (!class_exists('p_lodgix')) {
       {
           $differentiate = true;
           $departure = $this->p_lodgix_add_days($arrival,$nights);
-          $fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+          $fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure . '&Version=' . $p_lodgix_db_version;
      
           $r = new LogidxHTTPRequest($fetch_url);
           $xml = $r->DownloadToString(); 
@@ -2799,7 +2800,7 @@ if (!class_exists('p_lodgix')) {
 	    {
 
 	     	$departure = $this->p_lodgix_add_days($arrival,$nights);
-    	 	$fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure;
+    	 	$fetch_url = 'http://www.lodgix.com/system/api-lite/xml?Action=GetAvailableProperties&PropertyOwnerID=' . $this->options['p_lodgix_owner_id'] . '&FromDate=' . $arrival . '&ToDate=' . $departure . '&Version=' . $p_lodgix_db_version;
        		$r = new LogidxHTTPRequest($fetch_url);
 			$xml = $r->DownloadToString(); 
        		if ($xml)
@@ -2971,7 +2972,7 @@ if (!class_exists('p_lodgix')) {
             }
         }
     
-        $fetch_url = 'https://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
+        $fetch_url = 'https://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'] . '&Version=' . $p_lodgix_db_version;
         $r = new LogidxHTTPRequest($fetch_url);
         $xml = $r->DownloadToString();
         if ($xml)
@@ -4265,7 +4266,7 @@ if (!class_exists('p_lodgix')) {
                                                      
             $this->saveAdminOptions();       									
             $owner_fetch_url = 'https://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&IncludeRotators=Yes&IncludeAmenities=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];                  
-            $fetch_url = 'https://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];    
+            $fetch_url = 'https://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'] . '&Version=' . $p_lodgix_db_version;    
 
             $r = new LogidxHTTPRequest($owner_fetch_url);
             $xml = $r->DownloadToString(); 

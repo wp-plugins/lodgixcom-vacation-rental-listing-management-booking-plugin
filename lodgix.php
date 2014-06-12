@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.2.12
+Version: 1.3.0
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.3.0: Fixed empty city name
 v1.2.12: Added plugin DB version to notify
 v1.2.11: Added plugin DB version to query string
 v1.2.10: Fixed rental search localization filter
@@ -1403,6 +1404,10 @@ if (!class_exists('p_lodgix')) {
           $parray['address'] .= '\n' . $addr['Street1'];
         }        
         $parray['city'] = $addr['City'];
+        if ($parray['city'] == Array())
+        {
+            $parray['city'] = NULL;
+        }                
         $parray['area'] = $addr['Area'];
         if ($parray['area'] == Array())
         {
@@ -2680,9 +2685,12 @@ if (!class_exists('p_lodgix')) {
                     $post = array();
                     $post['ID'] = $property->post_id;
                     $post['post_title'] = $property->description;
-                    $single_property = '[lodgix_single_property ' . $property->id . ']';                
+                    $single_property = '[lodgix_single_property ' . $property->id . ']';
+                    $post['post_content'] = $single_property;
                     $post['post_status'] = 'publish';
                     $post_id = wp_update_post($post);
+                    
+         
 
                     $posts_table = $wpdb->prefix . "posts";
                     $sql = "UPDATE " . $posts_table . " SET post_content='" . $wpdb->_real_escape($single_property) . "' WHERE id=" . $post_id;

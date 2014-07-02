@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.3.1
+Version: 1.3.2
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.3.2: Fixed weekend rates display
 v1.3.1: Fixed Book Now button url
 v1.3.0: Fixed empty city name
 v1.2.12: Added plugin DB version to notify
@@ -184,7 +185,7 @@ v1.0.0: Initial release
 define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "2.3";
+$p_lodgix_db_version = "2.4";
 
 require_once('functions.php');
 require_once('translator.php');
@@ -299,6 +300,8 @@ if (!class_exists('p_lodgix')) {
         'min_nights' => NULL,
         'default_rate' => NULL,
         'is_default' => NULL,
+        'weekend_rate' => NULL,
+        'weekend_rate_enabled' => NULL,
         'name' => NULL
     );
     
@@ -1623,7 +1626,12 @@ if (!class_exists('p_lodgix')) {
             else
               $ratearray['saturday_rate'] = 'NULL';                
             $ratearray['min_nights'] = $rate['WeeklyRate'];              
-            $ratearray['default_rate'] = $rate['DefaultRate'];              
+            $ratearray['default_rate'] = $rate['DefaultRate'];
+            $ratearray['weekend_rate'] = $rate['WeekendRate'];
+            
+            $ratearray['weekend_rate_enabled'] = 0;
+            if ($rate['WeekendRateEnabled'] == 'True')
+                $ratearray['weekend_rate_enabled'] = 1;          
             $ratearray['is_default'] = 0;
             if ($rate['IsThisDefaultRate'] == 'Yes')
                 $ratearray['is_default'] = 1;          
@@ -1708,10 +1716,17 @@ if (!class_exists('p_lodgix')) {
             $wpdb->query($sql);       
         }    
         
-        $low_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $parray['id'] . ";",null));        
+        $low_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $parray['id'] . ";",null));
+        $low_weekend_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(weekend_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND weekend_rate_enabled = 1 and property_id = " . $parray['id'] . ";",null));        
+        if ($low_weekend_rate < $low_daily_rate && $low_weekend_rate > 0) {
+            $low_daily_rate = $low_weekend_rate;
+        }
+        
         $low_weekly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 7 AND property_id = " . $parray['id'] . ";",null));
         $low_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 30 AND property_id = " . $parray['id'] . ";",null));
         $sql = 'UPDATE ' . $this->properties_table .' SET min_daily_rate=' . $low_daily_rate . ',min_weekly_rate=' . $low_weekly_rate . ',min_monthly_rate=' . $low_monthly_rate . ' WHERE id=' . $parray['id'];
+        
+        
         $wpdb->query($sql);        
 
         $remote_languages = $property['Languages'];
@@ -2139,8 +2154,24 @@ if (!class_exists('p_lodgix')) {
           
             if ($this->options['p_lodgix_display_daily_rates'])
             {
-              $low_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
-              $high_daily_rate = $property->currency_symbol . (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
+                $low_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
+              
+                $low_weekend_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MIN(weekend_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND weekend_rate_enabled = 1 and property_id = " . $property->id  . ";",null));        
+                if ($low_weekend_rate < $low_daily_rate && $low_weekend_rate > 0) {
+                    $low_daily_rate = $low_weekend_rate;
+                }
+                      
+                $high_daily_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND property_id = " . $property->id . ";",null));
+                
+                $high_weekend_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT IFNULL(MAX(weekend_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 1 AND weekend_rate_enabled = 1 and property_id = " . $property->id  . ";",null));
+              
+              
+                if ($high_weekend_rate > $high_daily_rate) {
+                    $high_daily_rate = $high_weekend_rate;
+                }                
+                
+                $low_daily_rate =  $property->currency_symbol . $low_daily_rate;
+                $high_daily_rate =  $property->currency_symbol . $high_daily_rate;
             }
             else
             {
@@ -3330,6 +3361,8 @@ if (!class_exists('p_lodgix')) {
           `min_nights` int(11) NOT NULL default '1',
           `default_rate` decimal(10,2) NOT NULL,
           `is_default` tinyint(1) NOT NULL default '0',
+          `weekend_rate` decimal(10,2),
+          `weekend_rate_enabled` tinyint(1) NOT NULL default '0',
           `name` varchar(128) default NULL,
           PRIMARY KEY  (`id`)
          ) DEFAULT CHARSET=utf8;";      
@@ -3773,6 +3806,13 @@ if (!class_exists('p_lodgix')) {
             $this->options['p_lodgix_display_monthly_rates'] = true;
             $this->saveAdminOptions();
         }
+        
+        if ($old_db_version < 2.4) {
+            $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_rates ADD COLUMN  `weekend_rate` decimal(10,2);");
+            $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_rates ADD COLUMN `weekend_rate_enabled` tinyint(1) NOT NULL default '0'");
+        }
+   
+
     }               
       
 

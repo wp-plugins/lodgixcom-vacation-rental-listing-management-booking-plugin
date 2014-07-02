@@ -2,14 +2,14 @@
 
     $dates_text = __('Dates',$this->localizationDomain);
     $nightly_text =  __('Weekday',$this->localizationDomain);
-    $nightly_weekend_text =  __('Weekend',$this->localizationDomain);
+    $weekend_nightly_text =  __('Weekend',$this->localizationDomain);
     $weekly_text =  __('Weekly',$this->localizationDomain);
     $monthly_text =  __('Monthly',$this->localizationDomain);
 
 //	if ($is_translation) {
 //		$dates_text = 'Dates';
 //		$nightly_text = 'Wochentag';	
-//		$nightly_weekend_text = 'Weekend';
+//		$weekend_nightly_text = 'Weekend';
 //		$weekly_text = 'Wochenpreis';
 //		$monthly_text = 'Monatspreis';	
 //    }
@@ -22,7 +22,7 @@
 	
 	if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) {
         $single_property .= '<th class="lodgix_centered merged_rates_table_green">' . $nightly_text  .'</th>';
-        $single_property .= '<th class="lodgix_centered merged_rates_table_green">' . $nightly_weekend_text  .'</th>';
+        $single_property .= '<th class="lodgix_centered merged_rates_table_green">' . $weekend_nightly_text  .'</th>';
 
     }
 
@@ -54,7 +54,7 @@
 
         if ($this->options['p_lodgix_display_daily_rates'] && $low_daily_rate > 0) {
             $single_property .= '<td class="lodgix_centered">' . ((!$mr->nightly) ? "-" : ($property->currency_symbol . $mr->nightly)) . '</td>';
-            $single_property .= '<td class="lodgix_centered">' . ((!$mr->nightly_weekend) ? ((!$mr->nightly) ? "-" : ($property->currency_symbol . $mr->nightly)) : ($property->currency_symbol . $mr->nightly_weekend)) . '</td>';
+            $single_property .= '<td class="lodgix_centered">' . ((!$mr->weekend_nightly) ? ((!$mr->nightly) ? "-" : ($property->currency_symbol . $mr->nightly)) : ($property->currency_symbol . $mr->weekend_nightly)) . '</td>';
         }
 		if ($this->options['p_lodgix_display_weekly_rates']) {
 	        $single_property .= '<td class="lodgix_centered">' . ((!$mr->weekly) ? "-" : ($property->currency_symbol . $mr->weekly))  . '</td>';

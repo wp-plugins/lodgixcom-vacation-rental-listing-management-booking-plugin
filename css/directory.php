@@ -399,7 +399,7 @@ border:0 none;
 }
 
 .lodgix-featured-properties .lodgix-featured-listing {
-    width: 300px;
+    width: 210px;
     background-color: #E8E8E8;
     background-image: url("__PLUGIN_FOLDER__images/feat-bg.png");
     background-repeat: repeat-x;
@@ -454,7 +454,7 @@ border:0 none;
 }
 
 .lodgix-search-properties .lodgix-custom-search-listing {
-    width: 300px;
+    width: 210px;
     background: #E8E8E8 url(__PLUGIN_FOLDER__images/feat-bg.png) repeat-x;
     border: 1px solid #E0E0E0;
     padding: 10px;
@@ -541,9 +541,9 @@ border:0 none;
 
 .ldgxPropBadge {
     margin-bottom: 20px;
-    border: 1px solid #e9e9e9;
+    border: 1px solid #d7d7d7;
     padding: 10px 20px 5px 20px;
-    background: #e8e8e8;
+    background: #F0F7FF;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     border-radius: 8px;

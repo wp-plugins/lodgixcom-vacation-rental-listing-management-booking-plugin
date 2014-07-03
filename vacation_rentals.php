@@ -11,7 +11,7 @@ if ($differentiate && $property->really_available)
 $mail_url = '';
 if ($lodgixoptions['p_lodgix_contact_url_' . $this->sufix] != "")
 {
-    $mail_url = $lodgixoptions['p_lodgix_contact_url'];
+    $mail_url = $lodgixoptions['p_lodgix_contact_url_' . $this->sufix];
     if (strpos($mail_url, '__PROPERTY__') != false)
     {
         $mail_url = str_replace('__PROPERTY__', $property->description, $mail_url);

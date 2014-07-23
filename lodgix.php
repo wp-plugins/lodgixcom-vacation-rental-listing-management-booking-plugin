@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.3.5
+Version: 1.3.6
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.3.6: Added theme default template
 v1.3.5: Added theme page templates
 v1.3.4: Fixed badge CSS
 v1.3.3: Fixed contact link on new installations
@@ -882,7 +883,7 @@ if (!class_exists('p_lodgix')) {
                 else {                    
                     $template = TEMPLATEPATH . '/' . $this->options['p_lodgix_page_template'];                    
                 }
-                                
+                
         	if (file_exists($template)) {        		 	
  		    include($template);       
  		    die();           
@@ -4830,6 +4831,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
                                             <select name="p_lodgix_page_template"  id="p_lodgix_page_template" style="width:160px;" 
                                                     onchange="javascript:set_lodgix_page_template_enabled();">
                                                 <option value="NONE">Lodgix Default</option>
+                                                <option value="page.php" <?php if ('page.php' == $this->options["p_lodgix_page_template"]) echo "SELECTED"; ?>>Theme Default</option>
 						<?php 
                                                     $templates = get_page_templates();
                                                     foreach ( $templates as $tn => $tf ) {

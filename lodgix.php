@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.3.4
+Version: 1.3.5
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.3.5: Added theme page templates
 v1.3.4: Fixed badge CSS
 v1.3.3: Fixed contact link on new installations
 v1.3.2: Fixed weekend rates display
@@ -187,7 +188,7 @@ v1.0.0: Initial release
 define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "2.4";
+$p_lodgix_db_version = "2.5";
 
 require_once('functions.php');
 require_once('translator.php');
@@ -870,15 +871,24 @@ if (!class_exists('p_lodgix')) {
         wp_enqueue_script('p_lodgix_jquery_text_expander_js',$this->p_plugin_path . 'js/jquery.lodgix-text-expander.js');
 
     	if ($this->p_is_lodgix_page($wp_query->post->ID))
-        {	        	
-        	if ($this->options['p_lodgix_custom_page_template'] && $this->options['p_lodgix_custom_page_template'] != '') {
-        		$template = WP_CONTENT_DIR . '/' . $this->options['p_lodgix_custom_page_template'];
-        		if (file_exists($template)) {        		 	
- 					include($template);       
- 					die();           
+        {
+            
+            if ($this->options['p_lodgix_page_template'] && $this->options['p_lodgix_page_template'] != '')
+            {
+                if ($this->options['p_lodgix_page_template'] && $this->options['p_lodgix_page_template'] == 'CUSTOM')
+                {
+                    $template = WP_CONTENT_DIR . '/' . $this->options['p_lodgix_custom_page_template'];
+                }
+                else {                    
+                    $template = TEMPLATEPATH . '/' . $this->options['p_lodgix_page_template'];                    
+                }
+                                
+        	if (file_exists($template)) {        		 	
+ 		    include($template);       
+ 		    die();           
                 }       		
-        	}
-        	else
+            }
+            else
             {
                 $current_theme = get_current_theme();
                 if ($this->options['p_lodgix_thesis_compatibility'])
@@ -1144,6 +1154,7 @@ if (!class_exists('p_lodgix')) {
                                     'p_lodgix_vr_meta_keywords' => NULL,
                                     'p_lodgix_full_size_thumbnails' => false,
                                     'p_lodgix_custom_page_template' => '',
+                                    'p_lodgix_page_template' => '',
                                     'p_lodgix_thesis_2_template' => ''                                                                                                    
                                   );
               update_option($this->optionsName, $theOptions);
@@ -1206,6 +1217,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_vr_meta_description' => NULL,
                               'p_lodgix_vr_meta_keywords' => NULL,
                               'p_lodgix_custom_page_template' => '',
+                              'p_lodgix_page_template' => '',
                               'p_lodgix_thesis_2_template' => '',                              
                               'p_lodgix_full_size_thumbnails' => false                                                              
                               );
@@ -3813,8 +3825,14 @@ if (!class_exists('p_lodgix')) {
             $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_rates ADD COLUMN  `weekend_rate` decimal(10,2);");
             $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_rates ADD COLUMN `weekend_rate_enabled` tinyint(1) NOT NULL default '0'");
         }
+        
+        if ($old_db_version < 2.5) {
    
-
+            if ($this->options['p_lodgix_custom_page_template'] && $this->options['p_lodgix_custom_page_template'] != '') {
+                $this->options['p_lodgix_page_template'] = 'CUSTOM';
+                $this->saveAdminOptions();
+            }
+        }
     }               
       
 
@@ -4161,8 +4179,10 @@ if (!class_exists('p_lodgix')) {
             $this->options['p_lodgix_availability_page_pos'] = $_POST['p_lodgix_availability_page_pos'];                  
             $this->options['p_lodgix_vr_title'] = $_POST['p_lodgix_vr_title']; 
             $this->options['p_lodgix_vr_meta_description'] = $_POST['p_lodgix_vr_meta_description']; 
-            $this->options['p_lodgix_vr_meta_keywords'] = $_POST['p_lodgix_vr_meta_keywords'];   
-            $this->options['p_lodgix_custom_page_template'] = $_POST['p_lodgix_custom_page_template'];   
+            $this->options['p_lodgix_vr_meta_keywords'] = $_POST['p_lodgix_vr_meta_keywords'];
+            if ($_POST['p_lodgix_custom_page_template'])
+                $this->options['p_lodgix_custom_page_template'] = $_POST['p_lodgix_custom_page_template'];            
+            $this->options['p_lodgix_page_template'] = $_POST['p_lodgix_page_template'];   
             $this->options['p_lodgix_thesis_2_template'] = $_POST['p_lodgix_thesis_2_template'];
             
             $this->p_lodgix_set_page_titles();
@@ -4550,7 +4570,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Display Featured Widget horizontally ?:', $this->localizationDomain); ?>
 					</th> 
 					<td>                             
-						<select name="p_lodgix_display_featured_horizontally"  id="p_lodgix_display_featured_horizontally" style="width:120px;">                              
+						<select name="p_lodgix_display_featured_horizontally"  id="p_lodgix_display_featured_horizontally" style="width:160px;">                              
 							<option <?php if (($this->options['p_lodgix_display_featured_horizontally'] == 0) || (($this->options['p_lodgix_display_featured_horizontally'] != 1) && ($this->options['p_lodgix_display_featured_horizontally'] != 2))) echo "SELECTED"; ?> value='0'>No</option>
 							<option <?php if ($this->options['p_lodgix_display_featured_horizontally'] == 1) echo "SELECTED"; ?> value='1'>Yes - Float Left</option>
 							<option <?php if ($this->options['p_lodgix_display_featured_horizontally'] == 2) echo "SELECTED"; ?> value='2'>Yes - Float Right</option>
@@ -4562,7 +4582,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Property Name:', $this->localizationDomain); ?>
 					</th> 
 					<td>
-						<select name="p_lodgix_display_title"  id="p_lodgix_display_title" style="width:120px;">                              
+						<select name="p_lodgix_display_title"  id="p_lodgix_display_title" style="width:160px;">                              
 							<option <?php if ($this->options['p_lodgix_display_title'] == 'title') echo "SELECTED"; ?> value='title'>Marketing Title</option>
 							<option <?php if ($this->options['p_lodgix_display_title'] == 'name') echo "SELECTED"; ?> value='name'>Name</option>
 						</select>
@@ -4571,7 +4591,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 				<tr valign="top"> 
 					<th scope="row"><?php _e('Featured Rentals:', $this->localizationDomain); ?></th> 
 					<td>
-						<select name="p_lodgix_display_featured"  id="p_lodgix_display_featured" style="width:120px;">                              
+						<select name="p_lodgix_display_featured"  id="p_lodgix_display_featured" style="width:160px;">                              
 							<option <?php if ($this->options['p_lodgix_display_featured'] == 'city') echo "SELECTED"; ?> value='city'>Display City</option>
 							<option <?php if ($this->options['p_lodgix_display_featured'] == 'area') echo "SELECTED"; ?> value='area'>Display Area</option>
 						</select>
@@ -4582,7 +4602,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Display Instructions on Single Unit Calendar:', $this->localizationDomain); ?>
 					</th> 
 					<td>
-						<select name="p_lodgix_display_single_instructions"  id="p_lodgix_display_single_instructions" style="width:120px;">                              
+						<select name="p_lodgix_display_single_instructions"  id="p_lodgix_display_single_instructions" style="width:160px;">                              
 							<option <?php if ($this->options['p_lodgix_display_single_instructions'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
 							<option <?php if ($this->options['p_lodgix_display_single_instructions'] == 0) echo "SELECTED"; ?> value='0'>No</option>
 						</select>
@@ -4593,7 +4613,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Display Instructions on Multi Unit Calendar:', $this->localizationDomain); ?>
 					</th> 
 					<td>
-						<select name="p_lodgix_display_multi_instructions"  id="p_lodgix_display_multi_instructions" style="width:120px;">                              
+						<select name="p_lodgix_display_multi_instructions"  id="p_lodgix_display_multi_instructions" style="width:160px;">                              
 							<option <?php if ($this->options['p_lodgix_display_multi_instructions'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
 							<option  <?php if ($this->options['p_lodgix_display_multi_instructions'] == 0) echo "SELECTED"; ?> value='0'>No</option>
 						</select>
@@ -4604,7 +4624,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Single Page Design:', $this->localizationDomain); ?>
 					</th> 
 					<td>
-						<select name="p_lodgix_single_page_design"  id="p_lodgix_single_page_design" style="width:120px;">                              
+						<select name="p_lodgix_single_page_design"  id="p_lodgix_single_page_design" style="width:160px;">                              
 							<option <?php if ($this->options['p_lodgix_single_page_design'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
 							<option <?php if ($this->options['p_lodgix_single_page_design'] == 1) echo "SELECTED"; ?> value='1'>Tabbed</option>
 						</select>
@@ -4615,7 +4635,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Rates Display:', $this->localizationDomain); ?>
 					</th> 
 					<td>
-						<select name="p_lodgix_rates_display"  id="p_lodgix_rates_display" style="width:120px;">                                                        
+						<select name="p_lodgix_rates_display"  id="p_lodgix_rates_display" style="width:160px;">                                                        
 							<option <?php if ($this->options['p_lodgix_rates_display'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
 							<option <?php if ($this->options['p_lodgix_rates_display'] == 1) echo "SELECTED"; ?> value='1'>Merged</option>
                             <option <?php if ($this->options['p_lodgix_rates_display'] == 2) echo "SELECTED"; ?> value='2'>None</option>
@@ -4653,7 +4673,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Vacation Rentals Menu Position:', $this->localizationDomain); ?>
 					</th>
 					<td>
-						<select name="p_lodgix_vacation_rentals_page_pos"  id="p_lodgix_vacation_rentals_page_pos" style="width:120px;">                              
+						<select name="p_lodgix_vacation_rentals_page_pos"  id="p_lodgix_vacation_rentals_page_pos" style="width:160px;">                              
 							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
 							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
 							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>
@@ -4672,7 +4692,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<?php _e('Availability Page Menu Position:', $this->localizationDomain); ?>
 					</th> 
 					<td>
-						<select name="p_lodgix_availability_page_pos"  id="p_lodgix_availability_page_pos" style="width:120px;">                              
+						<select name="p_lodgix_availability_page_pos"  id="p_lodgix_availability_page_pos" style="width:160px;">                              
 							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
 							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
 							<option <?php if ($this->options['p_lodgix_availability_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>
@@ -4794,7 +4814,7 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						<input name="p_lodgix_thesis_2_compatibility" type="checkbox" id="p_lodgix_thesis_2_compatibility" <?php if ($this->options['p_lodgix_thesis_2_compatibility']) echo "CHECKED"; ?> onchange="javascript:set_thesis_2_theme_enabled();"/>
 
 
-						<select name="p_lodgix_thesis_2_template"  id="p_lodgix_thesis_2_template" style="width:120px;margin_left:10px;"  <?php if (!$this->options['p_lodgix_thesis_2_compatibility']) echo "DISABLED"; ?>>               
+						<select name="p_lodgix_thesis_2_template"  id="p_lodgix_thesis_2_template" style="width:160px;margin_left:10px;"  <?php if (!$this->options['p_lodgix_thesis_2_compatibility']) echo "DISABLED"; ?>>               
 							<?php foreach($thesis_2_template_options as $to) { ?>              
 							<option <?php if ($this->options['p_lodgix_thesis_2_template'] == $to['class']) echo "SELECTED"; ?> value='<?php echo $to['class'] ?>'><?php echo $to['title'] ?></option>
 							<?php } ?>
@@ -4802,15 +4822,35 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 						</select>
 					</td>
 				</tr>
-				
-				<tr valign="top">
+                                <tr valign="top">
 					<th width="33%" scope="row">
-						<?php _e('Custom Page Template:', $this->localizationDomain); ?>
+						<?php _e('Page Template:', $this->localizationDomain); ?>
 					</th>
 					<td>
-						<input name="p_lodgix_custom_page_template" id="p_lodgix_custom_page_template" style="width:430px;" type="text" value="<?php echo $this->options['p_lodgix_custom_page_template']; ?>">
+                                            <select name="p_lodgix_page_template"  id="p_lodgix_page_template" style="width:160px;" 
+                                                    onchange="javascript:set_lodgix_page_template_enabled();">
+                                                <option value="NONE">Lodgix Default</option>
+						<?php 
+                                                    $templates = get_page_templates();
+                                                    foreach ( $templates as $tn => $tf ) {
+                                                        echo '<option ';
+                                                        if ($tf == $this->options["p_lodgix_page_template"]) {
+                                                            echo "SELECTED";
+                                                        }
+                                                        echo ' value="'. $tf . '">' . $tn . '</option>';
+                                                    }
+                                                ?>
+                                                <option value="CUSTOM" <?php if ('CUSTOM' == $this->options["p_lodgix_page_template"]) echo "SELECTED"; ?>>Custom</option>
+                                            </select> <input name="p_lodgix_custom_page_template" id="p_lodgix_custom_page_template"
+                                                       style="width:280px;" type="text"
+                                                        <?php if ($this->options['p_lodgix_page_template'] != 'CUSTOM') echo 'disabled'; ?> 
+                                                       value="<?php echo $this->options['p_lodgix_custom_page_template']; ?>">
 					</td>
 				</tr>
+
+
+                                
+                                
 			</table><br>
 
 
@@ -4895,15 +4935,25 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 			  })();
 			</script>			
       <script> 
-      	   function set_thesis_2_theme_enabled() {
-      	   		var is_checked = jQueryLodgix('#p_lodgix_thesis_2_compatibility').is(':checked');      	  	
-      	   		if (is_checked) {
-      	   			  jQueryLodgix('#p_lodgix_thesis_2_template').removeAttr('disabled');
-      	   	  }
-      	   	  else {
-      	   	  		  jQueryLodgix('#p_lodgix_thesis_2_template').attr('disabled','disabled');
-      	   	  }
-      	   }
+                function set_thesis_2_theme_enabled() {
+      	   	    var is_checked = jQueryLodgix('#p_lodgix_thesis_2_compatibility').is(':checked');      	  	
+      	   	    if (is_checked) {
+      	   		jQueryLodgix('#p_lodgix_thesis_2_template').removeAttr('disabled');
+                    }
+                    else {
+                        jQueryLodgix('#p_lodgix_thesis_2_template').attr('disabled','disabled');
+                    }
+                }
+                
+                function set_lodgix_page_template_enabled() {
+      	   	    var is_checked = jQueryLodgix('#p_lodgix_page_template').val() == 'CUSTOM';      	  	
+      	   	    if (is_checked) {
+      	   		jQueryLodgix('#p_lodgix_custom_page_template').removeAttr('disabled');
+                    }
+                    else {
+                        jQueryLodgix('#p_lodgix_custom_page_template').attr('disabled','disabled');
+                    }
+                }                
       	        
       		 jQuery('#p_lodgix_thesis_compatibility').click(function(){
       		 	 jQueryLodgix('#p_lodgix_thesis_2_compatibility').prop('checked', false);     

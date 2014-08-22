@@ -169,27 +169,27 @@ $single_property.= '<script>
 </script>';
 
 $single_property.= '<div id="lodgix_tabbed_content_box">
-						<div id="lodgix_tabbed_content">
-							<ul class="ldgxTabs">
-								<li>
-									<a href="#lodgix_tabbed_content-1">' . __('Details', $this->localizationDomain) . '</a>
-								</li>
-								<li>
-									<a href="#lodgix_tabbed_content-2">' . __('Booking Calendar', $this->localizationDomain) . '</a>
-								</li>
-								<li>
-									<a href="#lodgix_tabbed_content-3">' . __('Location', $this->localizationDomain) . '</a>
-								</li>
-								<li>
-									<a href="#lodgix_tabbed_content-4">' . __('Amenities', $this->localizationDomain) . '</a>
-								</li>
-								<li>		
-									<a href="#lodgix_tabbed_content-5">' . __('Policies', $this->localizationDomain) . '</a>
-								</li>
-								<li>
-									<a href="#lodgix_tabbed_content-6">' . __('Reviews', $this->localizationDomain) . '</a>
-								</li>
-							</ul>
+<div id="lodgix_tabbed_content">
+	<ul class="ldgxTabs">
+		<li id="lodgix_tabbed_details">
+			<a href="#lodgix_tabbed_content-1">' . __('Details', $this->localizationDomain) . '</a>
+		</li>
+		<li id="lodgix_tabbed_booking_calendar">
+			<a href="#lodgix_tabbed_content-2">' . __('Booking Calendar', $this->localizationDomain) . '</a>
+		</li>
+		<li id="lodgix_tabbed_location">
+			<a href="#lodgix_tabbed_content-3">' . __('Location', $this->localizationDomain) . '</a>
+		</li>
+		<li id="lodgix_tabbed_amenities">
+			<a href="#lodgix_tabbed_content-4">' . __('Amenities', $this->localizationDomain) . '</a>
+		</li>
+		<li id="lodgix_tabbed_policies">		
+			<a href="#lodgix_tabbed_content-5">' . __('Policies', $this->localizationDomain) . '</a>
+		</li>
+		<li id="lodgix_tabbed_reviews">
+			<a href="#lodgix_tabbed_content-6">' . __('Reviews', $this->localizationDomain) . '</a>
+		</li>
+	</ul>
 							
 	<div class="ldgxMobileTab" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'toggle\',\'1\',this)">' . __('Details', $this->localizationDomain) . '</div>
 		<div id="lodgix_tabbed_content-1">

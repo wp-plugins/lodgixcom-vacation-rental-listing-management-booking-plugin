@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.3.7
+Version: 1.3.8
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.3.8: Added support for HTML in property description
 v1.3.7: Added ids to tabbed interface
 v1.3.6: Added theme default template
 v1.3.5: Added theme page templates
@@ -1477,7 +1478,7 @@ if (!class_exists('p_lodgix')) {
         else
           $parray['description'] = $property['MarketingTitle'];
         $parray['description_long'] = $property['MarketingTeaser']['_value'];
-        $parray['details'] = $property['Description']['_value'];
+        $parray['details'] = html_entity_decode($property['Description']['_value']);
         $parray['bedrooms'] = $property['Bedrooms'];
         $parray['bathrooms'] = $property['Baths'];
         $parray['sleeps'] = $property['MaxGuests'];
@@ -1762,7 +1763,7 @@ if (!class_exists('p_lodgix')) {
                 else
                   $langarray['description'] = $rlanguage['MarketingTitle'];             
                 $langarray['description_long'] = $rlanguage['MarketingTeaser']['_value']; 
-                $langarray['details'] = $rlanguage['Description']['_value']; 
+                $langarray['details'] = html_entity_decode($rlanguage['Description']['_value']); 
                 $sql = $this->get_insert_sql_from_array($this->lang_properties_table,$langarray);
                 $wpdb->query($sql);     
             }

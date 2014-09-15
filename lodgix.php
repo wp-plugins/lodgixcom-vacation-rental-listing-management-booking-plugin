@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.3.8
+Version: 1.3.9
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.3.9: Improved notification fault tolerance
 v1.3.8: Added support for HTML in property description
 v1.3.7: Added ids to tabbed interface
 v1.3.6: Added theme default template
@@ -388,6 +389,7 @@ if (!class_exists('p_lodgix')) {
         
         //add_action('p_lodgix_download_images', array(&$this,"p_lodgix_download_images"));
         add_action("template_redirect", array(&$this,"p_lodgix_template_redirect"));
+        
      
         register_activation_hook(__FILE__, array(&$this,'p_lodgix_activate'));
         register_deactivation_hook(__FILE__, array(&$this,'p_lodgix_deactivate'));
@@ -577,81 +579,9 @@ if (!class_exists('p_lodgix')) {
 		}			
 
     	return $content;
-	}	
+    }	
 
-    
-//    function p_lodgix_download_images()
-//    {
-//        
-//        global $wpdb;
-//        set_time_limit(3600);
-//        
-//        $properties = $wpdb->get_results('SELECT * FROM ' . $this->properties_table); 
-//                         
-//        if ($properties)
-//        {            
-//            $number_properties = count($properties);
-//            if ($number_properties >= 40) {
-//                return;
-//            }
-//        }
-//        
-//        
-//        $pictures_path = WP_CONTENT_DIR.'/lodgix_pictures'; 
-//        $pictures_url = WP_CONTENT_URL.'/lodgix_pictures'; 
-//        $plugin_url = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)); 
-//        $sql = "SELECT * FROM " . $this->pictures_table . " WHERE url LIKE 'http://www.lodgix.com/photo/0/gallery/%'";
-//        $pictures = $wpdb->get_results($sql);
-//		$context = stream_context_create(array('http' => array('timeout' => 120)));                                       
-//                  
-//        if (!file_exists($pictures_path ))
-//           mkdir($folder, 0755,true);
-//        foreach($pictures as $pic)
-//        {
-//            $path = str_replace('http://www.lodgix.com/media/gallery/','',$pic->thumb_url);
-//            $file = basename($path);
-//            $folder = $pictures_path . '/' . str_replace('/' . $file,'',$path);
-//            if (!file_exists($folder . '/' . $file))
-//            {
-//                if (!file_exists($folder))
-//                mkdir($folder, 0755,true);
-//          
-//                $r = new LogidxHTTPRequest($pic->thumb_url);
-//				$contents = $r->DownloadToString();           
-//                file_put_contents($folder . '/' . $file, $contents);
-//            }
-//            if (file_exists($folder . '/' . $file))
-//            {
-//              $new_url = $pictures_url . '/' . str_replace('/' . $file,'',$path) . '/' . $file;
-//              $wpdb->query("UPDATE " . $this->pictures_table . " SET thumb_url='" . $new_url . "' WHERE id=" . $pic->id);
-//              if ($pic->position == 1)
-//                  $wpdb->query("UPDATE " . $this->properties_table . " SET main_image_thumb='" . $new_url . "' WHERE main_image_thumb='" . $pic->thumb_url . "'");
-//            }
-//            
-//            $path = str_replace('http://www.lodgix.com/photo/0/gallery/','',$pic->url);
-//            $file = basename($path);
-//            $folder = $pictures_path . '/' . str_replace('/' . $file,'',$path);
-//            if (!file_exists($folder . '/' . $file))
-//            {
-//              if (!file_exists($folder))
-//                mkdir($folder, 0755,true);
-//                $r = new LogidxHTTPRequest($pic->url);
-//                $contents = $r->DownloadToString();           
-//                file_put_contents($folder . '/' . $file, $contents);               
-//            }
-//            if (file_exists($folder . '/' . $file))
-//            {        
-//              $new_url = $pictures_url . '/' . str_replace('/' . $file,'',$path) . '/' . $file;
-//              $wpdb->query("UPDATE " . $this->pictures_table . " SET url='" . $new_url . "' WHERE id=" . $pic->id);
-//              if ($pic->position == 1)
-//                $wpdb->query("UPDATE " . $this->properties_table . " SET main_image='" . $new_url . "' WHERE main_image='" . $pic->url . "'");  
-//            }      
-//        }
-//        $this->build_individual_pages();
-//      
-//      //$this->build_areas_pages();
-//    }
-    
+
     function p_lodgix_filter_content($content)
     {     	
         global $p_lodgix_db_version;
@@ -3012,44 +2942,50 @@ if (!class_exists('p_lodgix')) {
         }
     }
     
+    function get_array_from_url($url) {
+        $r = new LogidxHTTPRequest($url);
+        $xml = $r->DownloadToString();
+        $root = new DOMDocument();
+        $root->loadXML($xml);
+        return $this->domToArray($root);
+    }
+    
+    function reschedule_notify() {
+        wp_clear_scheduled_hook('p_lodgix_notify');
+        wp_schedule_single_event(time()+900, 'wp_ajax_nopriv_p_lodgix_notify');
+    }
+    
     function p_lodgix_notify()
     {
         global $wpdb;
         global $p_lodgix_db_version;
         
         ini_set('max_execution_time', 0);
-        $owner_fetch_url = 'https://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeLanguages=No&IncludeRotators=No&IncludeAmenities=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
-        $r = new LogidxHTTPRequest($owner_fetch_url);
-        $xml = $r->DownloadToString();
-        $root = new DOMDocument();
-        $root->loadXML($xml);
-        $owner = $this->domToArray($root);
-        $ownerAmenities = @$owner['Results']['Amenities']['Amenity'];
-        $searchableAmenities = array();
-        $wpdb->query("DELETE FROM " . $this->searchable_amenities_table);
-        if (!empty($ownerAmenities))
-        {
-            foreach($ownerAmenities as $ownerAmenity)
+        
+        $owner_fetch_url = $this->get_owner_fetch_url();        
+        $owner_array = $this->get_array_from_url($owner_fetch_url);
+        
+        $fetch_url = $this->get_fetch_url();
+        $properties_array = $this->get_array_from_url($fetch_url);
+        
+
+        if (!empty($owner_array) && !empty($properties_array)) {
+            $ownerAmenities = @$owner_array['Results']['Amenities']['Amenity'];
+            $searchableAmenities = array();
+            $wpdb->query("DELETE FROM " . $this->searchable_amenities_table);
+            if (!empty($ownerAmenities))
             {
-
-                $alrarray = array();
-                $alrarray['description'] = $ownerAmenity['Name'];
-                $sql = $this->get_insert_sql_from_array($this->searchable_amenities_table,$alrarray);
-                $wpdb->query($sql);                   
-                
-                $searchableAmenities[$ownerAmenity['Name']] = 1;
-            }
-        }
-
+                foreach($ownerAmenities as $ownerAmenity)
+                {
     
-        $fetch_url = 'https://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key'] . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'] . '&Version=' . $p_lodgix_db_version;
-        $r = new LogidxHTTPRequest($fetch_url);
-        $xml = $r->DownloadToString();
-        if ($xml)
-        {
-            $root = new DOMDocument();
-            $root->loadXML($xml);
-            $properties_array = $this->domToArray($root);
+                    $alrarray = array();
+                    $alrarray['description'] = $ownerAmenity['Name'];
+                    $sql = $this->get_insert_sql_from_array($this->searchable_amenities_table,$alrarray);
+                    $wpdb->query($sql);                   
+                    
+                    $searchableAmenities[$ownerAmenity['Name']] = 1;
+                }
+            }
    
             if (!$owner['Errors'])
             {
@@ -3057,8 +2993,7 @@ if (!class_exists('p_lodgix')) {
                 $wpdb->query($sql);
                 $properties = $properties_array["Results"]["Properties"];
                 if ($properties_array['Results']['Properties']['Property'][0]) $properties = $properties_array['Results']['Properties']['Property'];
-                $active_properties = array(-1, -2, -3
-                );
+                    $active_properties = array(-1, -2, -3);
                 $counter = 0;
                 foreach($properties as $property)
                 {
@@ -3070,18 +3005,20 @@ if (!class_exists('p_lodgix')) {
                 $active_properties = join(",", $active_properties);
                 $this->clean_properties($active_properties);
                 $this->build_individual_pages();
-    
                 // $this->build_areas_pages();
     
                 die("OK");
             }
             else
             {
+                $this->reschedule_notify();
                 die("ERROR");
             }
+    
         }
         else
         {
+            $this->reschedule_notify();
             die("ERROR");
         }
     }
@@ -3112,7 +3049,7 @@ if (!class_exists('p_lodgix')) {
     }      
       
       
- 	function p_lodgix_check() {
+    function p_lodgix_check() {
       	ini_set('max_execution_time', 0);         
         die("PLUGIN_INSTALLED");
     }      
@@ -3918,7 +3855,20 @@ if (!class_exists('p_lodgix')) {
             $this->options['p_lodgix_time_format'] = '12';
         }        
     }
-      
+    
+    function get_owner_fetch_url() {
+        global $p_lodgix_db_version;
+        
+        $url = 'https://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&IncludeRotators=Yes&IncludeAmenities=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];
+        return $url;
+    }
+
+    function get_fetch_url() {
+        global $p_lodgix_db_version;
+        
+        $url = 'https://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'] . '&Version=' . $p_lodgix_db_version;
+        return $url;
+    }
 
     /**
     * Returns Last Index
@@ -3957,6 +3907,7 @@ if (!class_exists('p_lodgix')) {
             rmdir($dir);
        }
     }       
+      
       
  
     /**
@@ -4349,15 +4300,14 @@ if (!class_exists('p_lodgix')) {
                 }
             }
             
-      
-                                                     
-            $this->saveAdminOptions();       									
-            $owner_fetch_url = 'https://www.lodgix.com/api/xml/owners/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeLanguages=Yes&IncludeRotators=Yes&IncludeAmenities=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'];                  
-            $fetch_url = 'https://www.lodgix.com/api/xml/properties/get?Token=' . $this->options['p_lodgix_api_key']  . '&IncludeAmenities=Yes&IncludePhotos=Yes&IncludeConditions=Yes&IncludeRates=Yes&IncludeLanguages=Yes&IncludeTaxes=Yes&IncludeReviews=Yes&IncludeMergedRates=Yes&OwnerID=' . $this->options['p_lodgix_owner_id'] . '&Version=' . $p_lodgix_db_version;    
+                   
+            $this->saveAdminOptions();
+            
+            $owner_fetch_url = $this->get_owner_fetch_url();
+            $fetch_url = $this->get_fetch_url();
 
             $r = new LogidxHTTPRequest($owner_fetch_url);
             $xml = $r->DownloadToString(); 
-              
             
             $ROOT_HEIGHT = 84;
             $root = new DOMDocument();  

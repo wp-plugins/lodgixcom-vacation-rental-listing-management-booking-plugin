@@ -372,10 +372,7 @@ foreach($photos as $photo)
 $single_property.= '</tr></table></div></div><div id="lodgix_photo_bottom"></div></div>';
 $single_property.= '<div class="ldgxPowered">' . $link . ' by Lodgix.com</div></div>';
 $single_property.= '<script src="https://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>';
-$single_property.= '<script type="text/javascript">        
-
-// <![CDATA[
-
+$single_property.= '<script type="text/javascript"><!--//--><![CDATA[//><!--        
 function lodgix_gmap_initialize() {    
     var lodgixLatLng = new google.maps.LatLng(' . $property->latitude . ', ' . $property->longitude . ');
     var lodgixMapOptions = {
@@ -383,19 +380,12 @@ function lodgix_gmap_initialize() {
        center: lodgixLatLng,
        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-
-    
-
     var map = new google.maps.Map(document.getElementById("map_canvas"),lodgixMapOptions);
 	var marker = new google.maps.Marker({
        position: lodgixLatLng,
        map: map
    });    
 }
-
 window.onload = lodgix_gmap_initialize;
-
-// ]]>
-
-</script>';
+//--><!]]></script>';
 ?>

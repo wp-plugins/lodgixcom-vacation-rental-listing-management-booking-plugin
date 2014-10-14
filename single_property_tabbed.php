@@ -145,8 +145,8 @@ $single_property.= '
 
 ';
 $single_property.= '<link rel="stylesheet" href="' . $this->p_plugin_path . 'css/jquery-ui-1.8.17.custom.css" type="text/css" />';
-$single_property.= '<script>
-	jQueryLodgix(document).ready(function(){
+$single_property.= '<script><!--//--><![CDATA[//><!--
+jQueryLodgix(document).ready(function(){
 		jQueryLodgix("#lodgix_tabbed_content").tabs({
 			create: function( event, ui ) {
 				var el = jQueryLodgix("#merged_rates_table");
@@ -155,18 +155,15 @@ $single_property.= '<script>
 				}
 			}
 		});
-
 		if(document.location.hash == "#booking") {
 			window.scrollTo(0,0);
 			jQueryLodgix("#lodgix_tabbed_content").tabs("select",1);
 	    }
-
 		if(document.location.hash == "#map_canvas") {
 			jQueryLodgix("#lodgix_tabbed_content").tabs("select",2);
 		}
 });
-
-</script>';
+//--><!]]></script>';
 
 $single_property.= '<div id="lodgix_tabbed_content_box">
 <div id="lodgix_tabbed_content">
@@ -425,10 +422,7 @@ $single_property.= '</div></div>';
 $single_property.= '<script
 src="https://maps.google.com/maps/api/js?sensor=true"
 type="text/javascript"></script>';
-$single_property.= '<script type="text/javascript">
-
-// <![CDATA[
-
+$single_property.= '<script type="text/javascript"><!--//--><![CDATA[//><!--
 function lodgix_gmap_initialize() {
 	var lodgixLatLng = new google.maps.LatLng(' . $property->latitude . ', ' . $property->longitude . ');
 	var lodgixMapOptions = {
@@ -443,10 +437,6 @@ function lodgix_gmap_initialize() {
 		map: map
 	});
 }
-
 window.onload = lodgix_gmap_initialize;
-
-// ]]>
-
-</script>';
+//--><!]]></script>';
 ?>

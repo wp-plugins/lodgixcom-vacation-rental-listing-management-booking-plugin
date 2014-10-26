@@ -153,6 +153,11 @@ jQueryLodgix(document).ready(function(){
 				if (el) {
 					
 				}
+			},
+			show: function(event, ui) {
+				if (ui.index == 1 && typeof(lodgixUnitCalendarInstance) != "undefined") {
+					lodgixUnitCalendarInstance.resize();
+				}
 			}
 		});
 		if(document.location.hash == "#booking") {

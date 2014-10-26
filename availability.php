@@ -11,7 +11,7 @@ if ($allow_booking == 0)
 
 if ($number_properties == 1)
 {
-   $availability = '<div id="lodgix_calendar" align="center"><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">new LodgixUnitCalendar(' . $owner_id. ',' . $property_id . ');</script>';
+   $availability = '<div id="lodgix_calendar" align="center"><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">var lodgixUnitCalendarInstance = new LodgixUnitCalendar(' . $owner_id. ',' . $property_id . ');</script>';
 }
 else
 {

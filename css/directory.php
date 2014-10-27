@@ -1267,7 +1267,6 @@ border:0 none;
     border-collapse: collapse;
     border-radius: 10px 10px 10px 10px;
     left: 0;
-    position: relative;
     top: 0;
     width:100%;
 }

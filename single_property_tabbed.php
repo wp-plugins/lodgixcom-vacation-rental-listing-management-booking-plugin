@@ -237,8 +237,7 @@ $single_property.= '</div>
 
 <h2>' . __('Property Location', $this->localizationDomain) . '</h2>
 
-<div id="lodgix_tabbed_map_canvas" style="width: 100%; height:
-500px"></div>
+<div id="lodgix_tabbed_map_canvas" style="width: 100%; height:500px"></div>
 
 </div>
 

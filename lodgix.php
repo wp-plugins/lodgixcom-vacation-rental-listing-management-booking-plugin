@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.4.5
+Version: 1.4.6
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.4.6: Added Vacation Rental grid template
 v1.4.5: Fixed Chrome display issue on tabbed layout
 v1.4.4: Fixed rate table not appearing on Chrome
 v1.4.3: Fixed single unit calendar appearence in tabbed layout
@@ -891,7 +892,7 @@ if (!class_exists('p_lodgix')) {
   					  }
 					}
     
-            echo '<link type="text/css" rel="stylesheet" href="' . $this->p_plugin_path  . 'css/directory.php" />' . "\n";            
+            echo '<link type="text/css" rel="stylesheet" href="' . $this->p_plugin_path  . 'css/directory.css" />' . "\n";            
             $css_path = WP_CONTENT_DIR;
             if (file_exists($css_path  . '/lodgix-custom.css'))
         		{
@@ -1067,7 +1068,8 @@ if (!class_exists('p_lodgix')) {
                                     'p_lodgix_display_multi_instructions' => 0,
                                     'p_lodgix_display_single_instructions' => 0,
                                     'p_lodgix_rates_display' => 0,                                  
-                                    'p_lodgix_single_page_design' => 0,                                                                    
+                                    'p_lodgix_single_page_design' => 0,
+                                    'p_lodgix_vacation_rentals_page_design' => 0,
                                     'p_lodgix_vacation_rentals_page_pos' => '3',
                                     'p_lodgix_availability_page_pos' => '4',                                  
                                     'p_lodgix_thesis_compatibility' => false,
@@ -1132,6 +1134,7 @@ if (!class_exists('p_lodgix')) {
                               'p_lodgix_display_single_instructions' => 0,
                               'p_lodgix_rates_display' => 0,                              
                               'p_lodgix_single_page_design' => 0,
+                              'p_lodgix_vacation_rentals_page_design' => 0,
                               'p_lodgix_vacation_rentals_page_pos' => '3',                                                             
                               'p_lodgix_availability_page_pos' => '4',
                               'p_lodgix_thesis_compatibility' => false,
@@ -2073,14 +2076,34 @@ if (!class_exists('p_lodgix')) {
 
       $filter .= $this->getPropertyIdsWithAmenities($amenities);
 
-      $sql = 'SELECT * FROM ' . $this->properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $wpdb->_real_escape($sort_sql) . ' ' . $direction ;
-      $properties = $wpdb->get_results($sql);      
+      $sort_sql = $wpdb->_real_escape($sort_sql);
+
+      if ($this->options['p_lodgix_vacation_rentals_page_design'] == 1)
+      {
+            $content .= '<div id="lodgix_vc_content_grid">';
+            $sort_sql = "IF (area = '' OR area IS NULL,1,0) , `area`";
+
+      }
+      else
+      {
+            $content .= '<div id="lodgix_vc_content">';
+      }
+
+      $sql = 'SELECT * FROM ' . $this->properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $sort_sql . ' ' . $direction;
+      
+      $properties = $wpdb->get_results($sql);
+
+      $counter = 0;
 
       if ($properties)
       {
           $really_available = false;
           foreach($properties as $property)
           {
+              if ($counter == 0) {
+                $old_area = $property->area;
+              }
+
               if (is_array($available_after_rules))
               {
                   foreach($available_after_rules as $pk)
@@ -2168,12 +2191,29 @@ if (!class_exists('p_lodgix')) {
                   $post_id = $wpdb->get_var("select page_id from " . $this->lang_pages_table . " WHERE property_id=" . $property->id . " AND language_code='" . $this->sufix. "';");                  
                   $permalink = get_permalink($post_id);
             }
-            include('vacation_rentals.php');
-            $content .= $vacation_rentals;          
+
+            if ($property->main_image) { 
+    
+                if ($this->options['p_lodgix_vacation_rentals_page_design'] == 1)
+                {
+                    include('vacation_rentals_grid.php');
+                }
+                else
+                {
+                    include('vacation_rentals.php');
+                }
+    
+                $content .= $vacation_rentals;
+                $counter += 1;
+            }
+       
           }
           $content .= '<script type="text/javascript">jQueryLodgix(".ldgxFeats").LodgixResponsiveTable()</script>';
           $content .= '<script type="text/javascript">jQueryLodgix(".ldgxListingDesc").LodgixTextExpander()</script>';
       }
+
+      $content .= '</div>';
+
       $link = '<a href="http://www.lodgix.com">Vacation Rental Software</a>';
       
       $sql = 'SELECT url,title FROM `' . $this->link_rotators_table . '` ORDER BY RAND() LIMIT 1';
@@ -2389,7 +2429,11 @@ if (!class_exists('p_lodgix')) {
      
         if ($post_id > 0)
         {
-          $content = $this->get_sort_content(false);
+            if ($loptions['p_lodgix_vacation_rentals_page_design'] == 0)
+                $content = $this->get_sort_content(false);
+            else
+                $content = '<div id="content_lodgix_wrapper"><div id="content_lodgix">';
+    
           $content .= $this->get_vacation_rentals_html();
           $content .= '</div></div>';
         }
@@ -4131,7 +4175,8 @@ if (!class_exists('p_lodgix')) {
             $this->options['p_google_maps_api'] = $_POST['p_google_maps_api']; 
             $this->options['p_lodgix_display_title'] = $_POST['p_lodgix_display_title'];
             $this->options['p_lodgix_display_multi_instructions'] = ((int)$_POST['p_lodgix_display_multi_instructions']);
-            $this->options['p_lodgix_single_page_design'] = ((int)$_POST['p_lodgix_single_page_design']);                  
+            $this->options['p_lodgix_single_page_design'] = ((int)$_POST['p_lodgix_single_page_design']);
+            $this->options['p_lodgix_vacation_rentals_page_design'] = ((int)$_POST['p_lodgix_vacation_rentals_page_design']);                  
             $this->options['p_lodgix_display_single_instructions'] = ((int)$_POST['p_lodgix_display_single_instructions']);
             $this->options['p_lodgix_rates_display'] = ((int)$_POST['p_lodgix_rates_display']);                  
             $this->options['p_lodgix_display_featured'] = $_POST['p_lodgix_display_featured'];                                    
@@ -4743,6 +4788,17 @@ If you are a current Lodgix.com subscriber, please login to your Lodgix.com acco
 					<td>
 						<textarea cols="55" name="p_lodgix_vr_meta_keywords" id="p_lodgix_vr_meta_keywords"><?php echo $this->options['p_lodgix_vr_meta_keywords']; ?></textarea>
 					</td> 
+				</tr>
+				<tr valign="top"> 
+					<th scope="row">
+						<?php _e('Page Design:', $this->localizationDomain); ?>
+					</th> 
+					<td>
+						<select name="p_lodgix_vacation_rentals_page_design"  id="p_lodgix_vacation_rentals_page_design" style="width:160px;">                              
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_design'] == 0) echo "SELECTED"; ?> value='0'>Classic</option>
+							<option <?php if ($this->options['p_lodgix_vacation_rentals_page_design'] == 1) echo "SELECTED"; ?> value='1'>Grid</option>
+						</select>
+					</td>                                                                                                                           
 				</tr>
 				<tr valign="top">
 					<th width="33%" scope="row">

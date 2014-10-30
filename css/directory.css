@@ -1484,7 +1484,7 @@ td.merged_rates_table-span {
     text-decoration: underline;
 }
 
-#lodgix_vc_content_grid .property_div.property {
+#lodgix_vc_content_grid .property_div_logix.property {
     float: left;
     margin-bottom: 40px;
     overflow: visible;
@@ -1509,7 +1509,7 @@ td.merged_rates_table-span {
 }
 
 
-#lodgix_vc_content_grid .property_div.property ul {
+#lodgix_vc_content_grid .property_div_logix.property ul {
     list-style: outside none none;
     margin: 0;
 }
@@ -1529,4 +1529,8 @@ td.merged_rates_table-span {
     color: #333333;
     font-family: "Noto Sans",sans-serif;
     margin-bottom: 15px;
+}
+
+#lodgix_optional_br {
+  display:none;
 }

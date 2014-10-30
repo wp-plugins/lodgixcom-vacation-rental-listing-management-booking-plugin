@@ -46,7 +46,7 @@ $vacation_rentals = '
 </div>
 <div class="ldgxListingBody">
 ' . $property->area . ($warning ? '<div class="ldgxListingWarn">' . $warning . '</div>' : '') . '
-<div class="ldgxListingDesc">' . nl2br($property->details) . '</div>
+<div class="ldgxListingDesc">' . preg_replace('{(<br(\s*/)?>|&nbsp;)+$}i', '', html_entity_decode (nl2br($property->details))) . '</div>
 </div>
 <div class="ldgxListingSeparator"></div>
 <table class="ldgxFeats">
@@ -126,4 +126,4 @@ if ($lodgixoptions['p_lodgix_display_availability_icon'] || $lodgixoptions['p_lo
 
     $vacation_rentals.= '</div>';
 }
-$vacation_rentals.= '</div>';
+$vacation_rentals.= '<br id="lodgix_optional_br" clear="all"/></div>';

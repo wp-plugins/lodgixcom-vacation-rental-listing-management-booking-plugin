@@ -56,11 +56,12 @@ if ($counter % 3 == 0) {
 }
 
 
+
 $old_area = $property->area;
 
 $vacation_rentals .= '
 
-    <div class="property_div property clearfix ' . $new_row . '">
+    <div class="property_div_logix property clearfix ' . $new_row . '">
     
         <div class="property_image">
     
@@ -88,4 +89,7 @@ $vacation_rentals .= '
     </div> 
 ';
 
+
+error_log($property->description);
+error_log($vacation_rentals);
 

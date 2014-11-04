@@ -1532,5 +1532,9 @@ td.merged_rates_table-span {
 }
 
 #lodgix_optional_br {
-  display:none;
+    display:none;
+}
+
+#lodgix_tabbed_map_canvas {
+    -webkit-transform: none !important;
 }

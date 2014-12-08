@@ -201,9 +201,12 @@ $single_property.= '<div id="lodgix_tabbed_content_box">
 $single_property.= '<br /><center><div id="lodgix-image-gallery" class="royalSlider default"><ul class="royalSlidesContainer dragme">';
 foreach($photos as $photo)
 {
-	
-	$photo_url = $photo->url;
-
+	if (strpos( $photo->url, 'http://www.lodgix.com') > 0) {
+		$photo_url = str_replace('media/gallery', 'photo/0/gallery', $photo->url);
+	}
+	else {
+		$photo_url = $photo->url;
+	}
 	
     $single_property.= '<li class="royalSlide" data-thumb="' . $photo->thumb_url . '" data-src="' . $photo_url . '">';
     if ($photo->caption != '')

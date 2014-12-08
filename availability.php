@@ -30,7 +30,7 @@ else
   $availability = '
         <div id="lodgix_calendar" align="center">
             <script type="text/javascript">var __lodgix_origin="' . $website . '";</script>
-            <script type="text/javascript" src="http://' . $website . '/static/muc/build/code.min.js"></script>
+            <script type="text/javascript" src="' . $website . '/static/muc/build/code.min.js"></script>
             <script type="text/javascript">new LodgixCalendar("' . $owner_id_multiple . '",0,true)</script>';
 }
 

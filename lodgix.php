@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.5.1
+Version: 1.5.2
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.5.2: Added HTTPS support to availability calendars
 v1.5.1: Fixed single unit help text
 v1.5.0: Fixed Chrome featured image display issue
 v1.4.9: Changed property sorting for grid template
@@ -576,9 +577,20 @@ if (!class_exists('p_lodgix')) {
         if ($policy->single_unit_helptext)
         {
             $single_unit_helptext = $policy->single_unit_helptext;
-        }  			  
+        }
+
+        $website = 'http://www.lodgix.com';
+        if (is_ssl()) {
+            $website = 'https://www.lodgix.com';
+        }
 	
-        $content = '<div id="lodgix_property_booking"><h2 id="booking">' . __('Availability &amp; Booking Calendar',$this->localizationDomain) .'</h2><center><script type="text/javascript">var __lodgix_origin="http://www.lodgix.com";</script><script type="text/javascript" src="http://www.lodgix.com/static/scc/build/code.min.js"></script><script type="text/javascript">var lodgixUnitCalendarInstance = new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
+        $content = '
+            <div id="lodgix_property_booking">
+                <h2 id="booking">' . __('Availability &amp; Booking Calendar',$this->localizationDomain) .'</h2>
+                <center>
+                    <script type="text/javascript">var __lodgix_origin="' . $website . '";</script>
+                    <script type="text/javascript" src="' . $website . '/static/scc/build/code.min.js"></script>
+                    <script type="text/javascript">var lodgixUnitCalendarInstance = new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
 		
 
 		if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1))

@@ -41,37 +41,8 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
           })();
         </script>			
-        <script> 
-            function set_thesis_2_theme_enabled() {
-            var is_checked = jQueryLodgix('#p_lodgix_thesis_2_compatibility').is(':checked');      	  	
-            if (is_checked) {
-            jQueryLodgix('#p_lodgix_thesis_2_template').removeAttr('disabled');
-                }
-                else {
-                    jQueryLodgix('#p_lodgix_thesis_2_template').attr('disabled','disabled');
-                }
-            }
-            
-            function set_lodgix_page_template_enabled() {
-            var is_checked = jQueryLodgix('#p_lodgix_page_template').val() == 'CUSTOM';      	  	
-            if (is_checked) {
-            jQueryLodgix('#p_lodgix_custom_page_template').removeAttr('disabled');
-                }
-                else {
-                    jQueryLodgix('#p_lodgix_custom_page_template').attr('disabled','disabled');
-                }
-            }                
-            
-            jQuery('#p_lodgix_thesis_compatibility').click(function(){
-                jQueryLodgix('#p_lodgix_thesis_2_compatibility').prop('checked', false);     
-                set_thesis_2_theme_enabled(); 	  	
-            });
-            jQuery('#p_lodgix_thesis_2_compatibility').click(function(){
-                jQueryLodgix('#p_lodgix_thesis_compatibility').prop('checked', false);      	  	
-                set_thesis_2_theme_enabled();
-            });
-           
-  </script>
+   
+
     </div>
     <div class="ldgxAdminBox">
         <h2>About Lodgix.com</h2>

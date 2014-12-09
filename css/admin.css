@@ -7,8 +7,23 @@
     background-color: white;
 }
 
-.form-table input {
+.nav > li > a {
+    display: block;
+    padding: 10px;
+    position: relative;
+}
+
+.form-table th {
+    font-weight: normal;
+}
+
+.form-table input, .form-table select {
     width: 100%;
+}
+
+.lodgix_options_table th {
+    width: 70%;
+    text-align: left;
 }
 
 .ldgxAdminRight {

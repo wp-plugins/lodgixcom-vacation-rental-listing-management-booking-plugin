@@ -31,7 +31,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane" id="page_design">
                                 <div class="lodgix_postbox">
-                                    
+                                    <?php require_once('admin/admin_tab_page_design.php'); ?>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="display_options">
@@ -41,7 +41,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane" id="widget_options">
                                 <div class="lodgix_postbox">
-                                    
+                                    <?php require_once('admin/admin_tab_widget_options.php'); ?>
                                 </div>
                             </div>
                         </div>

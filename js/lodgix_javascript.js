@@ -112,6 +112,26 @@ function lodgix_settings_tab_show(el) {
     });
   }
 
+function set_thesis_2_theme_enabled() {
+    var is_checked = jQueryLodgix('#p_lodgix_thesis_2_compatibility').is(':checked');      	  	
+    if (is_checked) {
+    jQueryLodgix('#p_lodgix_thesis_2_template').removeAttr('disabled');
+        }
+        else {
+            jQueryLodgix('#p_lodgix_thesis_2_template').attr('disabled','disabled');
+        }
+}
+
+function set_lodgix_page_template_enabled() {
+    var is_checked = jQueryLodgix('#p_lodgix_page_template').val() == 'CUSTOM';      	  	
+    if (is_checked) {
+    jQueryLodgix('#p_lodgix_custom_page_template').removeAttr('disabled');
+        }
+        else {
+            jQueryLodgix('#p_lodgix_custom_page_template').attr('disabled','disabled');
+        }
+}                
+
 
 jQueryLodgix(document).ready(function(){
 
@@ -160,6 +180,16 @@ jQueryLodgix(document).ready(function(){
         "aoColumns": columns,
         "iDisplayLength": 50,
         "bAutoWidth": true
+    });
+
+            
+    jQuery('#p_lodgix_thesis_compatibility').click(function(){
+        jQueryLodgix('#p_lodgix_thesis_2_compatibility').prop('checked', false);     
+        set_thesis_2_theme_enabled(); 	  	
+    });
+    jQuery('#p_lodgix_thesis_2_compatibility').click(function(){
+        jQueryLodgix('#p_lodgix_thesis_compatibility').prop('checked', false);      	  	
+        set_thesis_2_theme_enabled();
     });
 
 });

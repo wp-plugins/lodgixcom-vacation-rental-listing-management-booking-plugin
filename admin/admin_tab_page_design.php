@@ -1,66 +1,93 @@
 
-<p><b><?php _e('General Page Options', $this->localizationDomain); ?></b></p>
-
-<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
+<table width="100%" cellspacing="2" cellpadding="5" class="form-table lodgix_options_table">
     <tr valign="top"> 
-        <th width="33%" scope="row">
-            <?php _e('Allow Comments:', $this->localizationDomain); ?>
-        </th>
-        <td>
-            <input name="p_lodgix_allow_comments" type="checkbox" id="p_lodgix_allow_comments" <?php if ($this->options['p_lodgix_allow_comments']) echo "CHECKED"; ?>/>
-      </td> 
-    </tr>
-    <tr valign="top"> 
-        <th width="33%" scope="row">
-            <?php _e('Allow PingBacks:', $this->localizationDomain); ?>
-        </th>
-        <td>
-            <input name="p_lodgix_allow_pingback" type="checkbox" id="p_lodgix_allow_pingback" <?php if ($this->options['p_lodgix_allow_pingback']) echo "CHECKED"; ?>/>
-      </td> 
-    </tr>
-</table><br>
-
-<p><b><?php _e('Menu Display Options', $this->localizationDomain); ?></b></p>
-
-<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
-    <tr valign="top"> 
-        <th width="33%" scope="row">
-            <?php _e('Vacation Rentals Menu Position:', $this->localizationDomain); ?>
-        </th>
-        <td>
-            <select name="p_lodgix_vacation_rentals_page_pos"  id="p_lodgix_vacation_rentals_page_pos" style="width:160px;">                              
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '3') echo "SELECTED"; ?> value='3'>3</option>
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '4') echo "SELECTED"; ?> value='4'>4</option>
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '5') echo "SELECTED"; ?> value='5'>5</option>
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '6') echo "SELECTED"; ?> value='6'>6</option>
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '7') echo "SELECTED"; ?> value='7'>7</option>
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '8') echo "SELECTED"; ?> value='8'>8</option>
-                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '9') echo "SELECTED"; ?> value='9'>9</option>
-            </select>
-        </td>
-    </tr>   
-    <tr valign="top"> 
-        <th width="33%" scope="row">
-            <?php _e('Availability Page Menu Position:', $this->localizationDomain); ?>
+        <th scope="row">
+            <?php _e('Single Page Design:', $this->localizationDomain); ?>
         </th> 
         <td>
-            <select name="p_lodgix_availability_page_pos"  id="p_lodgix_availability_page_pos" style="width:160px;">                              
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '3') echo "SELECTED"; ?> value='3'>3</option>
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '4') echo "SELECTED"; ?> value='4'>4</option>
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '5') echo "SELECTED"; ?> value='5'>5</option>
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '6') echo "SELECTED"; ?> value='6'>6</option>
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '7') echo "SELECTED"; ?> value='7'>7</option>
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '8') echo "SELECTED"; ?> value='8'>8</option>
-                <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '9') echo "SELECTED"; ?> value='9'>9</option>
+            <select name="p_lodgix_single_page_design"  id="p_lodgix_single_page_design" >                              
+                <option <?php if ($this->options['p_lodgix_single_page_design'] == 0) echo "SELECTED"; ?> value='0'>Regular</option>
+                <option <?php if ($this->options['p_lodgix_single_page_design'] == 1) echo "SELECTED"; ?> value='1'>Tabbed</option>
             </select>
-        </td> 
-    </tr>     
-</table><br>
+        </td>                                                                                                                           
+    </tr>
+    <tr valign="top"> 
+        <th scope="row">
+            <?php _e('Vacation Rentals Page Design:', $this->localizationDomain); ?>
+        </th> 
+        <td>
+            <select name="p_lodgix_vacation_rentals_page_design"  id="p_lodgix_vacation_rentals_page_design" >                              
+                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_design'] == 0) echo "SELECTED"; ?> value='0'>Classic</option>
+                <option <?php if ($this->options['p_lodgix_vacation_rentals_page_design'] == 1) echo "SELECTED"; ?> value='1'>Grid</option>
+            </select>
+        </td>                                                                                                                           
+    </tr>
+    <tr valign="top">
+        <th width="33%" scope="row">
+            <?php _e('Full Size Thumbnails:', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <input name="p_lodgix_full_size_thumbnails" type="checkbox" id="p_lodgix_full_size_thumbnails" <?php if ($this->options['p_lodgix_full_size_thumbnails']) echo "CHECKED"; ?>/>
+        </td>
+    </tr>				
+</table><br>                    
 
+<p><b><?php _e('Theme Options', $this->localizationDomain); ?></b></p>
+
+<table width="100%" cellspacing="2" cellpadding="5" class="form-table lodgix_options_table">
+    <tr valign="top">
+        <th width="33%" scope="row">
+            <?php _e('Thesis 1 Compatibility:', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <input name="p_lodgix_thesis_compatibility" type="checkbox" id="p_lodgix_thesis_compatibility" <?php if ($this->options['p_lodgix_thesis_compatibility']) echo "CHECKED";?> />
+        </td>
+    </tr>
+    <tr valign="top">
+        <th width="33%" scope="row">
+            <?php _e('Thesis 2 Compatibility:', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <input name="p_lodgix_thesis_2_compatibility" type="checkbox" id="p_lodgix_thesis_2_compatibility" <?php if ($this->options['p_lodgix_thesis_2_compatibility']) echo "CHECKED"; ?> onchange="javascript:set_thesis_2_theme_enabled();"/>
+
+
+            <select name="p_lodgix_thesis_2_template"  id="p_lodgix_thesis_2_template" style="margin_left:10px;"  <?php if (!$this->options['p_lodgix_thesis_2_compatibility']) echo "DISABLED"; ?>>               
+                <?php foreach($thesis_2_template_options as $to) { ?>              
+                <option <?php if ($this->options['p_lodgix_thesis_2_template'] == $to['class']) echo "SELECTED"; ?> value='<?php echo $to['class'] ?>'><?php echo $to['title'] ?></option>
+                <?php } ?>
+    
+            </select>
+        </td>
+    </tr>
+                    <tr valign="top">
+        <th width="33%" scope="row">
+            <?php _e('Page Template:', $this->localizationDomain); ?>
+        </th>
+        <td>
+                                <select name="p_lodgix_page_template"  id="p_lodgix_page_template"  
+                                        onchange="javascript:set_lodgix_page_template_enabled();">
+                                    <option value="NONE">Lodgix Default</option>
+                                    <option value="page.php" <?php if ('page.php' == $this->options["p_lodgix_page_template"]) echo "SELECTED"; ?>>Theme Default</option>
+            <?php 
+                                        $templates = get_page_templates();
+                                        foreach ( $templates as $tn => $tf ) {
+                                            echo '<option ';
+                                            if ($tf == $this->options["p_lodgix_page_template"]) {
+                                                echo "SELECTED";
+                                            }
+                                            echo ' value="'. $tf . '">' . $tn . '</option>';
+                                        }
+                                    ?>
+                                    <option value="CUSTOM" <?php if ('CUSTOM' == $this->options["p_lodgix_page_template"]) echo "SELECTED"; ?>>Custom</option>
+                                </select> <input name="p_lodgix_custom_page_template" id="p_lodgix_custom_page_template"
+                                           type="text"
+                                            <?php if ($this->options['p_lodgix_page_template'] != 'CUSTOM') echo 'disabled'; ?> 
+                                           value="<?php echo $this->options['p_lodgix_custom_page_template']; ?>">
+        </td>
+    </tr>
+
+
+                    
+                    
+</table><br>
 

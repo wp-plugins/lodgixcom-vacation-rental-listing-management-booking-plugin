@@ -394,6 +394,10 @@ if (!class_exists('p_lodgix')) {
             add_action('wp_ajax_nopriv_p_lodgix_check', array(&$this,"p_lodgix_check"));      
             add_action('wp_ajax_p_lodgix_sort_vr', array(&$this,"p_lodgix_sort_vr"));
             add_action('wp_ajax_nopriv_p_lodgix_sort_vr', array(&$this,"p_lodgix_sort_vr"));
+
+            add_action('wp_ajax_p_lodgix_properties_list', array(&$this,"p_lodgix_properties_list"));
+            add_action('wp_ajax_nopriv_p_lodgix_properties_list', array(&$this,"p_lodgix_properties_list"));
+
             add_action('wp_ajax_p_lodgix_custom_search', array(&$this,"p_lodgix_custom_search"));
             add_action('wp_ajax_nopriv_p_lodgix_custom_search', array(&$this,"p_lodgix_custom_search"));
       
@@ -738,6 +742,35 @@ if (!class_exists('p_lodgix')) {
             return $excludes;
         } 
     
+        function p_lodgix_properties_list() {
+            global $wpdb;
+
+            $properties = $wpdb->get_results('SELECT ' . $this->properties_table . '.id, `order`, property_id, description,enabled,featured FROM ' . $this->properties_table . ' LEFT JOIN ' . $this->pages_table . ' ON ' . $this->properties_table . '.id = ' . $this->pages_table . '.property_id ORDER BY ' . $this->properties_table . '.`order`');
+
+            $items = array();
+            foreach($properties as $property)    	
+            {
+                $items[] = array(
+                    "order" => $property->order + 1,
+                    "id" => $property->property_id,
+                    "name" => $property->description,
+                    "featured" => $property->featured
+                );
+            }
+
+
+            $output = array(
+                'sColumns' => 'ID, Name, Featured',
+                'sEcho' => intval($_GET['sEcho']),
+                'iTotalRecords' => count($properties),
+                'iTotalDisplayRecords' => 50,
+                'aaData' => $items
+            );
+    
+            die(json_encode($output));
+
+        }       
+
         function p_lodgix_sort_vr()
         {
             global $wpdb;
@@ -1052,18 +1085,29 @@ if (!class_exists('p_lodgix')) {
     
         function p_lodgix_script($hook_suffix) {
             if (is_admin() && $hook_suffix == 'settings_page_lodgix') {      
-                wp_enqueue_script('p_lodgix_jquery',$this->p_plugin_path . 'js/jquery_lodgix.js');      	
-                wp_enqueue_script('jquery'); 
+                wp_enqueue_script('p_lodgix_jquery',$this->p_plugin_path . 'js/jquery_lodgix.js');
+             
+           
                 wp_enqueue_script('jquery-validate',$this->p_plugin_path . 'js/jquery.validate.min.js');        
-                wp_enqueue_script('p_lodgix_script', $this->p_plugin_path . 'js/lodgix_javascript.js');
-                wp_enqueue_script('p_lodgix_boostrap', $this->p_plugin_path . 'bootstrap/js/bootstrap.js');
+                
+
+
+                wp_enqueue_script('p_lodgix_boostrap', $this->p_plugin_path . 'datatables/js/jquery.dataTables.js');
+                wp_enqueue_style('p_lodgix_datatables',  $this->p_plugin_path . 'datatables/css/jquery.dataTables.min.css');
                 wp_enqueue_style('p_lodgix_boostrap',  $this->p_plugin_path . 'bootstrap/css/bootstrap.min.css');
-        
+                
+                wp_enqueue_script('p_lodgix_script', $this->p_plugin_path . 'js/lodgix_javascript.js');
+
                 wp_localize_script( 'p_lodgix_script', 'p_lodgix_lang', array(
-                  'required' => __('Field is required.', $this->localizationDomain),
-                  'number'   => __('Please enter a number.', $this->localizationDomain),
-                  'min'      => __('Please enter a value greater than or equal to 1.', $this->localizationDomain),
+                    'required' => __('Field is required.', $this->localizationDomain),
+                    'number'   => __('Please enter a number.', $this->localizationDomain),
+                    'min'      => __('Please enter a value greater than or equal to 1.', $this->localizationDomain),
                 ));
+
+                wp_localize_script('p_lodgix_script', 'p_lodgix_datatables', array(
+                    'ajaxURL' => admin_url('admin-ajax.php')
+                ));
+                
           }
           
         }

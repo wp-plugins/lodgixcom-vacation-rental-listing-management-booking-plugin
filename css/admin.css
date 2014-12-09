@@ -1,12 +1,24 @@
-.ldgxAdminMain {
+/*#wpfooter {
+    position: relative;
+}*/
+
+/*body {
+    height: auto;
+}
+*/
+/*.ldgxAdminMain {
 	float: left;
 	margin-right: 30px;
 	width: 700px;
+}*/
+
+#wpcontent {
+    background-color: white;
 }
 
-
 .ldgxAdminRight {
-	float: left;
+	/*float: right;*/
+    text-align: left;
 	width: 250px;
 }
 
@@ -81,3 +93,5 @@
 	-moz-box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
 	box-shadow: inset 0 0 8px 4px #548c29, 0 1px 0 0 #eeeeee;
 }
+
+

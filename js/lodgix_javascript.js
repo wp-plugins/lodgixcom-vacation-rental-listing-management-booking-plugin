@@ -11,7 +11,7 @@ function p_lodgix_set_demo_credentials()
 
 jQueryLodgix(document).ready(function(){
 
-    jQuery("#p_lodgix_options").validate({
+    jQueryLodgix("#p_lodgix_options").validate({
         rules: {
             p_lodgix_owner_id: {
             required: true
@@ -38,7 +38,7 @@ jQueryLodgix(document).ready(function(){
     function lodgix_settings_tab_activate(element, container, callback) {
         var $active    = container.find('> .active')
         var transition = callback
-          && jQuery.support.transition
+          && jQueryLodgix.support.transition
           && (($active.length && $active.hasClass('fade')) || !!container.find('> .fade').length)
     
         function next() {
@@ -96,10 +96,10 @@ jQueryLodgix(document).ready(function(){
         if ($this.parent('li').hasClass('active')) return;
     
         var $previous = $ul.find('.active:last a');
-        var hideEvent = jQuery.Event('hide.bs.tab', {
+        var hideEvent = jQueryLodgix.Event('hide.bs.tab', {
           relatedTarget: $this[0]
         });
-        var showEvent = jQuery.Event('show.bs.tab', {
+        var showEvent = jQueryLodgix.Event('show.bs.tab', {
           relatedTarget: $previous[0]
         });
     
@@ -107,7 +107,7 @@ jQueryLodgix(document).ready(function(){
     
         if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
     
-        var $target = jQuery(selector);
+        var $target = jQueryLodgix(selector);
     
         lodgix_settings_tab_activate($this.closest('li'), $ul);
         lodgix_settings_tab_activate($target, $target.parent(), function () {
@@ -122,9 +122,24 @@ jQueryLodgix(document).ready(function(){
         });
       }
 
-    jQuery('.p_lodgix_settings_tabs a').click(function (e) {
+    jQueryLodgix('.p_lodgix_settings_tabs a').click(function (e) {
         e.preventDefault()
-        lodgix_settings_tab_show(jQuery(this));
-    })
+        lodgix_settings_tab_show(jQueryLodgix(this));
+    });
+
+    var columns = [
+        { "mDataProp": "order", "sClass": "index", "bSortable": true },
+        { "mDataProp": "id", "sClass": "index", "bSortable": true },
+        { "mDataProp": "name", "sClass": "index", "bSortable": true },
+        { "mDataProp": "featured", "sClass": "top-dd", "bSortable": true }
+    ];
+
+    jQueryLodgix('#lodgix_properties_table').dataTable({        
+		'bProcessing': true,
+		'bServerSide': false,
+		'sAjaxSource': p_lodgix_datatables.ajaxURL + '?action=p_lodgix_properties_list',
+        "aoColumns": columns,
+        "iDisplayLength": 50
+    });
 
 });

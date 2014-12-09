@@ -1,5 +1,5 @@
 <div class="ldgxAdminRight">
-    <div><a href="http://www.lodgix.com"><img src="<?php echo plugins_url('images/logo_250_63.png', __FILE__); ?>"></a></div>
+    <div><a href="http://www.lodgix.com"><img src="<?php echo plugins_url('../images/logo_250_63.png', __FILE__); ?>"></a></div>
     <div class="ldgxAdminBox">
         <h2>Like this Plugin?</h2>
 

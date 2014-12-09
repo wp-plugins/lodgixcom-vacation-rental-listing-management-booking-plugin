@@ -1,25 +1,28 @@
-/*#wpfooter {
-    position: relative;
-}*/
 
-/*body {
-    height: auto;
+.centered {
+    text-align: center;
 }
-*/
-/*.ldgxAdminMain {
-	float: left;
-	margin-right: 30px;
-	width: 700px;
-}*/
 
 #wpcontent {
     background-color: white;
+}
+
+.form-table input {
+    width: 100%;
 }
 
 .ldgxAdminRight {
 	/*float: right;*/
     text-align: left;
 	width: 250px;
+}
+
+.lodgix_properties {
+    width: 70%;
+}
+
+.lodgix_postbox {
+    padding: 10px;
 }
 
 .ldgxAdminBox {

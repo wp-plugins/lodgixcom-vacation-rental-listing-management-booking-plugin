@@ -398,6 +398,11 @@ if (!class_exists('p_lodgix')) {
             add_action('wp_ajax_p_lodgix_properties_list', array(&$this,"p_lodgix_properties_list"));
             add_action('wp_ajax_nopriv_p_lodgix_properties_list', array(&$this,"p_lodgix_properties_list"));
 
+            add_action('wp_ajax_p_lodgix_toggle_featured', array(&$this,"p_lodgix_toggle_featured"));
+            add_action('wp_ajax_nopriv_p_lodgix_toggle_featured', array(&$this,"p_lodgix_toggle_featured"));
+
+
+
             add_action('wp_ajax_p_lodgix_custom_search', array(&$this,"p_lodgix_custom_search"));
             add_action('wp_ajax_nopriv_p_lodgix_custom_search', array(&$this,"p_lodgix_custom_search"));
       
@@ -741,7 +746,19 @@ if (!class_exists('p_lodgix')) {
             }
             return $excludes;
         } 
-    
+
+        function p_lodgix_toggle_featured() {
+            global $wpdb;
+            if ($_POST['checked'] == 'true') $checked = 1; else $checked = 0;
+            $id = @esc_sql($_POST['id']);
+
+            $sql = 'UPDATE ' . $this->pages_table . ' SET featured=' . $checked . ' WHERE property_id = ' . $id;
+            $wpdb->query($sql);
+
+            die($sql);
+
+        }
+
         function p_lodgix_properties_list() {
             global $wpdb;
 
@@ -750,11 +767,20 @@ if (!class_exists('p_lodgix')) {
             $items = array();
             foreach($properties as $property)    	
             {
+                
+                if ($property->featured) $checked = 'CHECKED'; else $checked = '';
+
+                $featured = '
+                    <input type="checkbox" id="lodgix_featured_property_' . $property->property_id . '"
+                        class="lodgix_featured_property" ' . $checked . ' 
+                        onclick="javascript:toggle_lodgix_featured_property(' . $property->property_id . ');"
+                    >
+                ';
                 $items[] = array(
                     "order" => $property->order + 1,
                     "id" => $property->property_id,
                     "name" => $property->description,
-                    "featured" => $property->featured
+                    "featured" => $featured
                 );
             }
 
@@ -1094,6 +1120,7 @@ if (!class_exists('p_lodgix')) {
 
                 wp_enqueue_script('p_lodgix_boostrap', $this->p_plugin_path . 'datatables/js/jquery.dataTables.js');
                 wp_enqueue_style('p_lodgix_datatables',  $this->p_plugin_path . 'datatables/css/jquery.dataTables.min.css');
+
                 wp_enqueue_style('p_lodgix_boostrap',  $this->p_plugin_path . 'bootstrap/css/bootstrap.min.css');
                 
                 wp_enqueue_script('p_lodgix_script', $this->p_plugin_path . 'js/lodgix_javascript.js');

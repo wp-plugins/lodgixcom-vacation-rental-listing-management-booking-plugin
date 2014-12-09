@@ -11,31 +11,38 @@
                 
           			<div class="col col-lg-8 col-sm-8">
                         <ul class="nav nav-tabs p_lodgix_settings_tabs" data-tabs="tabs">
-                            <li role="presentation" class="active"><a href="#properties">Properties</a></li>
+                            <li role="presentation" class="active"><a href="#subscriber">Subscriber</a></li>
+                            <li role="presentation"><a href="#properties">Properties</a></li>
                             <li role="presentation"><a href="#page_design" >Page Design</a></li>
                             <li role="presentation"><a href="#display_options">Display Options</a></li>
-                            <li role="presentation"><a href="#widget_options">Widget Options</a></li>              
+                            <li role="presentation"><a href="#widget_options">Widget Options</a></li>
                         </ul>
-                        
-
-
-
 
                         <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="properties">
-                                <?php require_once('admin/admin_tab_properties.php'); ?>
+                            <div role="tabpanel" class="tab-pane active" id="subscriber">
+                                <div class="lodgix_postbox">
+                                    <?php require_once('admin/admin_tab_subscriber.php'); ?>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="properties">
+                                <div class="lodgix_postbox">
+                                    <?php require_once('admin/admin_tab_properties.php'); ?>
+                                </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="page_design">
-                                <h1>Orange</h1>
-                                <p>orange orange orange orange orange</p>
+                                <div class="lodgix_postbox">
+                                    
+                                </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="display_options">
-                                <h1>Yellow</h1>
-                                <p>yellow yellow yellow yellow yellow</p>
+                                <div class="lodgix_postbox">
+                                    <?php require_once('admin/admin_tab_display_options.php'); ?>
+                                </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="widget_options">
-                                <h1>Yellow</h1>
-                                <p>yellow yellow yellow yellow yellow</p>
+                                <div class="lodgix_postbox">
+                                    
+                                </div>
                             </div>
                         </div>
                         <p class="submit">

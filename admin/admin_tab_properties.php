@@ -8,4 +8,12 @@
             <th>Featured?</td>
         </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <th colspan="3" style="text-align:right"></th>
+            <th colspan="1" style="text-align:center">
+                <input type="checkbox" id="lodgix_rotate" onclick="javascript:lodgix_toggle_rotate();" > Rotate
+            </th>
+        </tr>
+    </tfoot>
 </table>

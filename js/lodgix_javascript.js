@@ -3,11 +3,115 @@
 * @author Lodgix  - http://www.lodgix.com
 */
 
+var lodgix_properties_datatable = null;
+
 function p_lodgix_set_demo_credentials()
 {
     jQueryLodgix('#p_lodgix_owner_id')[0].value = '13';
   	jQueryLodgix('#p_lodgix_api_key')[0].value = 'f89bd3b1bd098af107d727063c2736a6';
 }
+
+function toggle_lodgix_featured_property(id) {
+    var checked = jQueryLodgix('#lodgix_featured_property_' + id).is(':checked');
+
+    jQueryLodgix.ajax({
+        type: "POST",
+        url: p_lodgix_datatables.ajaxURL + '?action=p_lodgix_toggle_featured',
+        data: {'id': id, 'checked': checked},
+        dataType: 'json',
+        success: function(data) {
+            
+        }
+    });
+}
+
+function lodgix_settings_tab_activate(element, container, callback) {
+    var $active    = container.find('> .active')
+    var transition = callback
+      && jQueryLodgix.support.transition
+      && (($active.length && $active.hasClass('fade')) || !!container.find('> .fade').length)
+
+    function next() {
+      $active
+        .removeClass('active')
+        .find('> .dropdown-menu > .active')
+          .removeClass('active')
+        .end()
+        .find('[data-toggle="tab"]')
+          .attr('aria-expanded', false)
+
+      element
+        .addClass('active')
+        .find('[data-toggle="tab"]')
+          .attr('aria-expanded', true)
+
+      if (transition) {
+        element[0].offsetWidth // reflow for transition
+        element.addClass('in')
+      } else {
+        element.removeClass('fade')
+      }
+
+      if (element.parent('.dropdown-menu')) {
+        element
+          .closest('li.dropdown')
+            .addClass('active')
+          .end()
+          .find('[data-toggle="tab"]')
+            .attr('aria-expanded', true)
+      }
+
+      callback && callback()
+    }
+
+    $active.length && transition ?
+      $active
+        .one('bsTransitionEnd', next)
+        .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
+      next()
+
+    $active.removeClass('in');
+  }
+
+function lodgix_settings_tab_show(el) {
+    var $this    = el;
+    var $ul      = $this.closest('ul:not(.dropdown-menu)');
+    var selector = $this.data('target');
+
+    if (!selector) {
+      selector = $this.attr('href');
+      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, ''); // strip for ie7
+    }
+
+    if ($this.parent('li').hasClass('active')) return;
+
+    var $previous = $ul.find('.active:last a');
+    var hideEvent = jQueryLodgix.Event('hide.bs.tab', {
+      relatedTarget: $this[0]
+    });
+    var showEvent = jQueryLodgix.Event('show.bs.tab', {
+      relatedTarget: $previous[0]
+    });
+
+    $this.trigger(showEvent);
+
+    if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
+
+    var $target = jQueryLodgix(selector);
+
+    lodgix_settings_tab_activate($this.closest('li'), $ul);
+    lodgix_settings_tab_activate($target, $target.parent(), function () {
+      $previous.trigger({
+        type: 'hidden.bs.tab',
+        relatedTarget: $this[0]
+      })
+      $this.trigger({
+        type: 'shown.bs.tab',
+        relatedTarget: $previous[0]
+      });
+    });
+  }
+
 
 jQueryLodgix(document).ready(function(){
 
@@ -35,111 +139,27 @@ jQueryLodgix(document).ready(function(){
     });
 
 
-    function lodgix_settings_tab_activate(element, container, callback) {
-        var $active    = container.find('> .active')
-        var transition = callback
-          && jQueryLodgix.support.transition
-          && (($active.length && $active.hasClass('fade')) || !!container.find('> .fade').length)
-    
-        function next() {
-          $active
-            .removeClass('active')
-            .find('> .dropdown-menu > .active')
-              .removeClass('active')
-            .end()
-            .find('[data-toggle="tab"]')
-              .attr('aria-expanded', false)
-    
-          element
-            .addClass('active')
-            .find('[data-toggle="tab"]')
-              .attr('aria-expanded', true)
-    
-          if (transition) {
-            element[0].offsetWidth // reflow for transition
-            element.addClass('in')
-          } else {
-            element.removeClass('fade')
-          }
-    
-          if (element.parent('.dropdown-menu')) {
-            element
-              .closest('li.dropdown')
-                .addClass('active')
-              .end()
-              .find('[data-toggle="tab"]')
-                .attr('aria-expanded', true)
-          }
-    
-          callback && callback()
-        }
-    
-        $active.length && transition ?
-          $active
-            .one('bsTransitionEnd', next)
-            .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
-          next()
-    
-        $active.removeClass('in');
-      }
-
-    function lodgix_settings_tab_show(el) {
-        var $this    = el;
-        var $ul      = $this.closest('ul:not(.dropdown-menu)');
-        var selector = $this.data('target');
-    
-        if (!selector) {
-          selector = $this.attr('href');
-          selector = selector && selector.replace(/.*(?=#[^\s]*$)/, ''); // strip for ie7
-        }
-    
-        if ($this.parent('li').hasClass('active')) return;
-    
-        var $previous = $ul.find('.active:last a');
-        var hideEvent = jQueryLodgix.Event('hide.bs.tab', {
-          relatedTarget: $this[0]
-        });
-        var showEvent = jQueryLodgix.Event('show.bs.tab', {
-          relatedTarget: $previous[0]
-        });
-    
-        $this.trigger(showEvent);
-    
-        if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
-    
-        var $target = jQueryLodgix(selector);
-    
-        lodgix_settings_tab_activate($this.closest('li'), $ul);
-        lodgix_settings_tab_activate($target, $target.parent(), function () {
-          $previous.trigger({
-            type: 'hidden.bs.tab',
-            relatedTarget: $this[0]
-          })
-          $this.trigger({
-            type: 'shown.bs.tab',
-            relatedTarget: $previous[0]
-          });
-        });
-      }
-
+ 
     jQueryLodgix('.p_lodgix_settings_tabs a').click(function (e) {
         e.preventDefault()
         lodgix_settings_tab_show(jQueryLodgix(this));
+        lodgix_properties_datatable.fnDraw();
     });
 
     var columns = [
-        { "mDataProp": "order", "sClass": "index", "bSortable": true },
-        { "mDataProp": "id", "sClass": "index", "bSortable": true },
-        { "mDataProp": "name", "sClass": "index", "bSortable": true },
-        { "mDataProp": "featured", "sClass": "top-dd", "bSortable": true }
+        { "mDataProp": "order", "sClass": "centered", "bSortable": true },
+        { "mDataProp": "id", "sClass": "centered", "bSortable": true },
+        { "mDataProp": "name", "sClass": "lodgix_properties", "bSortable": true },
+        { "mDataProp": "featured", "sClass": "centered", "bSortable": true }
     ];
 
-    jQueryLodgix('#lodgix_properties_table').dataTable({        
+    lodgix_properties_datatable = jQueryLodgix('#lodgix_properties_table').dataTable({        
 		'bProcessing': true,
 		'bServerSide': false,
 		'sAjaxSource': p_lodgix_datatables.ajaxURL + '?action=p_lodgix_properties_list',
         "aoColumns": columns,
-        "iDisplayLength": 50
+        "iDisplayLength": 50,
+        "bAutoWidth": true
     });
 
 });

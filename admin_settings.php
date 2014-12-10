@@ -52,8 +52,10 @@
                                 <br><br>
                             </div>
 
+                            <div id="lodgix_processing_message"></div>
+
                             <input type="button" onclick="javascript:lodgix_submit_save();" name="p_lodgix_save" id="p_lodgix_save" class="button-primary" value="<?php _e('Save and Regenerate', $this->localizationDomain); ?>" />&nbsp;
-                            <input onclick="return confirm('Are you sure you want to clean the database ?');" type="submit" name="p_lodgix_clean" id="p_lodgix_clean" class="button-primary" value="<?php _e('Clean Database', $this->localizationDomain); ?>" />
+                            <input onclick="javascript:lodgix_submit_clean();" type="button" name="p_lodgix_clean" id="p_lodgix_clean" class="button-primary" value="<?php _e('Clean Database', $this->localizationDomain); ?>" />
                         </p>
                     </div>
            			<div class="col col-lg-4 col-sm-4" align="center">

@@ -2,7 +2,7 @@
 <table width="100%" class="form-table lodgix_options_table"> 
     <tr valign="top"> 
         <th scope="row">
-            <?php _e('Display daily rates on individual property pages?:', $this->localizationDomain); ?>
+            <?php _e('Display daily rates on property pages?:', $this->localizationDomain); ?>
         </th> 
         <td>
             <select name="p_lodgix_display_daily_rates"  id="p_lodgix_display_daily_rates" >                              
@@ -13,7 +13,7 @@
     </tr>
     <tr valign="top"> 
         <th scope="row">
-            <?php _e('Display weekly rates on individual property pages?:', $this->localizationDomain); ?>
+            <?php _e('Display weekly rates on property pages?:', $this->localizationDomain); ?>
         </th> 
         <td>
             <select name="p_lodgix_display_weekly_rates"  id="p_lodgix_display_weekly_rates" >                              
@@ -24,7 +24,7 @@
     </tr>
     <tr valign="top"> 
         <th scope="row">
-            <?php _e('Display monthly rates on individual property pages?:', $this->localizationDomain); ?>
+            <?php _e('Display monthly rates on property pages?:', $this->localizationDomain); ?>
         </th> 
         <td>
             <select name="p_lodgix_display_monthly_rates"  id="p_lodgix_display_monthly_rates" >                              

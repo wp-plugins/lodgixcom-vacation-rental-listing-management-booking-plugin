@@ -1538,3 +1538,7 @@ td.merged_rates_table-span {
 #lodgix_tabbed_map_canvas {
     -webkit-transform: none !important;
 }
+
+#lodgix_daily_rates, #lodgix_weekly_rates, #lodgix_monthly_rates, #lodgix_bedrooms, #lodgix_location {
+    font-size: 13px !important;
+}

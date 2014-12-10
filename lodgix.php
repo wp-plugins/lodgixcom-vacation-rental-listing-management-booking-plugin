@@ -4537,7 +4537,7 @@ if (!class_exists('p_lodgix')) {
             global $wpdb;
             if (current_user_can('manage_options') && $_POST['p_lodgix_clean']) {
                 $this->p_lodgix_clean();
-                die("{'result: 'Success! Database sucessfully cleaned!'}");
+                $json = array('result' => 'OK', 'msg' => 'Success! Database sucessfully cleaned!');
             }
         }
 

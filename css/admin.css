@@ -45,6 +45,11 @@
     padding: 10px;
 }
 
+#lodgix_processing_message {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
 .ldgxAdminBox {
 	margin-bottom: 20px;
 	border: solid 1px #ccc;

@@ -55,8 +55,6 @@ if ($counter % 3 == 0) {
     $new_row = 'new-row';
 }
 
-
-
 $old_area = $property->area;
 
 $vacation_rentals .= '
@@ -74,13 +72,23 @@ $vacation_rentals .= '
             
         <ul class="wpp_overview_data">		
             <li class="property_title"><a href="' . $permalink . '">' . $property->description . '</a></li>
-            <li class="description"> ' . $property->description_long . '</li>
-            <li><strong>' . __('Weekly Rate', $this->localizationDomain) . ':</strong> ' . $low_weekly_rate . ' - ' . $high_weekly_rate . '</li>
-            <li><strong>' . __('Bedrooms', $this->localizationDomain) . ':</strong> ' . $property->bedrooms . '</li>';
+            <li class="description"> ' . $property->description_long . '</li>';
+
+if ($this->options['p_lodgix_display_daily_rates']) {
+    $vacation_rentals .= '<li id="lodgix_daily_rates"><strong>' . __('Daily Rate', $this->localizationDomain) . ':</strong> ' . $low_daily_rate . ' - ' . $high_daily_rate . '</li>';
+}
+if ($this->options['p_lodgix_display_weekly_rates']) {
+    $vacation_rentals .= '<li id="lodgix_weekly_rates"><strong>' . __('Weekly Rate', $this->localizationDomain) . ':</strong> ' . $low_weekly_rate . ' - ' . $high_weekly_rate . '</li>';
+}
+if ($this->options['p_lodgix_display_monthly_rates']) {
+    $vacation_rentals .= '<li id="lodgix_monthly_rates"><strong>' . __('Monthly Rate', $this->localizationDomain) . ':</strong> ' . $low_monthly_rate . ' - ' . $high_monthly_rate . '</li>';
+}
+
+$vacation_rentals .= '<li id="lodgix_bedrooms"><strong>' . __('Bedrooms', $this->localizationDomain) . ':</strong> ' . $property->bedrooms . '</li>';
 
 if ($property->area) {
     $vacation_rentals .= '
-            <li><strong>' . __('Location', $this->localizationDomain) . ':</strong> ' . $property->area . '</li>
+            <li id="lodgix_location"><strong>' . __('Location', $this->localizationDomain) . ':</strong> ' . $property->area . '</li>
     ';
 }
 

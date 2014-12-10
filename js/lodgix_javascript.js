@@ -143,6 +143,7 @@ function get_form_data($form){
 }
 
 function lodgix_submit_save() {
+    jQueryLodgix('#lodgix_processing_message').html('');
     jQueryLodgix('#lodgix_processing_throbber').show();
 
     var data = get_form_data(jQueryLodgix('#p_lodgix_options'));
@@ -158,9 +159,11 @@ function lodgix_submit_save() {
             jQueryLodgix('#lodgix_properties_table').dataTable().api().ajax.reload()
             jQueryLodgix('#lodgix_properties_table').dataTable().fnDraw();
             jQueryLodgix('#lodgix_processing_throbber').hide();
+            jQueryLodgix('#lodgix_processing_message').html(data.msg);
         },
         error: function(data) {
             jQueryLodgix('#lodgix_processing_throbber').hide();
+            jQueryLodgix('#lodgix_processing_message').html('Undefined Error: Please check your internet connection.');
         }
     });
 
@@ -183,26 +186,32 @@ function lodgix_toggle_rotate() {
 }
 
 function lodgix_submit_clean() {
-    jQueryLodgix('#lodgix_processing_throbber').show();
-    var data = get_form_data(jQueryLodgix('#p_lodgix_options'));
+    jQueryLodgix('#lodgix_processing_message').html('');
 
-    data['p_lodgix_clean'] = true;
+    if (confirm('Are you sure you want to clean the database ?')) {
+        jQueryLodgix('#lodgix_processing_throbber').show();
+        var data = get_form_data(jQueryLodgix('#p_lodgix_options'));
+    
+        data['p_lodgix_clean'] = true;
+    
+        jQueryLodgix.ajax({
+            type: "POST",
+            url: p_lodgix_ajax.ajaxURL + '?action=p_lodgix_clean_database',
+            data: data,
+            dataType: 'json',
+            success: function(data) {
+                jQueryLodgix('#lodgix_properties_table').dataTable().api().ajax.reload()
+                jQueryLodgix('#lodgix_properties_table').dataTable().fnDraw();
+                jQueryLodgix('#lodgix_processing_throbber').hide();
+                jQueryLodgix('#lodgix_processing_message').html(data.msg);
 
-    jQueryLodgix.ajax({
-        type: "POST",
-        url: p_lodgix_ajax.ajaxURL + '?action=p_lodgix_clean_database',
-        data: data,
-        dataType: 'json',
-        success: function(data) {
-            jQueryLodgix('#lodgix_properties_table').dataTable().api().ajax.reload()
-            jQueryLodgix('#lodgix_properties_table').dataTable().fnDraw();
-            jQueryLodgix('#lodgix_processing_throbber').hide();
-        },
-        error: function(data) {
-            jQueryLodgix('#lodgix_processing_throbber').hide();
-        }
-    });
-
+            },
+            error: function(data) {
+                jQueryLodgix('#lodgix_processing_throbber').hide();
+                jQueryLodgix('#lodgix_processing_message').html('Undefined Error: Please check your internet connection.');
+            }
+        });
+    }
     return false;
 }
 

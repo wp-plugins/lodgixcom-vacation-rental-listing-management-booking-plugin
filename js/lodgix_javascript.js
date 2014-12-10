@@ -3,7 +3,6 @@
 * @author Lodgix  - http://www.lodgix.com
 */
 
-var lodgix_properties_datatable = null;
 
 function p_lodgix_set_demo_credentials()
 {
@@ -156,7 +155,8 @@ function lodgix_submit_save() {
         data: data,
         dataType: 'json',
         success: function(data) {
-            lodgix_properties_datatable.fnDraw();
+            jQueryLodgix('#lodgix_properties_table').dataTable().api().ajax.reload()
+            jQueryLodgix('#lodgix_properties_table').dataTable().fnDraw();
             jQueryLodgix('#lodgix_processing_throbber').hide();
         },
         error: function(data) {
@@ -165,6 +165,21 @@ function lodgix_submit_save() {
     });
 
     return false;
+}
+
+function lodgix_toggle_rotate() {
+    var checked = jQueryLodgix('#lodgix_rotate').is(':checked');
+
+    jQueryLodgix.ajax({
+        type: "POST",
+        url: p_lodgix_ajax.ajaxURL + '?action=p_lodgix_toggle_rotate',
+        data: {'checked': checked},
+        dataType: 'json',
+        success: function(data) {
+            jQueryLodgix('#lodgix_properties_table').dataTable().api().ajax.reload()
+            jQueryLodgix('#lodgix_properties_table').dataTable().fnDraw();            
+        }
+    });
 }
 
 function lodgix_submit_clean() {
@@ -179,7 +194,8 @@ function lodgix_submit_clean() {
         data: data,
         dataType: 'json',
         success: function(data) {
-            lodgix_properties_datatable.fnDraw();
+            jQueryLodgix('#lodgix_properties_table').dataTable().api().ajax.reload()
+            jQueryLodgix('#lodgix_properties_table').dataTable().fnDraw();
             jQueryLodgix('#lodgix_processing_throbber').hide();
         },
         error: function(data) {

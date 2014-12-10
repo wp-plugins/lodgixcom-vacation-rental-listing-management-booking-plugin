@@ -397,6 +397,8 @@ if (!class_exists('p_lodgix')) {
 
             add_action('wp_ajax_p_lodgix_properties_list', array(&$this,"p_lodgix_properties_list"));
             add_action('wp_ajax_p_lodgix_toggle_featured', array(&$this,"p_lodgix_toggle_featured"));
+            add_action('wp_ajax_p_lodgix_toggle_rotate', array(&$this,"p_lodgix_toggle_rotate"));
+
             add_action('wp_ajax_p_lodgix_save_settings', array(&$this,"p_lodgix_save_settings"));
             add_action('wp_ajax_p_lodgix_clean_database', array(&$this,"p_lodgix_clean_database"));
 
@@ -743,7 +745,18 @@ if (!class_exists('p_lodgix')) {
                 }
             }
             return $excludes;
-        } 
+        }
+
+        function p_lodgix_toggle_rotate() {
+            global $wpdb;
+            if ($_POST['checked'] == 'true') $checked = 1; else $checked = 0;
+
+            $this->options['p_lodgix_featured_rotate'] = $checked;
+            $this->saveAdminOptions();
+
+            die(json_encode(array('result' => 'OK')));
+
+        }
 
         function p_lodgix_toggle_featured() {
             global $wpdb;
@@ -752,8 +765,7 @@ if (!class_exists('p_lodgix')) {
 
             $sql = 'UPDATE ' . $this->pages_table . ' SET featured=' . $checked . ' WHERE property_id = ' . $id;
             $wpdb->query($sql);
-
-            die($sql);
+            die(json_encode(array('result' => 'OK')));
 
         }
 
@@ -768,10 +780,13 @@ if (!class_exists('p_lodgix')) {
                 
                 if ($property->featured) $checked = 'CHECKED'; else $checked = '';
 
+                if ($this->options['p_lodgix_featured_rotate']) $disabled = 'DISABLED'; else $disabled = '';
+
                 $featured = '
                     <input type="checkbox" id="lodgix_featured_property_' . $property->property_id . '"
-                        class="lodgix_featured_property" ' . $checked . ' 
+                        class="lodgix_featured_property" ' . $checked . ' ' . $disabled . ' 
                         onclick="javascript:toggle_lodgix_featured_property(' . $property->property_id . ');"
+                        
                     >
                 ';
                 $items[] = array(
@@ -1185,6 +1200,7 @@ if (!class_exists('p_lodgix')) {
                                         'p_lodgix_vr_meta_description' => NULL,
                                         'p_lodgix_vr_meta_keywords' => NULL,
                                         'p_lodgix_full_size_thumbnails' => false,
+                                        'p_lodgix_featured_rotate' => false,
                                         'p_lodgix_custom_page_template' => '',
                                         'p_lodgix_page_template' => '',
                                         'p_lodgix_thesis_2_template' => ''                                                                                                    
@@ -1252,8 +1268,9 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_custom_page_template' => '',
                                   'p_lodgix_page_template' => '',
                                   'p_lodgix_thesis_2_template' => '',                              
-                                  'p_lodgix_full_size_thumbnails' => false                                                              
-                                  );
+                                  'p_lodgix_full_size_thumbnails' => false,
+                                  'p_lodgix_featured_rotate' => false,
+                                );
               return update_option($this->optionsName, $theOptions);
           }      
           
@@ -4108,53 +4125,13 @@ if (!class_exists('p_lodgix')) {
             }
         }  
           
-        function p_lodgix_save_settings() { 
-            if (current_user_can( 'manage_options')) {
-                $this->admin_options_page();
-            }
-        }
-
-        function p_lodgix_clean_database() { 
-            if (current_user_can('manage_options')) {
-                $this->admin_options_page();
-            }
-        }
-
-        /**
-        * Adds settings/options page
-        */
-        function admin_options_page() { 
-            global $p_lodgix_db_version;
+        function p_lodgix_save_settings() {
             global $wpdb;
-        
+            $json = array('result' => 'FAIL', 'msg' => 'Undefined Error!');
+                
 
-            $this->p_lodgix_build();
-              
-            if (get_option('p_lodgix_db_version'))
-            {
-              $old_db_version = ((float)get_option('p_lodgix_db_version'));
-              if ($old_db_version < ((float)$p_lodgix_db_version))
-              {
-                
-                $this->update_db($old_db_version);
-              }
-            }
-            update_option('p_lodgix_db_version',$p_lodgix_db_version);
-    
-            $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);
-                
-            foreach ($languages as $l) {        
-                $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
-                if (!is_array($areas_pages))
-                    $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
-                    
-            }
-            $this->saveAdminOptions();
+            if (current_user_can( 'manage_options') && $_POST['p_lodgix_save']) {
 
-          
-            if($_POST['p_lodgix_save']) {
-                
-                
                 ini_set('max_execution_time', 0);
                 if (! wp_verify_nonce($_POST['_wpnonce'], 'p_lodgix-update-options') ) {
                     die('Whoops! There was a problem with the data you posted. Please go back and try again.');
@@ -4165,7 +4142,7 @@ if (!class_exists('p_lodgix')) {
                     $cleaned = true;
                 }
                 
-                                                    
+                                                  
                 $this->clear_revisions();
                 
                 if ($_POST['p_lodgix_allow_comments'] == "1")
@@ -4282,9 +4259,6 @@ if (!class_exists('p_lodgix')) {
     
                         $post = array();
                         $post['post_title'] = $this->page_titles[$l->code]['vacation_rentals'];
-                        //if ($l->code == 'en') {
-                        //    $post['post_title'] = $this->options['p_lodgix_vr_title'];
-                        //}
                         $post['menu_order'] = 1;
                         $post['post_status'] = 'publish';                        
                         $post['post_content'] = '[lodgix_vacation_rentals]';  
@@ -4309,9 +4283,6 @@ if (!class_exists('p_lodgix')) {
                         {
                             $post = array();
                             $post['post_title'] = $this->page_titles[$l->code]['vacation_rentals'];
-                            //if ($l->code == 'en') {
-                            //    $post['post_title'] = $this->options['p_lodgix_vr_title'];
-                            //}
                             $post['post_name'] = sanitize_title($post['post_title']);
                             $post['post_content'] = '[lodgix_vacation_rentals]'; 
                             $post['ID'] = $this->options['p_lodgix_vacation_rentals_page_' . $l->code];
@@ -4450,7 +4421,8 @@ if (!class_exists('p_lodgix')) {
     
                 if ($owner['Errors'])
                 {
-                    echo '<div class="updated"><p>Error: ' . $owner['Errors']['Error']['Message'] . '</p></div>';
+                    $json = array('result' => 'FAIL', 'msg' => 'Error: ' . $owner['Errors']['Error']['Message']);
+                    die(json_encode($json));
                 }
                 else
                 {  
@@ -4501,64 +4473,106 @@ if (!class_exists('p_lodgix')) {
                   
                     }
     
-                if (!$cleaned)  
-                {
-                    $posts = $wpdb->get_results('SELECT * FROM ' . $this->pages_table);   
-                    foreach($posts as $post)
-                    {
-                        $show = true;
-                        if ($_POST['p_lodgix_page_' . $post->property_id] == 'on')
-                          $sql = "UPDATE " . $this->pages_table . " SET enabled=1 WHERE id=" . $post->id;
-                        else
-                        {
-                          $show = false;
-                          $sql = "UPDATE " . $this->pages_table . " SET enabled=0 WHERE id=" . $post->id;
-                        }
-                        $wpdb->query($sql);
-                        if ($_POST['p_lodgix_featured_' . $post->property_id] == 'on')
-                          $sql = "UPDATE " . $this->pages_table . " SET featured=1 WHERE id=" . $post->id;
-                        else
-                        {
-                          $sql = "UPDATE " . $this->pages_table . " SET featured=0 WHERE id=" . $post->id;
-                        }
-                        $wpdb->query($sql);             
-                    }   
-                }             
+                //if (!$cleaned)  
+                //{
+                //    $posts = $wpdb->get_results('SELECT * FROM ' . $this->pages_table);   
+                //    foreach($posts as $post)
+                //    {
+                //        $show = true;
+                //        if ($_POST['p_lodgix_page_' . $post->property_id] == 'on')
+                //          $sql = "UPDATE " . $this->pages_table . " SET enabled=1 WHERE id=" . $post->id;
+                //        else
+                //        {
+                //          $show = false;
+                //          $sql = "UPDATE " . $this->pages_table . " SET enabled=0 WHERE id=" . $post->id;
+                //        }
+                //        $wpdb->query($sql);
+                //        if ($_POST['p_lodgix_featured_' . $post->property_id] == 'on')
+                //          $sql = "UPDATE " . $this->pages_table . " SET featured=1 WHERE id=" . $post->id;
+                //        else
+                //        {
+                //          $sql = "UPDATE " . $this->pages_table . " SET featured=0 WHERE id=" . $post->id;
+                //        }
+                //        $wpdb->query($sql);             
+                //    }   
+                //}             
                 $this->clear_revisions();
-                echo '<div class="updated"><p>Success! Your changes were sucessfully saved!</p></div>';
-            }
-        }
-            else if ($_POST['p_lodgix_clean'])          
-            {
-                $this->p_lodgix_clean();
-                echo '<div class="updated"><p>Success! Database sucessfully cleaned!</p></div>';
-            }
           
-            $thesis_2_template_options = Array();
-            array_push($thesis_2_template_options,Array('class' => '','title' => 'Default'));
-        
-            try {
-                $thesis_skin = get_option('thesis_skin');
-                if ($thesis_skin) {
-                    $class = $thesis_skin['class'];
-                    $thesis_classic_r_templates = get_option('thesis_classic_r_templates');          
-                }          
+          
+                $thesis_2_template_options = Array();
+                array_push($thesis_2_template_options,Array('class' => '','title' => 'Default'));
+            
+                try {
+                    $thesis_skin = get_option('thesis_skin');
+                    if ($thesis_skin) {
+                        $class = $thesis_skin['class'];
+                        $thesis_classic_r_templates = get_option('thesis_classic_r_templates');          
+                    }          
+                    
+                    if ($this->is_iterable($thesis_classic_r_templates)) {
+                        foreach ($thesis_classic_r_templates as $key => $value) {
+                            $title = ucwords($key);
+                                if (0 === strpos($key, 'custom_')) {
+                                    $title = $value['title'];
+                                }
+                                array_push($thesis_2_template_options,Array('class' => $key,'title' => $title));
+                        }                     
+                    }
+                }
+                catch (SomeException $e)
+                {
+                        
+                }
+
+                $json = array('result' => 'OK', 'msg' => 'Success! Your changes were sucessfully saved!');
                 
-                if ($this->is_iterable($thesis_classic_r_templates)) {
-                    foreach ($thesis_classic_r_templates as $key => $value) {
-                        $title = ucwords($key);
-                            if (0 === strpos($key, 'custom_')) {
-                                $title = $value['title'];
-                            }
-                            array_push($thesis_2_template_options,Array('class' => $key,'title' => $title));
-                    }                     
+    
                 }
             }
-            catch (SomeException $e)
+
+            die(json_encode($json));
+        }
+
+        function p_lodgix_clean_database() { 
+            global $wpdb;
+            if (current_user_can('manage_options') && $_POST['p_lodgix_clean']) {
+                $this->p_lodgix_clean();
+                die("{'result: 'Success! Database sucessfully cleaned!'}");
+            }
+        }
+
+        /**
+        * Adds settings/options page
+        */
+        function admin_options_page() { 
+            global $p_lodgix_db_version;
+            global $wpdb;
+        
+
+            $this->p_lodgix_build();
+              
+            if (get_option('p_lodgix_db_version'))
             {
+              $old_db_version = ((float)get_option('p_lodgix_db_version'));
+              if ($old_db_version < ((float)$p_lodgix_db_version))
+              {
+                
+                $this->update_db($old_db_version);
+              }
+            }
+            update_option('p_lodgix_db_version',$p_lodgix_db_version);
+    
+            $languages = $wpdb->get_results('SELECT * FROM ' . $this->languages_table);
+                
+            foreach ($languages as $l) {        
+                $areas_pages = unserialize($this->options['p_lodgix_areas_pages_' . $l->code]);
+                if (!is_array($areas_pages))
+                    $this->options['p_lodgix_areas_pages_' . $l->code] = serialize(array());
                     
             }
+            $this->saveAdminOptions();
 
+          
             require_once('admin_settings.php');
 
 		}

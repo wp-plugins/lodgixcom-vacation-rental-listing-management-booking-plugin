@@ -12,7 +12,8 @@
         <tr>
             <th colspan="3" style="text-align:right"></th>
             <th colspan="1" style="text-align:center">
-                <input type="checkbox" id="lodgix_rotate" onclick="javascript:lodgix_toggle_rotate();" > Rotate
+                <input type="checkbox" id="lodgix_rotate" onclick="javascript:lodgix_toggle_rotate();"
+                <?php if ($this->options['p_lodgix_featured_rotate']) echo 'CHECKED'; ?>> Rotate
             </th>
         </tr>
     </tfoot>

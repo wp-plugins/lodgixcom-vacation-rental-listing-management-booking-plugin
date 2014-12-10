@@ -296,8 +296,20 @@ class Lodgix_Featured_Rentals_Widget extends WP_Widget {
 
 		echo $before_widget . $before_title . $title . $after_title;
 		echo '<div class="lodgix-featured-properties" align="center">';
-		
-		$sql = 'SELECT ' . $properties_table . '.id,property_id,description,enabled,featured,main_image_thumb,bedrooms,bathrooms,proptype,city,post_id,area FROM ' . $properties_table . ' LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id WHERE featured=1 order by rand()';
+
+        if ($loptions['p_lodgix_featured_rotate']) {
+            $sql = 'SELECT ' . $properties_table . '.id,property_id,description,enabled,featured,main_image_thumb,
+                    bedrooms,bathrooms,proptype,city,post_id,area FROM ' . $properties_table . '
+                    LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id
+                    order by rand() LIMIT 3';
+        }
+        else {
+            $sql = 'SELECT ' . $properties_table . '.id,property_id,description,enabled,featured,main_image_thumb,
+                    bedrooms,bathrooms,proptype,city,post_id,area FROM ' . $properties_table . '
+                    LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id
+                    WHERE featured=1 order by rand()';
+        }
+       
 		$properties = $wpdb->get_results($sql);
 		foreach($properties as $property)
 		{

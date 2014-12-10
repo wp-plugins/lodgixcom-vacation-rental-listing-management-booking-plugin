@@ -10,15 +10,15 @@
   				<div class="row">
                 
           			<div class="col col-lg-8 col-sm-8">
-                        <ul class="nav nav-tabs p_lodgix_settings_tabs" data-tabs="tabs">
-                            <li role="presentation" class="active"><a href="#subscriber">Subscriber</a></li>
-                            <li role="presentation"><a href="#properties">Properties</a></li>
-                            <li role="presentation"><a href="#page_design" >Page Design</a></li>
-                            <li role="presentation"><a href="#display_options">Display Options</a></li>
-                            <li role="presentation"><a href="#widget_options">Widget Options</a></li>
+                        <ul class="nav nav-tabs p_lodgix_settings_tabs responsive" data-tabs="tabs" id="p_lodgix_settings_tabs">
+                            <li role="presentation" class="active"><a data-toggle="tab" href="#subscriber">Subscriber</a></li>
+                            <li role="presentation"><a data-toggle="tab" href="#properties">Properties</a></li>
+                            <li role="presentation"><a data-toggle="tab" href="#page_design" >Page Design</a></li>
+                            <li role="presentation"><a data-toggle="tab" href="#display_options">Display Options</a></li>
+                            <li role="presentation"><a data-toggle="tab" href="#widget_options">Widget Options</a></li>
                         </ul>
 
-                        <div class="tab-content">
+                        <div class="tab-content responsive">
                             <div role="tabpanel" class="tab-pane active" id="subscriber">
                                 <div class="lodgix_postbox">
                                     <?php require_once('admin/admin_tab_subscriber.php'); ?>
@@ -46,12 +46,18 @@
                             </div>
                         </div>
                         <p class="submit">
-                            <input type="submit" name="p_lodgix_save" class="button-primary" value="<?php _e('Save and Regenerate', $this->localizationDomain); ?>" />&nbsp;<input onclick="return confirm('Are you sure you want to clean the database ?');" type="submit" name="p_lodgix_clean" class="button-primary" value="<?php _e('Clean Database', $this->localizationDomain); ?>" /><br><br><br><br>
-                            <b>Please wait while database is updated. Time will depend on the number of properties to process.</b>
+                            <div id="lodgix_processing_throbber" style="display: none;">
+                                <img src="<?php echo $this->p_plugin_path?>images/throbber.gif">&nbsp;
+                                <b>Please wait while database is updated. Time will depend on the number of properties to process.</b>
+                                <br><br>
+                            </div>
+
+                            <input type="button" onclick="javascript:lodgix_submit_save();" name="p_lodgix_save" id="p_lodgix_save" class="button-primary" value="<?php _e('Save and Regenerate', $this->localizationDomain); ?>" />&nbsp;
+                            <input onclick="return confirm('Are you sure you want to clean the database ?');" type="submit" name="p_lodgix_clean" id="p_lodgix_clean" class="button-primary" value="<?php _e('Clean Database', $this->localizationDomain); ?>" />
                         </p>
                     </div>
            			<div class="col col-lg-4 col-sm-4" align="center">
-                        
+                        <?php require_once('admin/admin_widget.php'); ?>
                     </div>
       			</div>
       		</div>

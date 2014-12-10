@@ -17,7 +17,12 @@
     font-weight: normal;
 }
 
-.form-table input, .form-table select {
+.form-table input[type='text'], .form-table select {
+    width: 100%;
+}
+
+.form-table textarea {
+    min-width: 300px;
     width: 100%;
 }
 

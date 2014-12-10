@@ -27,7 +27,10 @@
             <?php _e('Full Size Thumbnails:', $this->localizationDomain); ?>
         </th>
         <td>
-            <input name="p_lodgix_full_size_thumbnails" type="checkbox" id="p_lodgix_full_size_thumbnails" <?php if ($this->options['p_lodgix_full_size_thumbnails']) echo "CHECKED"; ?>/>
+            <select name="p_lodgix_full_size_thumbnails"  id="p_lodgix_full_size_thumbnails" >                              
+                <option <?php if ($this->options['p_lodgix_full_size_thumbnails'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_full_size_thumbnails'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
         </td>
     </tr>				
 </table><br>                    
@@ -40,7 +43,10 @@
             <?php _e('Thesis 1 Compatibility:', $this->localizationDomain); ?>
         </th>
         <td>
-            <input name="p_lodgix_thesis_compatibility" type="checkbox" id="p_lodgix_thesis_compatibility" <?php if ($this->options['p_lodgix_thesis_compatibility']) echo "CHECKED";?> />
+            <select name="p_lodgix_thesis_compatibility"  id="p_lodgix_thesis_compatibility" >                              
+                <option <?php if ($this->options['p_lodgix_thesis_compatibility'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_thesis_compatibility'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
         </td>
     </tr>
     <tr valign="top">
@@ -48,8 +54,10 @@
             <?php _e('Thesis 2 Compatibility:', $this->localizationDomain); ?>
         </th>
         <td>
-            <input name="p_lodgix_thesis_2_compatibility" type="checkbox" id="p_lodgix_thesis_2_compatibility" <?php if ($this->options['p_lodgix_thesis_2_compatibility']) echo "CHECKED"; ?> onchange="javascript:set_thesis_2_theme_enabled();"/>
-
+            <select name="p_lodgix_thesis_2_compatibility"  id="p_lodgix_thesis_2_compatibility" >                              
+                <option <?php if ($this->options['p_lodgix_thesis_2_compatibility'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_thesis_2_compatibility'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
 
             <select name="p_lodgix_thesis_2_template"  id="p_lodgix_thesis_2_template" style="margin_left:10px;"  <?php if (!$this->options['p_lodgix_thesis_2_compatibility']) echo "DISABLED"; ?>>               
                 <?php foreach($thesis_2_template_options as $to) { ?>              

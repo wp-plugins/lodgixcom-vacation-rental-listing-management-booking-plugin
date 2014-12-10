@@ -396,11 +396,9 @@ if (!class_exists('p_lodgix')) {
             add_action('wp_ajax_nopriv_p_lodgix_sort_vr', array(&$this,"p_lodgix_sort_vr"));
 
             add_action('wp_ajax_p_lodgix_properties_list', array(&$this,"p_lodgix_properties_list"));
-            add_action('wp_ajax_nopriv_p_lodgix_properties_list', array(&$this,"p_lodgix_properties_list"));
-
             add_action('wp_ajax_p_lodgix_toggle_featured', array(&$this,"p_lodgix_toggle_featured"));
-            add_action('wp_ajax_nopriv_p_lodgix_toggle_featured', array(&$this,"p_lodgix_toggle_featured"));
-
+            add_action('wp_ajax_p_lodgix_save_settings', array(&$this,"p_lodgix_save_settings"));
+            add_action('wp_ajax_p_lodgix_clean_database', array(&$this,"p_lodgix_clean_database"));
 
 
             add_action('wp_ajax_p_lodgix_custom_search', array(&$this,"p_lodgix_custom_search"));
@@ -1118,10 +1116,13 @@ if (!class_exists('p_lodgix')) {
                 
 
 
-                wp_enqueue_script('p_lodgix_boostrap', $this->p_plugin_path . 'datatables/js/jquery.dataTables.js');
-                wp_enqueue_style('p_lodgix_datatables',  $this->p_plugin_path . 'datatables/css/jquery.dataTables.min.css');
+                wp_enqueue_script('p_lodgix_ajax', $this->p_plugin_path . 'datatables/js/jquery.dataTables.js');
+                wp_enqueue_style('p_lodgix_ajax',  $this->p_plugin_path . 'datatables/css/jquery.dataTables.min.css');
 
                 wp_enqueue_style('p_lodgix_boostrap',  $this->p_plugin_path . 'bootstrap/css/bootstrap.min.css');
+                wp_enqueue_script('p_lodgix_boostrap',  $this->p_plugin_path . 'bootstrap/js/bootstrap.js');
+
+                wp_enqueue_script('p_lodgix_resposive_tabs',  $this->p_plugin_path . 'bootstrap/js/responsive-tabs.js');
                 
                 wp_enqueue_script('p_lodgix_script', $this->p_plugin_path . 'js/lodgix_javascript.js');
 
@@ -1131,7 +1132,7 @@ if (!class_exists('p_lodgix')) {
                     'min'      => __('Please enter a value greater than or equal to 1.', $this->localizationDomain),
                 ));
 
-                wp_localize_script('p_lodgix_script', 'p_lodgix_datatables', array(
+                wp_localize_script('p_lodgix_script', 'p_lodgix_ajax', array(
                     'ajaxURL' => admin_url('admin-ajax.php')
                 ));
                 
@@ -4107,6 +4108,18 @@ if (!class_exists('p_lodgix')) {
             }
         }  
           
+        function p_lodgix_save_settings() { 
+            if (current_user_can( 'manage_options')) {
+                $this->admin_options_page();
+            }
+        }
+
+        function p_lodgix_clean_database() { 
+            if (current_user_can('manage_options')) {
+                $this->admin_options_page();
+            }
+        }
+
         /**
         * Adds settings/options page
         */
@@ -4152,57 +4165,55 @@ if (!class_exists('p_lodgix')) {
                     $cleaned = true;
                 }
                 
-                
-           
                                                     
                 $this->clear_revisions();
                 
-                if ($_POST['p_lodgix_allow_comments'] == "on")
+                if ($_POST['p_lodgix_allow_comments'] == "1")
                     $this->options['p_lodgix_allow_comments'] = true;
                 else
                     $this->options['p_lodgix_allow_comments'] = false;
-                if ($_POST['p_lodgix_allow_pingback'] == "on")
+                if ($_POST['p_lodgix_allow_pingback'] == "1")
                     $this->options['p_lodgix_allow_pingback'] = true;
                 else
                     $this->options['p_lodgix_allow_pingback'] = false;
                     
-                if ($_POST['p_lodgix_thesis_compatibility'] == "on")
+                if ($_POST['p_lodgix_thesis_compatibility'] == "1")
                     $this->options['p_lodgix_thesis_compatibility'] = true;
                 else
                     $this->options['p_lodgix_thesis_compatibility'] = false;
         
-                if ($_POST['p_lodgix_thesis_2_compatibility'] == "on")
+                if ($_POST['p_lodgix_thesis_2_compatibility'] == "1")
                     $this->options['p_lodgix_thesis_2_compatibility'] = true;
                 else
                     $this->options['p_lodgix_thesis_2_compatibility'] = false;
                 
-                if ($_POST['p_lodgix_full_size_thumbnails'] == "on")
+                if ($_POST['p_lodgix_full_size_thumbnails'] == "1")
                     $this->options['p_lodgix_full_size_thumbnails'] = true;
                 else
                     $this->options['p_lodgix_full_size_thumbnails'] = false;                      
                     
           
-                if ($_POST['p_lodgix_display_daily_rates'] == "on")
+                if ($_POST['p_lodgix_display_daily_rates'] == "1")
                     $this->options['p_lodgix_display_daily_rates'] = true;
                 else
                     $this->options['p_lodgix_display_daily_rates'] = false;
     
-                if ($_POST['p_lodgix_display_weekly_rates'] == "on")
+                if ($_POST['p_lodgix_display_weekly_rates'] == "1")
                     $this->options['p_lodgix_display_weekly_rates'] = true;
                 else
                     $this->options['p_lodgix_display_weekly_rates'] = false;
     
-                if ($_POST['p_lodgix_display_monthly_rates'] == "on")
+                if ($_POST['p_lodgix_display_monthly_rates'] == "1")
                     $this->options['p_lodgix_display_monthly_rates'] = true;
                 else
                     $this->options['p_lodgix_display_monthly_rates'] = false;
                     
                     
-                if ($_POST['p_lodgix_display_icons'] == "on")
+                if ($_POST['p_lodgix_display_icons'] == "1")
                     $this->options['p_lodgix_display_icons'] = true;
                 else
                     $this->options['p_lodgix_display_icons'] = false;                                  
-                if ($_POST['p_lodgix_display_availability_icon'] == "on")
+                if ($_POST['p_lodgix_display_availability_icon'] == "1")
                     $this->options['p_lodgix_display_availability_icon'] = true;
                 else
                     $this->options['p_lodgix_display_availability_icon'] = false;                 

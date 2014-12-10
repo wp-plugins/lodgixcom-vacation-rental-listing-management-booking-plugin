@@ -2045,7 +2045,7 @@ if (typeof jQuery === 'undefined') {
       relatedTarget: $previous[0]
     })
 
-    $previous.trigger(hideEvent)
+    //$previous.trigger(hideEvent)
     $this.trigger(showEvent)
 
     if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return

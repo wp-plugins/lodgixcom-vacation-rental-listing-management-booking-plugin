@@ -30,7 +30,12 @@
 </table>
 
 <p>
-To setup your properties for use with the plug-in, a Lodgix.com subscription is required. <a target="_blank" href="http://www.lodgix.com/register/0?wordpress=1">Sign-up for a free 30 day trial subscription at Lodgix.com</a>. 
-No credit card is required. We do offer a a free starter subscription for plug-in users which is good for up to five properties, however it is restricted to payments via PayPal only and does not include use of automated trigger emails or any of the premium modules. This subscription is free and will not expire. Additionally, if you just wish to test the plug-in within your website using demo property images and data,  and do not wish to sign up for a Lodgix.com subscription at this time, click here to populate the Customer ID and API Key with demo credentials.<br><br>
-If you are a current Lodgix.com subscriber, please login to your Lodgix.com account and go to "Settings >> Important Settings" to obtain your "Customer ID" and "API Key". In alternative click <a href="javascript:void(0)" onclick="p_lodgix_set_demo_credentials(); return false;">here</a> to setup Demo Credentials.
+To setup your properties for use with the plug-in, a Lodgix.com subscription is required.
+<a target="_blank" href="http://www.lodgix.com/register/0?wordpress=1">Sign-up for a free 30 day trial subscription at Lodgix.com</a>. 
+No credit card is required. We do offer a a free starter subscription for plug-in users which is good for up to five properties,
+however it is restricted to payments via PayPal only and does not include use of automated trigger emails or any of the premium modules. This subscription is free and will not expire. Additionally, if you just wish to test the plug-in within your website using demo property images and data,  and do not wish to sign up for a Lodgix.com subscription at this time, click here to populate the Customer ID and API Key with demo credentials.<br><br>
+If you are a current Lodgix.com subscriber, please login to your Lodgix.com account and go to "Settings >> Important Settings"
+to obtain your "Customer ID" and "API Key".
+
+Want to test without creating a Lodgix account? Click <a href="javascript:void(0)" onclick="p_lodgix_set_demo_credentials(); return false;">here</a> to auto populate the plugin with demo customer and API credentials.
 </p>

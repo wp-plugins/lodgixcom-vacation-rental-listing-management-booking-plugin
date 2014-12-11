@@ -112,24 +112,29 @@ function lodgix_settings_tab_show(el) {
   }
 
 function set_thesis_2_theme_enabled() {
-    var is_checked = jQueryLodgix('#p_lodgix_thesis_2_compatibility').is(':checked');      	  	
+    var is_checked = jQueryLodgix('#p_lodgix_thesis_2_compatibility').val() == '1';      	  	
     if (is_checked) {
-    jQueryLodgix('#p_lodgix_thesis_2_template').removeAttr('disabled');
-        }
-        else {
-            jQueryLodgix('#p_lodgix_thesis_2_template').attr('disabled','disabled');
-        }
+        jQueryLodgix('#p_lodgix_thesis_2_template').removeAttr('disabled');
+        jQueryLodgix('#p_lodgix_thesis_2_template').show();
+    }
+    else {
+        jQueryLodgix('#p_lodgix_thesis_2_template').attr('disabled','disabled');
+        jQueryLodgix('#p_lodgix_thesis_2_template').hide();
+    }
 }
 
 function set_lodgix_page_template_enabled() {
     var is_checked = jQueryLodgix('#p_lodgix_page_template').val() == 'CUSTOM';      	  	
     if (is_checked) {
-    jQueryLodgix('#p_lodgix_custom_page_template').removeAttr('disabled');
-        }
-        else {
-            jQueryLodgix('#p_lodgix_custom_page_template').attr('disabled','disabled');
-        }
+        jQueryLodgix('#p_lodgix_custom_page_template').removeAttr('disabled');
+        jQueryLodgix('#p_lodgix_custom_page_template').show();
+    }
+    else {
+        jQueryLodgix('#p_lodgix_custom_page_template').attr('disabled','disabled');
+        jQueryLodgix('#p_lodgix_custom_page_template').hide();
+    }
 }
+
 
 function get_form_data($form){
     var unindexed_array = $form.serializeArray();
@@ -265,12 +270,13 @@ jQueryLodgix(document).ready(function(){
     });
 
             
-    jQuery('#p_lodgix_thesis_compatibility').click(function(){
-        jQueryLodgix('#p_lodgix_thesis_2_compatibility').prop('checked', false);     
+    jQuery('#p_lodgix_thesis_compatibility').change(function(){
+        jQueryLodgix('#p_lodgix_thesis_2_compatibility').val("0");
         set_thesis_2_theme_enabled(); 	  	
     });
-    jQuery('#p_lodgix_thesis_2_compatibility').click(function(){
-        jQueryLodgix('#p_lodgix_thesis_compatibility').prop('checked', false);      	  	
+
+    jQuery('#p_lodgix_thesis_2_compatibility').change(function(){
+        jQueryLodgix('#p_lodgix_thesis_compatibility').val("0");     	  	
         set_thesis_2_theme_enabled();
     });
 

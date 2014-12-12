@@ -63,6 +63,34 @@
 	background: #eee;
 }
 
+.tryit a {
+    background: none repeat scroll 0 0 #f4b513;
+    border-radius: 2px;
+    color: #fff !important;
+    display: block;
+    font-size: 15px;
+    line-height: 18px;
+    margin: 0 0 10px;
+    padding: 21px 0 16px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 270px;
+}
+.tryit a:hover {
+    background: none repeat scroll 0 0 #0084bf;
+    text-decoration: none;
+}
+
+.tryit h2 {
+    color: #fff;
+    font-family: "Signika",sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 25px;
+    margin: 0;
+    padding: 0;
+}
+
 .ldgxAdminBox p {
 	clear: both;
 }

@@ -11,7 +11,7 @@
                 
           			<div class="col col-lg-8 col-sm-8">
                         <ul class="nav nav-tabs p_lodgix_settings_tabs responsive" data-tabs="tabs" id="p_lodgix_settings_tabs">
-                            <li role="presentation" class="active"><a data-toggle="tab" href="#subscriber">Subscriber</a></li>
+                            <li role="presentation" class="active"><a data-toggle="tab" href="#subscriber">General</a></li>
                             <li role="presentation"><a data-toggle="tab" href="#properties">Properties</a></li>
                             <li role="presentation"><a data-toggle="tab" href="#page_design" >Page Design</a></li>
                             <li role="presentation"><a data-toggle="tab" href="#display_options">Display Options</a></li>

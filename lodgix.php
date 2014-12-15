@@ -12,7 +12,8 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
-v1.5.3: Added new plugin settings design
+v1.5.4: Added new plugin settings design
+v1.5.3: Fixed multi unit calendar
 v1.5.2: Added HTTPS support to availability calendars
 v1.5.1: Fixed single unit help text
 v1.5.0: Fixed Chrome featured image display issue

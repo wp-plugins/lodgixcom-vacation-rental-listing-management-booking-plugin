@@ -15,7 +15,7 @@
         </th> 
         <td>
             <input name="p_lodgix_owner_id" type="text" id="p_lodgix_owner_id" value="<?php echo $this->options['p_lodgix_owner_id'] ;?>"/>
-            <br><span class="setting-description"><?php _e('Please enter your Lodgix Customer ID', $this->localizationDomain); ?>
+            <br><span class="setting-description"><?php _e('Enter your Lodgix Customer ID', $this->localizationDomain); ?> (<a href="javascript:void(0)" onclick="p_lodgix_set_demo_credentials(); return false;">use demo ID</a>)
       </td> 
     </tr>
     <tr valign="top"> 
@@ -24,7 +24,7 @@
         </th> 
         <td>
             <input name="p_lodgix_api_key" type="text" id="p_lodgix_api_key" value="<?php echo $this->options['p_lodgix_api_key'] ;?>"/>
-            <br><span class="setting-description"><?php _e('Please enter your Lodgix API Key', $this->localizationDomain); ?>
+            <br><span class="setting-description"><?php _e('Enter your Lodgix API Key', $this->localizationDomain); ?>
       </td> 
     </tr>                                    
 </table>
@@ -45,11 +45,11 @@ however it is restricted to payments via PayPal only and does not include use of
 the premium modules. This subscription is free and will not expire.
 </p>
 <p>
-Additionally, if you just wish to test the plug-in within your website using demo property images and data,  and do not wish to sign up for a Lodgix.com subscription at this time, click here to populate the Customer ID and API Key with demo credentials.<br><br>
+    Additionally, if you just wish to test the plug-in within your website using demo property images and data, and do not wish
+to sign up for a Lodgix.com subscription at this time, use the demo ID and API key provided. 
+</p>
+<p>
 If you are a current Lodgix.com subscriber, please login to your Lodgix.com account and go to "Settings >> Important Settings"
 to obtain your "Customer ID" and "API Key".
 </p>
 
-<p>
-Want to test without creating a Lodgix account? Click <a href="javascript:void(0)" onclick="p_lodgix_set_demo_credentials(); return false;">here</a> to auto populate the plugin with demo customer and API credentials.
-</p>

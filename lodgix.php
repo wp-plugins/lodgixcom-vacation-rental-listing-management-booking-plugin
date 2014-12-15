@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.5.5
+Version: 1.5.6
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.5.6: Fixed property details locale
 v1.5.5: Added plugin icon
 v1.5.4: Added new plugin settings design
 v1.5.3: Fixed multi unit calendar
@@ -690,7 +691,7 @@ if (!class_exists('p_lodgix')) {
                 }      
             }
       
-            if ($this->locale == 'en_US')
+            if ($this->locale == 'en_US'  || $this->locale == 'en')
             {
                 if ($pos1 != '-1')
                 {
@@ -2189,7 +2190,6 @@ if (!class_exists('p_lodgix')) {
           }
     
           $sql = 'SELECT * FROM ' . $this->properties_table . '  WHERE ' . $filter . ' 1=1 ORDER BY ' . $sort_sql . ' ' . $direction;
-          
           $properties = $wpdb->get_results($sql);
     
           $counter = 0;
@@ -2199,6 +2199,8 @@ if (!class_exists('p_lodgix')) {
               $really_available = false;
               foreach($properties as $property)
               {
+        
+
                   if ($counter == 0) {
                     $old_area = $property->area;
                   }
@@ -2274,21 +2276,20 @@ if (!class_exists('p_lodgix')) {
                     $high_monthly_rate = 'N/A';
                 }
             
-    
-                if ($this->locale == 'en_US')
+                if ($this->locale == 'en_US' || $this->locale == 'en')
                 {
                     $permalink = get_permalink($property->post_id);
                 }
                 else
                 {                              
-                      $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE language_code='" . $this->sufix . "' AND id=" . $property->id;
-                      $translated_details = $wpdb->get_results($sql);
-                      $translated_details = $translated_details[0];
-                      $property->description = $translated_details->description;
-                      $property->description_long = $translated_details->description_long;
-                      $property->details = $translated_details->details;
-                      $post_id = $wpdb->get_var("select page_id from " . $this->lang_pages_table . " WHERE property_id=" . $property->id . " AND language_code='" . $this->sufix. "';");                  
-                      $permalink = get_permalink($post_id);
+                    $sql = "SELECT * FROM " . $this->lang_properties_table . " WHERE language_code='" . $this->sufix . "' AND id=" . $property->id;
+                    $translated_details = $wpdb->get_results($sql);
+                    $translated_details = $translated_details[0];
+                    $property->description = $translated_details->description;
+                    $property->description_long = $translated_details->description_long;
+                    $property->details = $translated_details->details;
+                    $post_id = $wpdb->get_var("select page_id from " . $this->lang_pages_table . " WHERE property_id=" . $property->id . " AND language_code='" . $this->sufix. "';");                  
+                    $permalink = get_permalink($post_id);
                 }
     
                 if ($property->main_image) { 
@@ -2661,7 +2662,7 @@ if (!class_exists('p_lodgix')) {
                 
                 $policies = $wpdb->get_results("SELECT * FROM " . $this->policies_table . " WHERE language_code='" . $this->sufix . "'");
                 
-                if ($this->locale == 'en_US')
+                if ($this->locale == 'en_US' || $this->locale == 'en')
                 {
                     $permalink = get_permalink($property->post_id);
                 }

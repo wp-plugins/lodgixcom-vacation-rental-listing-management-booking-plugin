@@ -343,16 +343,12 @@ $single_property.= '<div id="lodgix_photo"><a id="lodgix_aGallery" href="#Galler
 $counter = 0;
 $num_pics = 2;
 $single_property.= '<h2>' . __('Property Images', $this->localizationDomain) . '</h2>';
-// if (get_current_theme() == "Thesis")
-//  $num_pics = 3;
+
 foreach($photos as $photo)
 {
-	if (strpos( $photo->url, 'http://www.lodgix.com') > 0) {
-		$photo_url = str_replace('media/gallery', 'photo/0/gallery', $photo->url);
-	}
-	else {
-		$photo_url = $photo->url;
-	}
+	
+	$photo_url = $photo->url;
+	
     if (($counter % $num_pics == 0) && ($counter != 0))
     {
         $single_property.= "<tr>";

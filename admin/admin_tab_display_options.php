@@ -173,7 +173,7 @@
             
         }?>
 </table><br>
-	<p><b><?php _e('Menu Display Options', $this->localizationDomain); ?></b> (This option will be deprecated in a near future. Please use Wordpress menu instead.)</p>
+	<p><b><?php _e('Menu Display Options', $this->localizationDomain); ?></b><br>[This option is no longer supported (or needed). Please set this option to "None" and add back the menu items using WordPress menus instead (Appearance > Menu).]</p>
 
 <table width="100%" cellspacing="2" cellpadding="5" class="form-table lodgix_options_table"> 
     <tr valign="top"> 

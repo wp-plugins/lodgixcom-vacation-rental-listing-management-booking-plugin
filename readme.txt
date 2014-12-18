@@ -92,6 +92,8 @@ vacation rental website in a couple hours.
 
 
 == Changelog ==
+= 1.6.0 =
+Deprecated menu options
 = 1.5.9 =
 Fixed settings CSS
 = 1.5.8 =

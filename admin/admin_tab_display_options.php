@@ -175,13 +175,13 @@
 </table><br>
 	<p><b><?php _e('Menu Display Options', $this->localizationDomain); ?></b> (This option will be deprecated in a near future. Please use Wordpress menu instead.)</p>
 
-<table width="100%" cellspacing="2" cellpadding="5" class="form-table"> 
+<table width="100%" cellspacing="2" cellpadding="5" class="form-table lodgix_options_table"> 
     <tr valign="top"> 
         <th width="33%" scope="row">
             <?php _e('Vacation Rentals Menu Position:', $this->localizationDomain); ?>
         </th>
         <td>
-            <select name="p_lodgix_vacation_rentals_page_pos"  id="p_lodgix_vacation_rentals_page_pos" style="width:160px;">                              
+            <select name="p_lodgix_vacation_rentals_page_pos"  id="p_lodgix_vacation_rentals_page_pos">                              
                 <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
                 <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
                 <option <?php if ($this->options['p_lodgix_vacation_rentals_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>
@@ -200,7 +200,7 @@
             <?php _e('Availability Page Menu Position:', $this->localizationDomain); ?>
         </th> 
         <td>
-            <select name="p_lodgix_availability_page_pos"  id="p_lodgix_availability_page_pos" style="width:160px;">                              
+            <select name="p_lodgix_availability_page_pos"  id="p_lodgix_availability_page_pos">                              
                 <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '-1') echo "SELECTED"; ?> value='-1'>None</option>
                 <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '1') echo "SELECTED"; ?> value='1'>1</option>
                 <option <?php if ($this->options['p_lodgix_availability_page_pos'] == '2') echo "SELECTED"; ?> value='2'>2</option>

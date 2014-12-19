@@ -63,7 +63,7 @@
 	background: #eee;
 }
 
-.tryit a {
+.lodgix-tryit a {
     background: none repeat scroll 0 0 #f4b513;
     border-radius: 2px;
     color: #fff !important;
@@ -76,12 +76,12 @@
     text-transform: uppercase;
     width: 270px;
 }
-.tryit a:hover {
+.lodgix-tryit a:hover {
     background: none repeat scroll 0 0 #0084bf;
     text-decoration: none;
 }
 
-.tryit h2 {
+.lodgix-tryit h2 {
     color: #fff;
     font-family: "Signika",sans-serif;
     font-size: 32px;

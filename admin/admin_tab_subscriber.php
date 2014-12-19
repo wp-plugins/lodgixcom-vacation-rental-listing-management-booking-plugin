@@ -33,7 +33,7 @@
     To setup your properties for use with the plug-in, a Lodgix.com subscription is required.
 </p>
 
-<div class="tryit">
+<div class="lodgix-tryit">
     <a href="http://www.lodgix.com/register/0?wordpress=1">
         <h2>TRY IT FREE</h2>
         <div>No Credit Card Required</div>

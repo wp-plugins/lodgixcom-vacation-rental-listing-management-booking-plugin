@@ -263,7 +263,7 @@ jQueryLodgix(document).ready(function(){
     lodgix_properties_datatable = jQueryLodgix('#lodgix_properties_table').dataTable({        
 		'bProcessing': true,
 		'bServerSide': false,
-		'sAjaxSource': p_lodgix_ajax.ajaxURL + '?action=p_lodgix_properties_list',
+		'sAjaxSource': p_lodgix_ajax.ajaxURL + '?action=p_lodgix_properties_list&sEcho=1',
         "aoColumns": columns,
         "iDisplayLength": 50,
         "bAutoWidth": true

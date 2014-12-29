@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.6.2
+Version: 1.6.3
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.6.3: Fixed en_UK locale
 v1.6.2: Fixed datatables AJAX URL
 v1.6.1: Fixed CSS conflict with some themes
 v1.6.0: Deprecated menu options
@@ -697,7 +698,7 @@ if (!class_exists('p_lodgix')) {
                 }      
             }
       
-            if ($this->locale == 'en_US'  || $this->locale == 'en')
+            if (strpos($this->locale, 'en') !== false)
             {
                 if ($pos1 != '-1')
                 {
@@ -2282,7 +2283,7 @@ if (!class_exists('p_lodgix')) {
                     $high_monthly_rate = 'N/A';
                 }
             
-                if ($this->locale == 'en_US' || $this->locale == 'en')
+                if (strpos($this->locale, 'en') !== false)
                 {
                     $permalink = get_permalink($property->post_id);
                 }
@@ -2668,7 +2669,7 @@ if (!class_exists('p_lodgix')) {
                 
                 $policies = $wpdb->get_results("SELECT * FROM " . $this->policies_table . " WHERE language_code='" . $this->sufix . "'");
                 
-                if ($this->locale == 'en_US' || $this->locale == 'en')
+                if (strpos($this->locale, 'en') !== false)
                 {
                     $permalink = get_permalink($property->post_id);
                 }

@@ -18,7 +18,13 @@ if (($property->min_weekly_rate > 0) && $this->options['p_lodgix_display_weekly_
 $min_daily_rate = "";
 if (($property->min_daily_rate > 0) && $this->options['p_lodgix_display_daily_rates'])
 	$min_daily_rate = __('from', $this->localizationDomain) . ' ' . $property->currency_symbol . $property->min_daily_rate . __(' per /nt', $this->localizationDomain) . '<br />';
-	
+
+if ($this->options['p_lodgix_gmap_zoom_level'] == 0) {
+	$p_lodgix_gmap_zoom_level = 10;
+}
+else  {
+    $p_lodgix_gmap_zoom_level = $this->options['p_lodgix_gmap_zoom_level'];
+}
 
 $pets = "";
 if ($property->pets) $pets = "display:none;";
@@ -144,11 +150,7 @@ else
     $single_property.= '<a title="' . __('Check Availability', $this->localizationDomain) . '" href="' . $permalink . '#booking" class="lodgix_check_availability_icon"></a>';
 }
 $single_property.= '</p></center>';
-// global $l10n;
-// print_r($l10n);
-//
-// echo (__('Property Description',$this->localizationDomain));
-// die();
+
 $single_property.= '<div id="lodgix_property_description"><p><h2>' . __('Property Description', $this->localizationDomain) . '</h2></p>' . str_replace(array(
     "\r\n",
     "\n",
@@ -369,7 +371,7 @@ $single_property.= '<script type="text/javascript"><!--//--><![CDATA[//><!--
 function lodgix_gmap_initialize() {    
     var lodgixLatLng = new google.maps.LatLng(' . $property->latitude . ', ' . $property->longitude . ');
     var lodgixMapOptions = {
-       zoom: 10,
+       zoom: ' . $p_lodgix_gmap_zoom_level . ',
        center: lodgixLatLng,
        mapTypeId: google.maps.MapTypeId.ROADMAP
     };

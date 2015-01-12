@@ -43,7 +43,36 @@
                 <option <?php if ($this->options['p_lodgix_display_icons'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
         </td> 
-    </tr>         
+    </tr>
+    <tr valign="top"> 
+        <th scope="row">
+            <?php _e('Google Map zoom level:', $this->localizationDomain); ?>
+        </th> 
+        <td>
+            <select name="p_lodgix_gmap_zoom_level"  id="p_lodgix_gmap_zoom_level" >                              
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 0) echo "SELECTED"; ?> value='0'>Default</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 1) echo "SELECTED"; ?> value='1'>1</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 2) echo "SELECTED"; ?> value='2'>2</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 3) echo "SELECTED"; ?> value='3'>3</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 4) echo "SELECTED"; ?> value='4'>4</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 5) echo "SELECTED"; ?> value='5'>5</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 6) echo "SELECTED"; ?> value='6'>6</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 7) echo "SELECTED"; ?> value='7'>7</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 8) echo "SELECTED"; ?> value='8'>8</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 9) echo "SELECTED"; ?> value='9'>9</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 10) echo "SELECTED"; ?> value='10'>10</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 11) echo "SELECTED"; ?> value='11'>11</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 12) echo "SELECTED"; ?> value='12'>12</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 13) echo "SELECTED"; ?> value='13'>13</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 14) echo "SELECTED"; ?> value='14'>14</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 15) echo "SELECTED"; ?> value='15'>15</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 16) echo "SELECTED"; ?> value='16'>16</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 17) echo "SELECTED"; ?> value='17'>17</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 18) echo "SELECTED"; ?> value='18'>18</option>
+            </select>
+            </select>
+        </td> 
+    </tr>     
     <tr valign="top"> 
         <th scope="row">
             <?php _e('Display Availability Icon on Search / Sort Page?:', $this->localizationDomain); ?>

@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.6.3
+Version: 1.6.4
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.6.4: Added Google Map zoom level option
 v1.6.3: Fixed en_UK locale
 v1.6.2: Fixed datatables AJAX URL
 v1.6.1: Fixed CSS conflict with some themes
@@ -216,7 +217,7 @@ v1.0.0: Initial release
 define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "2.5";
+$p_lodgix_db_version = "2.6";
 
 require_once('functions.php');
 require_once('translator.php');
@@ -1214,7 +1215,8 @@ if (!class_exists('p_lodgix')) {
                                         'p_lodgix_featured_rotate' => false,
                                         'p_lodgix_custom_page_template' => '',
                                         'p_lodgix_page_template' => '',
-                                        'p_lodgix_thesis_2_template' => ''                                                                                                    
+                                        'p_lodgix_thesis_2_template' => '',
+                                        'p_lodgix_gmap_zoom_level' => 0
                                       );
                   update_option($this->optionsName, $theOptions);
                   
@@ -1281,6 +1283,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_thesis_2_template' => '',                              
                                   'p_lodgix_full_size_thumbnails' => false,
                                   'p_lodgix_featured_rotate' => false,
+                                  'p_lodgix_gmap_zoom_level' => 0
                                 );
               return update_option($this->optionsName, $theOptions);
           }      
@@ -3930,6 +3933,11 @@ if (!class_exists('p_lodgix')) {
                     $this->saveAdminOptions();
                 }
             }
+
+            if ($old_db_version < 2.6) {       
+                $this->options['p_lodgix_gmap_zoom_level'] = 0;
+                $this->saveAdminOptions();
+            }
         }               
           
     
@@ -4207,8 +4215,7 @@ if (!class_exists('p_lodgix')) {
                     $this->options['p_lodgix_display_availability_icon'] = true;
                 else
                     $this->options['p_lodgix_display_availability_icon'] = false;                 
-                                         
-                
+                                                        
     
                 $active_languages = array("'en'");
                 
@@ -4254,7 +4261,8 @@ if (!class_exists('p_lodgix')) {
                 $this->options['p_lodgix_rates_display'] = ((int)$_POST['p_lodgix_rates_display']);                  
                 $this->options['p_lodgix_display_featured'] = $_POST['p_lodgix_display_featured'];                                    
                 $this->options['p_lodgix_vacation_rentals_page_pos'] = $_POST['p_lodgix_vacation_rentals_page_pos'];
-                $this->options['p_lodgix_availability_page_pos'] = $_POST['p_lodgix_availability_page_pos'];                  
+                $this->options['p_lodgix_availability_page_pos'] = $_POST['p_lodgix_availability_page_pos'];
+                $this->options['p_lodgix_gmap_zoom_level'] = ((int)$_POST['p_lodgix_gmap_zoom_level']);
                 $this->options['p_lodgix_vr_title'] = $_POST['p_lodgix_vr_title']; 
                 $this->options['p_lodgix_vr_meta_description'] = $_POST['p_lodgix_vr_meta_description']; 
                 $this->options['p_lodgix_vr_meta_keywords'] = $_POST['p_lodgix_vr_meta_keywords'];

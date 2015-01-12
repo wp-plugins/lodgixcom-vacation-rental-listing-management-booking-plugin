@@ -2,6 +2,15 @@
 $sql = "SELECT * FROM " . $this->reviews_table . " WHERE language_code='" . $this->sufix . "' AND property_id=" . $property->id . ' ORDER BY date DESC';
 
 $reviews = $wpdb->get_results($sql);
+
+if ($this->options['p_lodgix_gmap_zoom_level'] == 0) {
+	$p_lodgix_gmap_zoom_level = 13;
+}
+else  {
+    $p_lodgix_gmap_zoom_level = $this->options['p_lodgix_gmap_zoom_level'];
+}
+
+
 $sql = "SELECT * FROM " . $this->pictures_table . " WHERE property_id=" . $property->id . ' ORDER BY position';
 $photos = $wpdb->get_results($sql);
 $property_area = "";
@@ -430,7 +439,7 @@ $single_property.= '<script type="text/javascript"><!--//--><![CDATA[//><!--
 function lodgix_gmap_initialize() {
 	var lodgixLatLng = new google.maps.LatLng(' . $property->latitude . ', ' . $property->longitude . ');
 	var lodgixMapOptions = {
-		zoom: 13,
+		zoom: ' . $p_lodgix_gmap_zoom_level . ',
 		center: lodgixLatLng,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};

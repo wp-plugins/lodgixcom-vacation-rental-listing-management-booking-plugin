@@ -50,7 +50,9 @@
         </th> 
         <td>
             <select name="p_lodgix_gmap_zoom_level"  id="p_lodgix_gmap_zoom_level" >                              
-                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 0) echo "SELECTED"; ?> value='0'>Default</option>
+                <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 0) echo "SELECTED"; ?> value='0'>
+                    Default (<?php if ($this->options['p_lodgix_single_page_design'] == 0) echo '10'; else echo '13'; ?>)
+                </option>
                 <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 1) echo "SELECTED"; ?> value='1'>1</option>
                 <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 2) echo "SELECTED"; ?> value='2'>2</option>
                 <option <?php if ($this->options['p_lodgix_gmap_zoom_level'] == 3) echo "SELECTED"; ?> value='3'>3</option>

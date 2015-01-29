@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.6.6
+Version: 1.6.7
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,7 +12,8 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
-v1.6.6: Fixed Google Maps distored controls
+v1.6.7: Added multi language calendars
+v1.6.6: Fixed Google Maps distorted controls
 v1.6.5: Added legend to default zoom level
 v1.6.4: Added Google Map zoom level option
 v1.6.3: Fixed en_UK locale
@@ -605,14 +606,14 @@ if (!class_exists('p_lodgix')) {
             if (is_ssl()) {
                 $website = 'https://www.lodgix.com';
             }
-	
+
             $content = '
                 <div id="lodgix_property_booking">
                     <h2 id="booking">' . __('Availability &amp; Booking Calendar',$this->localizationDomain) .'</h2>
                     <center>
                         <script type="text/javascript">var __lodgix_origin="' . $website . '";</script>
                         <script type="text/javascript" src="' . $website . '/static/scc/build/code.min.js"></script>
-                        <script type="text/javascript">var lodgixUnitCalendarInstance = new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ');</script>';
+                        <script type="text/javascript">var lodgixUnitCalendarInstance = new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ', "' . $this->sufix . '");</script>';
 		            
     
             if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1))
@@ -2511,13 +2512,14 @@ if (!class_exists('p_lodgix')) {
              
              if ($number_properties >= 1)
              {
-               $multi_unit_helptext = $wpdb->get_var("SELECT multi_unit_helptext FROM " . $this->policies_table . " WHERE language_code='" . $this->sufix . "'");
-               $allow_booking = $properties[0]->allow_booking;
-               $owner_id = $properties[0]->owner_id;
-               $owner_id_multiple =  $this->options['p_lodgix_owner_id'];
-               $property_id = $properties[0]->id;
-               include('availability.php');
-               $content .= $availability;
+                $lang_code = $this->sufix;
+                $multi_unit_helptext = $wpdb->get_var("SELECT multi_unit_helptext FROM " . $this->policies_table . " WHERE language_code='" . $this->sufix . "'");
+                $allow_booking = $properties[0]->allow_booking;
+                $owner_id = $properties[0]->owner_id;
+                $owner_id_multiple =  $this->options['p_lodgix_owner_id'];
+                $property_id = $properties[0]->id;
+                include('availability.php');
+                $content .= $availability;
              } 
             }
             $content .= '</div>';

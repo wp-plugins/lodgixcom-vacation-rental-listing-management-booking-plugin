@@ -379,7 +379,7 @@ if ($policies || $taxes || $fees || $deposits)
                     "\r\n",
                     "\n",
                     "\r"
-                ) , '<br />', $policy->cancellation_policy) . "</td></td></tr>";
+                ) , '<br />', $policy->cancellation_policy) . "<br><br><i>Last updated, " . $this->format_date($property->date_modified) . "</i></td></td></tr>";
             }
             if ($policy->deposit_policy)
             {
@@ -387,7 +387,7 @@ if ($policies || $taxes || $fees || $deposits)
                     "\r\n",
                     "\n",
                     "\r"
-                ) , '<br />', $policy->deposit_policy) . "</td></td></tr>";
+                ) , '<br />', $policy->deposit_policy) . "<br><br><i>Last updated, " . $this->format_date($property->date_modified) . "</i></td></td></tr>";
             }
             if ($policy->single_unit_helptext)
             {

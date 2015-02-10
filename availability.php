@@ -14,8 +14,6 @@ if (is_ssl()) {
     $website = 'https://www.lodgix.com';
 }
 
-$lang_code = 'nl';
-
 if ($number_properties == 1)
 {
    $availability = '

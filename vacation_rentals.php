@@ -29,7 +29,7 @@ if ($property->bedrooms == 0)
 $warning = '';
 if ($differentiate && !$property->really_available)
 {
-    $warning = '<span style="color:red;font-size:9px;text-decoration:none;">' . __('Rules may exist that prevent this booking from proceeding. Please check availability.' . $this->localizationDomain) . '</span><br /><br />';
+    $warning = '<span style="color:red;font-size:9px;text-decoration:none;">' . __('Rules may exist that prevent this booking from proceeding. Please check availability.', $this->localizationDomain) . '</span><br /><br />';
 }
 $main_image_thumb = $property->main_image_thumb;
 if ($lodgixoptions['p_lodgix_full_size_thumbnails'])

@@ -14,6 +14,8 @@ if (is_ssl()) {
     $website = 'https://www.lodgix.com';
 }
 
+
+
 if ($number_properties == 1)
 {
    $availability = '
@@ -21,17 +23,17 @@ if ($number_properties == 1)
             <script type="text/javascript">var __lodgix_origin="' . $website . '";</script>
             <script type="text/javascript" src="' . $website . '/static/scc/build/code.min.js">
             </script><script type="text/javascript">
-                var lodgixUnitCalendarInstance = new LodgixUnitCalendar(' . $owner_id. ',' . $property_id . ', "' . $lang_code . '");
+                var lodgixUnitCalendarInstance = new LodgixUnitCalendar(' . $owner_id. ',' . $property_id . ', "' . $lang_code . ', encodeURIComponent(location.protocol + "//" + location.host)");
             </script>
     ';
 }
 else
 {
-  $availability = '
+    $availability = '
         <div id="lodgix_calendar" align="center">
             <script type="text/javascript">var __lodgix_origin="' . $website . '";</script>
             <script type="text/javascript" src="' . $website . '/static/muc/build/code.min.js"></script>
-            <script type="text/javascript">new LodgixCalendar("' . $owner_id_multiple . '",0,true, "' . $lang_code . '")</script>';
+            <script type="text/javascript">new LodgixCalendar("' . $owner_id_multiple . '",0,true, "' . $lang_code . '", encodeURIComponent(location.protocol + "//" + location.host))</script>';
 }
 
 $title = 'Online Booking Instructions';

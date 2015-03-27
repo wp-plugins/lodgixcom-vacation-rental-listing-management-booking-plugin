@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.7.1
+Version: 1.7.2
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.7.2: Added referer to calendar link
 v1.7.1: Fixed mobile tabbed display
 v1.7.0: Fixed warning string concatenation
 v1.6.9: Fixed default calendar code
@@ -617,7 +618,7 @@ if (!class_exists('p_lodgix')) {
                     <center>
                         <script type="text/javascript">var __lodgix_origin="' . $website . '";</script>
                         <script type="text/javascript" src="' . $website . '/static/scc/build/code.min.js"></script>
-                        <script type="text/javascript">var lodgixUnitCalendarInstance = new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ', "' . $this->sufix . '");</script>';
+                        <script type="text/javascript">var lodgixUnitCalendarInstance = new LodgixUnitCalendar(' . $p_lodgix_owner_id . ',' . $p_lodgix_property_id . ', "' . $this->sufix . '",  encodeURIComponent(location.protocol + "//" + location.host));</script>';
 		            
     
             if (($single_unit_helptext != '') && ($p_allow_booking == 1) && ($p_lodgix_display_single_instructions == 1))

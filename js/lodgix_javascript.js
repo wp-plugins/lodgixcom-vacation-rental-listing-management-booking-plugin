@@ -175,12 +175,12 @@ function lodgix_submit_save() {
     return false;
 }
 
-function lodgix_toggle_rotate() {
-    var checked = jQueryLodgix('#lodgix_rotate').is(':checked');
+function lodgix_toggle_select_all() {
+    var checked = jQueryLodgix('#lodgix_select_all').is(':checked');
 
     jQueryLodgix.ajax({
         type: "POST",
-        url: p_lodgix_ajax.ajaxURL + '?action=p_lodgix_toggle_rotate',
+        url: p_lodgix_ajax.ajaxURL + '?action=p_lodgix_toggle_select_all',
         data: {'checked': checked},
         dataType: 'json',
         success: function(data) {

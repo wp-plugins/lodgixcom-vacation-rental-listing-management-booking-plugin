@@ -28,13 +28,14 @@ class Lodgix_Rental_Search_Widget extends WP_Widget {
 	
 		?>		
 			<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /><br>
-			<label for="<?php echo $this->get_field_id( 'amenites' ); ?>"><?php _e( 'Amenities:' ); ?></label> 
-			<input class="widefat" id="<?php echo $this->get_field_id( 'amenities' ); ?>" name="<?php echo $this->get_field_name( 'amenities' ); ?>" type="checkbox" <?php checked(true, $amenities ); ?> />
+                <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+                <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /><br>
+            </p>
+            <p>
+                <label for="<?php echo $this->get_field_id( 'amenites' ); ?>"><?php _e( 'Amenities:' ); ?></label>
+                <input class="widefat" id="<?php echo $this->get_field_id( 'amenities' ); ?>" name="<?php echo $this->get_field_name( 'amenities' ); ?>" type="checkbox" <?php checked(true, $amenities ); ?> />
 			</p>
-		
-		<?php 
+		<?php
 	}
 
 	function update( $new_instance, $old_instance ) {
@@ -260,22 +261,64 @@ class Lodgix_Featured_Rentals_Widget extends WP_Widget {
 	function form( $instance ) {
 		if ( $instance ) {
 			$title = esc_attr( $instance['title'] );
+            $display_properties = esc_attr( $instance['display_properties'] );
+            if (!isset($display_properties) || !is_numeric($display_properties) || $display_properties < 0) {
+                $display_properties = 3;
+            }
+            $rotate = esc_attr( $instance['rotate'] );
 		}
 		else {
 			$title = __( 'Featured Rentals' );
+            $display_properties = 3;
+            $rotate = false;
 		}
 	
 		?>		
 			<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /><br>
+                <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+                <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /><br>
 			</p>
-		
+            <p>
+                <label for="<?php echo $this->get_field_id( 'display_properties' ); ?>"><?php _e( 'Display Properties:' ); ?></label>
+                <select class='widefat' id="<?php echo $this->get_field_id( 'display_properties' ); ?>" name="<?php echo $this->get_field_name( 'display_properties' ); ?>">
+                    <option value="0"<?php echo ($display_properties==0)?'selected':''; ?>>All</option>
+                    <option value="1"<?php echo ($display_properties==1)?'selected':''; ?>>1</option>
+                    <option value="2"<?php echo ($display_properties==2)?'selected':''; ?>>2</option>
+                    <option value="3"<?php echo ($display_properties==3)?'selected':''; ?>>3</option>
+                    <option value="4"<?php echo ($display_properties==4)?'selected':''; ?>>4</option>
+                    <option value="5"<?php echo ($display_properties==5)?'selected':''; ?>>5</option>
+                    <option value="6"<?php echo ($display_properties==6)?'selected':''; ?>>6</option>
+                    <option value="7"<?php echo ($display_properties==7)?'selected':''; ?>>7</option>
+                    <option value="8"<?php echo ($display_properties==8)?'selected':''; ?>>8</option>
+                    <option value="9"<?php echo ($display_properties==9)?'selected':''; ?>>9</option>
+                    <option value="10"<?php echo ($display_properties==10)?'selected':''; ?>>10</option>
+                    <option value="11"<?php echo ($display_properties==11)?'selected':''; ?>>11</option>
+                    <option value="12"<?php echo ($display_properties==12)?'selected':''; ?>>12</option>
+                    <option value="13"<?php echo ($display_properties==13)?'selected':''; ?>>13</option>
+                    <option value="14"<?php echo ($display_properties==14)?'selected':''; ?>>14</option>
+                    <option value="15"<?php echo ($display_properties==15)?'selected':''; ?>>15</option>
+                    <option value="16"<?php echo ($display_properties==16)?'selected':''; ?>>16</option>
+                    <option value="17"<?php echo ($display_properties==17)?'selected':''; ?>>17</option>
+                    <option value="18"<?php echo ($display_properties==18)?'selected':''; ?>>18</option>
+                    <option value="19"<?php echo ($display_properties==19)?'selected':''; ?>>19</option>
+                    <option value="20"<?php echo ($display_properties==20)?'selected':''; ?>>20</option>
+                </select>
+            </p>
+            <p>
+                <label for="<?php echo $this->get_field_id( 'rotate' ); ?>"><?php _e( 'Rotate:' ); ?></label>
+                <input type="checkbox" id="<?php echo $this->get_field_id( 'rotate' ); ?>" name="<?php echo $this->get_field_name( 'rotate' ); ?>" <?php checked(true, $rotate ); ?> /><br>
+            </p>
 		<?php 
 	}
 
 	function update( $new_instance, $old_instance ) {
 		$instance['title'] = strip_tags( $new_instance['title'] );
+        $instance['display_properties'] = strip_tags( $new_instance['display_properties'] );
+        if ($new_instance['rotate'] == 'on')
+            $instance['rotate'] = true;
+        else {
+            $instance['rotate'] = false;
+        }
 		return $instance;
 	}
 
@@ -297,20 +340,32 @@ class Lodgix_Featured_Rentals_Widget extends WP_Widget {
 		echo $before_widget . $before_title . $title . $after_title;
 		echo '<div class="lodgix-featured-properties" align="center">';
 
-        if ($loptions['p_lodgix_featured_rotate']) {
-            $sql = 'SELECT ' . $properties_table . '.id,property_id,description,enabled,featured,main_image_thumb,
-                    bedrooms,bathrooms,proptype,city,post_id,area FROM ' . $properties_table . '
-                    LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id
-                    order by rand() LIMIT 3';
+        $sql = 'SELECT ' . $properties_table . '.id AS id,property_id,description,enabled,featured,main_image_thumb,
+                bedrooms,bathrooms,proptype,city,post_id,area FROM ' . $properties_table . '
+                LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id';
+
+        if (!$loptions['p_lodgix_featured_select_all']) {
+            // Show only featured properties
+            $sql .= ' WHERE featured=1';
         }
-        else {
-            $sql = 'SELECT ' . $properties_table . '.id,property_id,description,enabled,featured,main_image_thumb,
-                    bedrooms,bathrooms,proptype,city,post_id,area FROM ' . $properties_table . '
-                    LEFT JOIN ' . $pages_table .  ' ON ' . $properties_table . '.id = ' . $pages_table .  '.property_id
-                    WHERE featured=1 order by rand()';
+
+        if (!empty($instance['rotate'])) {
+            // Rotate
+            $sql .= ' ORDER BY rand()';
+        } else {
+            $sql .= ' ORDER BY id';
         }
-       
-		$properties = $wpdb->get_results($sql);
+
+        $limit = $instance['display_properties'];
+        if (!isset($limit) || !is_numeric($limit)) {
+            $limit = 3;
+        }
+        if ($limit > 0) {
+            // Limit number of displayed properties
+            $sql .= ' LIMIT ' . $limit;
+        }
+
+        $properties = $wpdb->get_results($sql);
 		foreach($properties as $property)
 		{
 			

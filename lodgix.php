@@ -417,7 +417,7 @@ if (!class_exists('p_lodgix')) {
 
             add_action('wp_ajax_p_lodgix_properties_list', array(&$this,"p_lodgix_properties_list"));
             add_action('wp_ajax_p_lodgix_toggle_featured', array(&$this,"p_lodgix_toggle_featured"));
-            add_action('wp_ajax_p_lodgix_toggle_rotate', array(&$this,"p_lodgix_toggle_rotate"));
+            add_action('wp_ajax_p_lodgix_toggle_select_all', array(&$this,"p_lodgix_toggle_select_all"));
 
             add_action('wp_ajax_p_lodgix_save_settings', array(&$this,"p_lodgix_save_settings"));
             add_action('wp_ajax_p_lodgix_clean_database', array(&$this,"p_lodgix_clean_database"));
@@ -767,11 +767,11 @@ if (!class_exists('p_lodgix')) {
             return $excludes;
         }
 
-        function p_lodgix_toggle_rotate() {
+        function p_lodgix_toggle_select_all() {
             global $wpdb;
             if ($_POST['checked'] == 'true') $checked = 1; else $checked = 0;
 
-            $this->options['p_lodgix_featured_rotate'] = $checked;
+            $this->options['p_lodgix_featured_select_all'] = $checked;
             $this->saveAdminOptions();
 
             die(json_encode(array('result' => 'OK')));
@@ -800,7 +800,7 @@ if (!class_exists('p_lodgix')) {
                 
                 if ($property->featured) $checked = 'CHECKED'; else $checked = '';
 
-                if ($this->options['p_lodgix_featured_rotate']) $disabled = 'DISABLED'; else $disabled = '';
+                if ($this->options['p_lodgix_featured_select_all']) $disabled = 'DISABLED'; else $disabled = '';
 
                 $featured = '
                     <input type="checkbox" id="lodgix_featured_property_' . $property->property_id . '"
@@ -1220,7 +1220,7 @@ if (!class_exists('p_lodgix')) {
                                         'p_lodgix_vr_meta_description' => NULL,
                                         'p_lodgix_vr_meta_keywords' => NULL,
                                         'p_lodgix_full_size_thumbnails' => false,
-                                        'p_lodgix_featured_rotate' => false,
+                                        'p_lodgix_featured_select_all' => false,
                                         'p_lodgix_custom_page_template' => '',
                                         'p_lodgix_page_template' => '',
                                         'p_lodgix_thesis_2_template' => '',
@@ -1290,7 +1290,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_page_template' => '',
                                   'p_lodgix_thesis_2_template' => '',                              
                                   'p_lodgix_full_size_thumbnails' => false,
-                                  'p_lodgix_featured_rotate' => false,
+                                  'p_lodgix_featured_select_all' => false,
                                   'p_lodgix_gmap_zoom_level' => 0
                                 );
               return update_option($this->optionsName, $theOptions);
@@ -3715,7 +3715,7 @@ if (!class_exists('p_lodgix')) {
                 $wpdb->query("INSERT INTO " . $table_name . " VALUES ('37', 'mn', 'Mongolian', '0', '');");
                 $wpdb->query("INSERT INTO " . $table_name . " VALUES ('38', 'ne', 'Nepali', '0', '');");
                 $wpdb->query("INSERT INTO " . $table_name . " VALUES ('39', 'nl', 'Dutch', '0', 'nl_NL');");
-                $wpdb->query("INSERT INTO " . $table_name . " VALUES ('40', 'nb', 'Norwegian Bokmål', '0', 'nb_NO');");
+                $wpdb->query("INSERT INTO " . $table_name . " VALUES ('40', 'nb', 'Norwegian Bokmï¿½l', '0', 'nb_NO');");
                 $wpdb->query("INSERT INTO " . $table_name . " VALUES ('41', 'pa', 'Punjabi', '0', '');");
                 $wpdb->query("INSERT INTO " . $table_name . " VALUES ('42', 'pl', 'Polish', '0', 'pl_PL');");
                 $wpdb->query("INSERT INTO " . $table_name . " VALUES ('43', 'pt-pt', 'Portuguese, Portugal', '0', 'pt_PT');");

@@ -5,6 +5,7 @@ if ($differentiate && $property->really_available)
     $permalink = add_query_arg(array(
         'bookdates' => $property->bookdates
     ) , $permalink);
+    $permalink = esc_url($permalink);
 }
 
 

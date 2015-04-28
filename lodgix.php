@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.7.3
+Version: 1.7.4
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.7.4: Prevent regenerate when Lodgix is not accessible
 v1.7.3: Escape permalink URL
 v1.7.2: Added referer to calendar link
 v1.7.1: Fixed mobile tabbed display
@@ -4441,130 +4442,95 @@ if (!class_exists('p_lodgix')) {
                        
                 $this->saveAdminOptions();
                 
-                $owner_fetch_url = $this->get_owner_fetch_url();
+                $owner_fetch_url = $this->get_owner_fetch_url();        
+                $owner_array = $this->get_array_from_url($owner_fetch_url);
+            
                 $fetch_url = $this->get_fetch_url();
+                $properties_array = $this->get_array_from_url($fetch_url);
 
-
-    
-                $r = new LogidxHTTPRequest($owner_fetch_url);
-                $xml = $r->DownloadToString(); 
-                
-                $ROOT_HEIGHT = 84;
-                $root = new DOMDocument();  
-                $root->loadXML($xml);
-                $owner = $this->domToArray($root);
-    
-                if ($owner['Errors'])
-                {
-                    $json = array('result' => 'FAIL', 'msg' => 'Error: ' . $owner['Errors']['Error']['Message']);
-                    die(json_encode($json));
-                }
-                else
-                {  
-                    
-                    $this->update_owner($owner);                  
-                    $this->saveAdminOptions();  
-    
-                    $ownerAmenities = @$owner['Results']['Amenities']['Amenity'];
+                if (!empty($owner_array) && !empty($properties_array)) {
+                    $ownerAmenities = @$owner_array['Results']['Amenities']['Amenity'];
                     $searchableAmenities = array();
                     $wpdb->query("DELETE FROM " . $this->searchable_amenities_table);
-                    if (!empty($ownerAmenities)) {
-                        foreach ($ownerAmenities as $ownerAmenity) {
+                    if (!empty($ownerAmenities))
+                    {
+                        foreach($ownerAmenities as $ownerAmenity)
+                        {
+            
                             $alrarray = array();
                             $alrarray['description'] = $ownerAmenity['Name'];
                             $sql = $this->get_insert_sql_from_array($this->searchable_amenities_table,$alrarray);
-                            $wpdb->query($sql);                           
+                            $wpdb->query($sql);                   
+                            
                             $searchableAmenities[$ownerAmenity['Name']] = 1;
                         }
                     }
-                                     
-                               
-                    $r = new LogidxHTTPRequest($fetch_url);
-                    $xml = $r->DownloadToString();                     
-                    if ($xml)
+           
+                    if (!$owner['Errors'])
                     {
-                        $root = new DOMDocument();  
-                        $root->loadXML($xml);
-                        $properties_array = $this->domToArray($root);
-                        $properties = $properties_array["Results"]["Properties"];
-                        if ($properties_array['Results']['Properties']['Property'][0])
-                            $properties = $properties_array['Results']['Properties']['Property'];   
-                        $active_properties = array(-1,-2,-3); 
-                        $counter = 0;                  
                         $sql = "DELETE FROM " . $this->lang_amenities_table;
                         $wpdb->query($sql);
-                        foreach ($properties as $property)
-                        { 
-                            if (($property['ServingStatus'] == "ACTIVE" ) && ($property['WordpressStatus'] == "ACTIVE" ))
-                              $active_properties[] = $property['ID'];
+                        $properties = $properties_array["Results"]["Properties"];
+                        if ($properties_array['Results']['Properties']['Property'][0]) $properties = $properties_array['Results']['Properties']['Property'];
+                            $active_properties = array(-1, -2, -3);
+                        $counter = 0;
+                        foreach($properties as $property)
+                        {
+                            if (($property['ServingStatus'] == "ACTIVE") && ($property['WordpressStatus'] == "ACTIVE")) $active_properties[] = $property['ID'];
                             $this->update_tables($property, $counter, $searchableAmenities);
                             $counter++;
                         }
+            
                         $active_properties = join(",", $active_properties);
-                        $this->clean_properties($active_properties);        
+                        $this->clean_properties($active_properties);
                         $this->build_individual_pages();
                         $this->build_areas_pages();
                         $this->set_page_options(); 
-                  
-                    }
-    
-                //if (!$cleaned)  
-                //{
-                //    $posts = $wpdb->get_results('SELECT * FROM ' . $this->pages_table);   
-                //    foreach($posts as $post)
-                //    {
-                //        $show = true;
-                //        if ($_POST['p_lodgix_page_' . $post->property_id] == 'on')
-                //          $sql = "UPDATE " . $this->pages_table . " SET enabled=1 WHERE id=" . $post->id;
-                //        else
-                //        {
-                //          $show = false;
-                //          $sql = "UPDATE " . $this->pages_table . " SET enabled=0 WHERE id=" . $post->id;
-                //        }
-                //        $wpdb->query($sql);
-                //        if ($_POST['p_lodgix_featured_' . $post->property_id] == 'on')
-                //          $sql = "UPDATE " . $this->pages_table . " SET featured=1 WHERE id=" . $post->id;
-                //        else
-                //        {
-                //          $sql = "UPDATE " . $this->pages_table . " SET featured=0 WHERE id=" . $post->id;
-                //        }
-                //        $wpdb->query($sql);             
-                //    }   
-                //}             
-                $this->clear_revisions();
-          
-          
-                $thesis_2_template_options = Array();
-                array_push($thesis_2_template_options,Array('class' => '','title' => 'Default'));
             
-                try {
-                    $thesis_skin = get_option('thesis_skin');
-                    if ($thesis_skin) {
-                        $class = $thesis_skin['class'];
-                        $thesis_classic_r_templates = get_option('thesis_classic_r_templates');          
-                    }          
-                    
-                    if ($this->is_iterable($thesis_classic_r_templates)) {
-                        foreach ($thesis_classic_r_templates as $key => $value) {
-                            $title = ucwords($key);
-                                if (0 === strpos($key, 'custom_')) {
-                                    $title = $value['title'];
-                                }
-                                array_push($thesis_2_template_options,Array('class' => $key,'title' => $title));
-                        }                     
                     }
-                }
-                catch (SomeException $e)
-                {
+                    else
+                    {
+                        $json = array('result' => 'FAIL', 'msg' => 'Error: ' . $owner['Errors']['Error']['Message']);
+                        die(json_encode($json));
+                    }
+
+
+                    $this->clear_revisions();
+                    
+                    
+                    $thesis_2_template_options = Array();
+                    array_push($thesis_2_template_options,Array('class' => '','title' => 'Default'));
+                    
+                    try {
+                        $thesis_skin = get_option('thesis_skin');
+                        if ($thesis_skin) {
+                            $class = $thesis_skin['class'];
+                            $thesis_classic_r_templates = get_option('thesis_classic_r_templates');          
+                        }          
                         
+                        if ($this->is_iterable($thesis_classic_r_templates)) {
+                            foreach ($thesis_classic_r_templates as $key => $value) {
+                                $title = ucwords($key);
+                                    if (0 === strpos($key, 'custom_')) {
+                                        $title = $value['title'];
+                                    }
+                                    array_push($thesis_2_template_options,Array('class' => $key,'title' => $title));
+                            }                     
+                        }
+                    }
+                    catch (SomeException $e)
+                    {
+                            
+                    }
+                    
+                    $json = array('result' => 'OK', 'msg' => 'Success! Your changes were sucessfully saved!');            
                 }
-
-                $json = array('result' => 'OK', 'msg' => 'Success! Your changes were sucessfully saved!');
-                
-    
+                else
+                {
+                    $json = array('result' => 'FAIL', 'msg' => 'Error: It wasn\'t possible to connect to Lodgix. Please try again later.');
                 }
+        
             }
-
             die(json_encode($json));
         }
 

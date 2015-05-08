@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.7.4
+Version: 1.7.5
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.7.5: Removed sort by Pet Allowed
 v1.7.4: Prevent regenerate when Lodgix is not accessible
 v1.7.3: Escape permalink URL
 v1.7.2: Added referer to calendar link
@@ -2423,7 +2424,6 @@ if (!class_exists('p_lodgix')) {
                             <OPTION VALUE="bedrooms">'.__('Bedrooms',$this->localizationDomain).'</OPTION>
                             <OPTION VALUE="bathrooms">'.__('Bathrooms',$this->localizationDomain).'</OPTION>
                             <OPTION VALUE="proptype">'.__('Rental Type',$this->localizationDomain).'</OPTION>
-                            <OPTION VALUE="pets">'.__('Pets Allowed',$this->localizationDomain).'</OPTION>
                             <OPTION VALUE="min_daily_rate">'.__('Daily Rate',$this->localizationDomain).'</OPTION>
                             <OPTION VALUE="min_weekly_rate">'.__('Weekly Rate',$this->localizationDomain).'</OPTION>
                             <OPTION VALUE="min_monthly_rate">'.__('Monthly Rate',$this->localizationDomain).'</OPTION>

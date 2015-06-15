@@ -151,11 +151,13 @@ else
 }
 $single_property.= '</p></center>';
 
-$single_property.= '<div id="lodgix_property_description"><p><h2>' . __('Property Description', $this->localizationDomain) . '</h2></p>' . str_replace(array(
-    "\r\n",
-    "\n",
-    "\r"
-) , '<br />', $property->description_long) . '</div>';
+if ($property->description_long) {
+    $single_property.= '<div id="lodgix_property_description"><p><h2>' . __('Property Description', $this->localizationDomain) . '</h2></p>' . str_replace(array(
+        "\r\n",
+        "\n",
+        "\r"
+    ) , '<br />', $property->description_long) . '</div>';
+}
 $single_property.= '<div id="lodgix_property_details"><p><h2>' . __('Property Details', $this->localizationDomain) . '</h2></p>' . str_replace(array(
     "\r\n",
     "\n",

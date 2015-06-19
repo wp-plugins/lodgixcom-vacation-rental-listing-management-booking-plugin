@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.7.8
+Version: 1.7.9
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.7.9: Added HTTPS Gallery option
 v1.7.8: Removed property description header when empty
 v1.7.7: Changed Book Now button CSS
 v1.7.6: Fixed property link CSS
@@ -1224,6 +1225,7 @@ if (!class_exists('p_lodgix')) {
                                         'p_lodgix_vr_meta_description' => NULL,
                                         'p_lodgix_vr_meta_keywords' => NULL,
                                         'p_lodgix_full_size_thumbnails' => false,
+                                        'p_lodgix_use_ssl_pictures' => false,
                                         'p_lodgix_featured_select_all' => false,
                                         'p_lodgix_custom_page_template' => '',
                                         'p_lodgix_page_template' => '',
@@ -1294,6 +1296,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_page_template' => '',
                                   'p_lodgix_thesis_2_template' => '',                              
                                   'p_lodgix_full_size_thumbnails' => false,
+                                  'p_lodgix_use_ssl_pictures' => false,
                                   'p_lodgix_featured_select_all' => false,
                                   'p_lodgix_gmap_zoom_level' => 0
                                 );
@@ -1601,6 +1604,11 @@ if (!class_exists('p_lodgix')) {
                 
                 $photo['URL'] = str_replace('http://www.lodgix.com','http://pictures.lodgix.com',$photo['URL']);
                 $photo['ThumbnailURL'] = str_replace('http://www.lodgix.com','http://pictures.lodgix.com',$photo['ThumbnailURL']);
+
+                if ($this->options['p_lodgix_use_ssl_pictures']) {
+                    $photo['URL'] = str_replace('http://pictures.lodgix.com', 'https://d2ern41v4fpcqm.cloudfront.net', $photo['URL']);
+                    $photo['ThumbnailURL'] = str_replace('http://pictures.lodgix.com', 'https://d2ern41v4fpcqm.cloudfront.net', $photo['ThumbnailURL']);
+                }
                 
                 if ($pos == 1)
                 {
@@ -4203,7 +4211,11 @@ if (!class_exists('p_lodgix')) {
                     $this->options['p_lodgix_full_size_thumbnails'] = true;
                 else
                     $this->options['p_lodgix_full_size_thumbnails'] = false;                      
-                    
+
+                if ($_POST['p_lodgix_use_ssl_pictures'] == "1")
+                    $this->options['p_lodgix_use_ssl_pictures'] = true;
+                else
+                    $this->options['p_lodgix_use_ssl_pictures'] = false;                                          
           
                 if ($_POST['p_lodgix_display_daily_rates'] == "1")
                     $this->options['p_lodgix_display_daily_rates'] = true;

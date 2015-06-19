@@ -92,6 +92,8 @@ vacation rental website in a couple hours.
 
 
 == Changelog ==
+= 1.7.9 =
+Added HTTPS Gallery option
 = 1.7.8 =
 Removed property description header when empty
 = 1.7.7 =

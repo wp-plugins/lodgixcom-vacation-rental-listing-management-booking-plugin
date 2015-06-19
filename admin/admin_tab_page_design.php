@@ -32,7 +32,18 @@
                 <option <?php if ($this->options['p_lodgix_full_size_thumbnails'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
         </td>
-    </tr>				
+    </tr>
+    <tr valign="top">
+        <th width="33%" scope="row">
+            <?php _e('HTTPS Gallery:', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_use_ssl_pictures"  id="p_lodgix_use_ssl_pictures" >                              
+                <option <?php if ($this->options['p_lodgix_use_ssl_pictures'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_use_ssl_pictures'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>			
 </table><br>                    
 
 <p><b><?php _e('Theme Options', $this->localizationDomain); ?></b></p>

@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.8.0
+Version: 1.8.1
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.8.1: Fixed special case boooking URL - Part 2
 v1.8.0: Fixed special case boooking URL
 v1.7.9: Added HTTPS Gallery option
 v1.7.8: Removed property description header when empty
@@ -2237,7 +2238,7 @@ if (!class_exists('p_lodgix')) {
                 if ($counter == 0) {
                     $old_area = $property->area;
                 }
-    
+
                 if (is_array($available_after_rules))
                 {
                     foreach($available_after_rules as $pk)
@@ -2663,9 +2664,11 @@ if (!class_exists('p_lodgix')) {
                         } elseif ($owner_id == 13) {
                             $owner_id = 'demo_booking_calendar';
                         }
-                                            $matches = Array();
-                                            preg_match('/([0-9])+/i', $owner_id ,$matches);
-                                            $owner_id=$matches[0];
+                        else {
+                            $matches = Array();
+                            preg_match('/([0-9])+/i', $owner_id ,$matches);
+                            $owner_id=$matches[0];
+                        }
                                             
                         $property->booklink = 'http://www.lodgix.com/' . $owner_id . '/?selected_reservations=' . $property->id . ',' . $bookdates . '&adult=1&children=0&gift=&discount=&tax=&external=1';
                         $property->really_available = true;

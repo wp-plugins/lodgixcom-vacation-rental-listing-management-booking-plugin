@@ -26,9 +26,11 @@ if ($property->pets) $pets = "display:none;";
 $smoking = "";
 if ($property->smoking) $smoking = "display:none;";
 $mail_icon = '';
-if ($this->options['p_lodgix_contact_url'] != "")
+
+$contact_var_name = 'p_lodgix_contact_url_' . $this->sufix;
+if ($this->options[$contact_var_name] != "")
 {
-    $mail_url = $this->options['p_lodgix_contact_url'];
+    $mail_url = $this->options[$contact_var_name];
     if (strpos($mail_url, '__PROPERTY__') != false)
     {
         $mail_url = str_replace('__PROPERTY__', $property->description, $mail_url);

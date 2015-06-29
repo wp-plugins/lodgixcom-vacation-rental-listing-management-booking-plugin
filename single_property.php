@@ -31,7 +31,7 @@ if ($property->pets) $pets = "display:none;";
 $smoking = "";
 if ($property->smoking) $smoking = "display:none;";
 $mail_icon = '';
-$contact_var_name = $contact_var_name;
+
 $contact_var_name = 'p_lodgix_contact_url_' . $this->sufix;
 if ($this->options[$contact_var_name] != "")
 {

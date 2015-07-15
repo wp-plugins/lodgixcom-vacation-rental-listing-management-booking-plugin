@@ -99,9 +99,9 @@ if ($property->really_available && $property->allow_booking)
 }
 else
 {
-    $booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('select','2')";
-    $booklink = '<div class="ldgxBookNow"><a href="javascript:void(0);" onclick="' . $booklink . '"
->' . __('Book Now', $this->localizationDomain) . '</a></div>';
+//    $booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('select','2')";
+//    $booklink = '<div class="ldgxBookNow"><a href="javascript:void(0);" onclick="' . $booklink . '"
+//>' . __('Book Now', $this->localizationDomain) . '</a></div>';
 }
 $single_property.= '<div id="content_lodgix_wrapper">';
 $single_property.= '

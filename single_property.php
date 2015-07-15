@@ -68,7 +68,7 @@ if ($property->really_available && $property->allow_booking)
 }
 else
 {
-    $booklink = '<div class="ldgxBookNow ldgxBookNowSingle"><a href="#booking">' . __('Book Now', $this->localizationDomain) . '</a></div>';
+    //$booklink = '<div class="ldgxBookNow ldgxBookNowSingle"><a href="#booking">' . __('Book Now', $this->localizationDomain) . '</a></div>';
 }
 $single_property.= '<div id="content_lodgix_wrapper">';
 $single_property.= '

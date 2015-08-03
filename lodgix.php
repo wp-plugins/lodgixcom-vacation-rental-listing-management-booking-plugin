@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.8.3
+Version: 1.8.4
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.8.4: Changed plugin filenames
 v1.8.3: Removed Book Now button when online booking not available
 v1.8.2: Fixed tabbed interface contact link
 v1.8.1: Fixed special case boooking URL - Part 2
@@ -238,10 +239,10 @@ define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 global $p_lodgix_db_version;
 $p_lodgix_db_version = "2.6";
 
-require_once('functions.php');
-require_once('translator.php');
-require_once('request.php');
-include_once dirname( __FILE__ ) . '/widgets.php';
+require_once('lodgix_functions.php');
+require_once('lodgix_translator.php');
+require_once('lodgix_request.php');
+include_once dirname( __FILE__ ) . '/lodgix_widgets.php';
 
 add_action( 'activated_plugin', 'p_lodgix_reorder_plugins' );
 
@@ -940,9 +941,9 @@ if (!class_exists('p_lodgix')) {
                         $template = TEMPLATEPATH . '/' . $this->options['p_lodgix_page_template'];                    
                     }
                     
-                if (file_exists($template)) {        		 	
-                include($template);       
-                die();           
+                    if (file_exists($template)) {        		 	
+                        include($template);       
+                        die();           
                     }       		
                 }
                 else

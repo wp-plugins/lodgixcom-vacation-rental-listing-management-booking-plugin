@@ -38,14 +38,13 @@ if (!class_exists('LogidxHTTPRequest')) {
             if($this->_uri == '')
                 $this->_uri = '/';
         }
-       
-        // constructor
-        function LogidxHTTPRequest($url)
+
+        public function __construct($url)
         {
             $this->_url = $url;
             $this->_scan_url();
         }
-     
+
         function RawResponse()
         {
             $crlf = "\r\n";

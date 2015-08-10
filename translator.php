@@ -7,9 +7,8 @@ if (!class_exists('LodgixTranslator'))
 	{
 	
 		var $key = NULL;
-		
-		// constructor
-        function LodgixTranslator($key)
+
+		public function __construct($key)
         {
             $this->$key = $key;
         }		

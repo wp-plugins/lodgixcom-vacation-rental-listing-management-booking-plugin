@@ -7,13 +7,12 @@ if (!class_exists('LodgixTranslator'))
 	{
 	
 		var $key = NULL;
-		
-		// constructor
-        function LodgixTranslator($key)
+
+		public function __construct($key)
         {
             $this->$key = $key;
         }		
-	
+
 		function translate($from,$to,$text) {
 			$data = 'https://api.datamarket.azure.com/Bing/MicrosoftTranslator/v1/Translate?Text=%27'.$text.'%27&From=%27'.$from.'%27&To=%27'.$to.'%27';
 			$ch = curl_init($data);

@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.8.5
+Version: 1.8.6
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.8.6: Fixed duplicated amenities
 v1.8.5: Prepared for Wordpress 4.3
 v1.8.4: Changed plugin filenames
 v1.8.3: Removed Book Now button when online booking not available
@@ -238,7 +239,7 @@ v1.0.0: Initial release
 define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "2.6";
+$p_lodgix_db_version = "2.7";
 
 require_once('lodgix_functions.php');
 require_once('lodgix_translator.php');
@@ -3478,7 +3479,8 @@ if (!class_exists('p_lodgix')) {
               `id` int(10) NOT NULL auto_increment,
               `property_id` int(11) NOT NULL,
               `description` varchar(255) NOT NULL,
-              PRIMARY KEY  (`id`)
+               PRIMARY KEY  (`id`),
+               UNIQUE KEY `property_id` (`property_id`,`description`)
              ) DEFAULT CHARSET=utf8;";      
              $wpdb->query($sql);
             }     
@@ -3962,6 +3964,10 @@ if (!class_exists('p_lodgix')) {
             if ($old_db_version < 2.6) {       
                 $this->options['p_lodgix_gmap_zoom_level'] = 0;
                 $this->saveAdminOptions();
+            }
+
+            if ($old_db_version < 2.7) {       
+                $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_amenities ADD UNIQUE `property_id`(`property_id`, `description`)");                
             }
         }               
           
@@ -4565,7 +4571,7 @@ if (!class_exists('p_lodgix')) {
             global $p_lodgix_db_version;
             global $wpdb;
         
-
+            
             $this->p_lodgix_build();
               
             if (get_option('p_lodgix_db_version'))

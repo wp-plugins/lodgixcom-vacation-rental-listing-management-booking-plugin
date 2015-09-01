@@ -85,7 +85,7 @@ if ($this->options['p_lodgix_display_monthly_rates']) {
     $vacation_rentals .= '<li id="lodgix_monthly_rates"><strong>' . __('Monthly Rate', $this->localizationDomain) . ':</strong> ' . $low_monthly_rate . ' - ' . $high_monthly_rate . '</li>';
 }
 
-$vacation_rentals .= '<li id="lodgix_bedrooms"><strong>' . __('Bedrooms', $this->localizationDomain) . ':</strong> ' . $property->bedrooms . '</li>';
+$vacation_rentals .= '<li id="lodgix_bedrooms"><strong>' . __('Bedrooms', $this->localizationDomain) . ':</strong> ' . $bedrooms . '</li>';
 
 if ($property->area) {
     $vacation_rentals .= '

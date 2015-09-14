@@ -51,42 +51,54 @@ $vacation_rentals = '
 </div>
 <div class="ldgxListingSeparator"></div>
 <table class="ldgxFeats">
-<tr>
-<th width="70" altwidth="40" alt="Beds" class="ldgxListingFeatCell">' . __('Bedrooms', $this->localizationDomain) . '</th>
-<td class="ldgxListingFeatCell">' . $bedrooms . '</td>
-</tr>
-<tr>
-<th width="70" altwidth="40" alt="Baths" class="ldgxListingFeatCell">' . __('Bathrooms', $this->localizationDomain) . '</th>
-<td class="ldgxListingFeatCell">' . $property->bathrooms . '</td>
-</tr>
-<tr>
-<th width="80" altwidth="40" alt="Type" class="ldgxListingFeatCell">' . __('Rental Type', $this->localizationDomain) . '</th>
-<td class="ldgxListingFeatCell">' . $property->proptype . '</td>
-</tr>
-<tr class="ldgxListingFeatCellPets">
-<th width="80" altwidth="40" alt="Pets" class="ldgxListingFeatCell">' . __('Pet Friendly', $this->localizationDomain) . '?</th>
-<td class="ldgxListingFeatCell"><div class="ldgxPets' . ($property->pets == 1 ? __('Yes', $this->localizationDomain) : __('No', $this->localizationDomain)) . '"></div></td>
-</tr>
 ';
 
+if (!array_key_exists('p_lodgix_display_search_bedrooms', $this->options) || $this->options['p_lodgix_display_search_bedrooms']) {
+    $vacation_rentals .= '<tr class="ldgxListingFeatCellBeds">
+    <th width="70" altwidth="40" alt="Beds" class="ldgxListingFeatCell ldgxListingFeatCellHeader">' . __('Bedrooms', $this->localizationDomain) . '</th>
+    <td class="ldgxListingFeatCell ldgxListingFeatCellContent">' . $bedrooms . '</td>
+    </tr>';
+}
+
+if (!array_key_exists('p_lodgix_display_search_bathrooms', $this->options) || $this->options['p_lodgix_display_search_bathrooms']) {
+    $vacation_rentals .= '<tr class="ldgxListingFeatCellBaths">
+    <th width="70" altwidth="40" alt="Baths" class="ldgxListingFeatCell ldgxListingFeatCellHeader">' . __('Bathrooms', $this->localizationDomain) . '</th>
+    <td class="ldgxListingFeatCell ldgxListingFeatCellContent">' . $property->bathrooms . '</td>
+    </tr>';
+}
+
+if (!array_key_exists('p_lodgix_display_search_type', $this->options) || $this->options['p_lodgix_display_search_type']) {
+    $vacation_rentals .= '<tr class="ldgxListingFeatCellType">
+    <th width="80" altwidth="40" alt="Type" class="ldgxListingFeatCell ldgxListingFeatCellHeader">' . __('Rental Type', $this->localizationDomain) . '</th>
+    <td class="ldgxListingFeatCell ldgxListingFeatCellContent">' . $property->proptype . '</td>
+    </tr>';
+}
+
+if (!array_key_exists('p_lodgix_display_search_pets', $this->options) || $this->options['p_lodgix_display_search_pets']) {
+    $vacation_rentals .= '<tr class="ldgxListingFeatCellPets">
+    <th width="80" altwidth="40" alt="Pets" class="ldgxListingFeatCell ldgxListingFeatCellHeader">' . __('Pet Friendly', $this->localizationDomain) . '?</th>
+    <td class="ldgxListingFeatCell ldgxListingFeatCellContent"><div class="ldgxPets' . ($property->pets == 1 ? __('Yes', $this->localizationDomain) : __('No', $this->localizationDomain)) . '"></div></td>
+    </tr>';
+}
+
 if ($this->options['p_lodgix_display_daily_rates']) {
-    $vacation_rentals .=  '<tr>
-    <th width="80" altwidth="80" alt="Daily" class="ldgxListingFeatCell ldgxListingFeatDaily">' . __('Daily Rate', $this->localizationDomain) . '</th>
-    <td class="ldgxListingFeatCell ldgxListingFeatDaily">' . $low_daily_rate . ' - ' . $high_daily_rate . '</td>
+    $vacation_rentals .=  '<tr class="ldgxListingFeatCellDaily">
+    <th width="80" altwidth="80" alt="Daily" class="ldgxListingFeatCell ldgxListingFeatCellHeader ldgxListingFeatDaily">' . __('Daily Rate', $this->localizationDomain) . '</th>
+    <td class="ldgxListingFeatCell ldgxListingFeatCellContent ldgxListingFeatDaily">' . $low_daily_rate . ' - ' . $high_daily_rate . '</td>
     </tr>';        
 }
 
 if ($this->options['p_lodgix_display_weekly_rates']) {
-    $vacation_rentals .=  '<tr>
-<th width="100" altwidth="100" alt="Weekly" class="ldgxListingFeatCell ldgxListingFeatWeekly">' . __('Weekly Rate', $this->localizationDomain) . '</th>
-<td class="ldgxListingFeatCell ldgxListingFeatWeekly">' . $low_weekly_rate . ' - ' . $high_weekly_rate . '</td>
+    $vacation_rentals .=  '<tr class="ldgxListingFeatCellWeekly">
+<th width="100" altwidth="100" alt="Weekly" class="ldgxListingFeatCell ldgxListingFeatCellHeader ldgxListingFeatWeekly">' . __('Weekly Rate', $this->localizationDomain) . '</th>
+<td class="ldgxListingFeatCell ldgxListingFeatCellContent ldgxListingFeatWeekly">' . $low_weekly_rate . ' - ' . $high_weekly_rate . '</td>
 </tr>';        
 }
 
 if ($this->options['p_lodgix_display_monthly_rates']) {
-    $vacation_rentals .=  '<tr>
-<th width="100" altwidth="100" alt="Monthly" class="ldgxListingFeatCell ldgxListingFeatMonthly">' . __('Monthly Rate', $this->localizationDomain) . '</th>
-<td class="ldgxListingFeatCell ldgxListingFeatMonthly">' . $low_monthly_rate . ' - ' . $high_monthly_rate . '</td>
+    $vacation_rentals .=  '<tr class="ldgxListingFeatCellMonthly">
+<th width="100" altwidth="100" alt="Monthly" class="ldgxListingFeatCell ldgxListingFeatCellHeader ldgxListingFeatMonthly">' . __('Monthly Rate', $this->localizationDomain) . '</th>
+<td class="ldgxListingFeatCell ldgxListingFeatCellContent ldgxListingFeatMonthly">' . $low_monthly_rate . ' - ' . $high_monthly_rate . '</td>
 </tr>';        
 }
 

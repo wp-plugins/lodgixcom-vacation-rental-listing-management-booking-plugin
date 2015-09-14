@@ -1,17 +1,61 @@
 
 <table width="100%" class="form-table lodgix_options_table"> 
-    <tr valign="top"> 
+    <tr valign="top">
+        <th scope="row">
+            <?php _e('Display "Bedrooms" in search results?:', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_display_search_bedrooms"  id="p_lodgix_display_search_bedrooms" >
+                <option <?php if (!array_key_exists('p_lodgix_display_search_bedrooms', $this->options) || $this->options['p_lodgix_display_search_bedrooms'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if (array_key_exists('p_lodgix_display_search_bedrooms', $this->options) && $this->options['p_lodgix_display_search_bedrooms'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row">
+            <?php _e('Display "Bathrooms" in search results?:', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_display_search_bathrooms"  id="p_lodgix_display_search_bathrooms" >
+                <option <?php if (!array_key_exists('p_lodgix_display_search_bathrooms', $this->options) || $this->options['p_lodgix_display_search_bathrooms'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if (array_key_exists('p_lodgix_display_search_bathrooms', $this->options) && $this->options['p_lodgix_display_search_bathrooms'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row">
+            <?php _e('Display "Rental Type" in search results?:', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_display_search_type"  id="p_lodgix_display_search_type" >
+                <option <?php if (!array_key_exists('p_lodgix_display_search_type', $this->options) || $this->options['p_lodgix_display_search_type'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if (array_key_exists('p_lodgix_display_search_type', $this->options) && $this->options['p_lodgix_display_search_type'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row">
+            <?php _e('Display "Pets" in search results?:', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_display_search_pets"  id="p_lodgix_display_search_pets" >
+                <option <?php if (!array_key_exists('p_lodgix_display_search_pets', $this->options) || $this->options['p_lodgix_display_search_pets'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if (array_key_exists('p_lodgix_display_search_pets', $this->options) && $this->options['p_lodgix_display_search_pets'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>
+    <tr valign="top">
         <th scope="row">
             <?php _e('Display daily rates on property pages?:', $this->localizationDomain); ?>
-        </th> 
+        </th>
         <td>
-            <select name="p_lodgix_display_daily_rates"  id="p_lodgix_display_daily_rates" >                              
+            <select name="p_lodgix_display_daily_rates"  id="p_lodgix_display_daily_rates" >
                 <option <?php if ($this->options['p_lodgix_display_daily_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
                 <option <?php if ($this->options['p_lodgix_display_daily_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
-        </td> 
+        </td>
     </tr>
-    <tr valign="top"> 
+    <tr valign="top">
         <th scope="row">
             <?php _e('Display weekly rates on property pages?:', $this->localizationDomain); ?>
         </th> 
@@ -33,9 +77,20 @@
             </select>
         </td> 
     </tr>
-    <tr valign="top"> 
+    <tr valign="top">
         <th scope="row">
-            <?php _e('Display Google Map, Contact Us & Details Icons on Search / Sort Page?:', $this->localizationDomain); ?>
+            <?php _e('Display Availability Icon in search results?:', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_display_availability_icon"  id="p_lodgix_display_availability_icon" >
+                <option <?php if ($this->options['p_lodgix_display_availability_icon'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_availability_icon'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row">
+            <?php _e('Display Google Map, Contact Us & Details Icons in search results?:', $this->localizationDomain); ?>
         </th> 
         <td>
             <select name="p_lodgix_display_icons"  id="p_lodgix_display_icons" >                              
@@ -75,18 +130,7 @@
             </select>
         </td> 
     </tr>     
-    <tr valign="top"> 
-        <th scope="row">
-            <?php _e('Display Availability Icon on Search / Sort Page?:', $this->localizationDomain); ?>
-        </th> 
-        <td>
-            <select name="p_lodgix_display_availability_icon"  id="p_lodgix_display_availability_icon" >                              
-                <option <?php if ($this->options['p_lodgix_display_availability_icon'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                <option <?php if ($this->options['p_lodgix_display_availability_icon'] == 0) echo "SELECTED"; ?> value='0'>No</option>
-            </select>
-       </td> 
-    </tr>                                        
-    <tr valign="top"> 
+    <tr valign="top">
         <th scope="row">
             <?php _e('Property Name:', $this->localizationDomain); ?>
         </th> 

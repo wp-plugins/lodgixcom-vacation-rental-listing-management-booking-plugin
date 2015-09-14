@@ -38,7 +38,9 @@ $.widget("ui.LodgixResponsiveTable", {
 		this._totalWidth = 0;
 		var totalAltWidth = 0;
 		var cellWidth = 0;
-		var trs = $('tr', this.element);
+		var trs = $('tr', this.element).filter(function() {
+			return $(this).css('display') !== 'none';
+		});
 		var len = trs.length;
 		var r, row, tr, td;
 		for (r = 0; r < len; r++) {

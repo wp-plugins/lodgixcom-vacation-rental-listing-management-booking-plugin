@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 1.8.8
+Version: 1.8.9
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v1.8.9: Added CSS classes to customize search results page. Added new Display Options to customize search results page.
 v1.8.8: Fixed bedroom type studio
 v1.8.7: Fixed amenity order
 v1.8.6: Fixed duplicated amenities
@@ -1191,6 +1192,7 @@ if (!class_exists('p_lodgix')) {
                                         'p_lodgix_api_key'=> NULL,
                                         'p_lodgix_allow_comments' => false,
                                         'p_lodgix_allow_pingback' => false,
+                                        'p_lodgix_display_search_bedrooms' => true,
                                         'p_lodgix_display_daily_rates' => true,
                                         'p_lodgix_display_weekly_rates' => true,
                                         'p_lodgix_display_monthly_rates' => true,
@@ -1261,6 +1263,7 @@ if (!class_exists('p_lodgix')) {
                                   'p_lodgix_search_rentals_page_de' => NULL,                            
                                   'p_lodgix_allow_comments' => false,
                                   'p_lodgix_allow_pingback' => false,
+                                  'p_lodgix_display_search_bedrooms' => true,
                                   'p_lodgix_display_daily_rates' => true,
                                   'p_lodgix_display_featured_horizontally' => 0,
                                   'p_lodgix_display_icons' => false,
@@ -4228,11 +4231,31 @@ if (!class_exists('p_lodgix')) {
                 else
                     $this->options['p_lodgix_use_ssl_pictures'] = false;                                          
           
+                if ($_POST['p_lodgix_display_search_bedrooms'] == "1")
+                    $this->options['p_lodgix_display_search_bedrooms'] = true;
+                else
+                    $this->options['p_lodgix_display_search_bedrooms'] = false;
+    
+                if ($_POST['p_lodgix_display_search_bathrooms'] == "1")
+                    $this->options['p_lodgix_display_search_bathrooms'] = true;
+                else
+                    $this->options['p_lodgix_display_search_bathrooms'] = false;
+
+                if ($_POST['p_lodgix_display_search_type'] == "1")
+                    $this->options['p_lodgix_display_search_type'] = true;
+                else
+                    $this->options['p_lodgix_display_search_type'] = false;
+
+                if ($_POST['p_lodgix_display_search_pets'] == "1")
+                    $this->options['p_lodgix_display_search_pets'] = true;
+                else
+                    $this->options['p_lodgix_display_search_pets'] = false;
+
                 if ($_POST['p_lodgix_display_daily_rates'] == "1")
                     $this->options['p_lodgix_display_daily_rates'] = true;
                 else
                     $this->options['p_lodgix_display_daily_rates'] = false;
-    
+
                 if ($_POST['p_lodgix_display_weekly_rates'] == "1")
                     $this->options['p_lodgix_display_weekly_rates'] = true;
                 else

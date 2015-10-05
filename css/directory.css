@@ -1352,8 +1352,10 @@ td.merged_rates_table-span {
 
 .ldgxRentalSearchDatepickerTrigger {
     position: absolute;
-    right: 0.3em;
-    top: 0.3em;
+    right: 0.25em;
+    top: 0.25em;
+    margin-top: inherit;
+    height: 1em;
 }
 
 .ldgxRentalSearchResultsTooltip .lxtContainer {

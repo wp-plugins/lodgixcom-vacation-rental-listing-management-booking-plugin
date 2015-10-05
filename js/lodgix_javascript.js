@@ -269,13 +269,13 @@ jQueryLodgix(document).ready(function(){
         "bAutoWidth": true
     });
 
-            
-    jQuery('#p_lodgix_thesis_compatibility').change(function(){
+
+    jQueryLodgix('#p_lodgix_thesis_compatibility').change(function(){
         jQueryLodgix('#p_lodgix_thesis_2_compatibility').val("0");
         set_thesis_2_theme_enabled(); 	  	
     });
 
-    jQuery('#p_lodgix_thesis_2_compatibility').change(function(){
+    jQueryLodgix('#p_lodgix_thesis_2_compatibility').change(function(){
         jQueryLodgix('#p_lodgix_thesis_compatibility').val("0");     	  	
         set_thesis_2_theme_enabled();
     });

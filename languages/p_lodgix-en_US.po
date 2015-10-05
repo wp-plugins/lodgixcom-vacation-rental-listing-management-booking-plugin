@@ -24,6 +24,12 @@ msgstr ""
 msgid "Bedrooms"
 msgstr ""
 
+msgid "bedroom"
+msgstr ""
+
+msgid "bedrooms"
+msgstr ""
+
 msgid "Bathroom"
 msgstr ""
 
@@ -298,10 +304,19 @@ msgstr ""
 msgid "Search by Property Name or ID"
 msgstr ""
 
+msgid "Property Name or ID"
+msgstr ""
+
 msgid "Arriving"
 msgstr ""
 
 msgid "Nights"
+msgstr ""
+
+msgid "night"
+msgstr ""
+
+msgid "nights"
 msgstr ""
 
 msgid "All Areas"

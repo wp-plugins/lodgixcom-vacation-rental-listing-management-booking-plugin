@@ -5,9 +5,7 @@ div#content_lodgix {
     min-height: 530px !important;
     height: auto;
     color: #000000;
-    font-family: Verdana, Tahoma, Arial;
-    font: Tahoma, Verdana, Arial;
-    font-size: 11px;
+    font: 11px Tahoma, Verdana, Arial;
     #background-color: #FFFFFF;
     #border-bottom: 1px solid #fff;
     width: 100%;
@@ -46,7 +44,7 @@ div#lodgix_property_description {
 }
 div#lodgix_property_description h2 {
     margin-bottom: 10px;
-    border-bottom: 3px dotted #FF0000;
+    border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
 div#property_policies {
@@ -66,7 +64,7 @@ div#lodgix_photo table tr td {
 }
 div#property_policies h2 {
     margin-bottom: 10px;
-    border-bottom: 3px dotted #FF0000;
+    border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
 div#lodgix_property_booking {
@@ -74,7 +72,7 @@ div#lodgix_property_booking {
 }
 div#lodgix_property_booking h2#booking {
     margin-bottom: 10px;
-    border-bottom: 3px dotted #FF0000;
+    border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
 div#lodgix_property_location {
@@ -82,7 +80,7 @@ div#lodgix_property_location {
 }
 div#lodgix_property_location h2 {
     margin-bottom: 20px;
-    border-bottom: 3px dotted #FF0000;
+    border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
 div#lodgix_photo {
@@ -90,7 +88,7 @@ div#lodgix_photo {
 }
 div#lodgix_photo h2 {
     margin-bottom: 10px;
-    border-bottom: 3px dotted #FF0000;
+    border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
 div#lodgix_property_details {
@@ -98,7 +96,7 @@ div#lodgix_property_details {
 }
 div#lodgix_property_details h2 {
     margin-bottom: 10px;
-    border-bottom: 3px dotted #FF0000;
+    border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
 div#lodgix_property_amenities {
@@ -108,7 +106,7 @@ div#lodgix_property_amenities {
 }
 div#lodgix_property_amenities h2 {
     margin-bottom: 10px;
-    border-bottom: 3px dotted #FF0000;
+    border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
 div#lodgix_property_rates {
@@ -116,7 +114,7 @@ div#lodgix_property_rates {
 }
 div#lodgix_property_rates h2 {
     margin-bottom: 10px;
-    border-bottom: 3px dotted #FF0000;
+    border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
 div#lodgix_property_reviews {
@@ -124,7 +122,7 @@ div#lodgix_property_reviews {
 }
 div#lodgix_property_reviews h2 {
     margin-bottom: 10px;
-    border-bottom: 3px dotted #FF0000;
+    border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
 #content_lodgix {
@@ -139,10 +137,20 @@ div#lodgix_property_reviews h2 {
     -webkit-box-shadow: 0 0 8px 2px #ccc;
     box-shadow: 2px 2px 8px 0 #666;
 }
+
 .ldgxListingImg {
     float: left;
     margin-right: 7px;
 }
+
+.ldgxListingFullSizeImg {
+    text-align: center;
+}
+
+.ldgxListingFullSizeImg img {
+    max-width: 100%;
+}
+
 .ldgxListingName {
     padding-left: 7px;
     background: #eee;
@@ -156,11 +164,6 @@ div#lodgix_property_reviews h2 {
 .ldgxListingBody {
     background: #f7f7f7;
     font: 12px Verdana, sans-serif;
-}
-.ldgxListingWarn {
-    margin-top: 14px;
-    text-align: justify;
-    color: #666;
 }
 .ldgxListingDesc {
     font: 14px "Maven Pro", sans-serif;
@@ -213,14 +216,61 @@ div#lodgix_property_reviews h2 {
 .ldgxListingFeatMonthly {
     background: #c2c2c2;
 }
-.ldgxPetsNo {
-    background: url("../images/pets_friendly_no.gif") no-repeat scroll center center transparent;
+
+.ldgxPetsYes, .ldgxPetsNo {
     height: 33px;
+    background: transparent no-repeat scroll 50% 50%;
+    background-size: 25px;
 }
-.ldgxPetsYes {
-    background: url("../images/pets_friendly_yes.gif") no-repeat scroll center center transparent;
-    height: 33px;
+.ldgxPetsYesOld {
+    background-image: url(icons/old/pets.gif);
 }
+.ldgxPetsNoOld {
+    background-image: url(icons/old/pets-no.gif);
+}
+.ldgxPetsYesCircle {
+    background-image: url(icons/circle/pets.png);
+}
+.ldgxPetsNoCircle {
+    background-image: url(icons/circle/pets-no.png);
+}
+.ldgxPetsYesFilled {
+    background-image: url(icons/filled/pets.png);
+}
+.ldgxPetsNoFilled {
+    background-image: url(icons/filled/pets-no.png);
+}
+.ldgxPetsYesGradientColor {
+    background-image: url(icons/gradient-color/pets.png);
+}
+.ldgxPetsNoGradientColor {
+    background-image: url(icons/gradient-color/pets-no.png);
+}
+.ldgxPetsYesGradientGray {
+    background-image: url(icons/gradient-gray/pets.png);
+}
+.ldgxPetsNoGradientGray {
+    background-image: url(icons/gradient-gray/pets-no.png);
+}
+.ldgxPetsYesOutlined {
+    background-image: url(icons/outlined/pets.png);
+}
+.ldgxPetsNoOutlined {
+    background-image: url(icons/outlined/pets-no.png);
+}
+.ldgxPetsYesSquaredColor {
+    background-image: url(icons/squared-color/pets.png);
+}
+.ldgxPetsNoSquaredColor {
+    background-image: url(icons/squared-color/pets-no.png);
+}
+.ldgxPetsYesSquaredGray {
+    background-image: url(icons/squared-gray/pets.png);
+}
+.ldgxPetsNoSquaredGray {
+    background-image: url(icons/squared-gray/pets-no.png);
+}
+
 .ldgxListingButs {
     text-align: center;
 }
@@ -302,24 +352,11 @@ ul.amenities li {
     white-space: nowrap;
     padding-left: 4px;
 }
-table.lodgix_gallery {
-    width: 100%;
-}
-table.lodgix_gallery tr td {
-    padding-top: 7px;
-    text-align: center;
-    width: 289px;
-}
-table.lodgix_gallery tr td a img {
-    border: 0 none;
-}
-box-shadow: 3px 3px 5px #999;
-}
+
 /********** FEATURED LISTINGS **************/
 
 .lodgix-featured-properties {
     width: auto;
-    margin-left: 21px;
 }
 .lodgix-featured-properties .lodgix-featured-listing {
     width: 210px;
@@ -475,6 +512,9 @@ box-shadow: 3px 3px 5px #999;
     font-size: 12px;
     color: #000;
 }
+.ldgxPropBadgeRoomsSeparator:before {
+    content: '|';
+}
 .ldgxPropBadgeRates {
     float: right;
     white-space: nowrap;
@@ -499,369 +539,7 @@ box-shadow: 3px 3px 5px #999;
     margin: 5px 0;
     height: 1px;
 }
-/*
- * FancyBox - jQueryLodgix Plugin
- * Simple and fancy lightbox alternative
- *
- * Examples and documentation at: http:/fancybox.net
- *
- * Copyright (c) 2008 - 2010 Janis Skarnelis
- * That said, it is hardly a one-person project. Many people have submitted bugs, code, and offered their advice freely. Their support is greatly appreciated.
- *
- * Version: 1.3.4 (11/11/2010)
- * Requires: jQueryLodgix v1.3+
- *
- * Dual licensed under the MIT and GPL licenses:
- *   http:/www.opensource.org/licenses/mit-license.php
- *   http:/www.gnu.org/licenses/gpl.html
-*/
 
-#fancybox-loading {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 40px;
-    height: 40px;
-    margin-top: -20px;
-    margin-left: -20px;
-    cursor: pointer;
-    overflow: hidden;
-    z-index: 1104;
-    display: none;
-}
-#fancybox-loading div {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 40px;
-    height: 480px;
-    background-image: url("../gallery/fancybox.png");
-}
-#fancybox-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1100;
-    display: none;
-}
-#fancybox-tmp {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    overflow: auto;
-    display: none;
-}
-#fancybox-wrap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 20px;
-    z-index: 1101;
-    outline: none;
-    display: none;
-}
-#fancybox-outer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: #fff;
-}
-#fancybox-content {
-    width: 0;
-    height: 0;
-    padding: 0;
-    outline: none;
-    position: relative;
-    overflow: hidden;
-    z-index: 1102;
-    border: 0px solid #fff;
-}
-#fancybox-hide-sel-frame {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    z-index: 1101;
-}
-#fancybox-close {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    width: 30px;
-    height: 30px;
-    background: transparent url("../gallery/fancybox.png") -40px 0px;
-    cursor: pointer;
-    z-index: 1103;
-    display: none;
-}
-#fancybox-error {
-    color: #444;
-    font: normal 12px/20px Arial;
-    padding: 14px;
-    margin: 0;
-}
-#fancybox-img {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    border: none;
-    outline: none;
-    line-height: 0;
-    vertical-align: top;
-}
-#fancybox-frame {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-}
-#fancybox-left,
-#fancybox-right {
-    position: absolute;
-    bottom: 0px;
-    height: 100%;
-    width: 35%;
-    cursor: pointer;
-    outline: none;
-    background: transparent url("blank.gif");
-    z-index: 1102;
-    display: none;
-}
-#fancybox-left {
-    left: 0px;
-}
-#fancybox-right {
-    right: 0px;
-}
-#fancybox-left-ico,
-#fancybox-right-ico {
-    position: absolute;
-    top: 50%;
-    left: -9999px;
-    width: 30px;
-    height: 30px;
-    margin-top: -15px;
-    cursor: pointer;
-    z-index: 1102;
-    display: block;
-}
-#fancybox-left-ico {
-    background-image: url("../gallery/fancybox.png");
-    background-position: -40px -30px;
-}
-#fancybox-right-ico {
-    background-image: url("../gallery/fancybox.png");
-    background-position: -40px -60px;
-}
-#fancybox-left:hover,
-#fancybox-right:hover {
-    visibility: visible;
-    /* IE6 */
-}
-#fancybox-left:hover span {
-    left: 20px;
-}
-#fancybox-right:hover span {
-    left: auto;
-    right: 20px;
-}
-.fancybox-bg {
-    position: absolute;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    width: 20px;
-    height: 20px;
-    z-index: 1001;
-}
-#fancybox-bg-n {
-    top: -20px;
-    left: 0;
-    width: 100%;
-    background-image: url("../gallery/fancybox-x.png");
-}
-#fancybox-bg-ne {
-    top: -20px;
-    right: -20px;
-    background-image: url("../gallery/fancybox.png");
-    background-position: -40px -162px;
-}
-#fancybox-bg-e {
-    top: 0;
-    right: -20px;
-    height: 100%;
-    background-image: url("../gallery/fancybox-y.png");
-    background-position: -20px 0px;
-}
-#fancybox-bg-se {
-    bottom: -20px;
-    right: -20px;
-    background-image: url("../gallery/fancybox.png");
-    background-position: -40px -182px;
-}
-#fancybox-bg-s {
-    bottom: -20px;
-    left: 0;
-    width: 100%;
-    background-image: url("../gallery/fancybox-x.png");
-    background-position: 0px -20px;
-}
-#fancybox-bg-sw {
-    bottom: -20px;
-    left: -20px;
-    background-image: url("../gallery/fancybox.png");
-    background-position: -40px -142px;
-}
-#fancybox-bg-w {
-    top: 0;
-    left: -20px;
-    height: 100%;
-    background-image: url("../gallery/fancybox-y.png");
-}
-#fancybox-bg-nw {
-    top: -20px;
-    left: -20px;
-    background-image: url("../gallery/fancybox.png");
-    background-position: -40px -122px;
-}
-#fancybox-title {
-    font-family: Helvetica;
-    font-size: 12px;
-    z-index: 1102;
-}
-.fancybox-title-inside {
-    padding-bottom: 10px;
-    text-align: center;
-    color: #333;
-    background: #fff;
-    position: relative;
-}
-.fancybox-title-outside {
-    padding-top: 10px;
-    color: #fff;
-}
-.fancybox-title-over {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    color: #FFF;
-    text-align: left;
-}
-#fancybox-title-over {
-    padding: 10px;
-    background-image: url("../gallery/fancy_title_over.png");
-    display: block;
-}
-.fancybox-title-float {
-    position: absolute;
-    left: 0;
-    bottom: -20px;
-    height: 32px;
-}
-#fancybox-title-float-wrap {
-    border: none;
-    border-collapse: collapse;
-    width: auto;
-}
-#fancybox-title-float-wrap td {
-    border: none;
-    white-space: nowrap;
-}
-#fancybox-title-float-left {
-    padding: 0 0 0 15px;
-    background: url("../gallery/fancybox.png") -40px -90px no-repeat;
-}
-#fancybox-title-float-main {
-    color: #FFF;
-    line-height: 29px;
-    font-weight: bold;
-    padding: 0 0 3px 0;
-    background: url("../gallery/fancybox-x.png") 0px -40px;
-}
-#fancybox-title-float-right {
-    padding: 0 0 0 15px;
-    background: url("../gallery/fancybox.png") -55px -90px no-repeat;
-}
-/* IE6 */
-
-.fancybox-ie6 #fancybox-close {
-    background: transparent;
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_close.png", sizingMethod="scale");
-}
-.fancybox-ie6 #fancybox-left-ico {
-    background: transparent;
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_nav_left.png", sizingMethod="scale");
-}
-.fancybox-ie6 #fancybox-right-ico {
-    background: transparent;
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_nav_right.png", sizingMethod="scale");
-}
-.fancybox-ie6 #fancybox-title-over {
-    background: transparent;
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_title_over.png", sizingMethod="scale");
-    zoom: 1;
-}
-.fancybox-ie6 #fancybox-title-float-left {
-    background: transparent;
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_title_left.png", sizingMethod="scale");
-}
-.fancybox-ie6 #fancybox-title-float-main {
-    background: transparent;
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_title_main.png", sizingMethod="scale");
-}
-.fancybox-ie6 #fancybox-title-float-right {
-    background: transparent;
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_title_right.png", sizingMethod="scale");
-}
-.fancybox-ie6 #fancybox-bg-w,
-.fancybox-ie6 #fancybox-bg-e,
-.fancybox-ie6 #fancybox-left,
-.fancybox-ie6 #fancybox-right,
-#fancybox-hide-sel-frame {
-    height: expression(this.parentNode.clientHeight + "px");
-}
-#fancybox-loading.fancybox-ie6 {
-    position: absolute;
-    margin-top: 0;
-    top: expression( (-20 + (document.documentElement.clientHeight ? document.documentElement.clientHeight/2: document.body.clientHeight/2) + ( ignoreMe document.documentElement.scrollTop ? document.documentElement.scrollTop: document.body.scrollTop)) + "px");
-}
-#fancybox-loading.fancybox-ie6 div {
-    background: transparent;
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_loading.png", sizingMethod="scale");
-}
-/* IE6, IE7, IE8 */
-
-.fancybox-ie .fancybox-bg {
-    background: transparent !important;
-}
-.fancybox-ie #fancybox-bg-n {
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_shadow_n.png", sizingMethod="scale");
-}
-.fancybox-ie #fancybox-bg-ne {
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_shadow_ne.png", sizingMethod="scale");
-}
-.fancybox-ie #fancybox-bg-e {
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_shadow_e.png", sizingMethod="scale");
-}
-.fancybox-ie #fancybox-bg-se {
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_shadow_se.png", sizingMethod="scale");
-}
-.fancybox-ie #fancybox-bg-s {
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_shadow_s.png", sizingMethod="scale");
-}
-.fancybox-ie #fancybox-bg-sw {
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_shadow_sw.png", sizingMethod="scale");
-}
-.fancybox-ie #fancybox-bg-w {
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_shadow_w.png", sizingMethod="scale");
-}
-.fancybox-ie #fancybox-bg-nw {
-    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src="../gallery/fancy_shadow_nw.png", sizingMethod="scale");
-}
 #cee_closeBtn {
     background-image: url(../images/cee-close-btn.png);
 }
@@ -1142,26 +820,6 @@ box-shadow: 3px 3px 5px #999;
     color: #575757;
     font-family: arial, sans-serif;
 }
-#lodgix-image-gallery {
-    background: none repeat scroll 0 0 #F5F5F5;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-#lodgix-image-gallery.royalSlider .royalControlNavOverflow a.royalThumb {
-    background-size: 100px 75px;
-}
-#lodgix-image-gallery .royalCaption {
-    position: absolute;
-    left: 50%;
-    bottom: 5%;
-    margin-left: -185px;
-    width: 370px;
-    background-color: grey;
-    color: #fff;
-    font-weight: bold;
-    text-align: center;
-    opacity: 0.8;
-    overflow: hidden;
-}
 .merged_rates_table .lodgix_dates {
     padding-left: 5px;
     min-width: 115px;
@@ -1327,59 +985,200 @@ td.merged_rates_table-span {
     text-decoration: none;
     display: inline-block;
 }
-.lodgix_map_icon {
-    background: url("../images/map_50.png") no-repeat scroll center center transparent;
+
+.ldgxButton {
+    display: inline-block;
     width: 50px;
     height: 50px;
+    background: transparent no-repeat scroll 50% 50%;
+    background-size: 50px;
     text-decoration: none;
-    display: inline-block;
 }
-.lodgix_email_icon {
-    background: url("../images/mail_50.png") no-repeat scroll center center transparent;
-    width: 50px;
-    height: 50px;
-    background-size: 50px 50px;
-    text-decoration: none;
-    display: inline-block;
+.ldgxButtonSmall {
+    width: 25px;
+    height: 25px;
+    background-size: 25px;
 }
-.lodgix_view_icon {
-    background: url("../images/kappfinder_50.png") no-repeat scroll center center transparent;
-    width: 50px;
-    height: 50px;
-    text-decoration: none;
-    display: inline-block;
+
+.ldgxButtonMapOld {
+    background-image: url(icons/old/map.png);
 }
-.lodgix_video_icon {
-    background: url("../images/video_icon.png") no-repeat scroll center center transparent;
-    width: 50px;
-    height: 50px;
-    text-decoration: none;
-    display: inline-block;
+.ldgxButtonMapCircle {
+    background-image: url(icons/circle/map.png);
 }
-.lodgix_virtual_tour_icon {
-    background: url("../images/virtual_tour.png") no-repeat scroll center center transparent;
-    width: 50px;
-    height: 50px;
-    background-size: 50px 50px;
-    text-decoration: none;
-    display: inline-block;
+.ldgxButtonMapFilled {
+    background-image: url(icons/filled/map.png);
 }
-#lodgix_no_pets_icon {
-    background: url("../images/no_pets.png") no-repeat scroll center center transparent;
-    width: 50px;
-    height: 50px;
-    background-size: 50px 50px;
-    text-decoration: none;
-    display: inline-block;
+.ldgxButtonMapGradientColor {
+    background-image: url(icons/gradient-color/map.png);
 }
-#lodgix_no_smoke_icon {
-    background: url("../images/no_smoke.png") no-repeat scroll center center transparent;
-    width: 50px;
-    height: 50px;
-    background-size: 50px 50px;
-    text-decoration: none;
-    display: inline-block;
+.ldgxButtonMapGradientGray {
+    background-image: url(icons/gradient-gray/map.png);
 }
+.ldgxButtonMapOutlined {
+    background-image: url(icons/outlined/map.png);
+}
+.ldgxButtonMapSquaredColor {
+    background-image: url(icons/squared-color/map.png);
+}
+.ldgxButtonMapSquaredGray {
+    background-image: url(icons/squared-gray/map.png);
+}
+
+.ldgxButtonMailOld {
+    background-image: url(icons/old/mail.png);
+}
+.ldgxButtonMailCircle {
+    background-image: url(icons/circle/mail.png);
+}
+.ldgxButtonMailFilled {
+    background-image: url(icons/filled/mail.png);
+}
+.ldgxButtonMailGradientColor {
+    background-image: url(icons/gradient-color/mail.png);
+}
+.ldgxButtonMailGradientGray {
+    background-image: url(icons/gradient-gray/mail.png);
+}
+.ldgxButtonMailOutlined {
+    background-image: url(icons/outlined/mail.png);
+}
+.ldgxButtonMailSquaredColor {
+    background-image: url(icons/squared-color/mail.png);
+}
+.ldgxButtonMailSquaredGray {
+    background-image: url(icons/squared-gray/mail.png);
+}
+
+.ldgxButtonVideoOld {
+    background-image: url(icons/old/video.png);
+}
+.ldgxButtonVideoCircle {
+    background-image: url(icons/circle/video.png);
+}
+.ldgxButtonVideoFilled {
+    background-image: url(icons/filled/video.png);
+}
+.ldgxButtonVideoGradientColor {
+    background-image: url(icons/gradient-color/video.png);
+}
+.ldgxButtonVideoGradientGray {
+    background-image: url(icons/gradient-gray/video.png);
+}
+.ldgxButtonVideoOutlined {
+    background-image: url(icons/outlined/video.png);
+}
+.ldgxButtonVideoSquaredColor {
+    background-image: url(icons/squared-color/video.png);
+}
+.ldgxButtonVideoSquaredGray {
+    background-image: url(icons/squared-gray/video.png);
+}
+
+.ldgxButtonTourOld {
+    background-image: url(icons/old/tour.png);
+}
+.ldgxButtonTourCircle {
+    background-image: url(icons/circle/tour.png);
+}
+.ldgxButtonTourFilled {
+    background-image: url(icons/filled/tour.png);
+}
+.ldgxButtonTourGradientColor {
+    background-image: url(icons/gradient-color/tour.png);
+}
+.ldgxButtonTourGradientGray {
+    background-image: url(icons/gradient-gray/tour.png);
+}
+.ldgxButtonTourOutlined {
+    background-image: url(icons/outlined/tour.png);
+}
+.ldgxButtonTourSquaredColor {
+    background-image: url(icons/squared-color/tour.png);
+}
+.ldgxButtonTourSquaredGray {
+    background-image: url(icons/squared-gray/tour.png);
+}
+
+.ldgxButtonPetsNoOld {
+    background-image: url(icons/old/pets-no.png);
+}
+.ldgxButtonPetsNoCircle {
+    background-image: url(icons/circle/pets-no.png);
+}
+.ldgxButtonPetsNoFilled {
+    background-image: url(icons/filled/pets-no.png);
+}
+.ldgxButtonPetsNoGradientColor {
+    background-image: url(icons/gradient-color/pets-no.png);
+}
+.ldgxButtonPetsNoGradientGray {
+    background-image: url(icons/gradient-gray/pets-no.png);
+}
+.ldgxButtonPetsNoOutlined {
+    background-image: url(icons/outlined/pets-no.png);
+}
+.ldgxButtonPetsNoSquaredColor {
+    background-image: url(icons/squared-color/pets-no.png);
+}
+.ldgxButtonPetsNoSquaredGray {
+    background-image: url(icons/squared-gray/pets-no.png);
+}
+
+.ldgxButtonSmokeNoOld {
+    background-image: url(icons/old/smoke-no.png);
+}
+.ldgxButtonSmokeNoCircle {
+    background-image: url(icons/circle/smoke-no.png);
+}
+.ldgxButtonSmokeNoFilled {
+    background-image: url(icons/filled/smoke-no.png);
+}
+.ldgxButtonSmokeNoGradientColor {
+    background-image: url(icons/gradient-color/smoke-no.png);
+}
+.ldgxButtonSmokeNoGradientGray {
+    background-image: url(icons/gradient-gray/smoke-no.png);
+}
+.ldgxButtonSmokeNoOutlined {
+    background-image: url(icons/outlined/smoke-no.png);
+}
+.ldgxButtonSmokeNoSquaredColor {
+    background-image: url(icons/squared-color/smoke-no.png);
+}
+.ldgxButtonSmokeNoSquaredGray {
+    background-image: url(icons/squared-gray/smoke-no.png);
+}
+
+.ldgxButtonReviewOld {
+    background-image: url(icons/old/review.png);
+}
+.ldgxButtonReviewCircle {
+    background-image: url(icons/circle/review.png);
+}
+.ldgxButtonReviewFilled {
+    background-image: url(icons/filled/review.png);
+}
+.ldgxButtonReviewGradientColor {
+    background-image: url(icons/gradient-color/review.png);
+}
+.ldgxButtonReviewGradientGray {
+    background-image: url(icons/gradient-gray/review.png);
+}
+.ldgxButtonReviewOutlined {
+    background-image: url(icons/outlined/review.png);
+}
+.ldgxButtonReviewSquaredColor {
+    background-image: url(icons/squared-color/review.png);
+}
+.ldgxButtonReviewSquaredGray {
+    background-image: url(icons/squared-gray/review.png);
+}
+
+.ldgxButtonReview {
+    vertical-align: middle;
+}
+
 #lodgix_vc_content_grid a {
     color: #bc4339;
     font-family: Verdana, Tahoma, Arial;
@@ -1474,4 +1273,199 @@ td.merged_rates_table-span {
 .ldgxBookNow a:hover {
   text-decoration: none;
     color: #ffffff;
-}  
+}
+
+.ldgxPropertySingleWrapper .ldgxPropertyBlock {
+    margin: 30px 0;
+}
+
+.ldgxReviewBlock {
+    margin: 20px 0;
+    border-bottom: 1px solid #eee;
+    padding: 0 0 20px 0;
+}
+
+.ldgxReviewDateBlock {
+    color: #999;
+}
+
+.ldgxStar {
+    font-style: normal;
+    color: #31BFED;
+}
+
+.ldgxStar:before {
+    content: '\2605';
+}
+
+.ldgxReviewName {
+    font-weight: bold;
+    color: #555;
+}
+
+.ldgxReviewTextBlock {
+    margin: 5px 0 0 0;
+    font-family: Verdana, Tahoma, Arial;
+}
+
+.ldgxReviewDateBlock {
+    margin: 7px 0 0 0;
+}
+
+.ldgxSliderWrapper {
+    overflow: auto;
+    margin: 20px auto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.ldgxSlider {
+    width: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.ldgxSlider .rsGCaption {
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-weight: bold;
+}
+
+.ldgxSlider .rsGCaption:empty {
+    display: none;
+}
+
+.ldgxSlider .rsThumb {
+    border: 1px solid #eee;
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+.ldgxRentalSearchWidget {
+    margin: 0;
+    padding: 0 0.1em;
+}
+
+.ldgxRentalSearchDivArrival {
+    position: relative;
+}
+
+.ldgxRentalSearchDatepickerTrigger {
+    position: absolute;
+    right: 0.3em;
+    top: 0.3em;
+}
+
+.ldgxRentalSearchResultsTooltip .lxtContainer {
+    padding: 4px;
+}
+
+.ldgxRentalSearchResultsTooltip .lxtClose {
+    display: none;
+}
+
+.ldgxRentalSearchWidget .ldgxRentalSearchDiv {
+    margin: 0.5em 0;
+    padding: 0 0.1em;
+}
+
+.ldgxRentalSearchWidget .ldgxRentalSearchDiv div {
+    margin: 0;
+}
+
+.ldgxRentalSearchWidget .ldgxRentalSearchDiv input,
+.ldgxRentalSearchWidget .ldgxRentalSearchDiv select,
+.ldgxRentalSearchWidget .ldgxRentalSearchDiv button,
+.ldgxRentalSearchWidget .ldgxRentalSearchDiv label
+{
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: 1.5em;
+    vertical-align: middle;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.ldgxRentalSearchWidget .ldgxRentalSearchDiv input[type="text"],
+.ldgxRentalSearchWidget .ldgxRentalSearchDiv button
+{
+    border-width: thin;
+    border-radius: 3px;
+    padding: 0 0.5em;
+}
+
+.ldgxRentalSearchWidgetVertical {
+    max-width: 312px;
+}
+
+.ldgxRentalSearchWidgetVertical .ldgxRentalSearchDiv {
+    display: block;
+}
+
+.ldgxRentalSearchWidgetVertical .ldgxRentalSearchDiv input[type="text"],
+.ldgxRentalSearchWidgetVertical .ldgxRentalSearchDiv select,
+.ldgxRentalSearchWidgetVertical .ldgxRentalSearchDiv button
+{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ldgxRentalSearchWidgetHorizontal .ldgxRentalSearchDiv {
+    display: inline-block;
+}
+
+.ldgxRentalSearchWidgetHorizontal .ldgxRentalSearchDivArrival input {
+    width: 7em;
+}
+
+.ldgxRentalSearchWidgetHorizontal .ldgxRentalSearchDiv .ldgxRentalSearchAmenity {
+    display: inline-block;
+    padding: 0 0.2em;
+}
+
+.ldgxRentalSearchWidgetHorizontal .ldgxRentalSearchDivId input {
+    width: 10em;
+}
+
+@-moz-keyframes ldgxRainbow {
+    from { background-position:top left; }
+    to {background-position:top right; }
+}
+@-webkit-keyframes ldgxRainbow {
+    from { background-position:top left; }
+    to { background-position:top right; }
+}
+@-o-keyframes ldgxRainbow {
+    from { background-position:top left; }
+    to { background-position:top right; }
+}
+@-ms-keyframes ldgxRainbow {
+    from { background-position:top left; }
+    to { background-position:top right; }
+}
+@-khtml-keyframes ldgxRainbow {
+    from { background-position:top left; }
+    to { background-position:top right; }
+}
+@keyframes ldgxRainbow {
+    from { background-position:top left; }
+    to { background-position:top right; }
+}
+.ldgxRainbowAnimation {
+    background-image: -webkit-linear-gradient(left, #EA4335, #FBBC05, #34A853, #4285F4, #34A853, #FBBC05, #EA4335);
+    background-image: -moz-linear-gradient(left, #EA4335, #FBBC05, #34A853, #4285F4, #34A853, #FBBC05, #EA4335);
+    background-image: -o-linear-gradient(left, #EA4335, #FBBC05, #34A853, #4285F4, #34A853, #FBBC05, #EA4335);
+    background-image: -ms-linear-gradient(left, #EA4335, #FBBC05, #34A853, #4285F4, #34A853, #FBBC05, #EA4335);
+    background-image: -khtml-linear-gradient(left, #EA4335, #FBBC05, #34A853, #4285F4, #34A853, #FBBC05, #EA4335);
+    background-image: linear-gradient(left, #EA4335, #FBBC05, #34A853, #4285F4, #34A853, #FBBC05, #EA4335);
+    -moz-animation: ldgxRainbow 2.5s forwards linear infinite;
+    -webkit-animation: ldgxRainbow 2.5s forwards linear infinite;
+    -o-animation: ldgxRainbow 2.5s forwards linear infinite;
+    -khtml-animation: ldgxRainbow 2.5s forwards linear infinite;
+    -ms-animation: ldgxRainbow 2.5s forwards linear infinite;
+    -lynx-animation: ldgxRainbow 2.5s forwards linear infinite;
+    animation: ldgxRainbow 2.5s forwards linear infinite;
+    background-size: 50% auto;
+}

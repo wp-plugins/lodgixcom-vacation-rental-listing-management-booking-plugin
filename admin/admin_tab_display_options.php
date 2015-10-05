@@ -1,85 +1,110 @@
+<p><b><?php _e('Vacation Rentals Page', $this->localizationDomain); ?></b></p>
+
+<table width="100%" cellspacing="2" cellpadding="5" class="form-table lodgix_options_table">
+    <tr valign="top">
+        <th width="33%" scope="row"><?php _e('Page Title:', $this->localizationDomain); ?></th>
+        <td>
+            <input name="p_lodgix_vr_title" type="text" id="p_lodgix_vr_title" value="<?php echo $this->options['p_lodgix_vr_title']; ?>" maxlength="70" />
+        </td>
+    </tr>
+    <tr valign="top">
+        <th width="33%" scope="row"><?php _e('Meta Description:', $this->localizationDomain); ?></th>
+        <td>
+            <textarea cols="55" name="p_lodgix_vr_meta_description" id="p_lodgix_vr_meta_description"><?php echo $this->options['p_lodgix_vr_meta_description']; ?></textarea>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th width="33%" scope="row"><?php _e('Meta Keywords:', $this->localizationDomain); ?></th>
+        <td>
+            <textarea cols="55" name="p_lodgix_vr_meta_keywords" id="p_lodgix_vr_meta_keywords"><?php echo $this->options['p_lodgix_vr_meta_keywords']; ?></textarea>
+        </td>
+    </tr>
+
+</table><br>
+
+<p><b><?php _e('Property Listing and Search Results', $this->localizationDomain); ?></b></p>
 
 <table width="100%" class="form-table lodgix_options_table"> 
     <tr valign="top">
         <th scope="row">
-            <?php _e('Display "Bedrooms" in search results?:', $this->localizationDomain); ?>
+            <?php _e('Display "Bedrooms"?', $this->localizationDomain); ?>
         </th>
         <td>
             <select name="p_lodgix_display_search_bedrooms"  id="p_lodgix_display_search_bedrooms" >
-                <option <?php if (!array_key_exists('p_lodgix_display_search_bedrooms', $this->options) || $this->options['p_lodgix_display_search_bedrooms'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                <option <?php if (array_key_exists('p_lodgix_display_search_bedrooms', $this->options) && $this->options['p_lodgix_display_search_bedrooms'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+                <option <?php if ($this->options['p_lodgix_display_search_bedrooms'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_search_bedrooms'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
         </td>
     </tr>
     <tr valign="top">
         <th scope="row">
-            <?php _e('Display "Bathrooms" in search results?:', $this->localizationDomain); ?>
+            <?php _e('Display "Bathrooms"?', $this->localizationDomain); ?>
         </th>
         <td>
             <select name="p_lodgix_display_search_bathrooms"  id="p_lodgix_display_search_bathrooms" >
-                <option <?php if (!array_key_exists('p_lodgix_display_search_bathrooms', $this->options) || $this->options['p_lodgix_display_search_bathrooms'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                <option <?php if (array_key_exists('p_lodgix_display_search_bathrooms', $this->options) && $this->options['p_lodgix_display_search_bathrooms'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+                <option <?php if ($this->options['p_lodgix_display_search_bathrooms'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_search_bathrooms'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
         </td>
     </tr>
     <tr valign="top">
         <th scope="row">
-            <?php _e('Display "Rental Type" in search results?:', $this->localizationDomain); ?>
+            <?php _e('Display "Rental Type"?', $this->localizationDomain); ?>
         </th>
         <td>
             <select name="p_lodgix_display_search_type"  id="p_lodgix_display_search_type" >
-                <option <?php if (!array_key_exists('p_lodgix_display_search_type', $this->options) || $this->options['p_lodgix_display_search_type'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                <option <?php if (array_key_exists('p_lodgix_display_search_type', $this->options) && $this->options['p_lodgix_display_search_type'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+                <option <?php if ($this->options['p_lodgix_display_search_type'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_search_type'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
         </td>
     </tr>
     <tr valign="top">
         <th scope="row">
-            <?php _e('Display "Pets" in search results?:', $this->localizationDomain); ?>
+            <?php _e('Display "Pets"?', $this->localizationDomain); ?>
         </th>
         <td>
             <select name="p_lodgix_display_search_pets"  id="p_lodgix_display_search_pets" >
-                <option <?php if (!array_key_exists('p_lodgix_display_search_pets', $this->options) || $this->options['p_lodgix_display_search_pets'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                <option <?php if (array_key_exists('p_lodgix_display_search_pets', $this->options) && $this->options['p_lodgix_display_search_pets'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+                <option <?php if ($this->options['p_lodgix_display_search_pets'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_search_pets'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
         </td>
     </tr>
     <tr valign="top">
         <th scope="row">
-            <?php _e('Display daily rates on property pages?:', $this->localizationDomain); ?>
+            <?php _e('Display daily rates?', $this->localizationDomain); ?>
         </th>
         <td>
-            <select name="p_lodgix_display_daily_rates"  id="p_lodgix_display_daily_rates" >
-                <option <?php if ($this->options['p_lodgix_display_daily_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                <option <?php if ($this->options['p_lodgix_display_daily_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            <select name="p_lodgix_display_search_daily_rates"  id="p_lodgix_display_search_daily_rates" >
+                <option <?php if ($this->options['p_lodgix_display_search_daily_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_search_daily_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
         </td>
     </tr>
     <tr valign="top">
         <th scope="row">
-            <?php _e('Display weekly rates on property pages?:', $this->localizationDomain); ?>
+            <?php _e('Display weekly rates?', $this->localizationDomain); ?>
         </th> 
         <td>
-            <select name="p_lodgix_display_weekly_rates"  id="p_lodgix_display_weekly_rates" >                              
-                <option <?php if ($this->options['p_lodgix_display_weekly_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                <option <?php if ($this->options['p_lodgix_display_weekly_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            <select name="p_lodgix_display_search_weekly_rates"  id="p_lodgix_display_search_weekly_rates" >
+                <option <?php if ($this->options['p_lodgix_display_search_weekly_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_search_weekly_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
         </td> 
     </tr>
     <tr valign="top"> 
         <th scope="row">
-            <?php _e('Display monthly rates on property pages?:', $this->localizationDomain); ?>
+            <?php _e('Display monthly rates?', $this->localizationDomain); ?>
         </th> 
         <td>
-            <select name="p_lodgix_display_monthly_rates"  id="p_lodgix_display_monthly_rates" >                              
-                <option <?php if ($this->options['p_lodgix_display_monthly_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
-                <option <?php if ($this->options['p_lodgix_display_monthly_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            <select name="p_lodgix_display_search_monthly_rates"  id="p_lodgix_display_search_monthly_rates" >
+                <option <?php if ($this->options['p_lodgix_display_search_monthly_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_search_monthly_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
             </select>
         </td> 
     </tr>
     <tr valign="top">
         <th scope="row">
-            <?php _e('Display Availability Icon in search results?:', $this->localizationDomain); ?>
+            <?php _e('Display Availability button?', $this->localizationDomain); ?>
         </th>
         <td>
             <select name="p_lodgix_display_availability_icon"  id="p_lodgix_display_availability_icon" >
@@ -90,7 +115,7 @@
     </tr>
     <tr valign="top">
         <th scope="row">
-            <?php _e('Display Google Map, Contact Us & Details Icons in search results?:', $this->localizationDomain); ?>
+            <?php _e('Display Google Map, Contact Us and Details icons?', $this->localizationDomain); ?>
         </th> 
         <td>
             <select name="p_lodgix_display_icons"  id="p_lodgix_display_icons" >                              
@@ -99,7 +124,56 @@
             </select>
         </td> 
     </tr>
-    <tr valign="top"> 
+</table><br>
+
+<p><b><?php _e('Properties', $this->localizationDomain); ?></b></p>
+
+<table width="100%" cellspacing="2" cellpadding="5" class="form-table lodgix_options_table">
+    <tr valign="top">
+        <th scope="row">
+            <?php _e('Display daily rates?', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_display_daily_rates"  id="p_lodgix_display_daily_rates" >
+                <option <?php if ($this->options['p_lodgix_display_daily_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_daily_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row">
+            <?php _e('Display weekly rates?', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_display_weekly_rates"  id="p_lodgix_display_weekly_rates" >
+                <option <?php if ($this->options['p_lodgix_display_weekly_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_weekly_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row">
+            <?php _e('Display monthly rates?', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_display_monthly_rates"  id="p_lodgix_display_monthly_rates" >
+                <option <?php if ($this->options['p_lodgix_display_monthly_rates'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_monthly_rates'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>
+    <tr valign="top">
+        <th scope="row">
+            <?php _e('Display beds in property details?', $this->localizationDomain); ?>
+        </th>
+        <td>
+            <select name="p_lodgix_display_beds"  id="p_lodgix_display_beds" >
+                <option <?php if ($this->options['p_lodgix_display_beds'] == 1) echo "SELECTED"; ?> value='1'>Yes</option>
+                <option <?php if ($this->options['p_lodgix_display_beds'] == 0) echo "SELECTED"; ?> value='0'>No</option>
+            </select>
+        </td>
+    </tr>
+    <tr valign="top">
         <th scope="row">
             <?php _e('Google Map zoom level:', $this->localizationDomain); ?>
         </th> 
@@ -143,7 +217,7 @@
     </tr>
     <tr valign="top"> 
         <th scope="row">
-            <?php _e('Display Instructions on Single Unit Calendar:', $this->localizationDomain); ?>
+            <?php _e('Display Instructions on Single Unit Calendar?', $this->localizationDomain); ?>
         </th> 
         <td>
             <select name="p_lodgix_display_single_instructions"  id="p_lodgix_display_single_instructions" >                              
@@ -154,7 +228,7 @@
     </tr>
     <tr valign="top"> 
         <th scope="row">
-            <?php _e('Display Instructions on Multi Unit Calendar:', $this->localizationDomain); ?>
+            <?php _e('Display Instructions on Multi Unit Calendar?', $this->localizationDomain); ?>
         </th> 
         <td>
             <select name="p_lodgix_display_multi_instructions"  id="p_lodgix_display_multi_instructions" >                              
@@ -175,10 +249,9 @@
             </select>
         </td>                                                                                                                           
     </tr>                                
-
-    <tr valign="top"> 
+    <tr valign="top">
         <th width="33%" scope="row">
-            <?php _e('Allow Comments:', $this->localizationDomain); ?>
+            <?php _e('Allow Comments?', $this->localizationDomain); ?>
         </th>
         <td>
             <select name="p_lodgix_allow_comments"  id="p_lodgix_allow_comments" >                              
@@ -189,7 +262,7 @@
     </tr>
     <tr valign="top"> 
         <th width="33%" scope="row">
-            <?php _e('Allow PingBacks:', $this->localizationDomain); ?>
+            <?php _e('Allow PingBacks?', $this->localizationDomain); ?>
         </th>
         <td>
             <select name="p_lodgix_allow_pingback"  id="p_lodgix_allow_pingback" >                              
@@ -199,31 +272,6 @@
       </td> 
     </tr>
 </table><br>
-
-
-<p><b><?php _e('Vacation Rentals Page', $this->localizationDomain); ?></b></p>
-
-<table width="100%" cellspacing="2" cellpadding="5" class="form-table lodgix_options_table"> 
-    <tr valign="top"> 
-        <th width="33%" scope="row"><?php _e('Page Title:', $this->localizationDomain); ?></th> 
-        <td>
-            <input name="p_lodgix_vr_title" type="text" id="p_lodgix_vr_title" value="<?php echo $this->options['p_lodgix_vr_title']; ?>" maxlength="70" />
-        </td> 
-    </tr>
-    <tr valign="top"> 
-        <th width="33%" scope="row"><?php _e('Meta Description:', $this->localizationDomain); ?></th> 
-        <td>
-            <textarea cols="55" name="p_lodgix_vr_meta_description" id="p_lodgix_vr_meta_description"><?php echo $this->options['p_lodgix_vr_meta_description']; ?></textarea>
-        </td> 
-    </tr>
-    <tr valign="top"> 
-        <th width="33%" scope="row"><?php _e('Meta Keywords:', $this->localizationDomain); ?></th> 
-        <td>
-            <textarea cols="55" name="p_lodgix_vr_meta_keywords" id="p_lodgix_vr_meta_keywords"><?php echo $this->options['p_lodgix_vr_meta_keywords']; ?></textarea>
-        </td> 
-    </tr>
-		
-</table><br>                    
 
 <p><b><?php _e('Contact Options', $this->localizationDomain); ?></b></p>
 

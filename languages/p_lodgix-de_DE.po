@@ -23,6 +23,12 @@ msgstr "Schlafzimmer"
 msgid "Bedrooms"
 msgstr "Schlafzimmer"
 
+msgid "bedroom"
+msgstr "schlafzimmer"
+
+msgid "bedrooms"
+msgstr "schlafzimmer"
+
 msgid "Bathroom"
 msgstr "Badezimmer"
 
@@ -299,11 +305,20 @@ msgstr "Haustiere"
 msgid "Search by Property Name or ID"
 msgstr "Suchen Sie nach Name oder ID"
 
+msgid "Property Name or ID"
+msgstr "Name oder ID"
+
 msgid "Arriving"
 msgstr "Anreise"
 
 msgid "Nights"
 msgstr "N&auml;chte"
+
+msgid "night"
+msgstr "n&auml;chte"
+
+msgid "nights"
+msgstr "n&auml;chte"
 
 msgid "All Areas"
 msgstr "Alle Bereiche"

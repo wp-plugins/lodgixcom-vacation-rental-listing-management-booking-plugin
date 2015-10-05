@@ -14,6 +14,7 @@
                             <li role="presentation" class="active"><a data-toggle="tab" href="#subscriber">General</a></li>
                             <li role="presentation"><a data-toggle="tab" href="#properties">Properties</a></li>
                             <li role="presentation"><a data-toggle="tab" href="#page_design" >Page Design</a></li>
+                            <li role="presentation"><a data-toggle="tab" href="#image_options">Image Options</a></li>
                             <li role="presentation"><a data-toggle="tab" href="#display_options">Display Options</a></li>
                             <li role="presentation"><a data-toggle="tab" href="#widget_options">Widget Options</a></li>
                         </ul>
@@ -32,6 +33,11 @@
                             <div role="tabpanel" class="tab-pane" id="page_design">
                                 <div class="lodgix_postbox">
                                     <?php require_once('admin/admin_tab_page_design.php'); ?>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="image_options">
+                                <div class="lodgix_postbox">
+                                    <?php require_once('admin/admin_tab_image_options.php'); ?>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="display_options">

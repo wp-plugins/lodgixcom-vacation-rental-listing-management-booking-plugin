@@ -1354,7 +1354,6 @@ td.merged_rates_table-span {
     position: absolute;
     right: 0.25em;
     top: 0.25em;
-    margin-top: inherit;
     height: 1em;
 }
 
@@ -1369,6 +1368,7 @@ td.merged_rates_table-span {
 .ldgxRentalSearchWidget .ldgxRentalSearchDiv {
     margin: 0.5em 0;
     padding: 0 0.1em;
+    line-height: normal;
 }
 
 .ldgxRentalSearchWidget .ldgxRentalSearchDiv div {

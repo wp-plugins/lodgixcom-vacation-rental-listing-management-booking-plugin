@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 2.0.4
+Version: 2.0.5
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v2.0.5: Added stars and title to reviews.
 v2.0.4: Fixed CSS for the new rental search widget.
 v2.0.3: Fixed CSS for the Arrival field in the new rental search widget.
 v2.0.2: Improved new rental search widget. Removed margin in featured rentals widget. Fixed bug with deposit and cancellation policies.
@@ -250,7 +251,7 @@ v1.0.0: Initial release
 define('LODGIX_LIKE_URL', 'http://www.lodgix.com');
 
 global $p_lodgix_db_version;
-$p_lodgix_db_version = "2.7";
+$p_lodgix_db_version = '2.8';
 
 require_once('lodgix_functions.php');
 require_once('lodgix_translator.php');
@@ -730,6 +731,11 @@ if (!class_exists('p_lodgix')) {
             return join('', $content);
         }
 
+        function firstWords($sentence, $count=10) {
+            preg_match("/(?:\w+(?:\W+|$)){0,$count}/", $sentence, $matches);
+            return trim($matches[0]);
+        }
+
         function p_get_lodgix_reviews($params) {
             global $wpdb;
 
@@ -746,10 +752,23 @@ if (!class_exists('p_lodgix')) {
             );
             if (count($reviews) >= 1) {
                 foreach ($reviews as $review) {
+                    $stars = $review->stars;
+                    if ($stars < 1 || $stars > 5) {
+                        $stars = 5;
+                    }
+                    $title = $review->title;
+                    if (!$title) {
+                        $title = $this->firstWords($review->description, 6);
+                    }
                     $content .=
-                        '<div class="ldgxReviewBlock"><div class="ldgxReviewDateBlock"><span class="ldgxButton ldgxButtonSmall ldgxButtonReview ldgxButtonReview'
+                        '<div class="ldgxReviewBlock"><div class="ldgxReviewDateBlock"><span class="ldgxReviewIcon ldgxButton ldgxButtonMedium ldgxButtonReview ldgxButtonReview'
                         . $this->ICON_SET_CLASS[$this->options['p_lodgix_icon_set']]
-                        . '"></span> <span class="ldgxReviewStars"><i class="ldgxStar"></i><i class="ldgxStar"></i><i class="ldgxStar"></i><i class="ldgxStar"></i><i class="ldgxStar"></i></span> <span class="ldgxReviewBy">by</span> <span class="ldgxReviewName">'
+                        . '"></span> <span class="ldgxReviewTitle">'
+                        . $title
+                        . '</span> <span class="ldgxReviewStars">'
+                        . str_repeat('<i class="ldgxStar"></i>', $stars)
+                        . str_repeat('<i class="ldgxStar ldgxStarGrey"></i>', 5 - $stars)
+                        . '</span> <span class="ldgxReviewBy">by</span> <span class="ldgxReviewName">'
                         . $review->name
                         . '</span> <span class="ldgxReviewDate">'
                         . $this->format_date($review->date)
@@ -2088,6 +2107,8 @@ if (!class_exists('p_lodgix')) {
                 $revarray['property_id'] = $parray['id'];
                 $revarray['date'] = $review['Date'];
                 $revarray['name'] = $review['Name'];
+                $revarray['stars'] = $review['Stars'];
+                $revarray['title'] = $review['Title'] ? $review['Title'] : '';
                 $revarray['description'] = $review['Description'];
                 $revarray['language_code'] = $review['LanguageCode'];                        
                 $sql = $this->get_insert_sql_from_array($this->reviews_table,$revarray);
@@ -2352,7 +2373,6 @@ if (!class_exists('p_lodgix')) {
             $counter = 0;
 
             if ($properties) {
-                $really_available = false;
                 foreach ($properties as $property) {
 
 
@@ -4028,7 +4048,11 @@ if (!class_exists('p_lodgix')) {
             if ($old_db_version < 2.7) {       
                 $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_amenities ADD UNIQUE `property_id`(`property_id`, `description`)");                
             }
-        }               
+
+            if ($old_db_version < 2.8) {
+                $wpdb->query("ALTER TABLE " . $wpdb->prefix . "lodgix_reviews ADD (stars INTEGER NOT NULL DEFAULT 5, title LONGTEXT NOT NULL DEFAULT '')");
+            }
+        }
 
         function getOwnerFetchUrl() {
             global $p_lodgix_db_version;

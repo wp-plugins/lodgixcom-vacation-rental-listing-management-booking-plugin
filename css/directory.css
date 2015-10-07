@@ -171,6 +171,12 @@ div#lodgix_property_reviews h2 {
     overflow-y: scroll;
     height: 110px;
 }
+@media (max-width: 767px) {
+    .ldgxListingDesc {
+        overflow-y: visible;
+        height: auto;
+    }
+}
 .lodgixTextExpanderWrapper {
     padding: 7px;
     min-height: 114px;
@@ -735,11 +741,13 @@ ul.amenities li {
     margin-bottom: -1px;
     margin-top: 1px;
 }
+
 /* TABBED */
 
 .ldgxTabs {
     display: none;
 }
+
 .ldgxMobileTab {
     clear: both;
     margin: 5px;
@@ -751,7 +759,8 @@ ul.amenities li {
     font-size: 16px;
     font-weight: bold;
 }
-@media only screen and (min-width: 40em) {
+
+@media only screen and (min-width: 1100px) {
     .ldgxTabs {
         display: block;
     }
@@ -759,13 +768,11 @@ ul.amenities li {
         display: none;
     }
 }
-@media (max-width: 767px) {
-    .ldgxListingDesc {
-        ;
-        overflow-y: visible;
-        height: auto;
-    }
+
+.ldgxTabbedContentBox .ldgxTabbedContent .ldgxTabs {
+    margin: 0;
 }
+
 #lodgix_tabbed_content {
     clear: both;
     font-family: arial, sans-serif;
@@ -994,6 +1001,11 @@ td.merged_rates_table-span {
     background-size: 50px;
     text-decoration: none;
 }
+.ldgxButtonMedium {
+    width: 36px;
+    height: 36px;
+    background-size: 36px;
+}
 .ldgxButtonSmall {
     width: 25px;
     height: 25px;
@@ -1175,10 +1187,6 @@ td.merged_rates_table-span {
     background-image: url(icons/squared-gray/review.png);
 }
 
-.ldgxButtonReview {
-    vertical-align: middle;
-}
-
 #lodgix_vc_content_grid a {
     color: #bc4339;
     font-family: Verdana, Tahoma, Arial;
@@ -1280,9 +1288,32 @@ td.merged_rates_table-span {
 }
 
 .ldgxReviewBlock {
-    margin: 20px 0;
+    margin: 1.5em 0;
     border-bottom: 1px solid #eee;
-    padding: 0 0 20px 0;
+    padding: 0 0 1.4em 0;
+    line-height: normal;
+}
+
+.ldgxReviewIcon {
+    display: block;
+    float: left;
+    margin: 0 0.5em 0 0;
+}
+
+.ldgxReviewTitle {
+    display: block;
+    margin: 0 0 0.5em 0;
+    font-size: 110%;
+    font-weight: bold;
+    color: #000;
+}
+
+.ldgxReviewTitle:before {
+    content: '\201C';
+}
+
+.ldgxReviewTitle:after {
+    content: '\201D';
 }
 
 .ldgxReviewDateBlock {
@@ -1298,18 +1329,23 @@ td.merged_rates_table-span {
     content: '\2605';
 }
 
+.ldgxStarGrey {
+    color: lightgrey;
+}
+
 .ldgxReviewName {
     font-weight: bold;
     color: #555;
 }
 
 .ldgxReviewTextBlock {
-    margin: 5px 0 0 0;
-    font-family: Verdana, Tahoma, Arial;
+    clear: left;
+    margin: 1em 0 0 0;
+    line-height: 1.8em;
 }
 
 .ldgxReviewDateBlock {
-    margin: 7px 0 0 0;
+    margin: 0.5em 0 0 0;
 }
 
 .ldgxSliderWrapper {

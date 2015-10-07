@@ -108,12 +108,9 @@ $high_monthly_rate = (int)$wpdb->get_var($wpdb->prepare("SELECT
 IFNULL(MAX(default_rate), 0) FROM " . $this->rates_table . " WHERE min_nights = 30 AND
 property_id = " . $property->id . ";", null));
 if ($property->really_available && $property->allow_booking) {
-    $booklink = $property->booklink;
-    $booklink = '<div class="ldgxBookNow"><a href="' . $booklink . '">' . __('Book Now', $this->localizationDomain) . '</a></div>';
+    $booklink = '<div class="ldgxBookNow"><a href="' . $property->booklink . '">' . __('Book Now', $this->localizationDomain) . '</a></div>';
 } else {
-//    $booklink = "javascript:jQueryLodgix('#lodgix_tabbed_content').tabs('select','2')";
-//    $booklink = '<div class="ldgxBookNow"><a href="javascript:void(0);" onclick="' . $booklink . '"
-//>' . __('Book Now', $this->localizationDomain) . '</a></div>';
+//    $booklink = '<div class="ldgxBookNow"><a href="javascript:void(0)" onclick="jQueryLodgix(\'#lodgix_tabbed_content\').tabs(\'select\',\'2\')">' . __('Book Now', $this->localizationDomain) . '</a></div>';
 }
 $single_property .= '
 
@@ -171,8 +168,8 @@ $single_property .= '
         });
     </script>
 
-    <div id="lodgix_tabbed_content_box">
-        <div id="lodgix_tabbed_content">
+    <div id="lodgix_tabbed_content_box" class="ldgxTabbedContentBox">
+        <div id="lodgix_tabbed_content" class="ldgxTabbedContent">
             <ul class="ldgxTabs">
                 <li id="lodgix_tabbed_details">
                     <a href="#lodgix_tabbed_content-1">' . __('Details', $this->localizationDomain) . '</a>

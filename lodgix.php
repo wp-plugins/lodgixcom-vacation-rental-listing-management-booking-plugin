@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 2.0.5
+Version: 2.0.6
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v2.0.6: Fixed bug in reviews.
 v2.0.5: Added stars and title to reviews.
 v2.0.4: Fixed CSS for the new rental search widget.
 v2.0.3: Fixed CSS for the Arrival field in the new rental search widget.
@@ -1231,72 +1232,72 @@ if (!class_exists('p_lodgix')) {
             
             $table_name = $wpdb->prefix . "lodgix_properties";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);     
             }      
             $table_name = $wpdb->prefix . "lodgix_lang_properties";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);     
             }            
             $table_name = $wpdb->prefix . "lodgix_amenities";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);
             }
             $table_name = $wpdb->prefix . "lodgix_pictures";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }            
             $table_name = $wpdb->prefix . "lodgix_rates";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }
             $table_name = $wpdb->prefix . "lodgix_rules";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }      
             $table_name = $wpdb->prefix . "lodgix_pages";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }      
             $table_name = $wpdb->prefix . "lodgix_lang_pages";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }                  
             $table_name = $wpdb->prefix . "lodgix_policies";    
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }                    
             $table_name = $wpdb->prefix . "lodgix_fees";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }          
             $table_name = $wpdb->prefix . "lodgix_taxes";
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }          
             $table_name = $wpdb->prefix . "lodgix_deposits";   
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }    
             $table_name = $wpdb->prefix . "lodgix_reviews";   
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }                   
             $table_name = $wpdb->prefix . "lodgix_link_rotators";   
             if($wpdb->get_var("show tables like '$table_name'") == $table_name) {
-             $sql = "DROP TABLE " . $table_name . ";"; 
+             $sql = "DROP TABLE IF EXISTS " . $table_name . ";"; 
              $wpdb->query($sql);      
             }                                    
             //$this->p_lodgix_build();
@@ -3753,6 +3754,8 @@ if (!class_exists('p_lodgix')) {
               `name` varchar(100) NOT NULL,
               `description` text NOT NULL,
               `language_code` varchar(2) NOT NULL,
+              `stars` INTEGER NOT NULL DEFAULT 5,
+              `title` LONGTEXT NOT NULL DEFAULT '',
               PRIMARY KEY  (`id`)
              ) DEFAULT CHARSET=utf8;";      
              $wpdb->query($sql);             

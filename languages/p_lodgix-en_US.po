@@ -1,0 +1,347 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lodgix\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2014-04-14 19:00-0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
+
+msgid "Sort Results by"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Bedroom"
+msgstr ""
+
+msgid "Bedrooms"
+msgstr ""
+
+msgid "bedroom"
+msgstr ""
+
+msgid "bedrooms"
+msgstr ""
+
+msgid "Bathroom"
+msgstr ""
+
+msgid "Bathrooms"
+msgstr ""
+
+msgid "Rental Type"
+msgstr ""
+
+msgid "Pets Allowed"
+msgstr ""
+
+msgid "Daily Rate"
+msgstr ""
+
+msgid "Weekly Rate"
+msgstr ""
+
+msgid "Monthly Rate"
+msgstr ""
+
+msgid "Balcony"
+msgstr ""
+
+msgid "Bed Linens"
+msgstr ""
+
+msgid "Bicycles"
+msgstr ""
+
+msgid "Bike Rentals"
+msgstr ""
+
+msgid "Biking"
+msgstr ""
+
+msgid "Blu-ray Player"
+msgstr ""
+
+msgid "Cable Television"
+msgstr ""
+
+msgid "Central A/C"
+msgstr ""
+
+msgid "Central Heat"
+msgstr ""
+
+msgid "Coffee Maker"
+msgstr ""
+
+msgid "Communal Pool"
+msgstr ""
+
+msgid "Cookware"
+msgstr ""
+
+msgid "Dishwasher"
+msgstr ""
+
+msgid "Dock"
+msgstr ""
+
+msgid "DVD"
+msgstr ""
+
+msgid "Fax"
+msgstr ""
+
+msgid "Fishing"
+msgstr ""
+
+msgid "Game Console"
+msgstr ""
+
+msgid "Gas Grill"
+msgstr ""
+
+msgid "Golfing"
+msgstr ""
+
+msgid "Hair Dryer"
+msgstr ""
+
+msgid "Handicap Accessible"
+msgstr ""
+
+msgid "Hi Speed Internet"
+msgstr ""
+
+msgid "Hiking"
+msgstr ""
+
+msgid "Iron"
+msgstr ""
+
+msgid "Kayak"
+msgstr ""
+
+msgid "Kitchen"
+msgstr ""
+
+msgid "Lakefront"
+msgstr ""
+
+msgid "Microwave"
+msgstr ""
+
+msgid "Oven"
+msgstr ""
+
+msgid "Parking"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Pool Baby Fence"
+msgstr ""
+
+msgid "Pool Heating: Electric"
+msgstr ""
+
+msgid "Pool Heating: Solar"
+msgstr ""
+
+msgid "Pool Heating: Solar and Electric"
+msgstr ""
+
+msgid "Premium Cable Channels"
+msgstr ""
+
+msgid "Restaurant"
+msgstr ""
+
+msgid "Saltwater Pool"
+msgstr ""
+
+msgid "Shopping"
+msgstr ""
+
+msgid "Shower"
+msgstr ""
+
+msgid "Spa"
+msgstr ""
+
+msgid "Swimming"
+msgstr ""
+
+msgid "Tennis"
+msgstr ""
+
+msgid "Towels"
+msgstr ""
+
+msgid "Volleyball"
+msgstr ""
+
+msgid "Washer and Dryer"
+msgstr ""
+
+msgid "Wireless Internet"
+msgstr ""
+
+msgid "Workout Facilities"
+msgstr ""
+
+msgid "This property has"
+msgstr ""
+
+msgid "Display Google Map"
+msgstr ""
+
+msgid "Book Now"
+msgstr ""
+
+msgid "Check Availability"
+msgstr ""
+
+msgid "Property Description"
+msgstr ""
+
+msgid "Details"
+msgstr ""
+
+msgid "Property Details"
+msgstr ""
+
+msgid "Amenities"
+msgstr ""
+
+msgid "Guest Reviews"
+msgstr ""
+
+msgid "Rates"
+msgstr ""
+
+msgid "Rate varies due to seasonality and holidays"
+msgstr ""
+
+msgid ""
+"Please select your dates on our online booking calendar for an exact quote"
+msgstr ""
+
+msgid "Taxes"
+msgstr ""
+
+msgid "One Time"
+msgstr ""
+
+msgid "Daily"
+msgstr ""
+
+msgid "Policies"
+msgstr ""
+
+msgid "Fees"
+msgstr ""
+
+msgid "Tax Exempt"
+msgstr ""
+
+msgid "Deposits"
+msgstr ""
+
+msgid "Availability &amp; Booking Calendar"
+msgstr ""
+
+msgid "Booking Calendar"
+msgstr ""
+
+msgid "per night"
+msgstr ""
+
+msgid "per month"
+msgstr ""
+
+msgid "Cancellation Policy"
+msgstr ""
+
+msgid "Deposit Policy"
+msgstr ""
+
+msgid "Property Location"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "Property Images"
+msgstr ""
+
+msgid "Online Booking Instructions"
+msgstr ""
+
+msgid "Reviews"
+msgstr ""
+
+msgid "Vacation Rentals"
+msgstr ""
+
+msgid "Availability"
+msgstr ""
+
+msgid "Search Rentals"
+msgstr ""
+
+msgid "Pet Friendly"
+msgstr ""
+
+msgid "Search by Property Name or ID"
+msgstr ""
+
+msgid "Property Name or ID"
+msgstr ""
+
+msgid "Arriving"
+msgstr ""
+
+msgid "Nights"
+msgstr ""
+
+msgid "night"
+msgstr ""
+
+msgid "nights"
+msgstr ""
+
+msgid "All Areas"
+msgstr ""
+
+msgid "Any"
+msgstr ""
+
+msgid "Studio"
+msgstr ""
+
+msgid "from"
+msgstr ""
+
+msgid " per /wk"
+msgstr ""
+
+msgid " per /nt"
+msgstr ""
+
+msgid "per week"
+msgstr ""
+
+msgid "Display Results"
+msgstr ""
+
+msgid "Properties Found"
+msgstr ""

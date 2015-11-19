@@ -1,0 +1,345 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Lodgix\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Bluetelligence LLC <bluetelligence@gmail.com>\n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.5\n"
+
+msgid "Sort Results by"
+msgstr "Ergebnisse sortieren nach"
+
+msgid "None"
+msgstr "Keine"
+
+msgid "Bedroom"
+msgstr "Schlafzimmer"
+
+msgid "Bedrooms"
+msgstr "Schlafzimmer"
+
+msgid "bedroom"
+msgstr "schlafzimmer"
+
+msgid "bedrooms"
+msgstr "schlafzimmer"
+
+msgid "Bathroom"
+msgstr "Badezimmer"
+
+msgid "Bathrooms"
+msgstr "Badezimmer"
+
+msgid "Rental Type"
+msgstr "Mietart"
+
+msgid "Pets Allowed"
+msgstr "Haustiere erlaubt"
+
+msgid "Daily Rate"
+msgstr "Tagespreis"
+
+msgid "Weekly Rate"
+msgstr "Wochenpreis"
+
+msgid "Monthly Rate"
+msgstr "Monatspreis"
+
+msgid "Balcony"
+msgstr "Balkon"
+
+msgid "Bed Linens"
+msgstr "Bettw&auml;sche"
+
+msgid "Bicycles"
+msgstr "Fahrr&auml;der"
+
+msgid "Bike Rentals"
+msgstr "Fahrrad Verleih"
+
+msgid "Biking"
+msgstr "Radfahren"
+
+msgid "Blu-ray Player"
+msgstr "Blu-ray Player"
+
+msgid "Cable Television"
+msgstr "Kabelfernsehen"
+
+msgid "Central A/C"
+msgstr "Zentrale Klimaanlage"
+
+msgid "Central Heat"
+msgstr "Zentralheizung"
+
+msgid "Coffee Maker"
+msgstr "Kaffeemaschine"
+
+msgid "Communal Pool"
+msgstr "&Ouml;ffentlicher Pool"
+
+msgid "Cookware"
+msgstr "Kochutensilien"
+
+msgid "Dishwasher"
+msgstr "Geschirrsp&uuml;lmaschine"
+
+msgid "Dock"
+msgstr "Bootsanleger"
+
+msgid "DVD"
+msgstr "DVD-Spieler"
+
+msgid "Fax"
+msgstr "Faxger&auml;t"
+
+msgid "Fishing"
+msgstr "Fischen und Angeln"
+
+msgid "Game Console"
+msgstr "Spielkonsole"
+
+msgid "Gas Grill"
+msgstr "Gasgrill"
+
+msgid "Golfing"
+msgstr "Golfen"
+
+msgid "Hair Dryer"
+msgstr "F&ouml;n"
+
+msgid "Handicap Accessible"
+msgstr "Behindertengerecht"
+
+msgid "Hi Speed Internet"
+msgstr "Schnelles Internet"
+
+msgid "Hiking"
+msgstr "Wandern"
+
+msgid "Iron"
+msgstr "B&uuml;geleisen"
+
+msgid "Kayak"
+msgstr "Kajak"
+
+msgid "Kitchen"
+msgstr "K&uuml;che"
+
+msgid "Lakefront"
+msgstr "See Lage"
+
+msgid "Microwave"
+msgstr "Mikrowelle"
+
+msgid "Oven"
+msgstr "Ofen"
+
+msgid "Parking"
+msgstr "Parkm&ouml;glichkeit"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Pool Baby Fence"
+msgstr "Pool Baby Zaun"
+
+msgid "Pool Heating: Electric"
+msgstr "Pool Heizung: Elektrisch"
+
+msgid "Pool Heating: Solar"
+msgstr "Pool Heizung: Solar"
+
+msgid "Pool Heating: Solar and Electric"
+msgstr "Pool Heizung: Solar und Elektrisch"
+
+msgid "Premium Cable Channels"
+msgstr "Premium TV Kabel Kan&auml;le"
+
+msgid "Restaurant"
+msgstr "Restaurant"
+
+msgid "Saltwater Pool"
+msgstr "Salzwasser Pool"
+
+msgid "Shopping"
+msgstr "Einkaufsm&ouml;glichkeiten"
+
+msgid "Shower"
+msgstr "Dusche"
+
+msgid "Spa"
+msgstr "Spa"
+
+msgid "Swimming"
+msgstr "Schwimmen"
+
+msgid "Tennis"
+msgstr "Tennis"
+
+msgid "Towels"
+msgstr "Bade- und Handt&uuml;cher"
+
+msgid "Volleyball"
+msgstr "Volleyball"
+
+msgid "Washer and Dryer"
+msgstr "Waschmaschine und Trockner"
+
+msgid "Wireless Internet"
+msgstr "Drahtloses Internet"
+
+msgid "Workout Facilities"
+msgstr "Sportstudio"
+
+msgid "This property has"
+msgstr "Diese Immobilie hat"
+
+msgid "Display Google Map"
+msgstr "Google Map anzeigen"
+
+msgid "Book Now"
+msgstr "Jetzt buchen"
+
+msgid "Check Availability"
+msgstr "Verf&uuml;gbarkeit pr&uuml;fen"
+
+msgid "Property Description"
+msgstr "Beschreibung"
+
+msgid "Details"
+msgstr "Beschreibung"
+
+msgid "Property Details"
+msgstr "Ausf&uuml;hrliche Beschreibung"
+
+msgid "Amenities"
+msgstr "Ausstattung"
+
+msgid "Guest Reviews"
+msgstr "Bewertungen"
+
+msgid "Rates"
+msgstr "Preis"
+
+msgid "Rate varies due to seasonality and holidays"
+msgstr "Die Preise unterscheiden sich saisonbedingt"
+
+msgid ""
+"Please select your dates on our online booking calendar for an exact quote"
+msgstr ""
+"Bitte w&auml;hlen Sie die exakten Daten Ihrer Anreise und Abreise im online "
+"Buchungskalender um ein Preisangebot zu erhalten"
+
+msgid "Taxes"
+msgstr "Steuern"
+
+msgid "One Time"
+msgstr "Einmalig"
+
+msgid "Daily"
+msgstr "T&auml;glich"
+
+msgid "Policies"
+msgstr "Info"
+
+msgid "Fees"
+msgstr "Geb&uuml;hren"
+
+msgid "Tax Exempt"
+msgstr "Steuerbefreit"
+
+msgid "Deposits"
+msgstr "Kaution"
+
+msgid "Availability &amp; Booking Calendar"
+msgstr "Verf&uuml;gbarkeit"
+
+msgid "Booking Calendar"
+msgstr "Buchungskalender"
+
+msgid "per night"
+msgstr "pro Nacht"
+
+msgid "per month"
+msgstr "pro Monat"
+
+msgid "Cancellation Policy"
+msgstr "Stornierungsbedingungen"
+
+msgid "Deposit Policy"
+msgstr "Kautionsbedingungen"
+
+msgid "Property Location"
+msgstr "Lage"
+
+msgid "Location"
+msgstr "Lage"
+
+msgid "Property Images"
+msgstr "Bilder"
+
+msgid "Online Booking Instructions"
+msgstr "Online Buchungs-Info"
+
+msgid "Reviews"
+msgstr "Bewertungen"
+
+msgid "Vacation Rentals"
+msgstr "Ferienvillen &Uuml;bersicht"
+
+msgid "Availability"
+msgstr "Verf&uuml;gbarkeit"
+
+msgid "Search Rentals"
+msgstr "Suche"
+
+msgid "Pet Friendly"
+msgstr "Haustiere"
+
+msgid "Search by Property Name or ID"
+msgstr "Suchen Sie nach Name oder ID"
+
+msgid "Property Name or ID"
+msgstr "Name oder ID"
+
+msgid "Arriving"
+msgstr "Anreise"
+
+msgid "Nights"
+msgstr "N&auml;chte"
+
+msgid "night"
+msgstr "n&auml;chte"
+
+msgid "nights"
+msgstr "n&auml;chte"
+
+msgid "All Areas"
+msgstr "Alle Bereiche"
+
+msgid "Any"
+msgstr "Jeder"
+
+msgid "Studio"
+msgstr "Studio"
+
+msgid "from"
+msgstr "von"
+
+msgid " per /wk"
+msgstr "/Woche"
+
+msgid " per /nt"
+msgstr "/Nacht"
+
+msgid "per week"
+msgstr "pro Woche"
+
+msgid "Display Results"
+msgstr "Ergebnisse anzeigen"

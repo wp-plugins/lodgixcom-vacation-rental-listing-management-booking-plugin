@@ -1,0 +1,1 @@
+jQLodgix = jQuery.noConflict(true);

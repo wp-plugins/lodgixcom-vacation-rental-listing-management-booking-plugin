@@ -1,0 +1,2532 @@
+.lodgix-helper-hidden {
+
+    display: none;
+
+}
+
+.lodgix-helper-hidden-accessible {
+
+    clip: rect(1px, 1px, 1px, 1px);
+
+    position: absolute !important;
+
+}
+
+.lodgix-helper-reset {
+    border: 0 none;
+    font-size: 100%;
+
+    line-height: 1.3;
+
+    list-style: none outside none;
+
+    margin: 0;
+
+    outline: 0 none;
+
+    padding: 0;
+
+    text-decoration: none;
+
+}
+
+.lodgix-helper-clearfix:before, .lodgix-helper-clearfix:after {
+
+    content: "";
+
+    display: table;
+
+}
+
+.lodgix-helper-clearfix:after {
+
+    clear: both;
+
+}
+
+.lodgix-helper-clearfix {
+
+}
+
+.lodgix-helper-zfix {
+
+    height: 100%;
+
+    left: 0;
+
+    opacity: 0;
+
+    position: absolute;
+
+    top: 0;
+
+    width: 100%;
+
+}
+
+.lodgix-state-disabled {
+
+    cursor: default !important;
+
+}
+
+.lodgix-icon {
+
+    background-repeat: no-repeat;
+
+    display: block;
+
+    overflow: hidden;
+
+    text-indent: -99999px;
+
+}
+
+.lodgix-widget-overlay {
+
+    height: 100%;
+
+    left: 0;
+
+    position: absolute;
+
+    top: 0;
+
+    width: 100%;
+
+}
+
+.lodgix-widget {
+
+    font-family: Arial,sans-serif;
+
+    font-size: 1.1em;
+
+}
+
+.lodgix-widget .lodgix-widget {
+
+    font-size: 1em;
+
+}
+
+.lodgix-widget input, .lodgix-widget select, .lodgix-widget textarea, .lodgix-widget button {
+
+    font-family: Arial,sans-serif;
+
+    font-size: 1em;
+
+}
+
+.lodgix-widget-content {
+
+    background: #FFFFFF;
+
+    border: 1px solid #99B3CE;
+
+    color: #575757;
+
+}
+
+.lodgix-widget-content a {
+
+    color: #575757;
+
+}
+
+.lodgix-widget-header {
+
+    background: #004185;
+
+    border: 1px solid #004185;
+
+    color: #FFFFFF;
+
+    font-weight: bold;
+
+}
+
+.lodgix-widget-header a {
+
+    color: #FFFFFF;
+
+}
+
+.lodgix-state-default, .lodgix-widget-content .lodgix-state-default, .lodgix-widget-header .lodgix-state-default {
+
+    background: #E5ECF3;
+
+    border: 1px solid #99B3CE;
+
+    color: #004185;
+
+    font-weight: bold;
+
+}
+
+.lodgix-state-default a, .lodgix-state-default a:link, .lodgix-state-default a:visited {
+
+    color: #004185;
+
+    text-decoration: none;
+
+}
+
+.lodgix-state-hover, .lodgix-widget-content .lodgix-state-hover, .lodgix-widget-header .lodgix-state-hover, .lodgix-state-focus, .lodgix-widget-content .lodgix-state-focus, .lodgix-widget-header .lodgix-state-focus {
+
+    background: #F7D9D9;
+
+    border: 1px solid #F7D9D9;
+
+    color: #004185;
+
+    font-weight: bold;
+
+}
+
+.lodgix-state-hover a, .lodgix-state-hover a:hover {
+
+    color: #004185;
+
+    text-decoration: none;
+
+}
+
+.lodgix-state-active, .lodgix-widget-content .lodgix-state-active, .lodgix-widget-header .lodgix-state-active {
+
+    background: #FFFFFF;
+
+    border: 1px solid #004185;
+
+    color: #CC0000;
+
+    font-weight: bold;
+
+}
+
+.lodgix-state-active a, .lodgix-state-active a:link, .lodgix-state-active a:visited {
+
+    color: #CC0000;
+
+    text-decoration: none;
+
+}
+
+.lodgix-widget *:active {
+
+    outline: medium none;
+
+}
+
+.lodgix-state-highlight, .lodgix-widget-content .lodgix-state-highlight, .lodgix-widget-header .lodgix-state-highlight {
+
+    background: #F7D9D9;
+
+    border: 1px solid #F0B2B2;
+
+    color: #444444;
+
+}
+
+.lodgix-state-highlight a, .lodgix-widget-content .lodgix-state-highlight a, .lodgix-widget-header .lodgix-state-highlight a {
+
+    color: #444444;
+
+}
+
+.lodgix-state-error, .lodgix-widget-content .lodgix-state-error, .lodgix-widget-header .lodgix-state-error {
+
+    background: url("../images/lodgix-bg_diagonals-thick_75_f3d8d8_40x40.png") repeat scroll 50% 50% #F3D8D8;
+
+    border: 1px solid #CC0000;
+
+    color: #2E2E2E;
+
+}
+
+.lodgix-state-error a, .lodgix-widget-content .lodgix-state-error a, .lodgix-widget-header .lodgix-state-error a {
+
+    color: #2E2E2E;
+
+}
+
+.lodgix-state-error-text, .lodgix-widget-content .lodgix-state-error-text, .lodgix-widget-header .lodgix-state-error-text {
+
+    color: #2E2E2E;
+
+}
+
+.lodgix-priority-primary, .lodgix-widget-content .lodgix-priority-primary, .lodgix-widget-header .lodgix-priority-primary {
+
+    font-weight: bold;
+
+}
+
+.lodgix-priority-secondary, .lodgix-widget-content .lodgix-priority-secondary, .lodgix-widget-header .lodgix-priority-secondary {
+
+    font-weight: normal;
+
+    opacity: 0.7;
+
+}
+
+.lodgix-state-disabled, .lodgix-widget-content .lodgix-state-disabled, .lodgix-widget-header .lodgix-state-disabled {
+
+    background-image: none;
+
+    opacity: 0.35;
+
+}
+
+.lodgix-icon {
+
+    background-image: url("../images/lodgix-icons_cc0000_256x240.png");
+
+    height: 16px;
+
+    width: 16px;
+
+}
+
+.lodgix-widget-content .lodgix-icon {
+
+    background-image: url("../images/lodgix-icons_cc0000_256x240.png");
+
+}
+
+.lodgix-widget-header .lodgix-icon {
+
+    background-image: url("../images/lodgix-icons_ffffff_256x240.png");
+
+}
+
+.lodgix-state-default .lodgix-icon {
+
+    background-image: url("../images/lodgix-icons_cc0000_256x240.png");
+
+}
+
+.lodgix-state-hover .lodgix-icon, .lodgix-state-focus .lodgix-icon {
+
+    background-image: url("../images/lodgix-icons_cc0000_256x240.png");
+
+}
+
+.lodgix-state-active .lodgix-icon {
+
+    background-image: url("../images/lodgix-icons_cc0000_256x240.png");
+
+}
+
+.lodgix-state-highlight .lodgix-icon {
+
+    background-image: url("../images/lodgix-icons_004276_256x240.png");
+
+}
+
+.lodgix-state-error .lodgix-icon, .lodgix-state-error-text .lodgix-icon {
+
+    background-image: url("../images/lodgix-icons_cc0000_256x240.png");
+
+}
+
+.lodgix-icon-carat-1-n {
+
+    background-position: 0 0;
+
+}
+
+.lodgix-icon-carat-1-ne {
+
+    background-position: -16px 0;
+
+}
+
+.lodgix-icon-carat-1-e {
+
+    background-position: -32px 0;
+
+}
+
+.lodgix-icon-carat-1-se {
+
+    background-position: -48px 0;
+
+}
+
+.lodgix-icon-carat-1-s {
+
+    background-position: -64px 0;
+
+}
+
+.lodgix-icon-carat-1-sw {
+
+    background-position: -80px 0;
+
+}
+
+.lodgix-icon-carat-1-w {
+
+    background-position: -96px 0;
+
+}
+
+.lodgix-icon-carat-1-nw {
+
+    background-position: -112px 0;
+
+}
+
+.lodgix-icon-carat-2-n-s {
+
+    background-position: -128px 0;
+
+}
+
+.lodgix-icon-carat-2-e-w {
+
+    background-position: -144px 0;
+
+}
+
+.lodgix-icon-triangle-1-n {
+
+    background-position: 0 -16px;
+
+}
+
+.lodgix-icon-triangle-1-ne {
+
+    background-position: -16px -16px;
+
+}
+
+.lodgix-icon-triangle-1-e {
+
+    background-position: -32px -16px;
+
+}
+
+.lodgix-icon-triangle-1-se {
+
+    background-position: -48px -16px;
+
+}
+
+.lodgix-icon-triangle-1-s {
+
+    background-position: -64px -16px;
+
+}
+
+.lodgix-icon-triangle-1-sw {
+
+    background-position: -80px -16px;
+
+}
+
+.lodgix-icon-triangle-1-w {
+
+    background-position: -96px -16px;
+
+}
+
+.lodgix-icon-triangle-1-nw {
+
+    background-position: -112px -16px;
+
+}
+
+.lodgix-icon-triangle-2-n-s {
+
+    background-position: -128px -16px;
+
+}
+
+.lodgix-icon-triangle-2-e-w {
+
+    background-position: -144px -16px;
+
+}
+
+.lodgix-icon-arrow-1-n {
+
+    background-position: 0 -32px;
+
+}
+
+.lodgix-icon-arrow-1-ne {
+
+    background-position: -16px -32px;
+
+}
+
+.lodgix-icon-arrow-1-e {
+
+    background-position: -32px -32px;
+
+}
+
+.lodgix-icon-arrow-1-se {
+
+    background-position: -48px -32px;
+
+}
+
+.lodgix-icon-arrow-1-s {
+
+    background-position: -64px -32px;
+
+}
+
+.lodgix-icon-arrow-1-sw {
+
+    background-position: -80px -32px;
+
+}
+
+.lodgix-icon-arrow-1-w {
+
+    background-position: -96px -32px;
+
+}
+
+.lodgix-icon-arrow-1-nw {
+
+    background-position: -112px -32px;
+
+}
+
+.lodgix-icon-arrow-2-n-s {
+
+    background-position: -128px -32px;
+
+}
+
+.lodgix-icon-arrow-2-ne-sw {
+
+    background-position: -144px -32px;
+
+}
+
+.lodgix-icon-arrow-2-e-w {
+
+    background-position: -160px -32px;
+
+}
+
+.lodgix-icon-arrow-2-se-nw {
+
+    background-position: -176px -32px;
+
+}
+
+.lodgix-icon-arrowstop-1-n {
+
+    background-position: -192px -32px;
+
+}
+
+.lodgix-icon-arrowstop-1-e {
+
+    background-position: -208px -32px;
+
+}
+
+.lodgix-icon-arrowstop-1-s {
+
+    background-position: -224px -32px;
+
+}
+
+.lodgix-icon-arrowstop-1-w {
+
+    background-position: -240px -32px;
+
+}
+
+.lodgix-icon-arrowthick-1-n {
+
+    background-position: 0 -48px;
+
+}
+
+.lodgix-icon-arrowthick-1-ne {
+
+    background-position: -16px -48px;
+
+}
+
+.lodgix-icon-arrowthick-1-e {
+
+    background-position: -32px -48px;
+
+}
+
+.lodgix-icon-arrowthick-1-se {
+
+    background-position: -48px -48px;
+
+}
+
+.lodgix-icon-arrowthick-1-s {
+
+    background-position: -64px -48px;
+
+}
+
+.lodgix-icon-arrowthick-1-sw {
+
+    background-position: -80px -48px;
+
+}
+
+.lodgix-icon-arrowthick-1-w {
+
+    background-position: -96px -48px;
+
+}
+
+.lodgix-icon-arrowthick-1-nw {
+
+    background-position: -112px -48px;
+
+}
+
+.lodgix-icon-arrowthick-2-n-s {
+
+    background-position: -128px -48px;
+
+}
+
+.lodgix-icon-arrowthick-2-ne-sw {
+
+    background-position: -144px -48px;
+
+}
+
+.lodgix-icon-arrowthick-2-e-w {
+
+    background-position: -160px -48px;
+
+}
+
+.lodgix-icon-arrowthick-2-se-nw {
+
+    background-position: -176px -48px;
+
+}
+
+.lodgix-icon-arrowthickstop-1-n {
+
+    background-position: -192px -48px;
+
+}
+
+.lodgix-icon-arrowthickstop-1-e {
+
+    background-position: -208px -48px;
+
+}
+
+.lodgix-icon-arrowthickstop-1-s {
+
+    background-position: -224px -48px;
+
+}
+
+.lodgix-icon-arrowthickstop-1-w {
+
+    background-position: -240px -48px;
+
+}
+
+.lodgix-icon-arrowreturnthick-1-w {
+
+    background-position: 0 -64px;
+
+}
+
+.lodgix-icon-arrowreturnthick-1-n {
+
+    background-position: -16px -64px;
+
+}
+
+.lodgix-icon-arrowreturnthick-1-e {
+
+    background-position: -32px -64px;
+
+}
+
+.lodgix-icon-arrowreturnthick-1-s {
+
+    background-position: -48px -64px;
+
+}
+
+.lodgix-icon-arrowreturn-1-w {
+
+    background-position: -64px -64px;
+
+}
+
+.lodgix-icon-arrowreturn-1-n {
+
+    background-position: -80px -64px;
+
+}
+
+.lodgix-icon-arrowreturn-1-e {
+
+    background-position: -96px -64px;
+
+}
+
+.lodgix-icon-arrowreturn-1-s {
+
+    background-position: -112px -64px;
+
+}
+
+.lodgix-icon-arrowrefresh-1-w {
+
+    background-position: -128px -64px;
+
+}
+
+.lodgix-icon-arrowrefresh-1-n {
+
+    background-position: -144px -64px;
+
+}
+
+.lodgix-icon-arrowrefresh-1-e {
+
+    background-position: -160px -64px;
+
+}
+
+.lodgix-icon-arrowrefresh-1-s {
+
+    background-position: -176px -64px;
+
+}
+
+.lodgix-icon-arrow-4 {
+
+    background-position: 0 -80px;
+
+}
+
+.lodgix-icon-arrow-4-diag {
+
+    background-position: -16px -80px;
+
+}
+
+.lodgix-icon-extlink {
+
+    background-position: -32px -80px;
+
+}
+
+.lodgix-icon-newwin {
+
+    background-position: -48px -80px;
+
+}
+
+.lodgix-icon-refresh {
+
+    background-position: -64px -80px;
+
+}
+
+.lodgix-icon-shuffle {
+
+    background-position: -80px -80px;
+
+}
+
+.lodgix-icon-transfer-e-w {
+
+    background-position: -96px -80px;
+
+}
+
+.lodgix-icon-transferthick-e-w {
+
+    background-position: -112px -80px;
+
+}
+
+.lodgix-icon-folder-collapsed {
+
+    background-position: 0 -96px;
+
+}
+
+.lodgix-icon-folder-open {
+
+    background-position: -16px -96px;
+
+}
+
+.lodgix-icon-document {
+
+    background-position: -32px -96px;
+
+}
+
+.lodgix-icon-document-b {
+
+    background-position: -48px -96px;
+
+}
+
+.lodgix-icon-note {
+
+    background-position: -64px -96px;
+
+}
+
+.lodgix-icon-mail-closed {
+
+    background-position: -80px -96px;
+
+}
+
+.lodgix-icon-mail-open {
+
+    background-position: -96px -96px;
+
+}
+
+.lodgix-icon-suitcase {
+
+    background-position: -112px -96px;
+
+}
+
+.lodgix-icon-comment {
+
+    background-position: -128px -96px;
+
+}
+
+.lodgix-icon-person {
+
+    background-position: -144px -96px;
+
+}
+
+.lodgix-icon-print {
+
+    background-position: -160px -96px;
+
+}
+
+.lodgix-icon-trash {
+
+    background-position: -176px -96px;
+
+}
+
+.lodgix-icon-locked {
+
+    background-position: -192px -96px;
+
+}
+
+.lodgix-icon-unlocked {
+
+    background-position: -208px -96px;
+
+}
+
+.lodgix-icon-bookmark {
+
+    background-position: -224px -96px;
+
+}
+
+.lodgix-icon-tag {
+
+    background-position: -240px -96px;
+
+}
+
+.lodgix-icon-home {
+
+    background-position: 0 -112px;
+
+}
+
+.lodgix-icon-flag {
+
+    background-position: -16px -112px;
+
+}
+
+.lodgix-icon-calendar {
+
+    background-position: -32px -112px;
+
+}
+
+.lodgix-icon-cart {
+
+    background-position: -48px -112px;
+
+}
+
+.lodgix-icon-pencil {
+
+    background-position: -64px -112px;
+
+}
+
+.lodgix-icon-clock {
+
+    background-position: -80px -112px;
+
+}
+
+.lodgix-icon-disk {
+
+    background-position: -96px -112px;
+
+}
+
+.lodgix-icon-calculator {
+
+    background-position: -112px -112px;
+
+}
+
+.lodgix-icon-zoomin {
+
+    background-position: -128px -112px;
+
+}
+
+.lodgix-icon-zoomout {
+
+    background-position: -144px -112px;
+
+}
+
+.lodgix-icon-search {
+
+    background-position: -160px -112px;
+
+}
+
+.lodgix-icon-wrench {
+
+    background-position: -176px -112px;
+
+}
+
+.lodgix-icon-gear {
+
+    background-position: -192px -112px;
+
+}
+
+.lodgix-icon-heart {
+
+    background-position: -208px -112px;
+
+}
+
+.lodgix-icon-star {
+
+    background-position: -224px -112px;
+
+}
+
+.lodgix-icon-link {
+
+    background-position: -240px -112px;
+
+}
+
+.lodgix-icon-cancel {
+
+    background-position: 0 -128px;
+
+}
+
+.lodgix-icon-plus {
+
+    background-position: -16px -128px;
+
+}
+
+.lodgix-icon-plusthick {
+
+    background-position: -32px -128px;
+
+}
+
+.lodgix-icon-minus {
+
+    background-position: -48px -128px;
+
+}
+
+.lodgix-icon-minusthick {
+
+    background-position: -64px -128px;
+
+}
+
+.lodgix-icon-close {
+
+    background-position: -80px -128px;
+
+}
+
+.lodgix-icon-closethick {
+
+    background-position: -96px -128px;
+
+}
+
+.lodgix-icon-key {
+
+    background-position: -112px -128px;
+
+}
+
+.lodgix-icon-lightbulb {
+
+    background-position: -128px -128px;
+
+}
+
+.lodgix-icon-scissors {
+
+    background-position: -144px -128px;
+
+}
+
+.lodgix-icon-clipboard {
+
+    background-position: -160px -128px;
+
+}
+
+.lodgix-icon-copy {
+
+    background-position: -176px -128px;
+
+}
+
+.lodgix-icon-contact {
+
+    background-position: -192px -128px;
+
+}
+
+.lodgix-icon-image {
+
+    background-position: -208px -128px;
+
+}
+
+.lodgix-icon-video {
+
+    background-position: -224px -128px;
+
+}
+
+.lodgix-icon-script {
+
+    background-position: -240px -128px;
+
+}
+
+.lodgix-icon-alert {
+
+    background-position: 0 -144px;
+
+}
+
+.lodgix-icon-info {
+
+    background-position: -16px -144px;
+
+}
+
+.lodgix-icon-notice {
+
+    background-position: -32px -144px;
+
+}
+
+.lodgix-icon-help {
+
+    background-position: -48px -144px;
+
+}
+
+.lodgix-icon-check {
+
+    background-position: -64px -144px;
+
+}
+
+.lodgix-icon-bullet {
+
+    background-position: -80px -144px;
+
+}
+
+.lodgix-icon-radio-off {
+
+    background-position: -96px -144px;
+
+}
+
+.lodgix-icon-radio-on {
+
+    background-position: -112px -144px;
+
+}
+
+.lodgix-icon-pin-w {
+
+    background-position: -128px -144px;
+
+}
+
+.lodgix-icon-pin-s {
+
+    background-position: -144px -144px;
+
+}
+
+.lodgix-icon-play {
+
+    background-position: 0 -160px;
+
+}
+
+.lodgix-icon-pause {
+
+    background-position: -16px -160px;
+
+}
+
+.lodgix-icon-seek-next {
+
+    background-position: -32px -160px;
+
+}
+
+.lodgix-icon-seek-prev {
+
+    background-position: -48px -160px;
+
+}
+
+.lodgix-icon-seek-end {
+
+    background-position: -64px -160px;
+
+}
+
+.lodgix-icon-seek-start {
+
+    background-position: -80px -160px;
+
+}
+
+.lodgix-icon-seek-first {
+
+    background-position: -80px -160px;
+
+}
+
+.lodgix-icon-stop {
+
+    background-position: -96px -160px;
+
+}
+
+.lodgix-icon-eject {
+
+    background-position: -112px -160px;
+
+}
+
+.lodgix-icon-volume-off {
+
+    background-position: -128px -160px;
+
+}
+
+.lodgix-icon-volume-on {
+
+    background-position: -144px -160px;
+
+}
+
+.lodgix-icon-power {
+
+    background-position: 0 -176px;
+
+}
+
+.lodgix-icon-signal-diag {
+
+    background-position: -16px -176px;
+
+}
+
+.lodgix-icon-signal {
+
+    background-position: -32px -176px;
+
+}
+
+.lodgix-icon-battery-0 {
+
+    background-position: -48px -176px;
+
+}
+
+.lodgix-icon-battery-1 {
+
+    background-position: -64px -176px;
+
+}
+
+.lodgix-icon-battery-2 {
+
+    background-position: -80px -176px;
+
+}
+
+.lodgix-icon-battery-3 {
+
+    background-position: -96px -176px;
+
+}
+
+.lodgix-icon-circle-plus {
+
+    background-position: 0 -192px;
+
+}
+
+.lodgix-icon-circle-minus {
+
+    background-position: -16px -192px;
+
+}
+
+.lodgix-icon-circle-close {
+
+    background-position: -32px -192px;
+
+}
+
+.lodgix-icon-circle-triangle-e {
+
+    background-position: -48px -192px;
+
+}
+
+.lodgix-icon-circle-triangle-s {
+
+    background-position: -64px -192px;
+
+}
+
+.lodgix-icon-circle-triangle-w {
+
+    background-position: -80px -192px;
+
+}
+
+.lodgix-icon-circle-triangle-n {
+
+    background-position: -96px -192px;
+
+}
+
+.lodgix-icon-circle-arrow-e {
+
+    background-position: -112px -192px;
+
+}
+
+.lodgix-icon-circle-arrow-s {
+
+    background-position: -128px -192px;
+
+}
+
+.lodgix-icon-circle-arrow-w {
+
+    background-position: -144px -192px;
+
+}
+
+.lodgix-icon-circle-arrow-n {
+
+    background-position: -160px -192px;
+
+}
+
+.lodgix-icon-circle-zoomin {
+
+    background-position: -176px -192px;
+
+}
+
+.lodgix-icon-circle-zoomout {
+
+    background-position: -192px -192px;
+
+}
+
+.lodgix-icon-circle-check {
+
+    background-position: -208px -192px;
+
+}
+
+.lodgix-icon-circlesmall-plus {
+
+    background-position: 0 -208px;
+
+}
+
+.lodgix-icon-circlesmall-minus {
+
+    background-position: -16px -208px;
+
+}
+
+.lodgix-icon-circlesmall-close {
+
+    background-position: -32px -208px;
+
+}
+
+.lodgix-icon-squaresmall-plus {
+
+    background-position: -48px -208px;
+
+}
+
+.lodgix-icon-squaresmall-minus {
+
+    background-position: -64px -208px;
+
+}
+
+.lodgix-icon-squaresmall-close {
+
+    background-position: -80px -208px;
+
+}
+
+.lodgix-icon-grip-dotted-vertical {
+
+    background-position: 0 -224px;
+
+}
+
+.lodgix-icon-grip-dotted-horizontal {
+
+    background-position: -16px -224px;
+
+}
+
+.lodgix-icon-grip-solid-vertical {
+
+    background-position: -32px -224px;
+
+}
+
+.lodgix-icon-grip-solid-horizontal {
+
+    background-position: -48px -224px;
+
+}
+
+.lodgix-icon-gripsmall-diagonal-se {
+
+    background-position: -64px -224px;
+
+}
+
+.lodgix-icon-grip-diagonal-se {
+
+    background-position: -80px -224px;
+
+}
+
+.lodgix-corner-all, .lodgix-corner-top, .lodgix-corner-left, .lodgix-corner-tl {
+
+    border-top-left-radius: 6px;
+
+}
+
+.lodgix-corner-all, .lodgix-corner-top, .lodgix-corner-right, .lodgix-corner-tr {
+
+    border-top-right-radius: 6px;
+
+}
+
+.lodgix-corner-all, .lodgix-corner-bottom, .lodgix-corner-left, .lodgix-corner-bl {
+
+    border-bottom-left-radius: 6px;
+
+}
+
+.lodgix-corner-all, .lodgix-corner-bottom, .lodgix-corner-right, .lodgix-corner-br {
+
+    border-bottom-right-radius: 6px;
+
+}
+
+.lodgix-widget-overlay {
+
+    background: url("../images/lodgix-bg_dots-small_65_a6a6a6_2x2.png") repeat scroll 50% 50% #A6A6A6;
+
+    opacity: 0.4;
+
+}
+
+.lodgix-widget-shadow {
+
+    background: url("../images/lodgix-bg_flat_0_333333_40x100.png") repeat-x scroll 50% 50% #333333;
+
+    border-radius: 8px 8px 8px 8px;
+
+    margin: -8px 0 0 -8px;
+
+    opacity: 0.1;
+
+    padding: 8px;
+
+}
+
+.lodgix-resizable {
+
+    position: relative;
+
+}
+
+.lodgix-resizable-handle {
+
+    display: block;
+
+    font-size: 0.1px;
+
+    position: absolute;
+
+    z-index: 99999;
+
+}
+
+.lodgix-resizable-disabled .lodgix-resizable-handle, .lodgix-resizable-autohide .lodgix-resizable-handle {
+
+    display: none;
+
+}
+
+.lodgix-resizable-n {
+
+    cursor: n-resize;
+
+    height: 7px;
+
+    left: 0;
+
+    top: -5px;
+
+    width: 100%;
+
+}
+
+.lodgix-resizable-s {
+
+    bottom: -5px;
+
+    cursor: s-resize;
+
+    height: 7px;
+
+    left: 0;
+
+    width: 100%;
+
+}
+
+.lodgix-resizable-e {
+
+    cursor: e-resize;
+
+    height: 100%;
+
+    right: -5px;
+
+    top: 0;
+
+    width: 7px;
+
+}
+
+.lodgix-resizable-w {
+
+    cursor: w-resize;
+
+    height: 100%;
+
+    left: -5px;
+
+    top: 0;
+
+    width: 7px;
+
+}
+
+.lodgix-resizable-se {
+
+    bottom: 1px;
+
+    cursor: se-resize;
+
+    height: 12px;
+
+    right: 1px;
+
+    width: 12px;
+
+}
+
+.lodgix-resizable-sw {
+
+    bottom: -5px;
+
+    cursor: sw-resize;
+
+    height: 9px;
+
+    left: -5px;
+
+    width: 9px;
+
+}
+
+.lodgix-resizable-nw {
+
+    cursor: nw-resize;
+
+    height: 9px;
+
+    left: -5px;
+
+    top: -5px;
+
+    width: 9px;
+
+}
+
+.lodgix-resizable-ne {
+
+    cursor: ne-resize;
+
+    height: 9px;
+
+    right: -5px;
+
+    top: -5px;
+
+    width: 9px;
+
+}
+
+.lodgix-selectable-helper {
+
+    border: 1px dotted black;
+
+    position: absolute;
+
+    z-index: 100;
+
+}
+
+.lodgix-accordion {
+
+    width: 100%;
+
+}
+
+.lodgix-accordion .lodgix-accordion-header {
+
+    cursor: pointer;
+
+    margin-top: 1px;
+
+    position: relative;
+
+}
+
+.lodgix-accordion .lodgix-accordion-li-fix {
+
+    display: inline;
+
+}
+
+.lodgix-accordion .lodgix-accordion-header-active {
+
+    border-bottom: 0 none !important;
+
+}
+
+.lodgix-accordion .lodgix-accordion-header a {
+
+    display: block;
+
+    font-size: 1em;
+
+    padding: 0.5em 0.5em 0.5em 0.7em;
+
+}
+
+.lodgix-accordion-icons .lodgix-accordion-header a {
+
+    padding-left: 2.2em;
+
+}
+
+.lodgix-accordion .lodgix-accordion-header .lodgix-icon {
+
+    left: 0.5em;
+
+    margin-top: -8px;
+
+    position: absolute;
+
+    top: 50%;
+
+}
+
+.lodgix-accordion .lodgix-accordion-content {
+
+    border-top: 0 none;
+
+    display: none;
+
+    margin-bottom: 2px;
+
+    margin-top: -2px;
+
+    overflow: auto;
+
+    padding: 1em 2.2em;
+
+    position: relative;
+
+    top: 1px;
+
+}
+
+.lodgix-accordion .lodgix-accordion-content-active {
+
+    display: block;
+
+}
+
+.lodgix-autocomplete {
+
+    cursor: default;
+
+    position: absolute;
+
+}
+
+* html .lodgix-autocomplete {
+
+    width: 1px;
+
+}
+
+.lodgix-menu {
+
+    display: block;
+
+    float: left;
+
+    list-style: none outside none;
+
+    margin: 0;
+
+    padding: 2px;
+
+}
+
+.lodgix-menu .lodgix-menu {
+
+    margin-top: -3px;
+
+}
+
+.lodgix-menu .lodgix-menu-item {
+
+    clear: left;
+
+    float: left;
+
+    margin: 0;
+
+    padding: 0;
+
+    width: 100%;
+
+}
+
+.lodgix-menu .lodgix-menu-item a {
+
+    display: block;
+
+    line-height: 1.5;
+
+    padding: 0.2em 0.4em;
+
+    text-decoration: none;
+
+}
+
+.lodgix-menu .lodgix-menu-item a.lodgix-state-hover, .lodgix-menu .lodgix-menu-item a.lodgix-state-active {
+
+    font-weight: normal;
+
+    margin: -1px;
+
+}
+
+.lodgix-button {
+
+    cursor: pointer;
+
+    display: inline-block;
+
+    margin-right: 0.1em;
+
+    overflow: visible;
+
+    padding: 0;
+
+    position: relative;
+
+    text-align: center;
+
+    text-decoration: none !important;
+
+}
+
+.lodgix-button-icon-only {
+
+    width: 2.2em;
+
+}
+
+button.lodgix-button-icon-only {
+
+    width: 2.4em;
+
+}
+
+.lodgix-button-icons-only {
+
+    width: 3.4em;
+
+}
+
+button.lodgix-button-icons-only {
+
+    width: 3.7em;
+
+}
+
+.lodgix-button .lodgix-button-text {
+
+    display: block;
+
+    line-height: 1.4;
+
+}
+
+.lodgix-button-text-only .lodgix-button-text {
+
+    padding: 0.4em 1em;
+
+}
+
+.lodgix-button-icon-only .lodgix-button-text, .lodgix-button-icons-only .lodgix-button-text {
+
+    padding: 0.4em;
+
+    text-indent: -1e+7px;
+
+}
+
+.lodgix-button-text-icon-primary .lodgix-button-text, .lodgix-button-text-icons .lodgix-button-text {
+
+    padding: 0.4em 1em 0.4em 2.1em;
+
+}
+
+.lodgix-button-text-icon-secondary .lodgix-button-text, .lodgix-button-text-icons .lodgix-button-text {
+
+    padding: 0.4em 2.1em 0.4em 1em;
+
+}
+
+.lodgix-button-text-icons .lodgix-button-text {
+
+    padding-left: 2.1em;
+
+    padding-right: 2.1em;
+
+}
+
+input.lodgix-button {
+
+    padding: 0.4em 1em;
+
+}
+
+.lodgix-button-icon-only .lodgix-icon, .lodgix-button-text-icon-primary .lodgix-icon, .lodgix-button-text-icon-secondary .lodgix-icon, .lodgix-button-text-icons .lodgix-icon, .lodgix-button-icons-only .lodgix-icon {
+
+    margin-top: -8px;
+
+    position: absolute;
+
+    top: 50%;
+
+}
+
+.lodgix-button-icon-only .lodgix-icon {
+
+    left: 50%;
+
+    margin-left: -8px;
+
+}
+
+.lodgix-button-text-icon-primary .lodgix-button-icon-primary, .lodgix-button-text-icons .lodgix-button-icon-primary, .lodgix-button-icons-only .lodgix-button-icon-primary {
+
+    left: 0.5em;
+
+}
+
+.lodgix-button-text-icon-secondary .lodgix-button-icon-secondary, .lodgix-button-text-icons .lodgix-button-icon-secondary, .lodgix-button-icons-only .lodgix-button-icon-secondary {
+
+    right: 0.5em;
+
+}
+
+.lodgix-button-text-icons .lodgix-button-icon-secondary, .lodgix-button-icons-only .lodgix-button-icon-secondary {
+
+    right: 0.5em;
+
+}
+
+.lodgix-buttonset {
+
+    margin-right: 7px;
+
+}
+
+.lodgix-buttonset .lodgix-button {
+
+    margin-left: 0;
+
+    margin-right: -0.3em;
+
+}
+
+button.lodgix-button::-moz-focus-inner {
+
+    border: 0 none;
+
+    padding: 0;
+
+}
+
+.lodgix-dialog {
+
+    overflow: hidden;
+
+    padding: 0.2em;
+
+    position: absolute;
+
+    width: 300px;
+
+}
+
+.lodgix-dialog .lodgix-dialog-titlebar {
+
+    padding: 0.4em 1em;
+
+    position: relative;
+
+}
+
+.lodgix-dialog .lodgix-dialog-title {
+
+    float: left;
+
+    margin: 0.1em 16px 0.1em 0;
+
+}
+
+.lodgix-dialog .lodgix-dialog-titlebar-close {
+
+    height: 18px;
+
+    margin: -10px 0 0;
+
+    padding: 1px;
+
+    position: absolute;
+
+    right: 0.3em;
+
+    top: 50%;
+
+    width: 19px;
+
+}
+
+.lodgix-dialog .lodgix-dialog-titlebar-close span {
+
+    display: block;
+
+    margin: 1px;
+
+}
+
+.lodgix-dialog .lodgix-dialog-titlebar-close:hover, .lodgix-dialog .lodgix-dialog-titlebar-close:focus {
+
+    padding: 0;
+
+}
+
+.lodgix-dialog .lodgix-dialog-content {
+
+    background: none repeat scroll 0 0 transparent;
+
+    border: 0 none;
+
+    overflow: auto;
+
+    padding: 0.5em 1em;
+
+    position: relative;
+
+}
+
+.lodgix-dialog .lodgix-dialog-buttonpane {
+
+    background-image: none;
+
+    border-width: 1px 0 0;
+
+    margin: 0.5em 0 0;
+
+    padding: 0.3em 1em 0.5em 0.4em;
+
+    text-align: left;
+
+}
+
+.lodgix-dialog .lodgix-dialog-buttonpane .lodgix-dialog-buttonset {
+
+    float: right;
+
+}
+
+.lodgix-dialog .lodgix-dialog-buttonpane button {
+
+    cursor: pointer;
+
+    margin: 0.5em 0.4em 0.5em 0;
+
+}
+
+.lodgix-dialog .lodgix-resizable-se {
+
+    bottom: 3px;
+
+    height: 14px;
+
+    right: 3px;
+
+    width: 14px;
+
+}
+
+.lodgix-draggable .lodgix-dialog-titlebar {
+
+    cursor: move;
+
+}
+
+.lodgix-slider {
+
+    position: relative;
+
+    text-align: left;
+
+}
+
+.lodgix-slider .lodgix-slider-handle {
+
+    cursor: default;
+
+    height: 1.2em;
+
+    position: absolute;
+
+    width: 1.2em;
+
+    z-index: 2;
+
+}
+
+.lodgix-slider .lodgix-slider-range {
+
+    background-position: 0 0;
+
+    border: 0 none;
+
+    display: block;
+
+    font-size: 0.7em;
+
+    position: absolute;
+
+    z-index: 1;
+
+}
+
+.lodgix-slider-horizontal {
+
+    height: 0.8em;
+
+}
+
+.lodgix-slider-horizontal .lodgix-slider-handle {
+
+    margin-left: -0.6em;
+
+    top: -0.3em;
+
+}
+
+.lodgix-slider-horizontal .lodgix-slider-range {
+
+    height: 100%;
+
+    top: 0;
+
+}
+
+.lodgix-slider-horizontal .lodgix-slider-range-min {
+
+    left: 0;
+
+}
+
+.lodgix-slider-horizontal .lodgix-slider-range-max {
+
+    right: 0;
+
+}
+
+.lodgix-slider-vertical {
+
+    height: 100px;
+
+    width: 0.8em;
+
+}
+
+.lodgix-slider-vertical .lodgix-slider-handle {
+
+    left: -0.3em;
+
+    margin-bottom: -0.6em;
+
+    margin-left: 0;
+
+}
+
+.lodgix-slider-vertical .lodgix-slider-range {
+
+    left: 0;
+
+    width: 100%;
+
+}
+
+.lodgix-slider-vertical .lodgix-slider-range-min {
+
+    bottom: 0;
+
+}
+
+.lodgix-slider-vertical .lodgix-slider-range-max {
+
+    top: 0;
+
+}
+
+.lodgix-tabs {
+
+    padding: 0.2em;
+
+    position: relative;
+
+}
+
+.lodgix-tabs .lodgix-tabs-nav {
+    margin: 0;
+    padding: 0.2em 0.2em 0;
+}
+
+.lodgix-tabs .lodgix-tabs-nav li {
+
+    border-bottom: 0 none !important;
+
+    float: left;
+
+    list-style: none outside none;
+
+    margin: 0 0.2em 1px 0;
+
+    padding: 0;
+
+    position: relative;
+
+    top: 1px;
+
+    white-space: nowrap;
+
+}
+
+.lodgix-tabs .lodgix-tabs-nav li a {
+    float: left;
+    padding: 0.5em 1em;
+    text-decoration: none;
+
+}
+
+.lodgix-tabs .lodgix-tabs-nav li.lodgix-tabs-selected {
+    margin-bottom: 0;
+    padding-bottom: 1px;
+}
+
+.lodgix-tabs .lodgix-tabs-nav li.lodgix-tabs-selected a, .lodgix-tabs .lodgix-tabs-nav li.lodgix-state-disabled a, .lodgix-tabs .lodgix-tabs-nav li.lodgix-state-processing a {
+
+    cursor: text;
+
+}
+
+.lodgix-tabs .lodgix-tabs-nav li a, .lodgix-tabs.lodgix-tabs-collapsible .lodgix-tabs-nav li.lodgix-tabs-selected a {
+    cursor: pointer;
+}
+
+.lodgix-tabs .lodgix-tabs-panel {
+    background: none repeat scroll 0 0 transparent;
+    border-width: 0;
+    display: block;
+    padding: 1em 1.4em;
+}
+
+.lodgix-tabs .lodgix-tabs-hide {
+    position: absolute;
+    top: -500000px;
+    width: 100%;
+
+}
+
+.lodgix-datepicker {
+    display: none;
+    padding: 0.2em 0.2em 0;
+    width: 17em;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-header {
+
+    padding: 0.2em 0;
+
+    position: relative;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-prev, .lodgix-datepicker .lodgix-datepicker-next {
+
+    height: 1.8em;
+
+    position: absolute;
+
+    top: 2px;
+
+    width: 1.8em;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-prev-hover, .lodgix-datepicker .lodgix-datepicker-next-hover {
+
+    top: 1px;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-prev {
+
+    left: 2px;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-next {
+
+    right: 2px;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-prev-hover {
+
+    left: 1px;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-next-hover {
+
+    right: 1px;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-prev span, .lodgix-datepicker .lodgix-datepicker-next span {
+
+    display: block;
+
+    left: 50%;
+
+    margin-left: -8px;
+
+    margin-top: -8px;
+
+    position: absolute;
+
+    top: 50%;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-title {
+
+    line-height: 1.8em;
+
+    margin: 0 2.3em;
+
+    text-align: center;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-title select {
+
+    font-size: 1em;
+
+    margin: 1px 0;
+
+}
+
+.lodgix-datepicker select.lodgix-datepicker-month-year {
+
+    width: 100%;
+
+}
+
+.lodgix-datepicker select.lodgix-datepicker-month, .lodgix-datepicker select.lodgix-datepicker-year {
+
+    width: 49%;
+
+}
+
+.lodgix-datepicker table {
+
+    border-collapse: collapse;
+
+    font-size: 0.9em;
+
+    margin: 0 0 0.4em;
+
+    width: 100%;
+
+}
+
+.lodgix-datepicker th {
+
+    border: 0 none;
+
+    font-weight: bold;
+
+    padding: 0.7em 0.3em;
+
+    text-align: center;
+
+}
+
+.lodgix-datepicker td {
+
+    border: 0 none;
+
+    padding: 1px;
+
+}
+
+.lodgix-datepicker td span, .lodgix-datepicker td a {
+
+    display: block;
+
+    padding: 0.2em;
+
+    text-align: right;
+
+    text-decoration: none;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-buttonpane {
+
+    background-image: none;
+
+    border-bottom: 0 none;
+
+    border-left: 0 none;
+
+    border-right: 0 none;
+
+    margin: 0.7em 0 0;
+
+    padding: 0 0.2em;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-buttonpane button {
+
+    cursor: pointer;
+
+    float: right;
+
+    margin: 0.5em 0.2em 0.4em;
+
+    overflow: visible;
+
+    padding: 0.2em 0.6em 0.3em;
+
+    width: auto;
+
+}
+
+.lodgix-datepicker .lodgix-datepicker-buttonpane button.lodgix-datepicker-current {
+
+    float: left;
+
+}
+
+.lodgix-datepicker.lodgix-datepicker-multi {
+
+    width: auto;
+
+}
+
+.lodgix-datepicker-multi .lodgix-datepicker-group {
+
+    float: left;
+
+}
+
+.lodgix-datepicker-multi .lodgix-datepicker-group table {
+
+    margin: 0 auto 0.4em;
+
+    width: 95%;
+
+}
+
+.lodgix-datepicker-multi-2 .lodgix-datepicker-group {
+
+    width: 50%;
+
+}
+
+.lodgix-datepicker-multi-3 .lodgix-datepicker-group {
+
+    width: 33.3%;
+
+}
+
+.lodgix-datepicker-multi-4 .lodgix-datepicker-group {
+
+    width: 25%;
+
+}
+
+.lodgix-datepicker-multi .lodgix-datepicker-group-last .lodgix-datepicker-header {
+
+    border-left-width: 0;
+
+}
+
+.lodgix-datepicker-multi .lodgix-datepicker-group-middle .lodgix-datepicker-header {
+
+    border-left-width: 0;
+
+}
+
+.lodgix-datepicker-multi .lodgix-datepicker-buttonpane {
+
+    clear: left;
+
+}
+
+.lodgix-datepicker-row-break {
+
+    clear: both;
+
+    font-size: 0;
+
+    width: 100%;
+
+}
+
+.lodgix-datepicker-rtl {
+
+    direction: rtl;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-prev {
+
+    left: auto;
+
+    right: 2px;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-next {
+
+    left: 2px;
+
+    right: auto;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-prev:hover {
+
+    left: auto;
+
+    right: 1px;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-next:hover {
+
+    left: 1px;
+
+    right: auto;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-buttonpane {
+
+    clear: right;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-buttonpane button {
+
+    float: left;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-buttonpane button.lodgix-datepicker-current {
+
+    float: right;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-group {
+
+    float: right;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-group-last .lodgix-datepicker-header {
+
+    border-left-width: 1px;
+
+    border-right-width: 0;
+
+}
+
+.lodgix-datepicker-rtl .lodgix-datepicker-group-middle .lodgix-datepicker-header {
+
+    border-left-width: 1px;
+
+    border-right-width: 0;
+
+}
+
+.lodgix-datepicker-cover {
+
+    display: block;
+
+    height: 200px;
+
+    left: -4px;
+
+    position: absolute;
+
+    top: -4px;
+
+    width: 200px;
+
+    z-index: -1;
+
+}
+
+.lodgix-progressbar {
+
+    height: 2em;
+
+    overflow: hidden;
+
+    text-align: left;
+
+}
+
+.lodgix-progressbar .lodgix-progressbar-value {
+
+    height: 100%;
+
+    margin: -1px;
+
+}
+

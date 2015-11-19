@@ -4,7 +4,7 @@
 Plugin Name: Lodgix.com Vacation Rental Listing, Management & Booking Plugin
 Plugin URI: http://www.lodgix.com/vacation-rental-wordpress-plugin.html
 Description: Build a sophisticated vacation rental website in seconds using the Lodgix.com vacation rental software. Vacation rental CMS for WordPress.
-Version: 2.0.6
+Version: 2.0.7
 Author: Lodgix
 Author URI: http://www.lodgix.com
 
@@ -12,6 +12,7 @@ Author URI: http://www.lodgix.com
 /*
 
 Changelog:
+v2.0.7: Improved automatic review titles.
 v2.0.6: Fixed bug in reviews.
 v2.0.5: Added stars and title to reviews.
 v2.0.4: Fixed CSS for the new rental search widget.
@@ -732,9 +733,9 @@ if (!class_exists('p_lodgix')) {
             return join('', $content);
         }
 
-        function firstWords($sentence, $count=10) {
-            preg_match("/(?:\w+(?:\W+|$)){0,$count}/", $sentence, $matches);
-            return trim($matches[0]);
+        function firstSentence($text) {
+            $sentence = preg_replace('/(.*?(?:[?!.](?=\s|$)|\n)).*/m', '\\1', $text);
+            return trim($sentence, " \t\n\r\0\x0B\"“”");
         }
 
         function p_get_lodgix_reviews($params) {
@@ -759,7 +760,7 @@ if (!class_exists('p_lodgix')) {
                     }
                     $title = $review->title;
                     if (!$title) {
-                        $title = $this->firstWords($review->description, 6);
+                        $title = $this->firstSentence($review->description);
                     }
                     $content .=
                         '<div class="ldgxReviewBlock"><div class="ldgxReviewDateBlock"><span class="ldgxReviewIcon ldgxButton ldgxButtonMedium ldgxButtonReview ldgxButtonReview'
